@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist/types",
+    "lib": ["es2020"]
+  },
+  "exclude": ["use-rollup", "dist"]
+}
