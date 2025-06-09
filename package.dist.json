@@ -1,0 +1,45 @@
+{
+  "name": "react-mobile-ui",
+  "version": "1.0.0",
+  "main": "./es/index.js",
+  "module": "./es/index.js",
+  "types": "./index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./es/index.js",
+      "types": "./index.d.ts"
+    },
+    "./button": {
+      "import": "./es/components/Button/index.js",
+      "types": "./components/Button/index.d.ts"
+    },
+    "./tabbar": {
+      "import": "./es/components/TabBar/index.js",
+      "types": "./components/TabBar/index.d.ts"
+    },
+    "./popup": {
+      "import": "./es/components/Popup/index.js",
+      "types": "./components/Popup/index.d.ts"
+    },
+    "./actionsheet": {
+      "import": "./es/components/ActionSheet/index.js",
+      "types": "./components/ActionSheet/index.d.ts"
+    },
+    "./styles.css": "./es/style.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "dependencies": {
+    "@use-gesture/react": "^10.3.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.18.2",
+    "tailwind-merge": "^2.6.0",
+    "tailwind-variants": "^0.2.1"
+  }
+} 
