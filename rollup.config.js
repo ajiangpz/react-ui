@@ -1,42 +1,39 @@
-/**@type {import('rollup').RollupOptions} */
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import typescript from '@rollup/plugin-typescript'
+import postcss from 'rollup-plugin-postcss'
+import copy from 'rollup-plugin-copy'
 
+import path from 'path'
+export default {
+  input: 'src/index.ts',
+  output: [
+    {
+      file: 'dist/index.esm.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/index.cjs.js',
+      format: 'cjs',
+      sourcemap: true,
+    },
+  ],
+  external: ['react', 'react-dom'],
+  plugins: [
+    resolve(),
+    commonjs(),
+    typescript(),
+    postcss({
+      extract: path.resolve('dist/style.css'),
+      minimize: true,
+      sourceMap: true,
 
-import { DEFAULT_EXTENSIONS } from "@babel/core";
-import esbuild from "rollup-plugin-esbuild";
-import nodeExternals from "rollup-plugin-node-externals";
-export const esmPlugins = [...basePlugins, nodeExternals(), esbuild()];
-export const umdPlugins = [
-  ...basePlugins,
-  nodeExternals(),
-  esbuild({
-    tsconfigRaw: {
-      compilerOptions: {
-        jsx: "react"
-      }
-    }
-  })
-];
-export const iifePlugins = [
-  ...basePlugins,
-  esbuild({
-    tsconfigRaw: {
-      compilerOptions: {
-        jsx: "react"
-      }
-    }
-  }),
-  // 处理低版本浏览器的polyfill
-  babel({
-    presets: [
-      [
-        "@babel/preset-env",
-        {
-          targets: "> 0.25%, not dead, IE 10"
-        }
-      ]
-    ],
-    exclude: /node_modules/,
-    extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx"],
-    babelHelpers: "inline" //将所有的polyfill代码打包进bundle中
-  })
-];
+    }),
+    copy({
+      targets: [
+        { src: './package.json', dest: 'dist' }
+      ],
+    })
+  ]
+}

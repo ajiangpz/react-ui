@@ -24,18 +24,10 @@ export default defineConfig({
     rollupOptions: {
       external: [
         "react", 
-        "react-dom", 
-        "react/jsx-runtime",
-        "framer-motion",
-        "@use-gesture/react",
-        "tailwind-variants",
-        "clsx",
-        "tailwind-merge",
-        "antd"
+        "react-dom"
       ],
       output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
+
         dir: 'dist/es',
         entryFileNames: '[name]/index.js',
         sourcemap: true,
