@@ -34,7 +34,10 @@
     "components",
     "typescript"
   ],
-  "author": "",
+  "author": {
+    "name": "Jerry",
+    "email": "1174072083@qq.com"
+  },
   "license": "MIT",
   "description": "A lightweight, beautiful and touch-friendly React UI library for mobile web applications",
   "dependencies": {
