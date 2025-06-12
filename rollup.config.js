@@ -33,7 +33,11 @@ export default [
       }),
       copy({
         targets: [
-          { src: "package.json", dest: "dist/package.json" }
+          { 
+            src: "package.json", 
+            dest: "dist",
+            rename: (name) => name+".json"
+          }
         ]
       })
     ]
