@@ -1,77 +1,106 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './Button';
+import { Meta, StoryObj } from "@storybook/react";
+import { FancyButton } from "./Button";
+import { Mail, Loader2 } from "lucide-react";
 
-const meta = {
-  title: 'Components/Button',
-  component: Button,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
+const meta: Meta<typeof FancyButton> = {
+  title: "Components/Button",
+  component: FancyButton,
+  tags: ["autodocs"],
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'outline', 'ghost'],
+      options: ['solid', 'outline', 'ghost', 'link'],
+      description: '按钮样式变体',
+      defaultValue: 'solid'
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
+      description: '按钮尺寸',
+      defaultValue: 'md',
+      type: 'string'
     },
-      block: {
-      control: 'boolean',
+    colorScheme: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+      description: '按钮颜色变体',
+      defaultValue: 'primary',
+      type: 'string'
     },
     loading: {
       control: 'boolean',
+      description: '是否显示加载状态',
+      defaultValue: false,
+      type: 'boolean'
     },
     disabled: {
       control: 'boolean',
+      description: '是否禁用按钮',
+      defaultValue: false,
+      type: 'boolean'
     },
-  },
-} satisfies Meta<typeof Button>;
+    block: {
+      control: 'boolean',
+      description: '是否块级显示',
+      defaultValue: false,
+      type: 'boolean'
+    }
+  }
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<typeof FancyButton>;
 
 export const Default: Story = {
   args: {
-    children: '默认按钮',
-  },
+    children: "默认按钮",
+    variant: "solid"
+  }
 };
 
 export const Outline: Story = {
   args: {
-    variant: 'outline',
-    children: '描边按钮',
-  },
+    children: "描边按钮",
+    variant: "outline"
+  }
 };
 
 export const Ghost: Story = {
   args: {
-    variant: 'ghost',
-    children: '幽灵按钮',
-  },
+    children: "幽灵按钮",
+    variant: "ghost",
+  }
+};
+
+export const Link: Story = {
+  args: {
+    children: "链接按钮",
+    variant: "link"
+  }
+};
+
+export const WithIcon: Story = {
+  args: {
+    children: (
+      <>
+        <Mail className="mr-2 h-4 w-4" />
+      </>
+    ),
+    variant: "solid"
+  }
 };
 
 export const Loading: Story = {
   args: {
-    loading: true,
-    children: '加载中',
-  },
+    children: (
+      <>
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      </>
+    ),
+    disabled: true
+  }
 };
 
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: '禁用状态',
-  },
-};
 
-export const Block: Story = {
-  args: {
-    block: true,
-    children: '块级按钮',
-  },
-  parameters: {
-    layout: 'padded',
-  },
-}; 
+

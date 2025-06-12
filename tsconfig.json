@@ -11,8 +11,8 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"], // Specifies the libraries available for the code.
     "module": "ESNext", // Defines the module system to use for code generation.
     "skipLibCheck": true, // Skips type checking of declaration files.
-    "paths": {
-      "react-ui/*": ["./src/*"]
+    "paths": { // Specifies the paths to use for the code.
+      "react-mobile-ui/*": ["./src/*"]
     },
     "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
     "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.

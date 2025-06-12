@@ -1,4 +1,5 @@
 import './styles/tailwind.css';
-export { Button } from './components/Button';
+export { FancyButton } from './components/Button/index';
 
 
+    

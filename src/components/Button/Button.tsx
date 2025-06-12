@@ -17,11 +17,11 @@ const button = tv({
     },
     colorScheme: {
       default: '',
-      primary: 'bg-blue-500 text-white hover:bg-blue-600 focus-visible:ring-blue-500',
-      secondary: 'bg-gray-500 text-white hover:bg-gray-600 focus-visible:ring-gray-500',
-      success: 'bg-green-500 text-white hover:bg-green-600 focus-visible:ring-green-500',
-      warning: 'bg-yellow-500 text-white hover:bg-yellow-600 focus-visible:ring-yellow-500',
-      danger: 'bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500'
+      primary: '',
+      secondary: '',
+      success: '',
+      warning: '',
+      danger: ''
     },
     size: {
       xs: 'text-xs px-2 h-6 rounded',
@@ -37,7 +37,11 @@ const button = tv({
     }
   },
   compoundVariants: [
-    // Solid variants
+    {
+      variant: 'solid',
+      colorScheme: 'default',
+      class: 'bg-gray-500 text-white hover:bg-gray-600 focus-visible:ring-gray-500'
+    },
     {
       variant: 'solid',
       colorScheme: 'primary',
@@ -66,6 +70,11 @@ const button = tv({
     // Outline variants
     {
       variant: 'outline',
+      colorScheme: 'default',
+      class: 'border-gray-500 text-gray-500 hover:bg-gray-50 focus-visible:ring-gray-500'
+    },
+    {
+      variant: 'outline',
       colorScheme: 'primary',
       class: 'border-blue-500 text-blue-500 hover:bg-blue-50 focus-visible:ring-blue-500'
     },
@@ -92,8 +101,13 @@ const button = tv({
     // Ghost variants
     {
       variant: 'ghost',
-      colorScheme: 'default',
+      colorScheme: 'primary',
       class: 'text-blue-500 hover:bg-blue-50 focus-visible:ring-blue-500'
+    },
+    {
+      variant: 'ghost',
+      colorScheme: 'default',
+      class: 'text-gray-500 hover:bg-gray-50 focus-visible:ring-gray-500'
     },
     {
       variant: 'ghost',
@@ -155,7 +169,7 @@ export interface ButtonProps
   loading?: boolean;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const FancyButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, colorScheme, block, loading, disabled, children, ...props }, ref) => {
     return (
       <button
