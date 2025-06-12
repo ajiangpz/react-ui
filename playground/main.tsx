@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// ✅ 引入你的组件库
-import ui from "react-mobile-ui";
-console.log(ui);
+import { Button } from "react-mobile-ui/dist/index.esm.js";
+import "react-mobile-ui/dist/style.css";
 
 function App() {
   return (
     <div>
-      <div>测试按钮1</div>
+      <Button variant="ghost"  size="lg">
+        按钮  
+      </Button>
     </div>
   );
 }

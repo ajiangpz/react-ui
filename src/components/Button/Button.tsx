@@ -12,15 +12,16 @@ const button = tv({
     variant: {
       solid: '',
       outline: 'border-2',
-      ghost: 'bg-transparent',
+      ghost: 'bg-transparent hover:bg-gray-50',
       link: 'bg-transparent underline-offset-4 hover:underline'
     },
     colorScheme: {
-      primary: '',
-      secondary: '',
-      success: '',
-      warning: '',
-      danger: ''
+      default: '',
+      primary: 'bg-blue-500 text-white hover:bg-blue-600 focus-visible:ring-blue-500',
+      secondary: 'bg-gray-500 text-white hover:bg-gray-600 focus-visible:ring-gray-500',
+      success: 'bg-green-500 text-white hover:bg-green-600 focus-visible:ring-green-500',
+      warning: 'bg-yellow-500 text-white hover:bg-yellow-600 focus-visible:ring-yellow-500',
+      danger: 'bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500'
     },
     size: {
       xs: 'text-xs px-2 h-6 rounded',
@@ -91,7 +92,7 @@ const button = tv({
     // Ghost variants
     {
       variant: 'ghost',
-      colorScheme: 'primary',
+      colorScheme: 'default',
       class: 'text-blue-500 hover:bg-blue-50 focus-visible:ring-blue-500'
     },
     {
