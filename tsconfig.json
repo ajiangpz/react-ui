@@ -2,17 +2,15 @@
   "compilerOptions": {
     "target": "ES5", // Specifies the JavaScript version to target when transpiling code.
     "useDefineForClassFields": true, // Enables the use of 'define' for class fields.
-    "rootDir": "./",
+    "rootDir": "./src",
     "baseUrl": "./",
     "jsx": "react-jsx",
-    "declaration": false,
-    "emitDeclarationOnly": false,
-    "outDir": "./dist",
+    "declaration": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"], // Specifies the libraries available for the code.
     "module": "ESNext", // Defines the module system to use for code generation.
     "skipLibCheck": true, // Skips type checking of declaration files.
     "paths": { // Specifies the paths to use for the code.
-      "react-mobile-ui/*": ["./src/*"]
+      "twui-react/*": ["./src/*"]
     },
     "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
     "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.
@@ -26,5 +24,5 @@
     "noFallthroughCasesInSwitch": true // Requires handling all cases in a switch statement.
   },
   "include": ["src"], // Specifies the directory to include when searching for TypeScript files.
-  "exclude": ["src/**/__docs__", "src/**/__test__", "use-rollup", "dist"]
+  "exclude": ["src/**/__docs__", "src/**/__test__", "use-rollup", "dist", "esm"]
 }

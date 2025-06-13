@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { FancyButton } from "react-mobile-ui";
-import "react-mobile-ui/dist/style.css";
+import { FancyButton } from "twui-react"; 
+import "twui-react/esm/style.css";
+
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
         </FancyButton>
         <FancyButton variant="solid" colorScheme="warning" size="sm">
           Button
-          </FancyButton>
+        </FancyButton>
         <FancyButton variant="outline" colorScheme="warning" size="sm">
           Button
         </FancyButton>
@@ -63,7 +64,6 @@ function App() {
         </FancyButton>
       </div>
     </div>
-
   );
 }
 
