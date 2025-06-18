@@ -20,6 +20,12 @@ export default {
           light: 'var(--color-primary-light)',
           dark: 'var(--color-primary-dark)',
         },
+        text: {
+          DEFAULT: 'var(--color-text)',
+        },
+        background: {
+          DEFAULT: 'var(--color-bg)',
+        },
       },
       height: {
         'touch': '44px', // iOS 触控友好高度

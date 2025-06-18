@@ -4,8 +4,25 @@ import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 import copy from "rollup-plugin-copy";
+import tailwindcss from "@tailwindcss/postcss";
+import autoprefixer from "autoprefixer";
 
 export default [
+  {
+    input: "src/inputCss.ts",
+    output: {
+      file: "twui-react/style.css.js", // 可以忽略这个 js 文件，只提取 CSS
+      format: "es"
+    },
+    plugins: [
+      postcss({
+        extract: "style.css",
+        minimize: true,
+        sourceMap: true,
+        plugins: [tailwindcss(), autoprefixer()]
+      })
+    ]
+  },
   {
     input: "src/index.ts",
     output: [
@@ -36,7 +53,6 @@ export default [
         sourcemap: true,
         name: "twuiReact"
       }
-
     ],
     external: ["react", "react-dom"],
     plugins: [
@@ -49,19 +65,13 @@ export default [
           module: "ESNext"
         }
       }),
-      postcss({
-        extract: "style.css",
-        minimize: true,
-        sourceMap: true,
-        // 不使用css modules
-        modules: false
-      }),
+
       copy({
         targets: [
           {
             src: "package.json",
             dest: "twui-react",
-            transform: (content) => {
+            transform: content => {
               const pkg = JSON.parse(content);
               const newPkg = {
                 name: pkg.name,
@@ -78,7 +88,6 @@ export default [
                 peerDependencies: pkg.peerDependencies,
                 type: "module"
               };
-              console.log(newPkg);
               return JSON.stringify(newPkg, null, 2);
             }
           }
