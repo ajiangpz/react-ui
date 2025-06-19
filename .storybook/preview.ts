@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
-import '../twui-react/style.css'
+import "../src/inputCss.ts";
 const preview: Preview = {
   parameters: {
     controls: {

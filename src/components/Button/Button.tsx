@@ -45,7 +45,7 @@ const button = tv({
     {
       variant: 'solid',
       colorScheme: 'primary',
-      class: 'bg-blue-500 text-white hover:bg-blue-600 focus-visible:ring-blue-500'
+      class: 'bg-[var(--color-primary)]  text-white hover:bg-blue-600 focus-visible:ring-blue-500'
     },
     {
       variant: 'solid',
