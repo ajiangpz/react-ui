@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { FancyButton } from "./Button";
-import { Mail, Loader2 } from "lucide-react";
 
 const meta: Meta<typeof FancyButton> = {
   title: "Components/Button",
@@ -22,7 +21,7 @@ const meta: Meta<typeof FancyButton> = {
     },
     colorScheme: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'success', 'warning', 'danger'],
       description: '按钮颜色变体',
       defaultValue: 'primary',
       type: 'string'
@@ -54,53 +53,11 @@ type Story = StoryObj<typeof FancyButton>;
 
 export const Default: Story = {
   args: {
-    children: "默认按钮",
+    children: "按钮",
     variant: "solid"
   }
 };
 
-export const Outline: Story = {
-  args: {
-    children: "描边按钮",
-    variant: "outline"
-  }
-};
-
-export const Ghost: Story = {
-  args: {
-    children: "幽灵按钮",
-    variant: "ghost",
-  }
-};
-
-export const Link: Story = {
-  args: {
-    children: "链接按钮",
-    variant: "link"
-  }
-};
-
-export const WithIcon: Story = {
-  args: {
-    children: (
-      <>
-        <Mail className="mr-2 h-4 w-4" />
-      </>
-    ),
-    variant: "solid"
-  }
-};
-
-export const Loading: Story = {
-  args: {
-    children: (
-      <>
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      </>
-    ),
-    disabled: true
-  }
-};
 
 
 
