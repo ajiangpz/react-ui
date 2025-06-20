@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, forwardRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
-const button = tv({
+export const button = tv({
   base: [
     "relative inline-flex items-center justify-center gap-2",
     "font-medium transition-colors duration-200",
@@ -46,116 +46,116 @@ const button = tv({
       variant: "solid",
       colorScheme: "primary",
       class:
-        "bg-primary-500 text-white hover:bg-primary-500/90 focus-visible:ring-primary-500"
+        "bg-primary-500 text-white hover:bg-primary-600 focus-visible:ring-primary-500"
     },
 
     {
       variant: "solid",
       colorScheme: "success",
       class:
-        "bg-success-500 text-white hover:bg-success-500/90 focus-visible:ring-success-500"
+        "bg-success-500 text-white hover:bg-success-600 focus-visible:ring-success-500"
     },
     {
       variant: "solid",
       colorScheme: "warning",
       class:
-        "bg-warning-500 text-white hover:bg-warning-500/90 focus-visible:ring-warning-500"
+        "bg-warning-500 text-white hover:bg-warning-600 focus-visible:ring-warning-500"
     },
     {
       variant: "solid",
       colorScheme: "danger",
       class:
-        "bg-danger-500 text-white hover:bg-danger-500/90 focus-visible:ring-danger-500"
+        "bg-danger-500 text-white hover:bg-danger-600 focus-visible:ring-danger-500"
     },
     // Outline variants
     {
       variant: "outline",
       colorScheme: "default",
       class:
-        "border-default-500 text-default-500 hover:bg-default-500/20 focus-visible:ring-default-500"
+        "border-default-500 text-default-500 hover:bg-default-600 focus-visible:ring-default-500"
     },
     {
       variant: "outline",
       colorScheme: "primary",
       class:
-        "border-primary-500 text-primary-500 hover:bg-primary-500/20 focus-visible:ring-primary-500"
+        "border-primary-500 text-primary-500 hover:bg-primary-600 focus-visible:ring-primary-500"
     },
 
     {
       variant: "outline",
       colorScheme: "success",
       class:
-        "border-success-500 text-success-500 hover:bg-success-500/20 focus-visible:ring-success-500"
+        "border-success-500 text-success-500 hover:bg-success-600 focus-visible:ring-success-500"
     },
     {
       variant: "outline",
       colorScheme: "warning",
       class:
-        "border-warning-500 text-warning-500 hover:bg-warning-500/20 focus-visible:ring-warning-500"
+        "border-warning-500 text-warning-500 hover:bg-warning-600 focus-visible:ring-warning-500"
     },
     {
       variant: "outline",
       colorScheme: "danger",
       class:
-        "border-danger-500 text-danger-500 hover:bg-danger-500/20 focus-visible:ring-danger-500"
+        "border-danger-500 text-danger-500 hover:bg-danger-600 focus-visible:ring-danger-500"
     },
     // Ghost variants
     {
       variant: "ghost",
       colorScheme: "primary",
       class:
-        "text-primary-500 hover:bg-primary-500/20 focus-visible:ring-primary-500"
+        "text-primary-500 hover:bg-primary-600 focus-visible:ring-primary-500"
     },
     {
       variant: "ghost",
       colorScheme: "default",
       class:
-        "text-default-500 hover:bg-default-500/20 focus-visible:ring-default-500"
+        "text-default-500 hover:bg-default-600 focus-visible:ring-default-500"
     },
 
     {
       variant: "ghost",
       colorScheme: "success",
       class:
-        "text-success-500 hover:bg-success-500/20 focus-visible:ring-success-500"
+        "text-success-500 hover:bg-success-600 focus-visible:ring-success-500"
     },
     {
       variant: "ghost",
       colorScheme: "warning",
       class:
-        "text-warning-500 hover:bg-warning-500/20 focus-visible:ring-warning-500"
+        "text-warning-500 hover:bg-warning-600 focus-visible:ring-warning-500"
     },
     {
       variant: "ghost",
       colorScheme: "danger",
       class:
-        "text-danger-500 hover:bg-danger-500/20 focus-visible:ring-danger-500"
+        "text-danger-500 hover:bg-danger-600 focus-visible:ring-danger-500"
     },
     // Link variants
     {
       variant: "link",
       colorScheme: "primary",
       class:
-        "text-primary-500 hover:text-primary-500/90 focus-visible:ring-primary-500"
+        "text-primary-500 hover:text-primary-600 focus-visible:ring-primary-500"
     },
 
     {
       variant: "link",
       colorScheme: "success",
       class:
-        "text-success-500 hover:text-success-500/90 focus-visible:ring-success-500"
+        "text-success-500 hover:text-success-600 focus-visible:ring-success-500"
     },
     {
       variant: "link",
       colorScheme: "warning",
       class:
-        "text-warning-500 hover:text-warning-500/90 focus-visible:ring-warning-500"
+        "text-warning-500 hover:text-warning-600 focus-visible:ring-warning-500"
     },
     {
       variant: "link",
       colorScheme: "danger",
       class:
-        "text-danger-500 hover:text-danger-500/90 focus-visible:ring-danger-500"
+        "text-danger-500 hover:text-danger-600 focus-visible:ring-danger-500"
     }
   ],
   defaultVariants: {
