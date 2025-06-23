@@ -72,64 +72,64 @@ export const button = tv({
       variant: "outline",
       colorScheme: "default",
       class:
-        "border-default-500 text-default-500 hover:bg-default-600 focus-visible:ring-default-500"
+        "border-default-500 text-default-500 hover:bg-default-100 focus-visible:ring-default-500"
     },
     {
       variant: "outline",
       colorScheme: "primary",
       class:
-        "border-primary-500 text-primary-500 hover:bg-primary-600 focus-visible:ring-primary-500"
+        "border-primary-500 text-primary-500 hover:bg-primary-100/50 focus-visible:ring-primary-500"
     },
 
     {
       variant: "outline",
       colorScheme: "success",
       class:
-        "border-success-500 text-success-500 hover:bg-success-600 focus-visible:ring-success-500"
+        "border-success-500 text-success-500 hover:bg-success-100/50 focus-visible:ring-success-500"
     },
     {
       variant: "outline",
       colorScheme: "warning",
       class:
-        "border-warning-500 text-warning-500 hover:bg-warning-600 focus-visible:ring-warning-500"
+        "border-warning-500 text-warning-500 hover:bg-warning-100/50 focus-visible:ring-warning-500"
     },
     {
       variant: "outline",
       colorScheme: "danger",
       class:
-        "border-danger-500 text-danger-500 hover:bg-danger-600 focus-visible:ring-danger-500"
+        "border-danger-500 text-danger-500 hover:bg-danger-100/50 focus-visible:ring-danger-500"
     },
     // Ghost variants
     {
       variant: "ghost",
       colorScheme: "primary",
       class:
-        "text-primary-500 hover:bg-primary-600 focus-visible:ring-primary-500"
+        "text-primary-500 hover:bg-primary-100/50 focus-visible:ring-primary-500"
     },
     {
       variant: "ghost",
       colorScheme: "default",
       class:
-        "text-default-500 hover:bg-default-600 focus-visible:ring-default-500"
+        "text-default-500 hover:bg-default-100/50 focus-visible:ring-default-500"
     },
 
     {
       variant: "ghost",
       colorScheme: "success",
       class:
-        "text-success-500 hover:bg-success-600 focus-visible:ring-success-500"
+        "text-success-500 hover:bg-success-100/50 focus-visible:ring-success-500"
     },
     {
       variant: "ghost",
       colorScheme: "warning",
       class:
-        "text-warning-500 hover:bg-warning-600 focus-visible:ring-warning-500"
+        "text-warning-500 hover:bg-warning-100/50 focus-visible:ring-warning-500"
     },
     {
       variant: "ghost",
       colorScheme: "danger",
       class:
-        "text-danger-500 hover:bg-danger-600 focus-visible:ring-danger-500"
+        "text-danger-500 hover:bg-danger-100/50 focus-visible:ring-danger-500"
     },
     // Link variants
     {
