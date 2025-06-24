@@ -19,7 +19,7 @@ type Story = StoryObj<typeof Container>;
 export const Default: Story = {
   args: {
     children: (
-      <div className="bg-gray-200 p-4 text-center">
+      <div className="bg-primary-500 p-4 text-center">
         这是一个居中的容器内容
       </div>
     ),
@@ -27,37 +27,3 @@ export const Default: Story = {
   },
 };
 
-export const Small: Story = {
-  args: {
-    ...Default.args,
-    maxWidth: 'sm',
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    ...Default.args,
-    maxWidth: 'md',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    ...Default.args,
-    maxWidth: 'lg',
-  },
-};
-
-export const ExtraLarge: Story = {
-  args: {
-    ...Default.args,
-    maxWidth: '2xl',
-  },
-};
-
-export const FullWidth: Story = {
-  args: {
-    ...Default.args,
-    maxWidth: 'full',
-  },
-}; 

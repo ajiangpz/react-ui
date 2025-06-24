@@ -54,7 +54,8 @@ type Story = StoryObj<typeof FancyButton>;
 export const Default: Story = {
   args: {
     children: "按钮",
-    variant: "solid"
+    variant: "solid",
+    loading: false
   }
 };
 

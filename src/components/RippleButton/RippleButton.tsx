@@ -64,7 +64,8 @@ export const RippleButton = React.forwardRef<
         }) + "  overflow-hidden"}
         disabled={disabled || loading}
         onClick={e => {
-          if (!disabled) {
+          // 只有 solid 和 outline 才有 ripple 效果
+          if (!disabled && (variant == "solid" || variant == "outline")) {
             createRipple(e);
             props.onClick?.(e);
           }
