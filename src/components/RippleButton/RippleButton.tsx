@@ -61,7 +61,7 @@ export const RippleButton = React.forwardRef<
           block,
           loading,
           className
-        })}
+        }) + "  overflow-hidden"}
         disabled={disabled || loading}
         onClick={e => {
           if (!disabled) {

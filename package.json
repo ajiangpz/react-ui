@@ -20,15 +20,13 @@
     "build:es": "rollup -c ./config/rollup.config.es.mjs",
     "build:umd": "rollup -c ./config/rollup.config.umd.mjs",
     "build:iife": "rollup -c ./config/rollup.config.iife.mjs",
-    "build:storybook": "storybook build",
+    "build:storybook": "rimraf storybook-static && npm run build && storybook build",
     "lint": "eslint . --ext .ts,.tsx --ignore-path .gitignore --fix",
     "test": "vitest",
     "prepare": "husky",
     "dev:link": "npm run build && cd twui-react && npm link && cd ../playground && npm link twui-react",
     "type": "tsc -p tsconfig.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "predeploy": "npm run build-storybook",
     "deploy-storybook": "gh-pages -d storybook-static"
   },
   "keywords": [

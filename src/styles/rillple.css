@@ -1,6 +1,6 @@
 .ripple {
   position: absolute;
-  border-radius: 9999px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.4);
   transform: scale(0);
   animation: ripple-animation 600ms linear;
