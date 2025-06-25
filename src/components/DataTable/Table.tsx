@@ -1,6 +1,7 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef, useCallback, useMemo } from 'react';
 import type { TableProps, TableContextType } from './types';
 import { useTable } from './useTable';
+import { useVirtualScroll } from './useVirtualScroll';
 import { TableHead } from './TableHead';
 import { TableBody } from './TableBody';
 import { TableContext } from './context';
@@ -15,39 +16,62 @@ export const DataTable = forwardRef<HTMLDivElement, TableProps>((props, ref) => 
     className,
     onSort,
     onRowClick,
+    rowSelection,
+    rowKey = 'id',
+    stickyHeader,
+    virtualScroll: virtualScrollConfig,
     ...restProps
   } = props;
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const containerHeight = typeof height === 'number' ? height : undefined;
+
   const {
     sortState,
-    selectedKeys,
     handleSort,
-    handleSelect,
-    handleSelectAll,
-    isSelected,
     getRowKey,
   } = useTable(props);
 
-  const contextValue: TableContextType = {
+  const { virtualState, updateVirtualScroll, totalHeight } = useVirtualScroll(
+    dataSource.length,
+    containerHeight,
+    virtualScrollConfig
+  );
+
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    updateVirtualScroll(scrollTop);
+  }, [updateVirtualScroll]);
+
+  // 使用 useMemo 缓存 contextValue
+  const contextValue = useMemo<TableContextType>(() => ({
     columns,
     dataSource,
-    rowKey: props.rowKey,
-    selectedRowKeys: selectedKeys,
-    onSelectionChange: props.onSelectionChange,
+    rowKey,
+    rowSelection,
     currentSortKey: sortState?.key,
     sortOrder: sortState?.order,
     setSort: handleSort,
     getRowKey,
-    isSelected,
     onRowClick,
-  };
-
-  // 计算列宽
-  const columnWidths = columns.map(column => {
-    if (column.width) return column.width;
-    const avgWidth = `${100 / columns.length}%`;
-    return avgWidth;
-  });
+    stickyHeader,
+    columnWidths: columns.map(column => {
+      if (column.width) return column.width;
+      return `${100 / columns.length}%`;
+    }),
+    virtualScroll: virtualState
+  }), [
+    columns,
+    dataSource,
+    rowKey,
+    rowSelection,
+    sortState,
+    handleSort,
+    getRowKey,
+    onRowClick,
+    stickyHeader,
+    virtualState
+  ]);
 
   return (
     <div
@@ -63,17 +87,25 @@ export const DataTable = forwardRef<HTMLDivElement, TableProps>((props, ref) => 
         </div>
       )}
       
-      <TableContext.Provider value={{ ...contextValue, columnWidths }}>
-        <div className="w-full overflow-auto" style={height ? { height } : undefined}>
-          <table className="w-full table-fixed border-collapse">
-            <colgroup>
-              {columnWidths.map((width, index) => (
-                <col key={index} style={{ width }} />
-              ))}
-            </colgroup>
-            <TableHead />
-            <TableBody />
-          </table>
+      <TableContext.Provider value={contextValue}>
+        <div 
+          ref={scrollContainerRef}
+          className="w-full overflow-auto" 
+          style={height ? { height } : undefined}
+          onScroll={handleScroll}
+        >
+          <div style={{ height: totalHeight || undefined }}>
+            <table className="w-full table-fixed border-collapse">
+              <colgroup>
+                {rowSelection && <col style={{ width: 48 }} />}
+                {contextValue.columnWidths.map((width, index) => (
+                  <col key={index} style={{ width }} />
+                ))}
+              </colgroup>
+              <TableHead />
+              <TableBody />
+            </table>
+          </div>
         </div>
       </TableContext.Provider>
     </div>

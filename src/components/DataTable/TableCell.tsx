@@ -3,7 +3,7 @@ import { TableCellProps } from './types';
 import clsx from 'clsx';
 
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, align = 'left', children, ...props }, ref) => {
+  ({ className, align = 'center', children, ...props }, ref) => {
     return (
       <td
         ref={ref}

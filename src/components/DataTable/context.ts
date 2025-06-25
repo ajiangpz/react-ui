@@ -5,7 +5,7 @@ export const TableContext = createContext<TableContextType<any>>({
   columns: [],
   dataSource: [],
   getRowKey: () => '',
-  isSelected: () => false,
-  selectedRowKeys: [],
+  rowKey: '',
+  columnWidths: [],
   setSort: () => {}
 }); 

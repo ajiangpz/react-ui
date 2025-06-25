@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DataTable } from './Table';
 import type { ColumnDef } from './types';
+import clsx from 'clsx';
 
 const meta: Meta<typeof DataTable> = {
   title: 'Components/DataTable',
@@ -10,7 +11,7 @@ const meta: Meta<typeof DataTable> = {
   parameters: {
     layout: 'centered',
     backgrounds: {
-      default: 'dark',
+      default: 'light',
       values: [
         { name: 'light', value: '#f9fafb' },
         { name: 'dark', value: '#1f2937' },
@@ -27,70 +28,57 @@ const meta: Meta<typeof DataTable> = {
 };
 
 export default meta;
+
 type Story = StoryObj<typeof DataTable>;
 
-// 模拟数据接口
-interface User {
-  id: string;
-  name: string;
-  age: number;
-  email: string;
-  status: 'active' | 'inactive';
-  joinDate: string;
-  role: string;
-}
-
-// 生成模拟数据
-const generateUsers = (count: number): User[] => {
-  const roles = ['管理员', '编辑', '访客', '用户'];
-  return Array.from({ length: count }, (_, i) => ({
-    id: `${i + 1}`,
-    name: `用户 ${i + 1}`,
-    age: Math.floor(Math.random() * 50) + 18,
-    email: `user${i + 1}@example.com`,
-    status: Math.random() > 0.5 ? 'active' : 'inactive',
-    joinDate: new Date(Date.now() - Math.random() * 10000000000).toLocaleDateString(),
-    role: roles[Math.floor(Math.random() * roles.length)],
+// 生成大量测试数据
+const generateData = (count: number) => {
+  return Array.from({ length: count }, (_, index) => ({
+    id: `${index + 1}`,
+    name: `用户 ${index + 1}`,
+    age: Math.floor(Math.random() * 50) + 20,
+    city: ['北京', '上海', '广州', '深圳'][Math.floor(Math.random() * 4)],
+    status: ['在线', '离线', '忙碌'][Math.floor(Math.random() * 3)],
+    joinDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toLocaleDateString(),
   }));
 };
 
-// 基础列定义
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef[] = [
   {
     key: 'name',
     title: '姓名',
     dataIndex: 'name',
-    align: 'center',
+    width: '20%',
     sortable: true,
   },
   {
     key: 'age',
     title: '年龄',
     dataIndex: 'age',
-    align: 'center',
+    width: '15%',
     sortable: true,
-  },    
+  },
   {
-    key: 'email',
-    title: '邮箱',
-    dataIndex: 'email',
-    align: 'center',
-
+    key: 'city',
+    title: '城市',
+    dataIndex: 'city',
+    width: '20%',
   },
   {
     key: 'status',
     title: '状态',
     dataIndex: 'status',
-    align: 'center',
+    width: '15%',
     render: (value) => (
       <span
-        className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-          value === 'active'
-            ? 'bg-success-100 text-success-700'
-            : 'bg-default-100 text-default-700'
-        }`}
+        className={clsx(
+          'px-2 py-1 text-xs rounded-full',
+          value === '在线' && 'bg-green-100 text-green-800',
+          value === '离线' && 'bg-gray-100 text-gray-800',
+          value === '忙碌' && 'bg-yellow-100 text-yellow-800'
+        )}
       >
-        {value === 'active' ? '活跃' : '未活跃'}
+        {value}
       </span>
     ),
   },
@@ -98,29 +86,26 @@ const columns: ColumnDef<User>[] = [
     key: 'joinDate',
     title: '加入日期',
     dataIndex: 'joinDate',
-    align: 'center',
-  },
-  {
-    key: 'role',
-    title: '角色',
-    dataIndex: 'role',
-    align: 'center',
+    width: '30%',
+    sortable: true,
   },
 ];
 
-// 基础示例
+// 基础表格
 export const Basic: Story = {
   args: {
     columns,
-    dataSource: generateUsers(10),
-    rowKey: 'id',
+    dataSource: generateData(10),
+    height: 500,
   },
 };
 
 // 加载状态
 export const Loading: Story = {
   args: {
-    ...Basic.args,
+    columns,
+    dataSource: generateData(10),
+    height: 500,
     loading: true,
   },
 };
@@ -128,64 +113,166 @@ export const Loading: Story = {
 // 虚拟滚动
 export const VirtualScroll: Story = {
   args: {
-    ...Basic.args,
-    dataSource: generateUsers(1000),
-    height: 400,
+    columns,
+    dataSource: generateData(10000),
+    height: 500,
+    virtualScroll: {
+      enabled: true,
+      rowHeight: 40,
+      overscan: 3,
+    },
   },
 };
 
-// 可选择行
-export const Selectable: React.FC = () => {
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+// 可点击行
+export const ClickableRows: Story = {
+  args: {
+    columns,
+    dataSource: generateData(100),
+    height: 500,
+    onRowClick: (record) => {
+      alert(`点击了用户：${record.name}`);
+    },
+  },
+};
+
+// 可排序
+export const Sortable: Story = {
+  args: {
+    columns,
+    dataSource: generateData(100),
+    height: 500,
+    onSort: (key, order) => {
+      console.log('排序：', key, order);
+    },
+  },
+};
+
+// 行选择
+export const RowSelection = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+  
+  // 使用 useMemo 缓存数据
+  const data = useMemo(() => generateData(100), []);
+
+  // 使用 useCallback 缓存 onChange 函数
+  const handleChange = useCallback((keys: string[]) => {
+    setSelectedRowKeys(keys);
+  }, []);
+
+  // 使用 useCallback 缓存 getCheckboxProps 函数
+  const getCheckboxProps = useCallback((record: any) => ({
+    disabled: record.status === '离线',
+    title: record.status === '离线' ? '离线用户不可选' : undefined,
+  }), []);
+
+  // 使用 useMemo 缓存 rowSelection 对象
+  const rowSelection = useMemo(() => ({
+    selectedRowKeys,
+    onChange: handleChange,
+    getCheckboxProps,
+  }), [selectedRowKeys, handleChange, getCheckboxProps]);
 
   return (
-    <div className="w-full">
+    <div className="space-y-4">
       <DataTable
         columns={columns}
-        dataSource={generateUsers(10)}
+        dataSource={data}
+        height={500}
         rowKey="id"
-        onSelectionChange={setSelectedKeys}
+        rowSelection={rowSelection}
       />
-      <div className="mt-4 text-sm text-default-600">
-        已选择 {selectedKeys.length} 项：{selectedKeys.join(', ')}
+      <div className="text-sm text-gray-600">
+        已选择 {selectedRowKeys.length} 项
       </div>
     </div>
   );
 };
 
-// 自定义样式
-export const CustomStyle: Story = {
-  args: {
-    ...Basic.args,
-    className: 'shadow-lg',
-  },
-  parameters: {
-    backgrounds: { default: 'dark' },
-  },
-};
+// 虚拟滚动 + 行选择
+export const VirtualScrollWithSelection = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+  const data =  useMemo(() => generateData(10000), []);
 
-// 排序示例
-export const Sortable: React.FC = () => {
-  const [data, setData] = useState(() => generateUsers(10));
+  const handleChange = useCallback((keys: string[]) => {
+    setSelectedRowKeys(keys);
+  }, []);
 
-  const handleSort = (key: string, order: 'asc' | 'desc' | undefined) => {
-    if (!order) return;
-    const newData = [...data].sort((a, b) => {
-      const aValue = a[key as keyof User];
-      const bValue = b[key as keyof User];
-      return order === 'asc'
-        ? aValue > bValue ? 1 : -1
-        : aValue < bValue ? 1 : -1;
-    });
-    setData(newData);
-  };
+  const getCheckboxProps = useCallback((record: any) => ({
+    disabled: record.status === '离线',
+    title: record.status === '离线' ? '离线用户不可选' : undefined,
+  }), []);
+  const rowSelection = useMemo(() => ({
+    selectedRowKeys,
+    onChange: handleChange,
+    getCheckboxProps,
+  }), [selectedRowKeys, handleChange, getCheckboxProps]);
 
   return (
-    <DataTable
-      columns={columns}
-      dataSource={data}
-      rowKey="id"
-      onSort={handleSort}
-    />
+    <div className="space-y-4">
+      <DataTable
+        columns={columns}
+        dataSource={data}
+        height={500}
+        virtualScroll={{
+          enabled: true,
+          rowHeight: 40,
+          overscan: 3,
+        }}
+        rowSelection={rowSelection}
+      />
+      <div className="text-sm text-gray-600">
+        已选择 {selectedRowKeys.length} 项
+      </div>
+    </div>
+  );
+};
+
+// 固定表头
+export const StickyHeader = () => {
+  const data = useMemo(() => generateData(100), []);
+
+  return (
+    <div className="space-y-4">
+      <DataTable
+        columns={columns}
+        dataSource={data}
+        height={400}
+        stickyHeader
+      />
+      <div className="text-sm text-gray-600">
+        滚动表格内容时，表头会保持固定
+      </div>
+    </div>
+  );
+};
+
+// 固定表头 + 行选择
+export const StickyHeaderWithSelection = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+  const data = useMemo(() => generateData(100), []);
+  
+  const rowSelection = useMemo(() => ({
+    selectedRowKeys,
+    onChange: (keys: string[]) => setSelectedRowKeys(keys),
+    getCheckboxProps: (record: any) => ({
+      disabled: record.status === '离线',
+      title: record.status === '离线' ? '离线用户不可选' : undefined,
+    }),
+  }), [selectedRowKeys]);
+
+  return (
+    <div className="space-y-4">
+      <DataTable
+        columns={columns}
+        dataSource={data}
+        height={400}
+        stickyHeader
+        rowSelection={rowSelection}
+      />
+      <div className="text-sm text-gray-600">
+        已选择 {selectedRowKeys.length} 项
+      </div>
+    </div>
   );
 }; 
