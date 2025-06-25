@@ -49,3 +49,16 @@ const meta: Meta<typeof RippleButton> = {
 
 export default meta;
 
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: "Click me",
+    variant: "solid",
+    colorScheme: "default",
+    size: "md",
+    block: false,
+    loading: false,
+    disabled: false
+  }
+};
