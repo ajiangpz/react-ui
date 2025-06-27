@@ -1,52 +1,52 @@
-import React, { useContext, useMemo, useCallback } from 'react';
-import { TableHeadProps, ColumnDef, TableContextType } from './types';
-import { TableContext } from './context';
-import { TableCell } from './TableCell';
-import { Checkbox } from './Checkbox';
-import clsx from 'clsx';
+import React, { useContext, useMemo, useCallback } from "react";
+import { TableContextType } from "./types";
+import { TableContext } from "./context";
+import { TableCell } from "./TableCell";
+import { Checkbox } from "./Checkbox";
+import clsx from "clsx";
 
-export const TableHead = React.forwardRef<HTMLTableSectionElement, TableHeadProps>(
-  ({ className, ...props }, ref) => {
-    const { 
-      columns, 
-      dataSource,
-      rowSelection,
-      currentSortKey, 
-      sortOrder, 
-      setSort,
-      getRowKey,
-      columnWidths,
-      stickyHeader
-    } = useContext<TableContextType>(TableContext);
+export const TableHead: React.FC = () => {
+  const {
+    columns,
+    rowSelection,
+    currentSortKey,
+    sortOrder,
+    setSort,
+    dataSource,
+    getRowKey,
+    stickyHeader
+  } = useContext<TableContextType>(TableContext);
 
-    // 计算全选状态
-    const { checked: allChecked, indeterminate } = useMemo(() => {
-      if (!rowSelection || !dataSource.length) {
-        return { checked: false, indeterminate: false };
-      }
+  // 计算全选状态
+  const { checked: allChecked, indeterminate } = useMemo(() => {
+    if (!rowSelection || !dataSource.length) {
+      return { checked: false, indeterminate: false };
+    }
 
-      const { selectedRowKeys, getCheckboxProps } = rowSelection;
-      const availableKeys = dataSource
-        .filter(record => !getCheckboxProps?.(record)?.disabled)
-        .map(getRowKey);
+    const { selectedRowKeys, getCheckboxProps } = rowSelection;
+    const availableKeys = dataSource
+      .filter(record => !getCheckboxProps?.(record)?.disabled)
+      .map(getRowKey);
 
-      if (!availableKeys.length) {
-        return { checked: false, indeterminate: false };
-      }
+    if (!availableKeys.length) {
+      return { checked: false, indeterminate: false };
+    }
 
-      const selectedAvailableKeys = selectedRowKeys.filter(key => 
-        availableKeys.includes(key)
-      );
+    const selectedAvailableKeys = selectedRowKeys.filter(key =>
+      availableKeys.includes(key)
+    );
 
-      return {
-        checked: selectedAvailableKeys.length === availableKeys.length,
-        indeterminate: selectedAvailableKeys.length > 0 && 
-          selectedAvailableKeys.length < availableKeys.length
-      };
-    }, [rowSelection, dataSource, getRowKey]);
+    return {
+      checked: selectedAvailableKeys.length === availableKeys.length,
+      indeterminate:
+        selectedAvailableKeys.length > 0 &&
+        selectedAvailableKeys.length < availableKeys.length
+    };
+  }, [rowSelection, dataSource, getRowKey]);
 
-    // 处理全选
-    const handleSelectAll = useCallback((checked: boolean) => {
+  // 处理全选
+  const handleSelectAll = useCallback(
+    (checked: boolean) => {
       if (!rowSelection) return;
 
       const { onChange, getCheckboxProps } = rowSelection;
@@ -57,67 +57,66 @@ export const TableHead = React.forwardRef<HTMLTableSectionElement, TableHeadProp
       );
 
       const newSelectedKeys = checked ? availableRecords.map(getRowKey) : [];
-      onChange(newSelectedKeys, availableRecords);
-    }, [rowSelection, dataSource, getRowKey]);
+      onChange(newSelectedKeys as string[], availableRecords);
+    },
+    [rowSelection, dataSource, getRowKey]
+  );
 
-    const renderSelectionCell = useCallback(() => {
-      if (!rowSelection) return null;
+  const renderSelectionCell = useCallback(() => {
+    if (!rowSelection) return null;
 
-      return (
-        <TableCell
-          key="selection"
-          className={clsx(
-            'w-12 px-4 py-3 border-b border-gray-200',
-            stickyHeader && 'sticky left-0 z-10 bg-gray-50'
-          )}
-        >
+    return (
+      <th
+        key="selection"
+        className={clsx(
+          "border-b border-b-zinc-950/10 px-6 py-4 font-medium first:pl-6 last:pr-6 dark:border-b-white/10",
+          "bg-white dark:bg-zinc-900",
+          "w-14"
+        )}
+      >
+        <div className="flex items-center justify-center h-5">
           <Checkbox
             checked={allChecked}
             indeterminate={indeterminate}
             onChange={handleSelectAll}
           />
-        </TableCell>
-      );
-    }, [rowSelection, allChecked, indeterminate, handleSelectAll, stickyHeader]);
+        </div>
+      </th>
+    );
+  }, [rowSelection, allChecked, indeterminate, handleSelectAll]);
 
-    return (
-      <thead
-        ref={ref}
-        className={clsx(
-          'bg-gray-50 text-gray-700',
-          stickyHeader && 'sticky top-0 z-20',
-          className
-        )}
-        {...props}
-      >
-        <tr>
-          {renderSelectionCell()}
-          {columns.map((column: ColumnDef, index: number) => (
-            <TableCell
-              key={column.key}
-              align={column.align}
-              style={{ width: columnWidths[index] }}
-              className={clsx(
-                'px-4 py-3 font-medium border-b border-gray-200',
-                column.sortable && 'cursor-pointer select-none hover:bg-gray-100',
-                stickyHeader && 'bg-gray-50'
-              )}
-              onClick={() => column.sortable && setSort(column.key)}
+  return (
+    <thead className="text-zinc-500 dark:text-zinc-400">
+      <tr>
+        {renderSelectionCell()}
+        {columns.map((column, index) => {
+          const baseClasses = clsx(
+            "border-b border-b-zinc-950/10 px-6 py-4 font-medium first:pl-6 last:pr-6 dark:border-b-white/10",
+            "bg-white dark:bg-zinc-900",
+            "text-left",
+            column.sorter && "cursor-pointer hover:text-zinc-800 dark:hover:text-zinc-200"
+          );
+
+          return (
+            <th
+              key={column.key || index}
+              onClick={() => column.sorter && setSort?.(column.key)}
+              className={baseClasses}
             >
-              <div className="flex items-center gap-1 justify-center">
+              <div className="flex items-center gap-3 h-5">
                 {column.title}
-                {column.sortable && currentSortKey === column.key && (
-                  <span className="text-xs text-blue-600">
-                    {sortOrder === 'asc' ? '↑' : '↓'}
+                {column.sorter && currentSortKey === column.key && (
+                  <span className="text-primary-500 ml-auto">
+                    {sortOrder === "asc" ? "↑" : "↓"}
                   </span>
                 )}
               </div>
-            </TableCell>
-          ))}
-        </tr>
-      </thead>
-    );
-  }
-);
+            </th>
+          );
+        })}
+      </tr>
+    </thead>
+  );
+};
 
-TableHead.displayName = 'TableHead'; 
+TableHead.displayName = "TableHead";

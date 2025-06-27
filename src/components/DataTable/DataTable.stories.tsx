@@ -7,20 +7,9 @@ import clsx from 'clsx';
 const meta: Meta<typeof DataTable> = {
   title: 'Components/DataTable',
   component: DataTable,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'centered',
-    backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#f9fafb' },
-        { name: 'dark', value: '#1f2937' },
-      ],
-    },
-  },
   decorators: [
     (Story) => (
-      <div className="p-8" style={{ minWidth: '800px' }}>
+      <div className="p-4">
         <Story />
       </div>
     ),
@@ -47,27 +36,21 @@ const columns: ColumnDef[] = [
   {
     key: 'name',
     title: '姓名',
-    dataIndex: 'name',
     width: '20%',
-    sortable: true,
   },
   {
     key: 'age',
     title: '年龄',
-    dataIndex: 'age',
     width: '15%',
-    sortable: true,
   },
   {
     key: 'city',
     title: '城市',
-    dataIndex: 'city',
     width: '20%',
   },
   {
     key: 'status',
     title: '状态',
-    dataIndex: 'status',
     width: '15%',
     render: (value) => (
       <span
@@ -85,9 +68,7 @@ const columns: ColumnDef[] = [
   {
     key: 'joinDate',
     title: '加入日期',
-    dataIndex: 'joinDate',
     width: '30%',
-    sortable: true,
   },
 ];
 
@@ -96,7 +77,10 @@ export const Basic: Story = {
   args: {
     columns,
     dataSource: generateData(10),
-    height: 500,
+    scroll: {
+      y: 53*5,
+      x: 200,
+    },
   },
 };
 
@@ -105,31 +89,36 @@ export const Loading: Story = {
   args: {
     columns,
     dataSource: generateData(10),
-    height: 500,
+    scroll: {
+      y: 53*10,
+      x: 200,
+    },
     loading: true,
   },
 };
 
 // 虚拟滚动
-export const VirtualScroll: Story = {
-  args: {
-    columns,
-    dataSource: generateData(10000),
-    height: 500,
-    virtualScroll: {
-      enabled: true,
-      rowHeight: 40,
-      overscan: 3,
-    },
-  },
-};
+// export const VirtualScroll: Story = {
+//   args: {
+//     columns,
+//     dataSource: generateData(100),
+//     height: 600,
+//     virtualScroll: {
+//       rowHeight: 40,
+//       overscan: 3,
+//     },
+//   },
+// };
 
 // 可点击行
 export const ClickableRows: Story = {
   args: {
     columns,
     dataSource: generateData(100),
-    height: 500,
+    scroll: {
+      y: 53*5,
+      x: 200,
+    },
     onRowClick: (record) => {
       alert(`点击了用户：${record.name}`);
     },
@@ -141,7 +130,10 @@ export const Sortable: Story = {
   args: {
     columns,
     dataSource: generateData(100),
-    height: 500,
+    scroll: {
+      y: 53*5,
+      x: 200,
+    },
     onSort: (key, order) => {
       console.log('排序：', key, order);
     },
@@ -178,7 +170,10 @@ export const RowSelection = () => {
       <DataTable
         columns={columns}
         dataSource={data}
-        height={500}
+        scroll={{
+          y: 53*5,
+          x: 200,
+        }}
         rowKey="id"
         rowSelection={rowSelection}
       />
@@ -189,44 +184,43 @@ export const RowSelection = () => {
   );
 };
 
-// 虚拟滚动 + 行选择
-export const VirtualScrollWithSelection = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-  const data =  useMemo(() => generateData(10000), []);
+// // 虚拟滚动 + 行选择
+// export const VirtualScrollWithSelection = () => {
+//   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+//   const data =  useMemo(() => generateData(10000), []);
 
-  const handleChange = useCallback((keys: string[]) => {
-    setSelectedRowKeys(keys);
-  }, []);
+//   const handleChange = useCallback((keys: string[]) => {
+//     setSelectedRowKeys(keys);
+//   }, []);
 
-  const getCheckboxProps = useCallback((record: any) => ({
-    disabled: record.status === '离线',
-    title: record.status === '离线' ? '离线用户不可选' : undefined,
-  }), []);
-  const rowSelection = useMemo(() => ({
-    selectedRowKeys,
-    onChange: handleChange,
-    getCheckboxProps,
-  }), [selectedRowKeys, handleChange, getCheckboxProps]);
+//   const getCheckboxProps = useCallback((record: any) => ({
+//     disabled: record.status === '离线',
+//     title: record.status === '离线' ? '离线用户不可选' : undefined,
+//   }), []);
+//   const rowSelection = useMemo(() => ({
+//     selectedRowKeys,
+//     onChange: handleChange,
+//     getCheckboxProps,
+//   }), [selectedRowKeys, handleChange, getCheckboxProps]);
 
-  return (
-    <div className="space-y-4">
-      <DataTable
-        columns={columns}
-        dataSource={data}
-        height={500}
-        virtualScroll={{
-          enabled: true,
-          rowHeight: 40,
-          overscan: 3,
-        }}
-        rowSelection={rowSelection}
-      />
-      <div className="text-sm text-gray-600">
-        已选择 {selectedRowKeys.length} 项
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="space-y-4">
+//       <DataTable
+//         columns={columns}
+//         dataSource={data}
+//         height={600}
+//         virtualScroll={{
+//           rowHeight: 40,
+//           overscan: 3,
+//         }}
+//         rowSelection={rowSelection}
+//       />
+//       <div className="text-sm text-gray-600">
+//         已选择 {selectedRowKeys.length} 项
+//       </div>
+//     </div>
+//   );
+// };
 
 // 固定表头
 export const StickyHeader = () => {
@@ -237,7 +231,10 @@ export const StickyHeader = () => {
       <DataTable
         columns={columns}
         dataSource={data}
-        height={400}
+        scroll={{
+          y: 53*5,
+          x: 200,
+        }}
         stickyHeader
       />
       <div className="text-sm text-gray-600">
@@ -266,7 +263,10 @@ export const StickyHeaderWithSelection = () => {
       <DataTable
         columns={columns}
         dataSource={data}
-        height={400}
+        scroll={{
+          y: 53*5,
+          x: 200,
+        }}
         stickyHeader
         rowSelection={rowSelection}
       />

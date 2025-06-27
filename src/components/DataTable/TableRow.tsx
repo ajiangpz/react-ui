@@ -1,6 +1,5 @@
 import React from 'react';
 import { TableRowProps } from './types';
-import clsx from 'clsx';
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps<any>>(
   ({ className, record, index, selected, onClick, children, ...props }, ref) => {

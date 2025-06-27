@@ -40,7 +40,6 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           className={clsx(
             'form-checkbox h-4 w-4 text-primary-600 transition duration-150 ease-in-out',
             'border-gray-300 rounded',
-            'focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50',
             disabled ? 'cursor-not-allowed' : 'cursor-pointer'
           )}
           checked={checked}

@@ -3,15 +3,13 @@ import { ReactNode } from 'react';
 export interface ColumnDef<T = any> {
   key: string;
   title: string;
-  dataIndex: string;
   width?: string | number;
-  align?: 'left' | 'center' | 'right';
-  sortable?: boolean;
   render?: (value: any, record: T, index: number) => React.ReactNode;
+  sorter?: boolean;
+  align?: 'left' | 'center' | 'right';
 }
 
 export interface VirtualScrollConfig {
-  enabled?: boolean;
   rowHeight: number;
   overscan?: number;
 }
@@ -19,8 +17,8 @@ export interface VirtualScrollConfig {
 export interface VirtualScrollState {
   startIndex: number;
   endIndex: number;
-  scrollTop: number;
-  visibleCount: number;
+  paddingTop: number;
+  paddingBottom: number;
 }
 
 export interface RowSelection<T> {
@@ -32,33 +30,40 @@ export interface RowSelection<T> {
   };
 }
 
-export interface TableProps<T extends Record<string, any> = any> {
+export interface TableProps<T = any> {
   columns: ColumnDef<T>[];
   dataSource: T[];
-  rowKey?: string | ((record: T) => string);
-  className?: string;
   loading?: boolean;
-  height?: string | number;
-  stickyHeader?: boolean;
-  virtualScroll?: VirtualScrollConfig;
+  height?: number | string;
+  className?: string;
+  onSort?: (key: string, order: 'asc' | 'desc') => void;
+  onRowClick?: (record: T) => void;
   rowSelection?: RowSelection<T>;
-  onSort?: (key: string, order: 'asc' | 'desc' | undefined) => void;
-  onRowClick?: (record: T, index: number) => void;
+  rowKey?: string;
+  stickyHeader?: boolean;
+  virtualScroll?: {
+    rowHeight: number;
+    overscan?: number;
+  };
+  scroll?: {
+    x?: number | string;
+    y?: number | string;
+  };
 }
 
-export interface TableContextType<T extends Record<string, any> = any> {
+export interface TableContextType<T = any> {
   columns: ColumnDef<T>[];
   dataSource: T[];
-  rowKey: string | ((record: T) => string);
+  rowKey: string;
   rowSelection?: RowSelection<T>;
   currentSortKey?: string;
   sortOrder?: 'asc' | 'desc';
-  setSort: (key: string) => void;
-  getRowKey: (record: T) => string;
-  onRowClick?: (record: T, index: number) => void;
+  setSort?: (key: string) => void;
+  getRowKey: (record: T) => string | number;
+  onRowClick?: (record: T) => void;
+  stickyHeader?: boolean;
   columnWidths: (string | number)[];
   virtualScroll?: VirtualScrollState;
-  stickyHeader?: boolean;
 }
 
 export interface TableHeadProps {

@@ -1,141 +1,80 @@
-import React, { useContext, useCallback, memo } from 'react';
-import { TableBodyProps, TableContextType, ColumnDef } from './types';
-import { TableContext } from './context';
-import { TableRow } from './TableRow';
-import { TableCell } from './TableCell';
-import { Checkbox } from './Checkbox';
-import clsx from 'clsx';
+import React, { useContext } from "react";
+import { TableContext } from "./context";
+import { Checkbox } from "./Checkbox";
+import clsx from "clsx";
 
-// 创建一个独立的 TableRowMemo 组件来优化行渲染
-const TableRowMemo = memo<{
-  record: any;
-  index: number;
-  columns: ColumnDef[];
-  rowSelection?: TableContextType['rowSelection'];
-  getRowKey: (record: any) => string;
-  onRowClick?: (record: any, index: number) => void;
-  virtualScroll?: boolean;
-}>(({ record, index, columns, rowSelection, getRowKey, onRowClick, virtualScroll }) => {
-  const key = getRowKey(record);
-  const selected = rowSelection?.selectedRowKeys?.includes(key);
+export const TableBody: React.FC = () => {
+  const {
+    columns,
+    dataSource,
+    rowSelection,
+    getRowKey,
+    onRowClick,
+    virtualScroll
+  } = useContext(TableContext);
 
-  const renderSelectionCell = () => {
-    if (!rowSelection) return null;
+  const renderRows = () => {
+    const rows = virtualScroll
+      ? dataSource.slice(virtualScroll.startIndex, virtualScroll.endIndex)
+      : dataSource;
 
-    const { selectedRowKeys, onChange, getCheckboxProps } = rowSelection;
-    const checked = selectedRowKeys.includes(key);
-    const checkboxProps = getCheckboxProps?.(record) || {};
+    return rows.map((record, rowIndex) => {
+      const key = getRowKey(record);
+      const baseRowClasses = clsx(
+        "transition-colors duration-100",
+        onRowClick && "cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+      );
+      const baseCellClasses =
+        "relative px-6 first:pl-6 last:pr-6 border-b border-zinc-950/5 dark:border-white/5 py-4 table-cell align-middle leading-none";
 
-    const handleSelect = (checked: boolean) => {
-      if (!onChange) return;
+      return (
+        <tr
+          key={key}
+          onClick={() => onRowClick?.(record)}
+          className={baseRowClasses}
+        >
+          {rowSelection && (
+            <td className={clsx(baseCellClasses, "w-14")}>
+              <div className="flex items-center justify-center">
+                <Checkbox
+                  checked={rowSelection.selectedRowKeys.includes(key.toString())}
+                  onChange={checked => {
+                    const newKeys = checked
+                      ? [...rowSelection.selectedRowKeys, key.toString()]
+                      : rowSelection.selectedRowKeys.filter(k => k !== key.toString());
+                    rowSelection.onChange(newKeys, [record]);
+                  }}
+                  {...(rowSelection.getCheckboxProps?.(record) || {})}
+                />
+              </div>
+            </td>
+          )}
+          {columns.map((column, colIndex) => {
+            const cellClasses = clsx(
+              baseCellClasses,
+              colIndex === 0 && "font-medium",
+              column.key === "access" && "text-zinc-500",
+              "text-left"
+            );
 
-      const newSelectedKeys = checked
-        ? [...selectedRowKeys, key]
-        : selectedRowKeys.filter(k => k !== key);
-
-      onChange(newSelectedKeys, [record]);
-    };
-
-    return (
-      <TableCell
-        key="selection"
-        className="w-12 px-4 py-2.5 border-b border-gray-200"
-      >
-        <Checkbox
-          checked={checked}
-          disabled={checkboxProps.disabled}
-          title={checkboxProps.title}
-          onChange={handleSelect}
-        />
-      </TableCell>
-    );
+            return (
+              <td key={column.key || colIndex} className={cellClasses}>
+                <div className="py-0.5">
+                  {column.render
+                    ? column.render(record[column.key], record, rowIndex)
+                    : record[column.key]}
+                </div>
+              </td>
+            );
+          })}
+        </tr>
+      );
+    });
   };
 
   return (
-    <TableRow
-      key={key}
-      record={record}
-      index={index}
-      selected={selected}
-      onClick={onRowClick}
-      style={virtualScroll ? { height: '40px' } : undefined}
-      className={clsx(
-        'transition-colors duration-200',
-        selected && 'bg-blue-50 hover:bg-blue-100',
-        !selected && 'hover:bg-gray-50'
-      )}
-    >
-      {rowSelection && renderSelectionCell()}
-      {columns.map((column: ColumnDef) => (
-        <TableCell
-          key={column.key}
-          align={column.align}
-          className={clsx(
-            'px-4 py-2.5 text-gray-800 border-b border-gray-200',
-            selected && 'border-blue-100'
-          )}
-        >
-          {column.render
-            ? column.render(record[column.dataIndex], record, index)
-            : record[column.dataIndex]}
-        </TableCell>
-      ))}
-    </TableRow>
+    <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+      {renderRows()}
+    </tbody>
   );
-});
-
-TableRowMemo.displayName = 'TableRowMemo';
-
-export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
-  ({ className, style, ...props }, ref) => {
-    const {
-      columns,
-      dataSource,
-      getRowKey,
-      onRowClick,
-      rowSelection,
-      virtualScroll
-    } = useContext<TableContextType>(TableContext);
-
-    const visibleData = virtualScroll
-      ? dataSource.slice(virtualScroll.startIndex, virtualScroll.endIndex + 1)
-      : dataSource;
-
-    const translateY = virtualScroll
-      ? virtualScroll.startIndex * 40
-      : 0;
-
-    return (
-      <tbody
-        ref={ref}
-        className={clsx('bg-white relative', className)}
-        {...props}
-      >
-        {virtualScroll && (
-          <tr style={{ height: `${translateY}px` }}>
-            <td colSpan={columns.length + (rowSelection ? 1 : 0)} className="border-none p-0" />
-          </tr>
-        )}
-        {visibleData.map((record, index) => (
-          <TableRowMemo
-            key={getRowKey(record)}
-            record={record}
-            index={virtualScroll ? index + virtualScroll.startIndex : index}
-            columns={columns}
-            rowSelection={rowSelection}
-            getRowKey={getRowKey}
-            onRowClick={onRowClick}
-            virtualScroll={!!virtualScroll}
-          />
-        ))}
-        {virtualScroll && (
-          <tr style={{ height: `${(dataSource.length - virtualScroll.endIndex - 1) * 40}px` }}>
-            <td colSpan={columns.length + (rowSelection ? 1 : 0)} className="border-none p-0" />
-          </tr>
-        )}
-      </tbody>
-    );
-  }
-);
-
-TableBody.displayName = 'TableBody'; 
+};
