@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useCallback } from "react";
 import { TableContextType } from "./types";
 import { TableContext } from "./context";
-import { TableCell } from "./TableCell";
 import { Checkbox } from "./Checkbox";
 import clsx from "clsx";
 
@@ -14,7 +13,6 @@ export const TableHead: React.FC = () => {
     setSort,
     dataSource,
     getRowKey,
-    stickyHeader
   } = useContext<TableContextType>(TableContext);
 
   // 计算全选状态
