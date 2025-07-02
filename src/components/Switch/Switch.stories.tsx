@@ -1,54 +1,40 @@
-import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Switch } from './Switch';
+import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Switch } from "./Switch";
 
 const meta = {
-  title: 'Components/Switch',
+  title: "Components/Switch",
   component: Switch,
-  parameters: {
-    layout: 'centered',
+  tags: ["autodocs"],
+  argTypes: {
+    checked: { control: "boolean", description: "受控模式，开关状态" },
+    required: { control: "boolean", description: "是否为必填" },
+    disabled: { control: "boolean", description: "是否禁用" },
+    onCheckedChange: { action: "checked changed", description: "切换时回调" },
+    name: { control: "text", description: "表单 name 属性" },
+    value: { control: "text", description: "表单 value 属性" },
+    id: { control: "text", description: "id 属性" },
+    tabIndex: { control: "number", description: "tabIndex 属性" },
+    className: { control: "text", description: "自定义 class" },
+    style: { control: "object", description: "自定义 style" },
+    // 其他 button 原生属性可按需补充
   },
-  tags: ['autodocs'],
 } satisfies Meta<typeof Switch>;
 
 export default meta;
 type Story = StoryObj<typeof Switch>;
 
 export const Default: Story = {
-  args: {},
-};
-
-export const Checked: Story = {
   args: {
-    defaultChecked: true,
+    checked: false,
+    disabled: false,
+    required: false,
+    name: "switch-demo",
+    value: "on",
+    id: "switch-demo",
+    tabIndex: 0,
+    className: "",
+    style: {},
+    defaultChecked: false,
   },
 };
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-};
-
-export const DisabledChecked: Story = {
-  args: {
-    disabled: true,
-    defaultChecked: true,
-  },
-};
-
-// 演示如何使用Switch进行状态控制
-export const Controlled: Story = {
-  render: () => {
-    const [checked, setChecked] = React.useState(false);
-    return (
-      <div className="flex items-center gap-2">
-        <Switch
-          checked={checked}
-          onCheckedChange={setChecked}
-        />
-        <span>当前状态: {checked ? '开启' : '关闭'}</span>
-      </div>
-    );
-  },
-}; 

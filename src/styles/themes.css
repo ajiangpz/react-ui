@@ -1,0 +1,13 @@
+.theme-blue {
+  --color-primary: var(--color-blue-500);
+  --color-primary-foreground: var(--color-white);
+  --color-default: var(--color-gray-500);
+  --color-default-foreground: var(--color-white);
+}
+
+.theme-green {
+  --color-primary: var(--color-green-500);
+  --color-primary-foreground: var(--color-white);
+  --color-default: var(--color-gray-500);
+  --color-default-foreground: var(--color-white);
+}
