@@ -48,6 +48,7 @@
     "@use-gesture/react": "^10.3.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.344.0",
+    "radix-ui": "^1.4.2",
     "rollup-plugin-dts": "^6.2.1",
     "rollup-plugin-postcss": "^4.0.2",
     "tailwind-merge": "^2.6.0",

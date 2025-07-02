@@ -10,7 +10,8 @@
     "module": "ESNext", // Defines the module system to use for code generation.
     "skipLibCheck": true, // Skips type checking of declaration files.
     "paths": { // Specifies the paths to use for the code.
-      "twui-react/*": ["./src/*"]
+      "twui-react/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
     "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.
