@@ -8,32 +8,32 @@ const meta: Meta<typeof Flex> = {
   argTypes: {
     direction: {
       control: "select",
-      options: ["row", "col", "row-reverse", "col-reverse"]
+      options: ["row", "col", "row-reverse", "col-reverse"],
     },
     justify: {
       control: "select",
-      options: ["start", "end", "center", "between", "around", "evenly"]
+      options: ["start", "end", "center", "between", "around", "evenly"],
     },
     align: {
       control: "select",
-      options: ["start", "end", "center", "baseline", "stretch"]
+      options: ["start", "end", "center", "baseline", "stretch"],
     },
     wrap: {
       control: "select",
-      options: ["nowrap", "wrap", "wrap-reverse"]
+      options: ["nowrap", "wrap", "wrap-reverse"],
     },
     gap: {
       control: "select",
-      options: [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16]
-    }
-  }
+      options: [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16],
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof Flex>;
 
 const FlexItem = ({ index }: { index: number }) => (
-  <div className="bg-primary-500 p-4 text-center rounded w-20">
+  <div className="bg-primary text-primary-foreground p-4 text-center rounded w-20">
     项目 {index}
   </div>
 );
@@ -51,7 +51,6 @@ export const Default: Story = {
         <FlexItem index={2} />
         <FlexItem index={3} />
       </>
-    )
-  }
+    ),
+  },
 };
-

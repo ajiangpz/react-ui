@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Container } from './Container';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Container } from "./Container";
 
 const meta: Meta<typeof Container> = {
-  title: 'Layout/Container',
+  title: "Layout/Container",
   component: Container,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     maxWidth: {
-      control: 'select',
-      options: ['sm', 'md', 'lg', 'xl', '2xl', 'full'],
+      control: "select",
+      options: ["sm", "md", "lg", "xl", "2xl", "full"],
     },
   },
 };
@@ -19,11 +19,10 @@ type Story = StoryObj<typeof Container>;
 export const Default: Story = {
   args: {
     children: (
-      <div className="bg-primary-500 p-4 text-center">
+      <div className="bg-primary text-primary-foreground   p-4 text-center">
         这是一个居中的容器内容
       </div>
     ),
-    maxWidth: 'xl',
+    maxWidth: "xl",
   },
 };
-
