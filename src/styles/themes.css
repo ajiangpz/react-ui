@@ -1,13 +1,43 @@
 .theme-blue {
-  --color-primary: var(--color-blue-500);
-  --color-primary-foreground: var(--color-white);
-  --color-default: var(--color-gray-500);
-  --color-default-foreground: var(--color-white);
+  --primary: var(--color-blue-500);
+  --primary-foreground: var(--color-white);
+  --default: var(--color-gray-500);
+  --default-foreground: var(--color-white);
+  --background: var(--color-gray-500);
+  --background-foreground: var(--color-white);
+  --success: var(--color-green-500);
+  --success-foreground: var(--color-white);
+  --warning: var(--color-yellow-500);
+  --warning-foreground: var(--color-white);
+  --danger: var(--color-red-500);
+  --danger-foreground: var(--color-white);
+}
+.theme-green {
+  --primary: var(--color-green-500);
+  --primary-foreground: var(--color-white);
+  --default: var(--color-gray-500);
+  --default-foreground: var(--color-white);
+  --background: var(--color-gray-500);
+  --background-foreground: var(--color-white);
+  --success: var(--color-green-500);
+  --success-foreground: var(--color-white);
+  --warning: var(--color-yellow-500);
+  --warning-foreground: var(--color-white);
+  --danger: var(--color-red-500);
+  --danger-foreground: var(--color-white);
 }
 
-.theme-green {
-  --color-primary: var(--color-green-500);
-  --color-primary-foreground: var(--color-white);
-  --color-default: var(--color-gray-500);
-  --color-default-foreground: var(--color-white);
+.theme-orange {
+  --primary: var(--color-orange-500);
+  --primary-foreground: var(--color-white);
+  --default: var(--color-gray-500);
+  --default-foreground: var(--color-white);
+  --background: var(--color-gray-500);
+  --background-foreground: var(--color-white);
+  --success: var(--color-green-500);
+  --success-foreground: var(--color-white);
+  --warning: var(--color-yellow-500);
+  --warning-foreground: var(--color-white);
+  --danger: var(--color-red-500);
+  --danger-foreground: var(--color-white);
 }
