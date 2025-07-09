@@ -7,7 +7,7 @@ const alertVariants = tv({
   base: "relative w-full rounded-lg border",
   variants: {
     variant: {
-      default: "bg-default text-foreground",
+      default: "border-info/50 bg-info/10 text-info dark:border-info [&>svg]:text-info",
       destructive: "border-danger/50 text-danger dark:border-danger [&>svg]:text-danger",
       success: "border-success/50 bg-success/10 text-success dark:border-success [&>svg]:text-success",
       warning: "border-warning/50 bg-warning/10 text-warning dark:border-warning [&>svg]:text-warning",
@@ -19,7 +19,7 @@ const alertVariants = tv({
       lg: "p-6 text-lg [&>svg]:h-6 [&>svg]:w-6 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-9",
     },
     hasIcon: {
-      true: "[&>svg]:absolute [&>svg]:text-foreground [&>svg+div]:translate-y-[-3px]",
+      true: "[&>svg]:absolute  [&>svg+div]:translate-y-[-3px]",
       false: "",
     }
   },

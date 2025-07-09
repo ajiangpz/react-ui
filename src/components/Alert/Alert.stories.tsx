@@ -36,7 +36,7 @@ export const Default: Story = {
           这是一个默认样式的提示信息。
         </AlertDescription>
       </>
-    ),
+    ),  
   },
 }
 
@@ -129,21 +129,3 @@ export const Large: Story = {
     ),
   },
 }
-
-export const TitleOnly: Story = {
-  args: {
-    icon: <InfoIcon />,
-    children: <AlertTitle>只有标题的提示</AlertTitle>,
-  },
-}
-
-export const DescriptionOnly: Story = {
-  args: {
-    icon: <InfoIcon />,
-    children: (
-      <AlertDescription>
-        只有描述文本的提示信息。
-      </AlertDescription>
-    ),
-  },
-} 

@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 
 export interface ColumnDef<T = any> {
   key: string;

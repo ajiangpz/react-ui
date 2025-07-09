@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Badge } from "./Badge";
+import { Bell } from "lucide-react";
 
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",
@@ -64,23 +65,14 @@ export const StatusBadges: Story = {
 // 带有图标的徽章
 export const WithIcon: Story = {
   render: () => (
-    <Badge variant="default" className="gap-1">
-      <span className="h-3 w-3">🔔</span>
+    <Badge variant="default"  className="gap-1">
+      <Bell className="w-4 h-4" />
       新消息
     </Badge>
   ),
 };
 
-// 不同尺寸组合
-export const Sizes: Story = {
-  render: () => (
-    <div className="flex items-center gap-2">
-      <Badge variant="default" className="text-[10px] px-2 py-0.25">小号</Badge>
-      <Badge variant="default">默认</Badge>
-      <Badge variant="default" className="text-sm px-3 py-0.75">大号</Badge>
-    </div>
-  ),
-};
+
 
 
 
