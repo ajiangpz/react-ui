@@ -100,32 +100,4 @@ export const Destructive: Story = {
   },
 }
 
-export const Small: Story = {
-  args: {
-    size: "sm",
-    icon: <InfoIcon />,
-    children: (
-      <>
-        <AlertTitle>小尺寸提示</AlertTitle>
-        <AlertDescription>
-          这是一个小尺寸的提示框。
-        </AlertDescription>
-      </>
-    ),
-  },
-}
 
-export const Large: Story = {
-  args: {
-    size: "lg",
-    icon: <InfoIcon />,
-    children: (
-      <>
-        <AlertTitle>大尺寸提示</AlertTitle>
-        <AlertDescription>
-          这是一个大尺寸的提示框，适合展示更多的内容。
-        </AlertDescription>
-      </>
-    ),
-  },
-}

@@ -4,14 +4,14 @@ import { tv, type VariantProps } from "tailwind-variants"
 import { cn } from "@/lib/utils"
 
 const alertVariants = tv({
-  base: "relative w-full rounded-lg border",
+  base: "relative w-full rounded-lg",
   variants: {
     variant: {
-      default: "border-info/50 bg-info/10 text-info dark:border-info [&>svg]:text-info",
-      destructive: "border-danger/50 text-danger dark:border-danger [&>svg]:text-danger",
-      success: "border-success/50 bg-success/10 text-success dark:border-success [&>svg]:text-success",
-      warning: "border-warning/50 bg-warning/10 text-warning dark:border-warning [&>svg]:text-warning",
-      info: "border-info/50 bg-info/10 text-info dark:border-info [&>svg]:text-info",
+      default: "bg-info text-info-foreground [&>svg]:text-info",
+      destructive: "bg-danger text-danger-foreground [&>svg]:text-danger",
+      success: "bg-success text-success-foreground [&>svg]:text-success",
+      warning: "bg-warning text-warning-foreground [&>svg]:text-warning",
+      info: "bg-info text-info-foreground [&>svg]:text-info",
     },
     size: {
       sm: "p-3 text-sm [&>svg]:h-4 [&>svg]:w-4 [&>svg]:left-3 [&>svg]:top-3 [&>svg~*]:pl-6",

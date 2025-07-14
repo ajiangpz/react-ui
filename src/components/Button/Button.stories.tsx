@@ -19,13 +19,7 @@ const meta: Meta<typeof FancyButton> = {
       defaultValue: 'md',
       type: 'string'
     },
-    colorScheme: {
-      control: 'select',
-      options: ['default', 'primary', 'success', 'warning', 'danger'],
-      description: '按钮颜色变体',
-      defaultValue: 'primary',
-      type: 'string'
-    },
+
     loading: {
       control: 'boolean',
       description: '是否显示加载状态',
