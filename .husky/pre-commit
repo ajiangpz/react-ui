@@ -5,7 +5,7 @@ git_user=$(git config user.name)
 
 echo "当前 Git 用户名: $git_user"
 
-if [ "$git_user" != "jiagpengzhen" ]; then
+if [ "$git_user" != "jiangpengzhen" ]; then
   echo "❌ 提交失败：Git 用户名不是 'jiangpengzhen'，请配置正确用户名后重试。"
   exit 1
 fi
