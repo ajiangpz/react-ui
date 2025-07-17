@@ -44,6 +44,15 @@
   --color-info: var(--info);  
   --color-info-foreground: var(--info-foreground);  
 
+  --animate-slide-in: slide-in 300ms ease-in-out;
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
 }
 :root {
   --background: oklch(100% 0 0);
@@ -79,16 +88,16 @@
   --sidebar-accent-foreground: oklch(27% 0.01 262);
   --sidebar-border: oklch(88% 0.02 262);
   --sidebar-ring: oklch(65% 0.01 262);
-  --info:     oklch(92% 0.1 250);  /* 蓝色淡色背景 */
+  --info:     oklch(70% 0.3 250);  /* 蓝色淡色背景 */
   --info-foreground:     oklch(35% 0.15 250);
   
-  --success:  oklch(92% 0.1 142);  /* 绿色淡色背景 */
+  --success:  oklch(70% 0.3 142);  /* 绿色淡色背景 */
   --success-foreground:  oklch(35%  0.15 142);
   
-  --warning:  oklch(95% 0.15 80);  /* 黄色更亮一些 */
-  --warning-foreground:  oklch(40% 0.18 80);
+  --warning:  oklch(70% 0.3 80);  /* 黄色更亮一些 */
+  --warning-foreground:  oklch(35% 0.18 80);
   
-  --danger:   oklch(90% 0.13 29);  /* 红色偏橘 */
+  --danger:   oklch(70% 0.3 29);  /* 红色偏橘 */
   --danger-foreground:   oklch(35% 0.18 29);
 }
 
@@ -106,4 +115,8 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) transparent;
+}
+
+@theme inline  {
+
 }
