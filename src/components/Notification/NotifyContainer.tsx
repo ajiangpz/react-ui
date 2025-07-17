@@ -53,7 +53,6 @@ const ToastContainer = ({
               : 0;
 
           const scale = stackedStyle ? 1 - index * 0.01 : 1;
-          const opacity = stackedStyle ? 0.6 : 1;
 
           return (
             <div
@@ -61,7 +60,6 @@ const ToastContainer = ({
               className="absolute top-0 right-0 left-0 transition-all duration-300 origin-top"
               style={{
                 transform: `translateY(${offsetY}px) scale(${scale})`,
-                opacity,
                 zIndex: latestToasts.length - index,
                 pointerEvents: 'all'
               }}

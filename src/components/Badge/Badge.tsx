@@ -2,7 +2,7 @@ import * as React from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
 const badgeVariants = tv({
-  base: "inline-flex items-center rounded-full  px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  base: "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   variants: {
     variant: {
       success:
@@ -29,10 +29,23 @@ const badgeVariants = tv({
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  count?: number;
+}
 
-function Badge({ className, variant, size, ...props }: BadgeProps) {
-  return <div className={badgeVariants({ variant, size, className })} {...props} />;
+function Badge({ className, variant, size, count, ...props }: BadgeProps) {
+  if (typeof count === 'undefined') {
+    return <div className={badgeVariants({ variant, size, className })} {...props} />;
+  }
+
+  return (
+    <div className="relative inline-flex">
+      {props.children}
+      <div className="absolute -top-2 -right-2 min-w-[20px] h-5 flex items-center justify-center rounded-full bg-danger text-danger-foreground text-xs px-1">
+        {count}
+      </div>
+    </div>
+  );
 }
 
 export { Badge, badgeVariants };

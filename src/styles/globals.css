@@ -89,16 +89,16 @@
   --sidebar-border: oklch(88% 0.02 262);
   --sidebar-ring: oklch(65% 0.01 262);
   --info:     oklch(70% 0.3 250);  /* 蓝色淡色背景 */
-  --info-foreground:     oklch(35% 0.15 250);
+  --info-foreground:     oklch(98% 0.005 262);
   
   --success:  oklch(70% 0.3 142);  /* 绿色淡色背景 */
-  --success-foreground:  oklch(35%  0.15 142);
+  --success-foreground:  oklch(98% 0.005 262);
   
   --warning:  oklch(70% 0.3 80);  /* 黄色更亮一些 */
-  --warning-foreground:  oklch(35% 0.18 80);
+  --warning-foreground:  oklch(98% 0.005 262);
   
-  --danger:   oklch(70% 0.3 29);  /* 红色偏橘 */
-  --danger-foreground:   oklch(35% 0.18 29);
+  --danger:  oklch(65% 0.25 29);  /* 红色偏橘 */
+  --danger-foreground:   oklch(98% 0.005 262);
 }
 
 /* 滚动条 */  
