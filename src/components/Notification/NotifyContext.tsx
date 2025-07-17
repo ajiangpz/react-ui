@@ -65,6 +65,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const newToast = { ...toast, createdAt: Date.now() };
       setToasts(prev => {
         const newToasts = [newToast, ...prev];
+        // 获取将要被移除的 toasts
+        const removedToasts = newToasts.slice(MAX_STACK);
+        // 清除被移除的 toasts 的定时器
+        removedToasts.forEach(toast => {
+          clearToastTimer(toast.id);
+          pausedAtRef.current.delete(toast.id);
+        });
         return newToasts.slice(0, MAX_STACK);
       });
       startTimer(newToast);

@@ -29,10 +29,19 @@ const ToastContainer = ({
   return (
     <div
       className="fixed top-4 right-4 z-50 w-96"
+      style={{
+        height: isHovering ? `${(toasts.length) * 100 + 16}px` : 'auto',
+        minHeight: '80px'
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative">
+      <div 
+        className="relative w-full h-full"
+        style={{
+          pointerEvents: 'all'
+        }}
+      >
         {latestToasts.map((toast, index) => {
           const isLast = index === 0;
           const stackedStyle = !isHovering && !isLast;
@@ -53,7 +62,8 @@ const ToastContainer = ({
               style={{
                 transform: `translateY(${offsetY}px) scale(${scale})`,
                 opacity,
-                zIndex: latestToasts.length - index
+                zIndex: latestToasts.length - index,
+                pointerEvents: 'all'
               }}
             >
               <ToastItem {...toast} onRemove={onRemove} />

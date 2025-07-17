@@ -18,7 +18,7 @@ const ToastItem: React.FC<{ id: string; message: string; type: string }> = ({
           {type === "error" && <XCircle className="text-danger" />}
           {type === "info" && <Info className="text-info" />}
           {type === "warning" && <AlertCircle className="text-warning" />}
-          {type === "default" && <Info className=" text-info" />}
+          {type === "default" && <Info className="text-info" />}
         </div>
         <div className="ml-2">
           <p className="text-sm font-medium text-foreground">{message}</p>
