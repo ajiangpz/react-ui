@@ -43,6 +43,15 @@
   --color-sidebar-ring: var(--sidebar-ring);  
   --color-info: var(--info);  
   --color-info-foreground: var(--info-foreground);  
+  --color-success-background: var(--success-background);
+  --color-info-background: var(--info-background);
+  --color-warning-background: var(--warning-background);
+  --color-danger-background: var(--danger-background);
+  --color-success-border: var(--success-border);
+  --color-info-border: var(--info-border);
+  --color-warning-border: var(--warning-border);
+  --color-danger-border: var(--danger-border);
+  --color-shadow: var(--shadow);
 
   --animate-slide-in: slide-in 300ms ease-in-out;
   @keyframes slide-in {
@@ -53,7 +62,40 @@
       transform: translateY(0);
     }
   }
+  --animate-fade-in: fade-in 300ms ease-in-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1; 
+    }
+  } 
+  --animate-scale-in-center: scale-in-center 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  @keyframes scale-in-center {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  --animate-scale-out-center: scale-out-center 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  @keyframes scale-out-center {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }   
+  }
 }
+
 :root {
   --background: oklch(100% 0 0);
   --foreground: oklch(25% 0.01 262);
@@ -99,6 +141,19 @@
   
   --danger:  oklch(65% 0.25 29);  /* 红色偏橘 */
   --danger-foreground:   oklch(98% 0.005 262);
+
+  --success-background: oklch(0.971 0.024 142.57);   /* #f6ffed */
+  --info-background:    oklch(0.945 0.051 248.85);   /* #e6f4ff */
+  --warning-background: oklch(0.964 0.046 103.25);   /* #fffbe6 */
+  --danger-background:  oklch(0.949 0.049 28.18);    /* #fff2f0 */
+  
+  --success-border:     oklch(0.835 0.141 139.67);   /* #b7eb8f */
+  --info-border:        oklch(0.792 0.139 250.42);   /* #91caff */
+  --warning-border:     oklch(0.886 0.118 94.72);    /* #ffe58f */
+  --danger-border:      oklch(0.841 0.104 29.18);    /* #ffccc7 */
+  
+
+  --shadow: #000000;
 }
 
 /* 滚动条 */  
@@ -117,6 +172,4 @@
   scrollbar-color: hsl(var(--border)) transparent;
 }
 
-@theme inline  {
 
-}

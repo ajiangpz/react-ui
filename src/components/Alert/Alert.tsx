@@ -7,11 +7,11 @@ const alertVariants = tv({
   base: "relative w-full rounded-lg",
   variants: {
     variant: {
-      default: "bg-info text-info-foreground [&>svg]:text-info",
-      destructive: "bg-danger text-danger-foreground [&>svg]:text-danger",
-      success: "bg-success text-success-foreground [&>svg]:text-success",
-      warning: "bg-warning text-warning-foreground [&>svg]:text-warning",
-      info: "bg-info text-info-foreground [&>svg]:text-info",
+      default: "bg-info-background text-foreground border-1 border-info-border [&>svg]:text-info",
+      destructive: "bg-danger-background text-foreground border-1 border-danger-border [&>svg]:text-danger",
+      success: "bg-success-background text-foreground border-1 border-success-border [&>svg]:text-success",
+      warning: "bg-warning-background text-foreground border-1 border-warning-border [&>svg]:text-warning",
+      info: "bg-info-background text-foreground border-1 border-info-border [&>svg]:text-info ",
     },
     size: {
       sm: "p-3 text-sm [&>svg]:h-4 [&>svg]:w-4 [&>svg]:left-3 [&>svg]:top-3 [&>svg~*]:pl-6",

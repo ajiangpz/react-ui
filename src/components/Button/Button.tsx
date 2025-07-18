@@ -33,6 +33,7 @@ export const button = tv({
 
   defaultVariants: {
     variant: "solid",
+    colorScheme: "primary",
     size: "md",
   },
 });
