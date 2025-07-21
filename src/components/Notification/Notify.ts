@@ -1,23 +1,22 @@
-// toast.ts
-type ToastType = "default" | "success" | "error" | "info" | "warning";
-
-type ToastMessage = {
+// notification.ts
+type NotificationType = "default" | "success" | "error" | "info" | "warning";
+type NotificationMessage = {
   id: string;
-  type: ToastType;
+  type: NotificationType;
   message: string;
 };
 
-let addToast: (toast: ToastMessage) => void = () => {};
+let addNotification: (notification: NotificationMessage) => void = () => {};
 
-export function toast(message: string, type: ToastType = "default") {
-
-  addToast({
-    id: crypto.randomUUID(),
+export function notification(message: string, type: NotificationType = "default") {
+  const id = new Date().getTime().toString();
+  addNotification({
+    id,
     message,
     type,
   });
 }
 
-export function registerToastHandler(cb: typeof addToast) {
-  addToast = cb;
+export function registerNotificationHandler(cb: typeof addNotification) {
+  addNotification = cb;
 }

@@ -1,26 +1,26 @@
 import React, { createContext, useState, useRef } from "react";
 import { createPortal } from "react-dom";
-import { registerToastHandler } from "./Notify";
+import { registerNotificationHandler } from "./Notify";
 import NotifyContainer from "./NotifyContainer";
 
 const MAX_STACK = 5;
 const DISPLAY_DURATION = 3000;
 
-type Toast = {
+type Notification = {
   id: string;
   type: string;
   message: string;
   createdAt: number;
 };
 
-const ToastContext = createContext(null);
+const NotificationContext = createContext(null);
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const timersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const pausedAtRef = useRef<Map<string, number>>(new Map());
 
-  const clearToastTimer = (id: string) => {
+  const clearNotificationTimer = (id: string) => {
     const timer = timersRef.current.get(id);
     if (timer) {
       clearTimeout(timer);
@@ -29,52 +29,52 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const clearAllTimers = () => {
-    // 记录每个 toast 暂停时的时间点
+    // 记录每个 notification 暂停时的时间点
     const now = Date.now();
-    toasts.forEach(toast => {
-      pausedAtRef.current.set(toast.id, now);
-      clearToastTimer(toast.id);
+    notifications.forEach(notification => {
+      pausedAtRef.current.set(notification.id, now);
+      clearNotificationTimer(notification.id);
     });
   };
 
-  const startTimer = (toast: Toast, remainingTime?: number) => {
+  const startTimer = (notification: Notification, remainingTime?: number) => {
     const duration = remainingTime ?? DISPLAY_DURATION;
     const timer = setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== toast.id));
-      clearToastTimer(toast.id);
-      pausedAtRef.current.delete(toast.id);
+      setNotifications(prev => prev.filter(t => t.id !== notification.id));
+      clearNotificationTimer(notification.id);
+      pausedAtRef.current.delete(notification.id);
     }, duration);
-    timersRef.current.set(toast.id, timer);
+    timersRef.current.set(notification.id, timer);
   };
 
   const restartAllTimers = () => {
-    toasts.forEach(toast => {
-      const pausedAt = pausedAtRef.current.get(toast.id);
+    notifications.forEach(notification => {
+      const pausedAt = pausedAtRef.current.get(notification.id);
       if (pausedAt) {
         // 计算剩余时间
-        const elapsedTime = pausedAt - toast.createdAt;
+        const elapsedTime = pausedAt - notification.createdAt;
         const remainingTime = Math.max(0, DISPLAY_DURATION - elapsedTime);
-        startTimer(toast, remainingTime);
-        pausedAtRef.current.delete(toast.id);
+        startTimer(notification, remainingTime);
+        pausedAtRef.current.delete(notification.id);
       }
     });
   };
 
   React.useEffect(() => {
-    registerToastHandler((toast: Omit<Toast, 'createdAt'>) => {
-      const newToast = { ...toast, createdAt: Date.now() };
-      setToasts(prev => {
-        const newToasts = [newToast, ...prev];
-        // 获取将要被移除的 toasts
-        const removedToasts = newToasts.slice(MAX_STACK);
-        // 清除被移除的 toasts 的定时器
-        removedToasts.forEach(toast => {
-          clearToastTimer(toast.id);
-          pausedAtRef.current.delete(toast.id);
+    registerNotificationHandler((notification: Omit<Notification, 'createdAt'>) => {
+      const newNotification = { ...notification, createdAt: Date.now() };
+      setNotifications(prev => {
+        const newNotifications = [newNotification, ...prev];
+        // 获取将要被移除的 notifications
+        const removedNotifications = newNotifications.slice(MAX_STACK);
+        // 清除被移除的 notifications 的定时器
+        removedNotifications.forEach(notification => {
+          clearNotificationTimer(notification.id);
+          pausedAtRef.current.delete(notification.id);
         });
-        return newToasts.slice(0, MAX_STACK);
+        return newNotifications.slice(0, MAX_STACK);
       });
-      startTimer(newToast);
+      startTimer(newNotification);
     });
 
     return () => {
@@ -84,14 +84,14 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   return (
-    <ToastContext.Provider value={null}>
+    <NotificationContext.Provider value={null}>
       {children}
       {createPortal(
         <NotifyContainer 
-          toasts={toasts} 
+          notifications={notifications} 
           onRemove={(id) => {
-            setToasts(prev => prev.filter(t => t.id !== id));
-            clearToastTimer(id);
+            setNotifications(prev => prev.filter(t => t.id !== id));
+            clearNotificationTimer(id);
             pausedAtRef.current.delete(id);
           }}
           onHoverStart={clearAllTimers}
@@ -99,6 +99,6 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         />,
         document.body
       )}
-    </ToastContext.Provider>
+    </NotificationContext.Provider>
   );
 };

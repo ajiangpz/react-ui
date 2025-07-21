@@ -1,20 +1,20 @@
 import { useState } from "react";
-import ToastItem from "./NotifyItem";
+import NotificationItem from "./NotifyItem";
 export const MAX_STACK = 5;
 
-const ToastContainer = ({
-  toasts,
+const NotificationContainer = ({
+  notifications,
   onRemove,
   onHoverStart,
   onHoverEnd
 }: {
-  toasts: any[];
+  notifications: any[];
   onRemove: (id: string) => void;
   onHoverStart: () => void;
   onHoverEnd: () => void;
 }) => {
   const [isHovering, setIsHovering] = useState(false);
-  const latestToasts = toasts.slice(-MAX_STACK);
+  const latestNotifications = notifications.slice(-MAX_STACK);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -30,7 +30,7 @@ const ToastContainer = ({
     <div
       className="fixed top-4 right-4 z-50 w-96"
       style={{
-        height: isHovering ? `${(toasts.length) * 100 + 16}px` : 'auto',
+        height: isHovering ? `${(notifications.length) * 100 + 16}px` : 'auto',
         minHeight: '80px'
       }}
       onMouseEnter={handleMouseEnter}
@@ -42,7 +42,7 @@ const ToastContainer = ({
           pointerEvents: 'all'
         }}
       >
-        {latestToasts.map((toast, index) => {
+        {latestNotifications.map((notification, index) => {
           const isLast = index === 0;
           const stackedStyle = !isHovering && !isLast;
 
@@ -53,18 +53,19 @@ const ToastContainer = ({
               : 0;
 
           const scale = stackedStyle ? 1 - index * 0.01 : 1;
-
+          const opacity = stackedStyle ? 1 - index * 0.15 : 1;
           return (
             <div
-              key={toast.id}
+              key={notification.id}
               className="absolute top-0 right-0 left-0 transition-all duration-300 origin-top"
               style={{
                 transform: `translateY(${offsetY}px) scale(${scale})`,
-                zIndex: latestToasts.length - index,
-                pointerEvents: 'all'
+                zIndex: latestNotifications.length - index,
+                pointerEvents: 'all',
+                opacity: opacity
               }}
             >
-              <ToastItem {...toast} onRemove={onRemove} />
+              <NotificationItem {...notification} onRemove={onRemove} />
             </div>
           );
         })}
@@ -73,4 +74,4 @@ const ToastContainer = ({
   );
 };
 
-export default ToastContainer;
+export default NotificationContainer;

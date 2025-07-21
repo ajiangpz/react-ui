@@ -37,7 +37,6 @@ export const Row: React.FC<RowProps> = ({
       style={rowStyle}
     >
       {React.Children.map(children, (child: any) =>{
-        console.log(child)
         return React.cloneElement(child, {
           style: {
             paddingLeft: `${horizontal / 2}px`,
