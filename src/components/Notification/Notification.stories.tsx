@@ -1,132 +1,199 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import { NotificationProvider } from "./NotifyContext";
-import { notification } from "./Notify";
-import { FancyButton } from "@/components/Button/Button";
+// src/components/Notification/Notification.stories.tsx
 
-const meta = {
-  title: "Components/Notification",
-  component: NotificationProvider,
-  tags: ["autodocs"],
-  decorators: [
-    Story => (
-      <NotificationProvider>
-        <Story />
-      </NotificationProvider>
-    )
-  ]
-} satisfies Meta<typeof NotificationProvider>;
+import { Meta, StoryObj } from "@storybook/react";
+import { NotificationProvider, useNotification } from "./NotifyContext";
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+// 创建一个演示组件
+const NotificationDemo = () => {
+  const { success, error, warning, info } = useNotification();
 
-// 展示组件
-const NotificationDemo = ({
-  message,
-  type
-}: {
-  message: string;
-  type: "default" | "success" | "error" | "info" | "warning";
-}) => {
-  let [count, setCount] = useState(1);
   return (
-    <div className="p-4">
-      <FancyButton
-        variant="solid"
-        size="sm"
-        onClick={() => {
-          notification(message + count, type);
-          setCount(count + 1);
-        }}
-      >
-        显示 {type} Notification
-      </FancyButton>
+    <div style={{ padding: "20px" }}>
+      <div style={{ display: "flex", gap: "10px" }}>
+        <button
+          onClick={() => success("操作成功完成！")}
+          style={{
+            padding: "8px 16px",
+            background: "#4caf50",
+            color: "white",
+            border: "none",
+            borderRadius: "4px"
+          }}
+        >
+          显示成功通知
+        </button>
+        <button
+          onClick={() => error("操作发生错误！")}
+          style={{
+            padding: "8px 16px",
+            background: "#f44336",
+            color: "white",
+            border: "none",
+            borderRadius: "4px"
+          }}
+        >
+          显示错误通知
+        </button>
+        <button
+          onClick={() => warning("请注意这个警告！")}
+          style={{
+            padding: "8px 16px",
+            background: "#ff9800",
+            color: "white",
+            border: "none",
+            borderRadius: "4px"
+          }}
+        >
+          显示警告通知
+        </button>
+        <button
+          onClick={() => info("这是一条信息通知！")}
+          style={{
+            padding: "8px 16px",
+            background: "#2196f3",
+            color: "white",
+            border: "none",
+            borderRadius: "4px"
+          }}
+        >
+          显示信息通知
+        </button>
+      </div>
     </div>
   );
 };
 
-// 基础示例
-export const Default: Story = {
-  args: {
-    children: <NotificationDemo message="这是一条默认提示" type="default" />
-  }
-};
-
-// 成功提示
-export const Success: Story = {
-  args: {
-    children: <NotificationDemo message="操作成功！操作成功！操作成功！操作成功！操作成功！" type="success" />
-  }
-};
-
-// 错误提示
-export const Error: Story = {
-  args: {
-    children: <NotificationDemo message="发生错误！" type="error" />
-  }
-};
-
-// 信息提示
-export const Info: Story = {
-  args: {
-    children: <NotificationDemo message="这是一条信息提示" type="info" />
-  }
-};
-
-// 警告提示
-export const Warning: Story = {
-  args: {
-    children: <NotificationDemo message="请注意！" type="warning" />
-  }
-};
-
-// 自定义示例
-export const CustomMessage: Story = {
-  args: {
-    children: <NotificationDemo message="这是一条自定义消息" type="default" />
-  },
+// Meta 配置
+const meta: Meta = {
+  title: "组件/Notification",
+  component: NotificationProvider,
+  tags: ["autodocs"],
   argTypes: {
-    children: {
-      table: {
-        disable: true
-      }
+    maxStack: {
+      control: { type: "number", min: 1, max: 10 },
+      description: "最大通知堆叠数量",
+      defaultValue: 5
+    },
+    displayDuration: {
+      control: { type: "number", min: 1000, max: 10000, step: 500 },
+      description: "通知显示时间（毫秒）",
+      defaultValue: 3000
     }
   },
-  parameters: {
-    docs: {
-      description: {
-        story: "你可以通过 `notification()` 函数显示自定义消息。"
-      }
-    }
-  }
-};
-
-// 多个 Notification 示例
-export const MultipleNotifications: Story = {
-  args: {
-    children: (
-      <div className="p-4">
-        <FancyButton
-          variant="solid"
-          size="sm"
-          onClick={() => {
-            notification("默认提示", "default");
-            setTimeout(() => notification("成功提示", "success"), 500);
-            setTimeout(() => notification("错误提示", "error"), 1000);
-            setTimeout(() => notification("信息提示", "info"), 1500);
-            setTimeout(() => notification("警告提示", "warning"), 2000);
-          }}
-        >
-          显示多个 Notification
-        </FancyButton>
+  decorators: [
+    Story => (
+      <div style={{ margin: "3em" }}>
+        <Story />
       </div>
     )
+  ]
+};
+
+export default meta;
+
+type Story = StoryObj<typeof NotificationProvider>;
+
+// 基础用法
+export const Basic: Story = {
+  render: args => (
+    <NotificationProvider {...args}>
+      <NotificationDemo />
+    </NotificationProvider>
+  )
+};
+
+// 自定义配置
+export const CustomConfig: Story = {
+  args: {
+    maxStack: 3,
+    displayDuration: 5000
   },
+  render: args => (
+    <NotificationProvider {...args}>
+      <NotificationDemo />
+    </NotificationProvider>
+  )
+};
+
+// 代码示例
+export const CodeExample: Story = {
   parameters: {
     docs: {
-      description: {
-        story: "展示多个不同类型的 Notification 消息。注意：默认最多显示5条消息。"
+      source: {
+        code: `
+// 1. 在应用根组件中包裹 NotificationProvider
+import { NotificationProvider } from './components/Notification/NotifyContext';
+
+const App = () => {
+  return (
+    <NotificationProvider maxStack={5} displayDuration={3000}>
+      <YourApp />
+    </NotificationProvider>
+  );
+};
+
+// 2. 在组件中使用
+import { useNotification } from './components/Notification/NotifyContext';
+
+const YourComponent = () => {
+  const { success, error, warning, info } = useNotification();
+
+  const handleSuccess = () => {
+    success('操作成功！');
+  };
+
+  return (
+    <button onClick={handleSuccess}>
+      显示成功通知
+    </button>
+  );
+};
+`
       }
     }
+  },
+  render: args => (
+    <NotificationProvider {...args}>
+      <NotificationDemo />
+    </NotificationProvider>
+  )
+};
+
+// 快速连续触发示例
+export const RapidFire: Story = {
+  render: args => {
+    const RapidFireDemo = () => {
+      const { success, error, warning, info } = useNotification();
+
+      const handleRapidFire = () => {
+        success("第一条成功消息");
+        setTimeout(() => error("第二条错误消息"), 100);
+        setTimeout(() => warning("第三条警告消息"), 200);
+        setTimeout(() => info("第四条信息消息"), 300);
+      };
+
+      return (
+        <div style={{ padding: "20px" }}>
+          <button
+            onClick={handleRapidFire}
+            style={{
+              padding: "8px 16px",
+              background: "#9c27b0",
+              color: "white",
+              border: "none",
+              borderRadius: "4px"
+            }}
+          >
+            快速连续显示多条通知
+          </button>
+        </div>
+      );
+    };
+
+    return (
+      <NotificationProvider {...args}>
+        <RapidFireDemo />
+      </NotificationProvider>
+    );
   }
 };
