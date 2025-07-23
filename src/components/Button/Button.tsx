@@ -44,7 +44,7 @@ export interface ButtonProps
   loading?: boolean;
 }
 
-export const FancyButton = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,

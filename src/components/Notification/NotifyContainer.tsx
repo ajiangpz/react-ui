@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import NotificationItem from "./NotifyItem";
 export const MAX_STACK = 5;
 
@@ -16,15 +16,16 @@ const NotificationContainer = ({
   const [isHovering, setIsHovering] = useState(false);
   const latestNotifications = notifications.slice(-MAX_STACK);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     setIsHovering(true);
     onHoverStart();
-  };
+  }, [onHoverStart]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setIsHovering(false);
     onHoverEnd();
-  };
+  }, [onHoverEnd]);
+
 
   return (
     <div

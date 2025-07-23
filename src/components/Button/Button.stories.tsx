@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FancyButton } from "./Button";
+import { Button } from "./Button";
 
-const meta: Meta<typeof FancyButton> = {
+const meta: Meta<typeof Button> = {
   title: "Components/Button",
-  component: FancyButton,
+  component: Button,
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -43,7 +43,7 @@ const meta: Meta<typeof FancyButton> = {
 
 export default meta;
 
-type Story = StoryObj<typeof FancyButton>;
+type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
   args: {
