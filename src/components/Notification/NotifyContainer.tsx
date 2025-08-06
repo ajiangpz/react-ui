@@ -1,21 +1,26 @@
 import { useCallback, useState } from "react";
 import NotificationItem from "./NotifyItem";
-export const MAX_STACK = 5;
-
+import { cn } from "@/lib/utils";
+export const GAP = 14;
+export const TOAST_WIDTH = 356;
 const NotificationContainer = ({
   notifications,
   onRemove,
   onHoverStart,
-  onHoverEnd
+  onHoverEnd,
+  maxStack,
+  position
 }: {
   notifications: any[];
   onRemove: (id: string) => void;
   onHoverStart: () => void;
   onHoverEnd: () => void;
+  maxStack: number;
+  position: string;
 }) => {
   const [isHovering, setIsHovering] = useState(false);
-  const latestNotifications = notifications.slice(-MAX_STACK);
-
+  const latestNotifications = notifications.slice(0, maxStack);
+  const [y, x] = position.split("-");
   const handleMouseEnter = useCallback(() => {
     setIsHovering(true);
     onHoverStart();
@@ -26,48 +31,54 @@ const NotificationContainer = ({
     onHoverEnd();
   }, [onHoverEnd]);
 
+  const [heights, setHeights] = useState<{ toastId: string; height: number }[]>(
+    []
+  );
 
   return (
     <div
-      className="fixed top-4 right-4 z-50 w-96"
-      style={{
-        height: isHovering ? `${(notifications.length) * 100 + 16}px` : 'auto',
-        minHeight: '80px'
-      }}
+      className={cn("fixed z-50 w-96")}
+      style={
+        {
+          height: isHovering ? `${notifications.length * 100 + 16}px` : "auto",
+          minHeight: "80px",
+          "--front-toast-height": (heights[0]?.height || 0) + "px",
+          "--toast-width": TOAST_WIDTH + "px"
+        } as React.CSSProperties
+      }
+      data-toaster
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      data-x-position={x}
+      data-y-position={y}
     >
-      <div 
+      <div
         className="relative w-full h-full"
         style={{
-          pointerEvents: 'all'
+          pointerEvents: "all"
         }}
       >
-        {latestNotifications.map((notification, index) => {
-          const isLast = index === 0;
-          const stackedStyle = !isHovering && !isLast;
+        {latestNotifications.map(notification => {
+          // const stackedStyle = !isHovering && !isLast;
 
-          let offsetY = isHovering 
-            ? index * 100  // 展开时，索引0在顶部
-            : stackedStyle 
-              ? index * 8 
-              : 0;
+          // let offsetY = isHovering
+          //   ? index * 100 // 展开时，索引0在顶部
+          //   : stackedStyle
+          //   ? index * 8
+          //   : 0;
 
-          const scale = stackedStyle ? 1 - index * 0.01 : 1;
-          const opacity = stackedStyle ? 1 - index * 0.15 : 1;
+          // const scale = stackedStyle ? 1 - index * 0.01 : 1;
+          // const opacity = stackedStyle ? 1 - index * 0.15 : 1;
           return (
-            <div
+            <NotificationItem
               key={notification.id}
-              className="absolute top-0 right-0 left-0 transition-all duration-300 origin-top"
-              style={{
-                transform: `translateY(${offsetY}px) scale(${scale})`,
-                zIndex: latestNotifications.length - index,
-                pointerEvents: 'all',
-                opacity: opacity
-              }}
-            >
-              <NotificationItem {...notification} onRemove={onRemove} />
-            </div>
+              heights={heights}
+              setHeights={setHeights}
+              gap={GAP}
+              {...notification}
+              onRemove={onRemove}
+              isExpanded={isHovering}
+            />
           );
         })}
       </div>

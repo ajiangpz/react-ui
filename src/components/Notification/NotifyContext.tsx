@@ -1,15 +1,23 @@
-import React, { createContext, useState, useRef, useCallback, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useRef,
+  useCallback,
+  useContext
+} from "react";
 import { createPortal } from "react-dom";
 import NotifyContainer from "./NotifyContainer";
+import "./style.css";
 
 // 1. 定义类型
-type NotificationType = 'success' | 'error' | 'warning' | 'info';
+type NotificationType = "success" | "error" | "warning" | "info";
 
 interface Notification {
   id: string;
   type: NotificationType;
   message: string;
   createdAt: number;
+  isRemoved: boolean;
 }
 
 // 2. 定义 Context 类型
@@ -33,12 +41,14 @@ interface NotificationProviderProps {
   children: React.ReactNode;
   maxStack?: number;
   displayDuration?: number;
+  position?: string;
 }
 
-export const NotificationProvider: React.FC<NotificationProviderProps> = ({ 
+export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
   maxStack = 5,
-  displayDuration = 3000
+  displayDuration = 3000,
+  position = "top-right"
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const timersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -53,53 +63,70 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     }
   }, []);
 
-  const startTimer = useCallback((notification: Notification, remainingTime?: number) => {
-    const duration = remainingTime ?? displayDuration;
-    const timer = setTimeout(() => {
-      setNotifications(prev => prev.filter(t => t.id !== notification.id));
-      clearNotificationTimer(notification.id);
-      pausedAtRef.current.delete(notification.id);
-    }, duration);
-    timersRef.current.set(notification.id, timer);
-  }, [displayDuration]);
+  const startTimer = useCallback(
+    (notification: Notification, remainingTime?: number) => {
+      const duration = remainingTime ?? displayDuration;
+      const timer = setTimeout(() => {
+        setNotifications(prev =>
+          prev.map(n =>
+            n.id === notification.id ? { ...n, isRemoved: true } : n
+          )
+        );
+        setTimeout(() => {
+          setNotifications(prev => prev.filter(t => t.id !== notification.id));
+          clearNotificationTimer(notification.id);
+          pausedAtRef.current.delete(notification.id);
+        }, 400);
+      }, duration);
+      timersRef.current.set(notification.id, timer);
+    },
+    [displayDuration]
+  );
 
   // 6. 核心通知函数
-  const addNotification = useCallback((type: NotificationType, message: string) => {
-    const newNotification: Notification = {
-      id: generateId(),
-      type,
-      message,
-      createdAt: Date.now()
-    };
+  const addNotification = useCallback(
+    (type: NotificationType, message: string) => {
+      const newNotification: Notification = {
+        id: generateId(),
+        type,
+        message,
+        createdAt: Date.now(),
+        isRemoved: false
+      };
 
-    setNotifications(prev => {
-      const newNotifications = [newNotification, ...prev];
-      const removedNotifications = newNotifications.slice(maxStack);
-      
-      removedNotifications.forEach(notification => {
-        clearNotificationTimer(notification.id);
-        pausedAtRef.current.delete(notification.id);
+      setNotifications(prev => {
+        const newNotifications = [newNotification, ...prev];
+        const removedNotifications = newNotifications.slice(maxStack);
+
+        removedNotifications.forEach(notification => {
+          clearNotificationTimer(notification.id);
+          pausedAtRef.current.delete(notification.id);
+        });
+
+        return newNotifications.slice(0, maxStack);
       });
-      
-      return newNotifications.slice(0, maxStack);
-    });
 
-    startTimer(newNotification);
-  }, [maxStack, startTimer, clearNotificationTimer]);
+      startTimer(newNotification);
+    },
+    [maxStack, startTimer, clearNotificationTimer]
+  );
 
   // 7. 提供的 Context 值
-  const contextValue = React.useMemo(() => ({
-    notify: addNotification,
-    success: (message: string) => addNotification('success', message),
-    error: (message: string) => addNotification('error', message),
-    warning: (message: string) => addNotification('warning', message),
-    info: (message: string) => addNotification('info', message),
-    removeNotification: (id: string) => {
-      setNotifications(prev => prev.filter(t => t.id !== id));
-      clearNotificationTimer(id);
-      pausedAtRef.current.delete(id);
-    }
-  }), [addNotification, clearNotificationTimer]);
+  const contextValue = React.useMemo(
+    () => ({
+      notify: addNotification,
+      success: (message: string) => addNotification("success", message),
+      error: (message: string) => addNotification("error", message),
+      warning: (message: string) => addNotification("warning", message),
+      info: (message: string) => addNotification("info", message),
+      removeNotification: (id: string) => {
+        setNotifications(prev => prev.filter(t => t.id !== id));
+        clearNotificationTimer(id);
+        pausedAtRef.current.delete(id);
+      }
+    }),
+    [addNotification, clearNotificationTimer]
+  );
 
   // 悬停处理
   const clearAllTimers = useCallback(() => {
@@ -126,12 +153,14 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     <NotificationContext.Provider value={contextValue}>
       {children}
       {createPortal(
-        <NotifyContainer 
+        <NotifyContainer
           notifications={notifications}
-          onRemove={(id) => contextValue.removeNotification(id)}
+          onRemove={id => contextValue.removeNotification(id)}
           onHoverStart={clearAllTimers}
           onHoverEnd={restartAllTimers}
           data-testid="notification-container"
+          maxStack={maxStack}
+          position={position}
         />,
         document.body
       )}
@@ -143,7 +172,9 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error(
+      "useNotification must be used within a NotificationProvider"
+    );
   }
   return context;
 };

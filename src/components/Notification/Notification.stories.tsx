@@ -1,20 +1,26 @@
-// src/components/Notification/Notification.stories.tsx
-
 import { Meta, StoryObj } from "@storybook/react";
 import { NotificationProvider, useNotification } from "./NotifyContext";
 import { Button } from "../Button";
+import { useRef } from "react";
 
 // 创建一个演示组件
 const NotificationDemo = () => {
   const { success, error, warning, info } = useNotification();
-
+  const index = useRef(1);
   return (
     <div style={{ padding: "20px" }}>
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
           variant="solid"
           className="bg-success hover:bg-success/80"
-          onClick={() => success("操作成功完成！")}
+          onClick={() =>
+            success(
+              Array.from(
+                { length: Math.floor(Math.random() * 10) + 1 },
+                () => "操作成功完成！" + index.current++
+              ).join("\n")
+            )
+          }
         >
           显示成功通知
         </Button>
@@ -35,11 +41,7 @@ const NotificationDemo = () => {
         <Button
           variant="solid"
           className="bg-info hover:bg-info/80"
-          onClick={() =>
-            info(
-              "wwwwwwwwwwwwww"
-            )
-          }
+          onClick={() => info("wwwwwwwwwwwwww")}
         >
           显示信息通知
         </Button>
@@ -62,12 +64,23 @@ const meta: Meta = {
     displayDuration: {
       control: { type: "number", min: 1000, max: 10000, step: 500 },
       description: "通知显示时间（毫秒）",
-      defaultValue: 3000
+      defaultValue: 300000
+    },
+    position: {
+      control: "select",
+      options: ["top-right", "top-center", "top-left"],
+      description: "显示位置",
+      defaultValue: "top-right"
     }
   },
   decorators: [
-    Story => (
-      <NotificationProvider maxStack={3} displayDuration={30000}>
+    // 修改装饰器，使用从控制台传入的参数
+    (Story, context) => (
+      <NotificationProvider 
+        position={context.args.position}
+        maxStack={context.args.maxStack}
+        displayDuration={context.args.displayDuration}
+      >
         <Story />
       </NotificationProvider>
     )
