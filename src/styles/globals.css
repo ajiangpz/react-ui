@@ -183,7 +183,7 @@
   --info-border: oklch(0.272 0.071 259.41); /* #15325b */
   --warning-border: oklch(0.394 0.088 81.45); /* #594214 */
   --danger-border: oklch(0.368 0.068 27.47); /* #5b2526 */
-
+  --input: oklch(100% 0 0/.15);
   --shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
