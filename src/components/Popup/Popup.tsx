@@ -220,6 +220,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       unmountOnExit={destroyOnClose}
       onEnter={handleEnter}
       onExited={handleExited}
+      classNames="r-portal"
     >
       <Portal triggerNode={getRefDom(triggerRef)} attach="body" ref={portalRef}>
         <CSSTransition
@@ -227,9 +228,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
           timeout={0}
           in={visible}
           nodeRef={popupRef}
-          {...getTransitionParams({
-            classPrefix,
-          })}
+          classNames="r-popup"
         >
           <div
             ref={(node) => {

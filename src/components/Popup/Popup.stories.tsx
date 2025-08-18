@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Popup from './Popup';
 import { Button } from '../Button';
-import { right } from '@popperjs/core';
 const meta: Meta = {
   title: '组件/Popup',
   component: Popup,
@@ -38,13 +37,13 @@ export const Default: Story = {
   args: {
     trigger: 'click',
     placement: 'top',
-    content: '这是一个弹出层',
+    content: <div style={{ fontSize: '20px' }}>content content content</div>,
     showArrow: true,
   },
   render: (args) => (
-    <div style={{ padding: '100px' }}>
+    <div className="my-4 flex justify-center">
       <Popup {...args}>
-        <Button>点击或悬停显示 Popup</Button>
+        <Button>点击显示Popup</Button>
       </Popup>
     </div>
   ),
