@@ -86,6 +86,8 @@ export default function useTrigger({
     };
     on(document, 'mousedown', handleDocumentClick);
     on(document, 'touchend', handleDocumentClick);
+
+    // 清理事件监听
     return () => {
       off(document, 'mousedown', handleDocumentClick);
       off(document, 'touchend', handleDocumentClick);
@@ -98,26 +100,39 @@ export default function useTrigger({
 
     return {
       onMouseEnter: (e: MouseEvent) => {
+        console.log('popup mouse enter');
+        // leaveFlag表示是从 trigger 元素 hover 过来的，避免频繁显示隐藏
         if (trigger === 'hover' && !leaveFlag.current) {
+          // 清除延迟显示定时器
           clearTimeout((visibleTimer as any).current);
+          // 立即显示
           onVisibleChange(true, { e, trigger: 'trigger-element-hover' });
         }
       },
       onMouseLeave: (e: MouseEvent) => {
+        console.log('popup mouse leave');
         if (trigger === 'hover') {
+          // 防止 鼠标移出后，马上移入 popup 元素，导致 popup 重新显示 特别是有延迟显示时 是一个防抖标志
           leaveFlag.current = true;
+
+          // 清除延迟显示定时器
           clearTimeout((visibleTimer as any).current);
+          // 立即隐藏
           onVisibleChange(false, { e, trigger: 'trigger-element-hover' });
         }
       },
       onMouseDown: () => {
-        console.log('Popup onMouseDown');
+        //  清除鼠标按下定时器
         clearTimeout(mouseDownTimer.current);
+        // 鼠标按下时，触发 useEffect 中的 document click 事件，点击trigger和popup元素 不需要隐藏
         hasPopupMouseDown.current = true;
         mouseDownTimer.current = window.setTimeout(() => {
+          // 事件处理完毕后，重置标志
           hasPopupMouseDown.current = false;
         });
       },
+      // 触摸结束时,和mouseDown 类似
+
       onTouchEnd: () => {
         clearTimeout(mouseDownTimer.current);
         hasPopupMouseDown.current = true;
@@ -152,6 +167,7 @@ export default function useTrigger({
       onClick: (e: MouseEvent) => {
         if (trigger === 'click') {
           callFuncWithDelay({
+            // appearDelay 和 exitDelay 分别表示点击时的延迟显示和隐藏
             delay: visible ? appearDelay : exitDelay,
             callback: () =>
               onVisibleChange(!visible, {
@@ -164,6 +180,7 @@ export default function useTrigger({
       },
       onTouchStart: (e: TouchEvent) => {
         if (trigger === 'hover' || trigger === 'mousedown') {
+          // leaveFlag 表示是从 trigger 元素 hover 过来的，避免频繁显示隐藏
           leaveFlag.current = false;
           callFuncWithDelay({
             delay: appearDelay,
@@ -237,7 +254,7 @@ export default function useTrigger({
         triggerNode.props.onKeyDown?.(e);
       },
     };
-
+    // 如果支持 ref 透传，composeRefs 返回一个函数，当组件挂载时，执行函数，triggerRef 和 tiggerNode 指向触发元素的dom
     if (supportRef(triggerNode)) {
       triggerProps.ref = composeRefs(
         triggerRef,

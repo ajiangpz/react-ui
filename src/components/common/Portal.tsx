@@ -15,6 +15,7 @@ export interface PortalProps {
   triggerNode?: HTMLElement;
   children: React.ReactNode;
 }
+// 获取挂载的 HTML 节点
 
 export function getAttach(
   attach: PortalProps['attach'],
@@ -46,6 +47,7 @@ const Portal = forwardRef((props: PortalProps, ref) => {
     div.className = 'portal-container bg-primary';
     return div;
   }, []);
+  // 兼容 SSR 环境
   useIsomorphicLayoutEffect(() => {
     const parentElement = getAttach(attach, triggerNode);
     parentElement?.appendChild?.(container);
@@ -54,7 +56,7 @@ const Portal = forwardRef((props: PortalProps, ref) => {
       parentElement?.removeChild?.(container);
     };
   }, [container, attach, triggerNode]);
-
+  // 自定义暴露给父组件的ref是container
   useImperativeHandle(ref, () => container);
 
   return canUseDocument ? createPortal(children, container) : null;

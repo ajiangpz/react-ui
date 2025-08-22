@@ -8,7 +8,14 @@ const meta: Meta = {
   argTypes: {
     trigger: {
       control: { type: 'select' },
-      options: ['click', 'hover', 'focus', 'mousedown'],
+      options: [
+        'click',
+        'hover',
+        'focus',
+        'mousedown',
+        'context-menu',
+        'touch',
+      ],
     },
     placement: {
       control: { type: 'select' },

@@ -16,7 +16,6 @@ import useMutationObserver from '@/hooks/useMutationObserver';
 import useWindowSize from '@/hooks/useWindowSize';
 import useTrigger from './hooks/useTrigger';
 import type { TdPopupProps } from './type';
-import { getTransitionParams } from '@/utils/transition';
 import usePopper from '@/hooks/usePopper';
 import { popupDefaultProps } from './defaultProps';
 import classNames from 'classnames';
@@ -49,7 +48,6 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     trigger,
     content,
     placement,
-    attach,
     showArrow,
     destroyOnClose,
     overlayClassName,
@@ -66,8 +64,6 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     hideEmptyPopup,
     updateScrollTop,
   } = props;
-  const classPrefix = 't-popup-';
-  const popupAttach = () => 'body';
 
   // 全局配置
   const { height: windowHeight, width: windowWidth } = useWindowSize();
@@ -76,6 +72,8 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     'visible',
     props.onVisibleChange as any,
   );
+  // 记录 popup 元素
+  // 如果内容为 null 或 undefined，且 hideEmptyPopup 为 true，则不展示 popup
   const [popupElement, setPopupElement] = useState(null);
   const triggerRef = useRef(null); // 记录 trigger 元素
   const popupRef = useRef(null); // popup dom 元素，css transition 需要用
@@ -108,7 +106,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
         .replace(/-(right|bottom)$/, '-end') as Placement),
     [placement],
   );
-
+  // 获取 triggerNode
   const { getTriggerNode, getPopupProps, getTriggerDom } = useTrigger({
     triggerRef,
     content,
@@ -118,24 +116,24 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     delay,
     onVisibleChange,
   });
-
+  // 传入popperjs 配置选项
   const popperOptions = props.popperOptions as Options;
   const { placement: _ignored, ...restPopperOptions } = popperOptions || {};
+
+  // popperRef 表示 popper 实例
   popperRef.current = usePopper(getRefDom(triggerRef), popupElement as any, {
     placement: popperPlacement,
     ...restPopperOptions,
   });
-  /**
-   * 是否启用 popper.js 的 arrow 修饰符
-   * - 会自动根据属性 data-popper-arrow 来识别箭头元素
-   * - 从而支持使用 padding 调整箭头位置
-   * @ see https://popper.js.org/docs/v2/modifiers/arrow/
-   */
+
+  // arrow modifier 用于显示箭头
   const hasArrowModifier = popperOptions?.modifiers?.some(
     (modifier) => modifier.name === 'arrow',
   );
   const { styles, attributes } = popperRef.current;
-
+  // 获取 triggerNode
+  // 如果 children 是函数，则调用函数获取 triggerNode
+  // getTriggerNode 设置触发元素的事件
   const triggerNode = isFunction(children)
     ? getTriggerNode(children({ visible }))
     : getTriggerNode(children);
@@ -153,6 +151,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       ) as any;
     }
   });
+  // 清理定时器
   useEffect(() => () => clearTimeout(updateTimeRef.current as any), []);
 
   // 窗口尺寸变化时调整位置
@@ -273,7 +272,10 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       </Portal>
     </CSSTransition>
   );
-
+  // 使用 useImperativeHandle 暴露给父组件
+  // 这样父组件可以通过 ref 获取 popper 实例、popup 元素
+  // portal 元素和内容区域元素
+  // 以及设置 popup 的显示隐藏状态
   useImperativeHandle(ref, () => ({
     getPopper: () => popperRef.current as any,
     getPopupElement: () => popupRef.current as any,
@@ -282,7 +284,8 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     setVisible: (visible: boolean) =>
       onVisibleChange(visible, { trigger: 'document' }),
   }));
-
+  // 这里使用 React.Fragment 包裹 triggerNode 和 overlay，确保返回一个单一的父节点
+  // 这样可以避免在渲染时出现多个根节点的错误
   return (
     <React.Fragment>
       {triggerNode}
