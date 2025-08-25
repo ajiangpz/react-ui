@@ -1,7 +1,3 @@
-// 如果有 value 说明是受控组件
-// 如果没有 value 说明是非受控组件
-// 如果是受控组件，value 由外部传入，内部状态不需要管理
-// 如果是非受控组件，内部状态由 useState 管理
 import { upperFirst } from 'lodash-es';
 import React from 'react';
 type DefaultOptions<T extends string> = `default${Capitalize<T>}`;
