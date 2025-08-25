@@ -1,0 +1,55 @@
+[data-toast] {
+  --y: translateY(-100%);
+  transform: var(--y);
+  transition:
+    transform 400ms,
+    opacity 400ms,
+    height 400ms,
+    box-shadow 200ms;
+  z-index: var(--z-index);
+
+  &[data-mounted='true'] {
+    &[data-expanded='false'] {
+      --y: translateY(calc(var(--gap) * var(--index)))
+        scale(calc(1 - var(--index) * 0.05));
+    }
+
+    &[data-expanded='true'] {
+      --y: translateY(var(--offset)) scale(1);
+    }
+
+    &[data-removed='true'] {
+      &[data-front='true'] {
+        --y: translateY(-100%);
+        opacity: 0;
+      }
+
+      &[data-front='false'] {
+        --y: translateY(-40%);
+        opacity: 0;
+        transition:
+          transform 400ms,
+          opacity 200ms;
+      }
+    }
+  }
+}
+
+[data-toaster] {
+  &[data-x-position='right'] {
+    right: 8px;
+  }
+
+  &[data-x-position='left'] {
+    left: 8px;
+  }
+
+  &[data-x-position='center'] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &[data-y-position='top'] {
+    top: 10px;
+  }
+}
