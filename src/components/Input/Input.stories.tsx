@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Input from './index';
+import Input, { InputGroup } from './index';
 import '@/components/style/index.js';
 
 const meta: Meta<typeof Input> = {
@@ -43,4 +43,15 @@ export const Default: Story = {
     disabled: false,
     name: 'input',
   },
+};
+
+// 新增 InputGroup 的 story
+export const Group: StoryObj<typeof InputGroup> = {
+  render: (args) => (
+    <InputGroup {...args} separate>
+      <Input type="text" placeholder="用户名" />
+      <Input type="password" placeholder="密码" />
+    </InputGroup>
+  ),
+  name: 'InputGroup 示例',
 };
