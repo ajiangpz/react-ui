@@ -1,0 +1,9 @@
+@import '../mixins/_text.scss';
+.#{$prefix}-tips {
+  font-size: $font-size-s;
+}
+
+@include tips-text-status(default);
+@include tips-text-status(error);
+@include tips-text-status(warning);
+@include tips-text-status(success);

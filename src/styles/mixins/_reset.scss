@@ -1,0 +1,10 @@
+@import '../_vars.scss';
+
+@mixin reset {
+  font: $font-body-medium;
+  color: $text-color-primary;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

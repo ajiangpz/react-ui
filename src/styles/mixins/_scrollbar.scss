@@ -1,0 +1,47 @@
+@import '../vars.scss';
+
+// 滚动条样式 mixin
+@mixin scrollbar($size: 6px, $borderSize: 0px) {
+  // Firefox 等浏览器标准支持的滚动条样式设置
+  // Chrome support after v121 https://developer.chrome.com/docs/css-ui/scrollbar-styling
+  @-moz-document url-prefix() {
+    scrollbar-color: $scrollbar-color transparent;
+    scrollbar-width: thin;
+  }
+
+  // Safari/Chrome 中滚动条样式设置
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: $borderSize solid transparent;
+    background-clip: content-box;
+    background-color: $scrollbar-color;
+    border-radius: calc(#{$size} * 2 - 1px);
+  }
+
+  &::-webkit-scrollbar-thumb:vertical:hover,
+  &::-webkit-scrollbar-thumb:horizontal:hover {
+    background-color: $scrollbar-hover-color;
+  }
+}
+
+// 隐藏滚动条 mixin
+@mixin hideScrollbar {
+  /* Firefox */
+  @-moz-document url-prefix() {
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+  }
+
+  /* IE 10+ */
+  -ms-overflow-style: none;
+
+  /* Chrome / Safari */
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+  }
+}

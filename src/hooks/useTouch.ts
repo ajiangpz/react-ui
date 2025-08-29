@@ -1,4 +1,4 @@
-import { useGesture } from '@use-gesture/react';
+import { useGesture } from '@import-gesture/react';
 import { useState } from 'react';
 
 interface TouchState {
@@ -10,7 +10,10 @@ interface TouchState {
 }
 
 export interface UseTouchOptions {
-  onSwipe?: (direction: 'left' | 'right' | 'up' | 'down', distance: number) => void;
+  onSwipe?: (
+    direction: 'left' | 'right' | 'up' | 'down',
+    distance: number,
+  ) => void;
   threshold?: number;
 }
 
@@ -37,18 +40,18 @@ export function useTouch(options?: UseTouchOptions) {
       },
       onDrag: ({ movement: [mx, my], first, last }) => {
         if (first || last) return;
-        
+
         const deltaX = mx;
         const deltaY = my;
-        
-        setTouchState(prev => ({
+
+        setTouchState((prev) => ({
           ...prev,
           deltaX,
           deltaY,
         }));
 
         const threshold = options?.threshold ?? 50;
-        
+
         if (Math.abs(deltaX) > threshold) {
           options?.onSwipe?.(deltaX > 0 ? 'right' : 'left', Math.abs(deltaX));
         }
@@ -57,7 +60,7 @@ export function useTouch(options?: UseTouchOptions) {
         }
       },
       onDragEnd: () => {
-        setTouchState(prev => ({
+        setTouchState((prev) => ({
           ...prev,
           isDragging: false,
         }));
@@ -67,11 +70,11 @@ export function useTouch(options?: UseTouchOptions) {
       drag: {
         from: () => [touchState.deltaX, touchState.deltaY],
       },
-    }
+    },
   );
 
   return {
     ...touchState,
     bind,
   };
-} 
+}

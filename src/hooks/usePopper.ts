@@ -12,7 +12,7 @@ import {
 } from '@popperjs/core';
 
 import isEqual from 'react-fast-compare';
-import useIsomorphicLayoutEffect from '@/hooks/useLayerOutEffect';
+import useIsomorphicLayoutEffect from 'twui-react/hooks/useLayoutEffect';
 import type { Styles } from '@/components/common';
 
 type Options = Partial<

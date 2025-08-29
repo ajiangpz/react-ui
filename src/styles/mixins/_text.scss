@@ -1,0 +1,78 @@
+// 变量定义
+$tips-text-default: $text-color-placeholder;
+$tips-text-error: $error-color;
+$tips-text-warning: $warning-color;
+$tips-text-success: $success-color;
+
+// 建议维护一个 map，方便按状态取值
+$tips-text-colors: (
+  default: $tips-text-default,
+  error: $tips-text-error,
+  warning: $tips-text-warning,
+  success: $tips-text-success,
+);
+
+// 单行省略
+@mixin text-ellipsis() {
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// 多行省略
+@mixin text-ellipsis-multi-line($line: 2) {
+  overflow: hidden;
+
+  /* stylelint-disable-next-line */
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+
+  /* stylelint-disable-next-line */
+  -webkit-box-orient: vertical;
+}
+
+// 提示文本状态
+@mixin tips-text-status($status) {
+  .#{$prefix}-tips.#{$prefix}-is-#{$status} {
+    color: map-get($tips-text-colors, $status);
+  }
+}
+
+// ==========================
+// Input 状态颜色映射
+// ==========================
+// 边框颜色
+$input-border-colors: (
+  success: $input-border-color-success,
+  warning: $input-border-color-warning,
+  error: $input-border-color-error,
+  default: $input-border-color-default,
+);
+
+// 聚焦阴影颜色
+$input-box-shadow-colors: (
+  success: $input-box-shadow-color-success-focus,
+  warning: $input-box-shadow-color-warning-focus,
+  error: $input-box-shadow-color-error-focus,
+  default: $input-box-shadow-color-default-focus,
+);
+
+// extra 提示文本颜色
+$input-extra-colors: (
+  success: $input-extra-color-success,
+  warning: $input-extra-color-warning,
+  error: $input-extra-color-error,
+  default: $input-extra-color-default,
+);
+
+// ==========================
+// Tips 文本状态颜色映射
+// ==========================
+
+$tips-text-colors: (
+  default: $tips-text-default,
+  success: $tips-text-success,
+  warning: $tips-text-warning,
+  error: $tips-text-error,
+);
