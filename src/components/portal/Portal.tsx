@@ -2,7 +2,7 @@ import React, { forwardRef, useMemo, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 import { canUseDocument } from '@/utils/dom';
 import { AttachNode, AttachNodeReturnValue } from '@/components/common';
-import useIsomorphicLayoutEffect from '@/hooks/useLayerOutEffect';
+import useIsomorphicLayoutEffect from '@/hooks/useLayoutEffect';
 
 export interface PortalProps {
   /**

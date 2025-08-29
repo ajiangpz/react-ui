@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import { getRefDom } from '@/utils/ref';
-import Portal from '@/components/Portal/Portal';
+import Portal from '@/components/portal/Portal';
 import useControlled from '@/hooks/useControlled';
 import useDefaultProps from '@/hooks/useDefaultProps';
 import useMutationObserver from '@/hooks/useMutationObserver';
