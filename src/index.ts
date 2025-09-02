@@ -1,16 +1,16 @@
-export { Button } from "./components/Button/index";
-export { Container, Grid, Flex, Row, Col } from "./components/Layout";
-export { RippleButton } from "./components/RippleButton/index";
-export { DataTable } from "./components/DataTable/index";
-export { Badge, badgeVariants } from "./components/Badge/index";
-export { Checkbox } from "./components/Checkbox/index";
-export { Switch } from "./components/Switch/index";
-export { Alert, AlertDescription, AlertTitle } from "./components/Alert/index";
-export { Input } from "./components/Input/index";
+export { Button } from './components/button/index';
+export { Container, Grid, Flex, Row, Col } from './components/layout';
+export { RippleButton } from './components/rippleButton/index';
+export { DataTable } from './components/dataTable/index';
+export { Badge, badgeVariants } from './components/badge/index';
+export { Checkbox } from './components/checkbox/index';
+export { Switch } from './components/switch/index';
+export { Alert, AlertDescription, AlertTitle } from './components/alert/index';
+export { Input } from './components/input/index';
 export {
   notification,
-  NotificationProvider
-} from "./components/Notification/index";
+  NotificationProvider,
+} from './components/notification/index';
 export {
   AlertDialog,
   AlertDialogTrigger,
@@ -20,5 +20,5 @@ export {
   AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogAction,
-  AlertDialogCancel
-} from "./components/Dialog/index";
+  AlertDialogCancel,
+} from './components/dialog/index';
