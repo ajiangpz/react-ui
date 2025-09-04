@@ -1,0 +1,14 @@
+import useConfig from './useConfig';
+
+// 从 globalConfig 获取 icon 配置用于覆盖组件内置 icon
+export default function useGlobalIcon(tdIcon: any) {
+  const { icon: globalIcon } = useConfig();
+
+  const resultIcon = {};
+
+  Object.keys(tdIcon).forEach((key) => {
+    resultIcon[key] = globalIcon?.[key] || tdIcon[key];
+  });
+
+  return resultIcon;
+}

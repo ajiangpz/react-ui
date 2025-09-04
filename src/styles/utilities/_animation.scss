@@ -1,0 +1,57 @@
+@import '../_vars.scss';
+
+@keyframes t-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes t-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes t-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.#{$prefix}-icon-loading {
+  animation: t-spin 1s linear infinite;
+}
+
+// 动态生成 keyframes 动画
+@mixin anim-g-attr-change($name, $attr, $from, $to) {
+  @keyframes #{$name} {
+    from {
+      #{$attr}: #{$from};
+    }
+    to {
+      #{$attr}: #{$to};
+    }
+  }
+}
+
+@keyframes t-zoom-out {
+  from {
+    transform: scale(0.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
