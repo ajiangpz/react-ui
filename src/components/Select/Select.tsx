@@ -1,162 +1,707 @@
-'use client';
+import React, {
+  useEffect,
+  useMemo,
+  KeyboardEvent,
+  WheelEvent,
+  useRef,
+  useCallback,
+  Children,
+  cloneElement,
+  isValidElement,
+  useState,
+} from 'react';
 
-import * as React from 'react';
-import * as SelectPrimitive from '@radix-ui/react-select';
-import { Check, ChevronDown, ChevronUp } from 'lucide-react';
+import classNames from 'classnames';
+import { isFunction, get, debounce } from 'lodash-es';
+import { getOffsetTopToContainer } from '@/utils/helper';
+import useControlled from '@/hooks/useControlled';
+import useConfig from '@/hooks/useConfig';
+import forwardRefWithStatics from '@/utils/forwardRefWithStatics';
+import { getSelectValueArr, getSelectedOptions } from './utils/helper';
 
-import { cn } from '@/lib/utils';
-
-const Select = SelectPrimitive.Root;
-
-const SelectGroup = SelectPrimitive.Group;
-
-const SelectValue = SelectPrimitive.Value;
-
-const SelectTrigger = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      'border-input bg-background text-foreground ring-offset-background data-[placeholder]:text-muted-foreground flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-));
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
-
-const SelectScrollUpButton = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollUpButton
-    ref={ref}
-    className={cn(
-      'flex cursor-default items-center justify-center py-1',
-      className,
-    )}
-    {...props}
-  >
-    <ChevronUp className="h-4 w-4" />
-  </SelectPrimitive.ScrollUpButton>
-));
-SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-
-const SelectScrollDownButton = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollDownButton
-    ref={ref}
-    className={cn(
-      'flex cursor-default items-center justify-center py-1',
-      className,
-    )}
-    {...props}
-  >
-    <ChevronDown className="h-4 w-4" />
-  </SelectPrimitive.ScrollDownButton>
-));
-SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName;
-
-const SelectContent = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = 'popper', ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={cn(
-        'bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-10',
-        'data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'border-input relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] origin-[--radix-select-content-transform-origin] overflow-x-hidden overflow-y-auto rounded-md border shadow-md',
-        'duration-300',
-        position === 'popper' &&
-          'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
-        className,
-      )}
-      position={position}
-      {...props}
-    >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
-        className={cn(
-          'p-1',
-          position === 'popper' &&
-            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]',
-        )}
-      >
-        {children}
-      </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
-SelectContent.displayName = SelectPrimitive.Content.displayName;
-
-const SelectLabel = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Label
-    ref={ref}
-    className={cn('py-1.5 pr-2 pl-8 text-sm font-semibold', className)}
-    {...props}
-  />
-));
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
-
-const SelectItem = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      'focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-      className,
-    )}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-  </SelectPrimitive.Item>
-));
-SelectItem.displayName = SelectPrimitive.Item.displayName;
-
-const SelectSeparator = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Separator
-    ref={ref}
-    className={cn('bg-muted -mx-1 my-1 h-px', className)}
-    {...props}
-  />
-));
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
-export {
-  Select,
-  SelectGroup,
+import noop from '@/utils/noop';
+import FakeArrow from '../common/FakeArrow';
+import Loading from '../loading';
+import SelectInput, {
+  SelectInputValue,
+  SelectInputValueChangeContext,
+} from '../select-input';
+import Option from './Option';
+import OptionGroup from './OptionGroup';
+import PopupContent from './PopupContent';
+import { Tag } from '../tag';
+import {
+  TdSelectProps,
+  TdOptionProps,
+  SelectOption,
+  SelectValueChangeTrigger,
   SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectLabel,
-  SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
-};
+} from './type';
+
+import { StyledProps } from '../common';
+import { selectDefaultProps } from './defaultProps';
+import { PopupVisibleChangeContext } from '../popup';
+
+import useOptions, { isSelectOptionGroup } from './hooks/useOptions';
+import composeRefs from '@/utils/composeRefs';
+import { parseContentTNode } from '@/utils/parentTNode';
+import useDefaultProps from '@/hooks/useDefaultProps';
+
+export interface SelectProps<T = SelectOption>
+  extends TdSelectProps<T>,
+    StyledProps {
+  // 子节点
+  children?: React.ReactNode;
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
+
+type OptionsType = TdOptionProps[];
+
+const Select = forwardRefWithStatics(
+  (originalProps: SelectProps, ref: React.Ref<HTMLDivElement>) => {
+    const props = useDefaultProps<SelectProps>(
+      originalProps,
+      selectDefaultProps,
+    );
+    const {
+      readonly,
+      borderless,
+      autoWidth,
+      creatable,
+      loadingText = '加载中...',
+      max,
+      popupProps,
+      reserveKeyword,
+      className,
+      style,
+      disabled,
+      size,
+      multiple,
+      placeholder,
+      clearable,
+      prefixIcon,
+      options,
+      filterable,
+      loading,
+      empty,
+      valueType,
+      keys,
+      children,
+      collapsedItems,
+      minCollapsedNum,
+      valueDisplay,
+      showArrow,
+      inputProps,
+      panelBottomContent,
+      panelTopContent,
+      selectInputProps,
+      tagInputProps,
+      tagProps,
+      scroll,
+      suffixIcon,
+      label,
+      filter,
+      onFocus,
+      onBlur,
+      onClear = noop,
+      onCreate,
+      onRemove,
+      onSearch,
+      onEnter,
+      onPopupVisibleChange,
+    } = props;
+
+    const [value, onChange] = useControlled(props, 'value', props.onChange);
+    const selectInputRef = useRef(null);
+    const { classPrefix } = useConfig();
+    const { overlayClassName, onScroll, onScrollToBottom, ...restPopupProps } =
+      popupProps || {};
+    const [isScrolling, toggleIsScrolling] = useState(false);
+
+    const name = `${classPrefix}-select`; // t-select
+
+    const [showPopup, setShowPopup] = useControlled(
+      props,
+      'popupVisible',
+      onPopupVisibleChange,
+    );
+    const [inputValue, onInputChange] = useControlled(
+      props,
+      'inputValue',
+      props.onInputChange,
+    );
+
+    const {
+      currentOptions,
+      setCurrentOptions,
+      tmpPropOptions,
+      valueToOption,
+      selectedOptions,
+    } = useOptions(keys, options, children, valueType, value, reserveKeyword);
+
+    const selectedLabel = useMemo(() => {
+      if (multiple) {
+        return selectedOptions.map(
+          (selectedOption) =>
+            get(selectedOption || {}, keys?.label || 'label') || '',
+        );
+      }
+      return get(selectedOptions[0] || {}, keys?.label || 'label') || undefined;
+    }, [selectedOptions, keys, multiple]);
+
+    const handleShowPopup = (
+      visible: boolean,
+      ctx: PopupVisibleChangeContext,
+    ) => {
+      if (disabled) return;
+      visible && toggleIsScrolling(false);
+      !visible && onInputChange('', { trigger: 'blur' });
+      setShowPopup(visible, ctx);
+    };
+
+    // 可以根据触发来源，自由定制标签变化时的筛选器行为
+    const onTagChange = (_currentTags: SelectInputValue, context) => {
+      const { trigger, index, item, e } = context;
+      // backspace
+      if (trigger === 'backspace') {
+        e.stopPropagation();
+
+        let closest = -1;
+        let len = index;
+        while (len >= 0) {
+          const option = selectedOptions[len];
+          if (!isSelectOptionGroup(option) && !option.disabled) {
+            closest = len;
+            break;
+          }
+          len -= 1;
+        }
+        if (closest < 0) {
+          return;
+        }
+        const values = getSelectValueArr(
+          value,
+          value[closest],
+          true,
+          valueType,
+          keys,
+        );
+
+        // 处理onChange回调中的selectedOptions参数
+        const { currentSelectedOptions } = getSelectedOptions(
+          values,
+          multiple,
+          valueType,
+          keys,
+          valueToOption,
+        );
+        onChange(values, {
+          e,
+          trigger,
+          selectedOptions: currentSelectedOptions,
+        });
+        return;
+      }
+
+      if (trigger === 'tag-remove') {
+        e?.stopPropagation?.();
+        const values = getSelectValueArr(
+          value,
+          value[index],
+          true,
+          valueType,
+          keys,
+        );
+        // 处理onChange回调中的selectedOptions参数
+        const { currentSelectedOptions } = getSelectedOptions(
+          values,
+          multiple,
+          valueType,
+          keys,
+          valueToOption,
+        );
+
+        onChange(values, {
+          e,
+          trigger,
+          selectedOptions: currentSelectedOptions,
+        });
+        if (isFunction(onRemove)) {
+          onRemove({
+            value: value[index],
+            data: {
+              label: item,
+              value: value[index],
+            },
+            e,
+          });
+        }
+      }
+    };
+
+    const onCheckAllChange = (
+      checkAll: boolean,
+      e: React.MouseEvent<HTMLLIElement>,
+    ) => {
+      const isDisabledCheckAll = (opt: TdOptionProps) =>
+        opt.checkAll && opt.disabled;
+      if (
+        !multiple ||
+        currentOptions.some(
+          (opt) => !isSelectOptionGroup(opt) && isDisabledCheckAll(opt),
+        )
+      ) {
+        return;
+      }
+
+      const isSelectableOption = (opt: TdOptionProps) =>
+        !opt.checkAll && !opt.disabled;
+      const getOptionValue = (option: SelectOption) =>
+        valueType === 'object' ? option : option[keys?.value || 'value'];
+
+      const values = [];
+      currentOptions.forEach((option) => {
+        if (isSelectOptionGroup(option)) {
+          option.children.forEach((item) => {
+            if (isSelectableOption(item)) {
+              values.push(getOptionValue(item));
+            }
+          });
+        } else if (isSelectableOption(option)) {
+          values.push(getOptionValue(option));
+        }
+      });
+
+      const { currentSelectedOptions, allSelectedValue } = getSelectedOptions(
+        values,
+        multiple,
+        valueType,
+        keys,
+        valueToOption,
+      );
+
+      const checkAllValue =
+        !checkAll &&
+        allSelectedValue.length !== (props.value as Array<SelectOption>)?.length
+          ? allSelectedValue
+          : [];
+
+      onChange?.(checkAllValue, {
+        e,
+        trigger: !checkAll ? 'check' : 'uncheck',
+        selectedOptions: currentSelectedOptions,
+      });
+    };
+
+    // 选中 Popup 某项
+    const handleChange = (
+      value:
+        | string
+        | number
+        | Array<string | number | Record<string, string | number>>,
+      context: {
+        e: React.MouseEvent<HTMLLIElement>;
+        trigger: SelectValueChangeTrigger;
+        value?: SelectValue;
+        label?: string;
+      },
+    ) => {
+      const selectedValue = multiple ? context.value : value;
+
+      if (multiple) {
+        !reserveKeyword &&
+          inputValue &&
+          onInputChange('', { e: context.e, trigger: 'change' });
+      }
+      if (creatable && isFunction(onCreate)) {
+        if (
+          (options as OptionsType).filter(
+            (option) => option.value === selectedValue,
+          ).length === 0
+        ) {
+          onCreate(selectedValue as string); // 手动输入 此时为string
+        }
+      }
+      // 处理onChange回调中的selectedOptions参数
+      const { currentSelectedOptions, currentOption } = getSelectedOptions(
+        value,
+        multiple,
+        valueType,
+        keys,
+        valueToOption,
+        selectedValue,
+      );
+      onChange?.(value, {
+        e: context.e,
+        trigger: context.trigger,
+        selectedOptions: currentSelectedOptions,
+        option: currentOption,
+      });
+
+      if (multiple && context?.trigger === 'uncheck' && isFunction(onRemove)) {
+        const value = context?.value;
+        const option = (options as OptionsType).find(
+          (option) => option.value === value,
+        );
+        onRemove({
+          value,
+          data: option,
+          e: context.e,
+        });
+      }
+    };
+
+    // 处理filter逻辑
+    const handleFilter = (value: string) => {
+      let filteredOptions: SelectOption[] = [];
+      if (filterable && isFunction(onSearch)) {
+        return;
+      }
+      if (!value) {
+        setCurrentOptions(tmpPropOptions);
+        return;
+      }
+
+      const filterLabels = [];
+      const filterMethods = (option: SelectOption) => {
+        if (filter && isFunction(filter)) {
+          return filter(value, option);
+        }
+        const upperValue = value.toUpperCase();
+        return (option?.label || '').toUpperCase().includes(upperValue);
+      };
+
+      tmpPropOptions?.forEach((option) => {
+        if (isSelectOptionGroup(option)) {
+          filteredOptions.push({
+            ...option,
+            children: option.children?.filter((child) => {
+              if (filterMethods(child)) {
+                filterLabels.push(child.label);
+                return true;
+              }
+              return false;
+            }),
+          });
+        } else if (filterMethods(option)) {
+          filterLabels.push(option.label);
+          filteredOptions.push(option);
+        }
+      });
+      const isSameLabelOptionExist = filterLabels.includes(value);
+      if (creatable && !isSameLabelOptionExist) {
+        filteredOptions = filteredOptions.concat([{ label: value, value }]);
+      }
+      setCurrentOptions(filteredOptions);
+    };
+
+    // 处理输入框逻辑
+    const handleInputChange = (
+      value: string,
+      context: SelectInputValueChangeContext,
+    ) => {
+      if (context.trigger !== 'clear') {
+        onInputChange(value, { e: context.e, trigger: 'input' });
+      }
+      if (value === undefined) {
+        return;
+      }
+      if (isFunction(onSearch)) {
+        onSearch(value, { e: context.e as KeyboardEvent<HTMLDivElement> });
+        return;
+      }
+    };
+
+    const handleClear = (context) => {
+      context.e.stopPropagation();
+      if (Array.isArray(value)) {
+        onChange([], { ...context, trigger: 'clear', selectedOptions: [] });
+      } else {
+        onChange(null, { ...context, trigger: 'clear', selectedOptions: [] });
+      }
+      onClear(context);
+    };
+
+    useEffect(() => {
+      if (typeof inputValue !== 'undefined') {
+        handleFilter(String(inputValue));
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputValue, tmpPropOptions]);
+
+    // 渲染后置图标
+    const renderSuffixIcon = () => {
+      if (suffixIcon) {
+        return suffixIcon;
+      }
+      if (loading) {
+        return (
+          <Loading
+            className={classNames(
+              `${name}__right-icon`,
+              `${name}__active-icon`,
+            )}
+            loading={true}
+            size="small"
+          />
+        );
+      }
+
+      return (
+        showArrow && (
+          <FakeArrow
+            className={`${name}__right-icon`}
+            isActive={showPopup}
+            disabled={disabled}
+          />
+        )
+      );
+    };
+
+    const getPopupInstance = useCallback(
+      () => (selectInputRef as any).current?.getPopupContentElement(),
+      [],
+    );
+
+    const childrenWithProps = Children.map(children, (child) => {
+      if (isValidElement(child)) {
+        const addedProps = { multiple };
+        return cloneElement(child, { ...addedProps });
+      }
+      return child;
+    });
+
+    // 渲染主体内容
+    const renderContent = () => {
+      const popupContentProps = {
+        onChange: handleChange,
+        value,
+        className,
+        size,
+        multiple,
+        showPopup,
+        // popup弹出层内容只会在点击事件之后触发 并且无任何透传参数
+        setShowPopup: (show: boolean) => handleShowPopup(show, {}),
+        options: currentOptions,
+        empty,
+        max,
+        loadingText,
+        loading,
+        valueType,
+        keys,
+        panelBottomContent,
+        panelTopContent,
+        onCheckAllChange,
+        getPopupInstance,
+        scroll,
+      };
+      return (
+        <PopupContent {...popupContentProps}>{childrenWithProps}</PopupContent>
+      );
+    };
+
+    const renderValueDisplay = () => {
+      if (!valueDisplay) {
+        if (!multiple) {
+          if (typeof selectedLabel !== 'string') {
+            return selectedLabel;
+          }
+          return '';
+        }
+        return ({ value: val }) =>
+          val
+            .slice(0, minCollapsedNum ? minCollapsedNum : val.length)
+            .map((v: string, key: number) => {
+              const filterOption: SelectOption & { disabled?: boolean } =
+                options?.find((option) => option.label === v);
+              return (
+                <Tag
+                  key={key}
+                  closable={!filterOption?.disabled && !disabled && !readonly}
+                  size={size}
+                  {...tagProps}
+                  onClose={({ e }) => {
+                    e.stopPropagation();
+                    e?.nativeEvent?.stopImmediatePropagation?.();
+                    const values = getSelectValueArr(
+                      value,
+                      value[key],
+                      true,
+                      valueType,
+                      keys,
+                    );
+
+                    const { currentSelectedOptions } = getSelectedOptions(
+                      values,
+                      multiple,
+                      valueType,
+                      keys,
+                      valueToOption,
+                      value,
+                    );
+                    onChange(values, {
+                      e,
+                      selectedOptions: currentSelectedOptions,
+                      trigger: 'tag-remove',
+                    });
+                    tagProps?.onClose?.({ e });
+
+                    onRemove?.({
+                      value: value[key],
+                      data: { label: v, value: value[key] },
+                      e: e as unknown as React.MouseEvent<
+                        HTMLDivElement,
+                        MouseEvent
+                      >,
+                    });
+                  }}
+                >
+                  {v}
+                </Tag>
+              );
+            });
+      }
+      if (typeof valueDisplay === 'string') {
+        return valueDisplay;
+      }
+      if (multiple) {
+        return ({ onClose }) =>
+          parseContentTNode(valueDisplay, { value: selectedOptions, onClose });
+      }
+      return parseContentTNode(valueDisplay, {
+        value: selectedLabel,
+        onClose: noop,
+      });
+    };
+
+    // 将第一个选中的 option 置于列表可见范围的最后一位
+    const updateScrollTop = (content: HTMLDivElement) => {
+      if (!content || isScrolling) {
+        return;
+      }
+      const firstSelectedNode: HTMLDivElement = content.querySelector(
+        `.${classPrefix}-is-selected`,
+      );
+      if (!multiple && firstSelectedNode) {
+        const { paddingBottom } = getComputedStyle(firstSelectedNode);
+        const { marginBottom } = getComputedStyle(content);
+        const elementBottomHeight =
+          parseInt(paddingBottom, 10) + parseInt(marginBottom, 10);
+        // 小于0时不需要特殊处理，会被设为0
+        const updateValue =
+          getOffsetTopToContainer(firstSelectedNode, content) -
+          content.offsetTop -
+          (content.clientHeight - firstSelectedNode.clientHeight) +
+          elementBottomHeight;
+
+        // 通过 setTimeout 确保组件渲染完成后再设置 scrollTop
+        setTimeout(() => {
+          // eslint-disable-next-line no-param-reassign
+          content.scrollTop = updateValue;
+        });
+      }
+    };
+
+    const { onMouseEnter, onMouseLeave } = props;
+
+    const handleEnter = (
+      _,
+      context: { inputValue: string; e: KeyboardEvent<HTMLDivElement> },
+    ) => {
+      onEnter?.({ ...context, value });
+    };
+
+    const handleScroll = ({ e }: { e: WheelEvent<HTMLDivElement> }) => {
+      toggleIsScrolling(true);
+
+      onScroll?.({ e });
+      if (onScrollToBottom) {
+        const debounceOnScrollBottom = debounce(
+          (e) => onScrollToBottom({ e }),
+          100,
+        );
+
+        const { scrollTop, clientHeight, scrollHeight } =
+          e.target as HTMLDivElement;
+        if (clientHeight + Math.floor(scrollTop) === scrollHeight) {
+          debounceOnScrollBottom(e);
+        }
+      }
+    };
+
+    return (
+      <div
+        className={classNames(`${name}__wrap`, className)}
+        style={style}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <SelectInput
+          autoWidth={!style?.width && autoWidth}
+          ref={composeRefs(ref, selectInputRef)}
+          className={name}
+          readonly={readonly}
+          autofocus={props.autofocus}
+          allowInput={filterable || isFunction(filter)}
+          multiple={multiple}
+          value={selectedLabel}
+          options={selectedOptions}
+          valueDisplay={renderValueDisplay()}
+          clearable={clearable}
+          disabled={disabled}
+          status={props.status}
+          tips={props.tips}
+          borderless={borderless}
+          label={label}
+          suffix={props.suffix}
+          prefixIcon={prefixIcon}
+          suffixIcon={renderSuffixIcon()}
+          panel={renderContent()}
+          placeholder={
+            !multiple && showPopup && selectedLabel
+              ? selectedLabel
+              : placeholder || '请选择'
+          }
+          inputValue={inputValue}
+          tagInputProps={{
+            size,
+            ...tagInputProps,
+          }}
+          tagProps={{ size, ...tagProps }}
+          inputProps={{
+            size,
+            ...inputProps,
+          }}
+          minCollapsedNum={minCollapsedNum}
+          collapsedItems={collapsedItems}
+          updateScrollTop={updateScrollTop}
+          popupProps={{
+            overlayClassName: [`${name}__dropdown`, overlayClassName],
+            onScroll: handleScroll,
+            ...restPopupProps,
+          }}
+          popupVisible={showPopup}
+          onPopupVisibleChange={handleShowPopup}
+          onTagChange={onTagChange}
+          onInputChange={handleInputChange}
+          onFocus={onFocus}
+          onEnter={handleEnter}
+          onBlur={(_, context) => {
+            onBlur?.({
+              value,
+              e: context.e as React.FocusEvent<HTMLDivElement>,
+            });
+          }}
+          onClear={handleClear}
+          {...selectInputProps}
+        />
+      </div>
+    );
+  },
+  { Option, OptionGroup },
+);
+
+Select.displayName = 'Select';
+
+export default Select;

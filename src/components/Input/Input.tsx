@@ -15,7 +15,7 @@ import parseTNode from '@/lib/utils';
 import useDefaultProps from '@/hooks/useDefaultProps';
 import { StyledProps, TNode, TElement } from '../common';
 import { isFunction } from 'lodash-es';
-
+import useConfig from '@/hooks/useConfig';
 export interface InputProps extends TdInputProps, StyledProps {
   showInput?: boolean; // 控制透传readonly同时是否展示input 默认保留 因为正常Input需要撑开宽度
   keepWrapperWidth?: boolean; // 控制透传autoWidth之后是否容器宽度也自适应 多选等组件需要用到自适应但也需要保留宽度
@@ -38,15 +38,19 @@ const renderIcon = (
 ) => {
   const result = parseTNode(icon);
 
-  const iconClassName = icon ? `t-input__${type}-icon` : '';
+  const iconClassName = icon ? `${classPrefix}-input__${type}-icon` : '';
 
   return result ? (
-    <span className={`t-input__${type} ${iconClassName}`}>{result}</span>
+    <span className={`${classPrefix}-input__${type} ${iconClassName}`}>
+      {result}
+    </span>
   ) : null;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const props = useDefaultProps<InputProps>(originalProps, inputDefaultProps);
+  const { classPrefix } = useConfig();
+
   const {
     type,
     autoWidth,
@@ -115,9 +119,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   if (isShowClearIcon)
     suffixIconNew = (
       <XCircle
-        className={`t-input__suffix-clear`}
+        className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
         onMouseDown={handleMouseDown}
         onClick={handleClear}
+        absoluteStrokeWidth={true}
       />
     );
 
@@ -125,14 +130,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     if (renderType === 'password') {
       suffixIconNew = (
         <EyeOff
-          className={`t-input__suffix-clear`}
+          className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
           onClick={togglePasswordVisible}
         />
       );
     } else if (renderType === 'text') {
       suffixIconNew = (
         <Eye
-          className={`t-input__suffix-clear`}
+          className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
           onClick={togglePasswordVisible}
         />
       );
@@ -195,8 +200,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       ref={inputRef}
       placeholder={placeholder}
       type={renderType}
-      className={classNames(`t-input__inner`, {
-        [`t-input--soft-hidden`]: !showInput,
+      className={classNames(`${classPrefix}-input__inner`, {
+        [`${classPrefix}-input--soft-hidden`]: !showInput,
       })}
       value={formatDisplayValue}
       readOnly={isInnerInputReadonly}
@@ -217,17 +222,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   );
   const renderInputNode = (
     <div
-      className={classNames(inputClass, `t-input`, {
-        [`t-is-readonly`]: readonly,
-        [`t-is-disabled`]: disabled,
-        [`t-is-focused`]: isFocused,
-        [`t-size-s`]: size === 'small',
-        [`t-size-l`]: size === 'large',
-        [`t-align-${align}`]: align,
-        [`t-input--prefix`]: prefixIcon || labelContent,
-        [`t-input--suffix`]: suffixIconContent || suffixContent,
-        [`t-input--borderless`]: borderless,
-        [`t-input--focused`]: isFocused,
+      className={classNames(inputClass, `${classPrefix}-input`, {
+        [`${classPrefix}-is-readonly`]: readonly,
+        [`${classPrefix}-is-disabled`]: disabled,
+        [`${classPrefix}-is-focused`]: isFocused,
+        [`${classPrefix}-size-s`]: size === 'small',
+        [`${classPrefix}-size-l`]: size === 'large',
+        [`${classPrefix}-align-${align}`]: align,
+        [`${classPrefix}-inpu${classPrefix}--prefix`]:
+          prefixIcon || labelContent,
+        [`${classPrefix}-inpu${classPrefix}--suffix`]:
+          suffixIconContent || suffixContent,
+        [`${classPrefix}-inpu${classPrefix}--borderless`]: borderless,
+        [`${classPrefix}-input--focused`]: isFocused,
       })}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -239,16 +246,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     >
       {prefixIconContent}
       {labelContent ? (
-        <div className={`t-input__prefix`}>{labelContent}</div>
+        <div className={`${classPrefix}-input__prefix`}>{labelContent}</div>
       ) : null}
       {renderInput}
       {autoWidth && (
-        <span ref={inputPreRef} className={`t-input__input-pre`}>
+        <span
+          ref={inputPreRef}
+          className={`${classPrefix}-input__inpu${classPrefix}-pre`}
+        >
           {innerValue || placeholder}
         </span>
       )}
       {suffixContent ? (
-        <div className={`t-input__suffix`}>{suffixContent}</div>
+        <div className={`${classPrefix}-input__suffix`}>{suffixContent}</div>
       ) : null}
       {suffixIconContent}
     </div>
@@ -394,13 +404,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     <div
       ref={wrapperRef}
       style={style}
-      className={classNames(`t-input__wrap`, className, {
-        [`t-input--auto-width`]: autoWidth && !keepWrapperWidth,
+      className={classNames(`${classPrefix}-input__wrap`, className, {
+        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth,
       })}
       {...restProps}
     >
       {renderInputNode}
-      {tips && <div className={classNames(`t-input__tips`)}>{tips}</div>}
+      {tips && (
+        <div className={classNames(`${classPrefix}-input__tips`)}>{tips}</div>
+      )}
     </div>
   );
 });

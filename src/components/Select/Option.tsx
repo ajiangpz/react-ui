@@ -1,19 +1,19 @@
 import React, { useEffect, useMemo } from 'react';
+import classNames from 'classnames';
 import { isNumber, isString, get } from 'lodash-es';
 
-import useDomRefCallback from '@/hooks/useDomCallback';
-import { StyledProps } from '@/components/common';
+import useConfig from '@/hooks/useConfig';
+import useDomRefCallback from '@/hooks/useDomRefCallback';
+
+import { StyledProps } from '../common';
 import {
   SelectValue,
   TdOptionProps,
   TdSelectProps,
   SelectKeysType,
   SelectOption,
-} from '../type';
+} from './type';
 
-/**
- * Option 组件属性
- */
 export interface SelectOptionProps
   extends StyledProps,
     TdOptionProps,
@@ -62,7 +62,6 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     className,
     isVirtual,
   } = props;
-
   let selected: boolean;
   let indeterminate: boolean;
   const label = propLabel || value;
@@ -81,9 +80,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propTitle, label]);
-
   const { classPrefix } = useConfig();
-
   // 使用斜八角动画
   const [optionRef, setRefCurrent] = useDomRefCallback();
 
@@ -97,8 +94,6 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     // eslint-disable-next-line
   }, [isVirtual, optionRef]);
 
-  useRipple(optionRef);
-
   // 处理单选场景
   if (!multiple) {
     selected =
@@ -106,6 +101,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
         ? value === selectedValue
         : value === get(selectedValue, keys?.value || 'value');
   }
+
   // 处理多选场景
   if (multiple && Array.isArray(selectedValue)) {
     selected = selectedValue.some((item) => {
@@ -123,7 +119,8 @@ const Option: React.FC<SelectOptionProps> = (props) => {
 
   const handleSelect = (event: React.MouseEvent<HTMLLIElement>) => {
     if (!disabled && !checkAll) {
-      onSelect(value, { label: String(label), selected, event, restData });
+      if (value)
+        onSelect?.(value, { label: String(label), selected, event, restData });
     }
     if (checkAll) {
       props.onCheckAllChange?.(selected, event);

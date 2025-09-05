@@ -119,6 +119,8 @@
 
   .#{$prefix}-input__suffix-clear {
     cursor: pointer;
+    width: 1em;
+    height: 1em;
   }
 
   // 输入框大小

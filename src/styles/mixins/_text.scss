@@ -35,40 +35,10 @@ $tips-text-colors: (
 // 提示文本状态
 @mixin tips-text-status($status) {
   .#{$prefix}-tips.#{$prefix}-is-#{$status} {
-    color: map-get($tips-text-colors, $status);
+    // color: map-get($tips-text-colors, $status);
+    color: #000;
   }
 }
-
-// ==========================
-// Input 状态颜色映射
-// ==========================
-// 边框颜色
-$input-border-colors: (
-  success: $input-border-color-success,
-  warning: $input-border-color-warning,
-  error: $input-border-color-error,
-  default: $input-border-color-default,
-);
-
-// 聚焦阴影颜色
-$input-box-shadow-colors: (
-  success: $input-box-shadow-color-success-focus,
-  warning: $input-box-shadow-color-warning-focus,
-  error: $input-box-shadow-color-error-focus,
-  default: $input-box-shadow-color-default-focus,
-);
-
-// extra 提示文本颜色
-$input-extra-colors: (
-  success: $input-extra-color-success,
-  warning: $input-extra-color-warning,
-  error: $input-extra-color-error,
-  default: $input-extra-color-default,
-);
-
-// ==========================
-// Tips 文本状态颜色映射
-// ==========================
 
 $tips-text-colors: (
   default: $tips-text-default,

@@ -18,7 +18,7 @@
 }
 
 // 统一的可旋转箭头
-.#{prefix}-fake-arrow {
+.#{$prefix}-fake-arrow {
   path {
     transition: d $anim-duration-base;
     stroke: currentcolor;
@@ -31,8 +31,8 @@
   }
 }
 
-.#{prefix}-slide-down-enter-active,
-.#{prefix}-slide-down-leave-active {
+.#{$prefix}-slide-down-enter-active,
+.#{$prefix}-slide-down-leave-active {
   transition:
     height $anim-duration-base $anim-time-fn-easing,
     max-height $anim-duration-base $anim-time-fn-easing;

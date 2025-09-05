@@ -1,10 +1,9 @@
-export {
-    Select,
-    SelectGroup,
-    SelectValue,
-    SelectTrigger,
-    SelectContent,
-    SelectItem,
-    SelectSeparator,
+import _Select from './Select';
 
-} from "./Select"
+import './style/index.js';
+
+export type { SelectProps } from './Select';
+export * from './type';
+
+export const Select = _Select;
+export default Select;

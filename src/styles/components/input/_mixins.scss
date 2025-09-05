@@ -74,15 +74,15 @@
 // 状态样式：需要 map-get 或 #{} 来拼接变量名
 @mixin input-status($status) {
   &.#{$prefix}-is-#{$status} {
-    border-color: map-get($input-border-colors, $status);
+    border-color: #000;
 
     &:focus,
     &.#{$prefix}-input--focused {
-      box-shadow: 0 0 0 2px map-get($input-box-shadow-colors, $status);
+      box-shadow: 0 0 0 2px #000;
     }
 
     & > .#{$prefix}-input__extra {
-      color: map-get($input-extra-colors, $status);
+      color: #000;
     }
   }
 }
