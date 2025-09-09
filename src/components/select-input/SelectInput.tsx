@@ -1,12 +1,13 @@
 import React, { useRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
 import useSingle from './hook/useSingle';
+import useMultiple from './hook/useMultiple';
 import Popup, { PopupRef, PopupVisibleChangeContext } from '../popup';
 import useOverlayInnerStyle from './hook/useOverlayInnerStyle';
 import { TdSelectInputProps } from './type';
 import { StyledProps } from '../common';
 import { selectInputDefaultProps } from './defaultProps';
-
+import useConfig from '@/hooks/useConfig';
 import useDefaultProps from '@/hooks/useDefaultProps';
 import { InputRef } from '@/components/input';
 
@@ -23,10 +24,10 @@ const SelectInput = React.forwardRef<
     originalProps,
     selectInputDefaultProps,
   );
-
+const { classPrefix: prefix } = useConfig();
   const selectInputRef = useRef<PopupRef>(null);
   const selectInputWrapRef = useRef<HTMLElement>(null);
-  const { value, popupVisible, popupProps, borderless, disabled } = props;
+  const {multiple, value, popupVisible, popupProps, borderless, disabled } = props;
   const {
     commonInputProps,
     inputRef,
@@ -34,23 +35,30 @@ const SelectInput = React.forwardRef<
     onInnerClear,
     renderSelectSingle,
   } = useSingle(props);
+
+  const { tagInputRef, multipleInputValue, renderSelectMultiple } = useMultiple(props);
   const { tOverlayInnerStyle, innerPopupVisible, onInnerPopupVisibleChange } =
     useOverlayInnerStyle(props, {
       afterHidePopups: onInnerBlur,
     });
+
+
   const popupClasses = classNames([
     props.className,
-    `t-select-input`,
+    `${prefix}-select-input`,
     {
-      [`t-select-input--borderless`]: borderless,
-      [`t-select-input--popup-visible`]: popupVisible ?? innerPopupVisible,
-      [`t-select-input--empty`]:
+      [`${prefix}-select-input--borderless`]: borderless,
+      [`${prefix}-select-input--multiple`]: multiple,
+      [`${prefix}-select-input--popup-visible`]: popupVisible ?? innerPopupVisible,
+      [`${prefix}-select-input--empty`]:
         value instanceof Array ? !value.length : !value,
     },
   ]);
   useImperativeHandle(ref, () => ({
     ...(selectInputRef.current || {}),
     ...(inputRef.current || {}),
+    ...(tagInputRef.current || {})
+    
   }));
 
   // 浮层显示的受控与非受控
@@ -78,7 +86,14 @@ const SelectInput = React.forwardRef<
         disabled={disabled}
         overlayInnerStyle={tOverlayInnerStyle}
       >
-        {renderSelectSingle(visibleProps.visible)}
+        {multiple
+          ? renderSelectMultiple({
+            commonInputProps,
+            onInnerClear,
+            popupVisible: visibleProps.visible,
+            allowInput: props.allowInput,
+          })
+          : renderSelectSingle(visibleProps.visible)}
       </Popup>
     </div>
   );

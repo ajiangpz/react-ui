@@ -21,7 +21,8 @@ import { popupDefaultProps } from './defaultProps';
 import classNames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import { getCssVarsValue } from '@/utils/style';
-import './style.scss';
+import useConfig from '@/hooks/useConfig';
+
 export interface PopupProps extends TdPopupProps {
   // 是否触发展开收起动画，内部下拉式组件使用
   expandAnimation?: boolean;
@@ -44,6 +45,7 @@ export interface PopupRef {
 
 const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   const props = useDefaultProps<PopupProps>(originalProps, popupDefaultProps);
+  const { classPrefix } = useConfig();
   const {
     trigger,
     content,
@@ -219,7 +221,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       unmountOnExit={destroyOnClose}
       onEnter={handleEnter}
       onExited={handleExited}
-      classNames="r-portal"
+      classNames={`${classPrefix}-portal`}
     >
       <Portal triggerNode={getRefDom(triggerRef)} attach="body" ref={portalRef}>
         <CSSTransition
@@ -227,7 +229,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
           timeout={0}
           in={visible}
           nodeRef={popupRef}
-          classNames="r-popup"
+          classNames={`${classPrefix}-popup`}
         >
           <div
             ref={(node) => {
@@ -241,17 +243,16 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
               zIndex,
               ...getOverlayStyle(overlayStyle),
             }}
-            className={classNames(`r-popup`, overlayClassName, '')}
+            className={classNames(`${classPrefix}-popup`, overlayClassName, '')}
             {...attributes.popper}
             {...getPopupProps()}
           >
             <div
               ref={contentRef}
               className={classNames(
-                `r-popup__content`,
-                'bg-background text-foreground rounded-md px-2 py-1',
+                `${classPrefix}-popup__content`,
                 {
-                  [`r-popup__content--arrow`]: showArrow,
+                  [`${classPrefix}-popup__content--arrow`]: showArrow,
                 },
                 overlayInnerClassName,
               )}
@@ -262,7 +263,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
               {showArrow && (
                 <div
                   style={(styles as any).arrow}
-                  className={`r-popup__arrow`}
+                  className={`${classPrefix}-popup__arrow`}
                   {...(hasArrowModifier && { 'data-popper-arrow': '' })}
                 />
               )}
