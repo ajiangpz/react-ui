@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import NotifyContainer from './NotifyContainer';
-import './style.scss';
 
 // 1. 定义类型
 type NotificationType = 'success' | 'error' | 'warning' | 'info';
@@ -18,15 +17,16 @@ interface Notification {
   message: string;
   createdAt: number;
   isRemoved: boolean;
+  title:string
 }
 
 // 2. 定义 Context 类型
 interface NotificationContextType {
   notify: (type: NotificationType, message: string) => void;
-  success: (message: string) => void;
-  error: (message: string) => void;
-  warning: (message: string) => void;
-  info: (message: string) => void;
+  success: (message: Message) => void;
+  error: (message: Message) => void;
+  warning: (message: Message) => void;
+  info: (message: Message) => void;
   removeNotification: (id: string) => void;
 }
 
@@ -44,6 +44,10 @@ interface NotificationProviderProps {
   position?: string;
 }
 
+ type Message = {
+    title:string,
+    message:string
+  }
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
   maxStack = 5,
@@ -85,13 +89,16 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     [displayDuration],
   );
 
+ 
+
   // 6. 核心通知函数
   const addNotification = useCallback(
-    (type: NotificationType, message: string) => {
+    (type: NotificationType, message: Message) => {
       const newNotification: Notification = {
         id: generateId(),
         type,
-        message,
+        title:message.title,
+        message:message.message,
         createdAt: Date.now(),
         isRemoved: false,
       };
@@ -117,10 +124,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const contextValue = React.useMemo(
     () => ({
       notify: addNotification,
-      success: (message: string) => addNotification('success', message),
-      error: (message: string) => addNotification('error', message),
-      warning: (message: string) => addNotification('warning', message),
-      info: (message: string) => addNotification('info', message),
+      success: (message:Message) => addNotification('success', message),
+      error: (message: Message) => addNotification('error', message),
+      warning: (message: Message) => addNotification('warning', message),
+      info: (message: Message) => addNotification('info', message),
       removeNotification: (id: string) => {
         setNotifications((prev) => prev.filter((t) => t.id !== id));
         clearNotificationTimer(id);

@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NotificationProvider, useNotification } from "./NotifyContext";
-import { Button } from "../Button";
+import { NotificationProvider, useNotification } from "./index";
+import './style/index';
+import '@/components/style';
+import { Button } from "../button";
 import { useRef } from "react";
 
 // 创建一个演示组件
@@ -15,10 +17,10 @@ const NotificationDemo = () => {
           className="bg-success hover:bg-success/80"
           onClick={() =>
             success(
-              Array.from(
+              {message:Array.from(
                 { length: Math.floor(Math.random() * 10) + 1 },
                 () => "操作成功完成！" + index.current++
-              ).join("\n")
+              ).join("\n"),title:"成功提示"}
             )
           }
         >
@@ -27,21 +29,21 @@ const NotificationDemo = () => {
         <Button
           variant="solid"
           className="bg-danger hover:bg-danger/80"
-          onClick={() => error("操作发生错误！")}
+          onClick={() => error({message:"操作发生错误！",title:"错误提示错误提示错误提示错误提示错误提示错误提示"})}
         >
           显示错误通知
         </Button>
         <Button
           variant="solid"
           className="bg-warning hover:bg-warning/80"
-          onClick={() => warning("请注意这个警告！")}
+          onClick={() => warning({message:"请注意这个警告！",title:"警告提示"})}
         >
           显示警告通知
         </Button>
         <Button
           variant="solid"
           className="bg-info hover:bg-info/80"
-          onClick={() => info("wwwwwwwwwwwwww")}
+          onClick={() => info({message:"请注意这个信息！",title:"信息提示"})}
         >
           显示信息通知
         </Button>

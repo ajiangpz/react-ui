@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import NotificationItem from "./NotifyItem";
-import { cn } from "@/lib/utils";
+import useConfig from "@/hooks/useConfig";
 export const GAP = 14;
 export const TOAST_WIDTH = 356;
 const NotificationContainer = ({
@@ -35,9 +35,12 @@ const NotificationContainer = ({
     []
   );
 
+  const { classPrefix:prefix} = useConfig();
+
   return (
     <div
-      className={cn("fixed z-50 w-96")}
+      className={`${prefix}-notify`}
+    
       style={
         {
           height: isHovering ? `${notifications.length * 100 + 16}px` : "auto",
@@ -53,7 +56,7 @@ const NotificationContainer = ({
       data-y-position={y}
     >
       <div
-        className="relative w-full h-full"
+        className={`${prefix}-notify__container`}
         style={{
           pointerEvents: "all"
         }}

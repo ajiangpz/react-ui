@@ -1,2 +1,3 @@
 export { notification } from "./Notify";
-export { NotificationProvider } from "./NotifyContext";
+export { NotificationProvider,useNotification} from "./NotifyContext";
+import "./style/index";

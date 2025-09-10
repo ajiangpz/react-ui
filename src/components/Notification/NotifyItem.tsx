@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { XCircle, CheckCircle, AlertCircle, Info } from "lucide-react";
-import { cn } from "@/lib/utils";
-
+import useConfig from "@/hooks/useConfig";
 
 const NotificationItem: React.FC<{
   id: string;
@@ -16,6 +15,7 @@ const NotificationItem: React.FC<{
   >;
   isRemoved: boolean;
   isExpanded: boolean;
+  title:string
 }> = ({
   message,
   type,
@@ -24,12 +24,13 @@ const NotificationItem: React.FC<{
   id,
   gap,
   isExpanded,
-  isRemoved
+  isRemoved,
+  title
 }) => {
   const [initialHeight, setInitialHeight] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const nofityItem = useRef<HTMLDivElement>(null);
-
+  const { classPrefix:prefix} = useConfig();
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -90,9 +91,8 @@ const NotificationItem: React.FC<{
 
   return (
     <div
-      className={cn(
-        "rounded-md px-4 py-6  shadow-(--shadow)  flex bg-background text-foreground"
-      )}
+
+      className={`${prefix}-notify__item`}
       ref={nofityItem}
       style={
         {
@@ -111,18 +111,22 @@ const NotificationItem: React.FC<{
       data-removed={isRemoved}
       data-front={heightIndex === 0}
     >
-      <div className="flex items-center overflow-hidden">
-        <div className="w-10 h-10 rounded-full  flex items-center justify-center">
-          {type === "success" && <CheckCircle className="text-success" />}
-          {type === "error" && <XCircle className="text-danger" />}
-          {type === "info" && <Info className="text-info" />}
-          {type === "warning" && <AlertCircle className="text-warning" />}
-          {type === "default" && <Info className="text-info" />}
-        </div>
-        <div className="ml-2">
-          <p className="text-sm font-medium">{message}</p>
-        </div>
+      <div className={`${prefix}-notify__content`}>
+
+        <div className={`${prefix}-notify__header`}>
+          <div className={`${prefix}-notify__icon`} >
+            {type === "success" && <CheckCircle className="t-icon t-is-success" />}
+            {type === "error" && <XCircle className="t-icon t-is-error" />}
+            {type === "info" && <Info className="t-icon t-is-info" />}
+            {type === "warning" && <AlertCircle className="t-icon t-is-warning" />}
+            {type === "default" && <Info className="t-icon t-is-info" />}
+          </div>
+
+          <div className={`${prefix}-notify__title`}>{title}</div>
+          </div>
+
       </div>
+      <p className={`${prefix}-notify__detail`} style={{opacity:heightIndex === 0 || isExpanded ? 1 : 0 ,transition:`opacity 400ms`}}>{message}</p>
     </div>
   );
 };
