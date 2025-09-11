@@ -1,8 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Popup from './Popup';
+import Popup from './index';
 import { Button } from '../button';
+import "@/components/style"
 const meta: Meta = {
-  title: '组件/Popup',
+  title: 'Components/Popup',
   component: Popup,
   tags: ['autodocs'],
   argTypes: {

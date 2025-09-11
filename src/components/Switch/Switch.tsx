@@ -1,29 +1,113 @@
-"use client";
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import Loading from '../loading';
+import useConfig from '@/hooks/useConfig';
+import { StyledProps } from '../common';
+import useCommonClassName from '@/hooks/useCommonClassName';
+import { SwitchValue, TdSwitchProps } from './type';
+import { switchDefaultProps } from './defaultProps';
+import parseTNode from '@/utils/parentTNode';
+import useDefaultProps from '@/hooks/useDefaultProps';
 
-import * as React from "react";
-import * as SwitchPrimitives from "@radix-ui/react-switch";
+export type SwitchChangeEventHandler = (value: boolean, event: React.MouseEvent<HTMLButtonElement>) => void;
+export type SwitchClickEventHandler = SwitchChangeEventHandler;
 
-import { cn } from "@/lib/utils";
+export interface SwitchProps<T extends SwitchValue = SwitchValue> extends TdSwitchProps<T>, StyledProps { }
 
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    className={cn(
-      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
-      className
-    )}
-    {...props}
-    ref={ref}
-  >
-    <SwitchPrimitives.Thumb
-      className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
-      )}
-    />
-  </SwitchPrimitives.Root>
-));
-Switch.displayName = SwitchPrimitives.Root.displayName;
+const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, ref) => {
+  const { classPrefix } = useConfig();
+  const props = useDefaultProps<SwitchProps<SwitchValue>>(originalProps, switchDefaultProps);
+  const {
+    className,
+    value,
+    defaultValue,
+    disabled,
+    loading,
+    size,
+    label,
+    customValue,
+    onChange,
+    beforeChange,
+    ...restProps
+  } = props;
+  const [activeValue = true, inactiveValue = false] = customValue || [];
 
-export { Switch };
+  const isControlled = typeof value !== 'undefined';
+  const initChecked = defaultValue === activeValue || value === activeValue;
+  const [innerChecked, setInnerChecked] = useState(initChecked);
+
+  const contentNode = React.useMemo<React.ReactNode>(() => {
+    if (Array.isArray(label)) {
+      const [activeContent = '', inactiveContent = ''] = label;
+      const content = innerChecked ? activeContent : inactiveContent;
+      return parseTNode(content, { value });
+    }
+    return parseTNode(label, { value });
+  }, [label, innerChecked, value]);
+
+  const handleChange = (e: React.MouseEvent) => {
+    !isControlled && setInnerChecked(!innerChecked);
+    const changedValue = !innerChecked ? activeValue : inactiveValue;
+    onChange?.(changedValue, { e });
+  };
+
+  const onInternalClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    if (disabled) {
+      return;
+    }
+
+    if (!beforeChange) {
+      handleChange(e);
+      return;
+    }
+    Promise.resolve(beforeChange())
+      .then((v) => {
+        if (v) {
+          handleChange(e);
+        }
+      })
+      .catch((e) => {
+        console.error('Switch', `some error occurred: ${e}`);
+      });
+  };
+
+  useEffect(() => {
+    if (Array.isArray(customValue) && !customValue.includes(value)) {
+      console.error('Switch', `value is not in customValue: ${JSON.stringify(customValue)}`);
+    }
+    isControlled && setInnerChecked(value === activeValue);
+  }, [value, customValue, activeValue, isControlled]);
+
+  const { SIZE, STATUS } = useCommonClassName();
+  const switchClassName = classNames(
+    `${classPrefix}-switch`,
+    className,
+    {
+      [STATUS.checked]: innerChecked,
+      [STATUS.disabled]: disabled,
+      [STATUS.loading]: loading,
+    },
+    SIZE[size],
+  );
+
+  return (
+    <button
+      {...restProps}
+      type="button"
+      role="switch"
+      disabled={disabled || loading}
+      className={switchClassName}
+      ref={ref}
+      onClick={onInternalClick}
+    >
+      <span className={`${classPrefix}-switch__handle`}>{loading && <Loading loading size="small" />}</span>
+      <div className={`${classPrefix}-switch__content`}>{contentNode}</div>
+    </button>
+  );
+});
+
+Switch.displayName = 'Switch';
+
+export default Switch as <T extends SwitchValue = SwitchValue>(
+  props: SwitchProps<T> & React.RefAttributes<HTMLButtonElement>,
+) => React.ReactElement;

@@ -1,84 +1,147 @@
-import * as React from "react"
-import { tv, type VariantProps } from "tailwind-variants"
+import React, { forwardRef, useRef } from 'react';
+import classNames from 'classnames';
+import {
+  X as TdCloseIcon,
+  Info as TdInfoCircleFilledIcon,
+  CheckCircle as TdCheckCircleFilledIcon,
+  AlertTriangle as TdErrorCircleFilledIcon
 
-import { cn } from "@/lib/utils"
+} from 'lucide-react';
 
-const alertVariants = tv({
-  base: "relative w-full rounded-lg",
-  variants: {
-    variant: {
-      default: "bg-info-background text-foreground border-1 border-info-border [&>svg]:text-info",
-      destructive: "bg-danger-background text-foreground border-1 border-danger-border [&>svg]:text-danger",
-      success: "bg-success-background text-foreground border-1 border-success-border [&>svg]:text-success",
-      warning: "bg-warning-background text-foreground border-1 border-warning-border [&>svg]:text-warning",
-      info: "bg-info-background text-foreground border-1 border-info-border [&>svg]:text-info ",
-    },
-    size: {
-      sm: "p-3 text-sm [&>svg]:h-4 [&>svg]:w-4 [&>svg]:left-3 [&>svg]:top-3 [&>svg~*]:pl-6",
-      default: "p-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:left-4 [&>svg]:top-4 [&>svg~*]:pl-7",
-      lg: "p-6 text-lg [&>svg]:h-6 [&>svg]:w-6 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-9",
-    },
-    hasIcon: {
-      true: "[&>svg]:absolute  [&>svg+div]:translate-y-[-3px]",
-      false: "",
+import { CSSTransition } from 'react-transition-group';
+import noop from '@/utils/noop';
+import parseTNode from '@/utils/parseTNode';
+import useConfig from '@/hooks/useConfig';
+import useGlobalIcon from '@/hooks/useGlobalIcon';
+import { TdAlertProps } from './type';
+import { StyledProps } from '../common';
+import { alertDefaultProps } from './defaultProps';
+import composeRefs from '@/utils/composeRefs';
+import useDefaultProps from '@/hooks/useDefaultProps';
+
+const transitionTime = 200;
+
+export interface AlertProps extends TdAlertProps, StyledProps { }
+
+const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
+  const { classPrefix } = useConfig();
+  // const [local, t] = useLocaleReceiver('alert');
+  const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon, ErrorCircleFilledIcon } = useGlobalIcon({
+    CloseIcon: TdCloseIcon,
+    InfoCircleFilledIcon: TdInfoCircleFilledIcon,
+    CheckCircleFilledIcon: TdCheckCircleFilledIcon,
+    ErrorCircleFilledIcon: TdErrorCircleFilledIcon,
+  });
+
+  const {
+    message,
+    title,
+    operation,
+    theme,
+    icon,
+    closeBtn,
+    maxLine,
+    onClose,
+    className,
+    onClosed = noop,
+    ...alertProps
+  } = useDefaultProps(props, alertDefaultProps);
+
+  const [closed, setClosed] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(true);
+  const nodeRef = useRef<HTMLDivElement>(null);
+
+  const iconMap = {
+    success: CheckCircleFilledIcon,
+    info: InfoCircleFilledIcon,
+    error: ErrorCircleFilledIcon,
+    warning: ErrorCircleFilledIcon,
+  };
+
+  const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
+    setClosed(true);
+    onClose?.({ e });
+  };
+
+  const handleCollapse = () => {
+    setCollapsed((collapsed) => !collapsed);
+  };
+
+  const renderIconNode = () => {
+    if (React.isValidElement(icon)) return icon;
+    return React.createElement(iconMap[theme]);
+  };
+
+  const renderMessage = () => {
+    if (+maxLine > 0 && Array.isArray(message)) {
+      return (
+        <div className={`${classPrefix}-alert__description`}>
+          {message.map((item, index) => {
+            if (collapsed) {
+              if (index < +maxLine) {
+                return <div key={index}>{item}</div>;
+              }
+            } else {
+              return <div key={index}>{item}</div>;
+            }
+            return true;
+          })}
+          {+maxLine < message.length && (
+            <div className={`${classPrefix}-alert__collapse`} onClick={handleCollapse}>
+              {collapsed ? "展开" : "收起"}
+            </div>
+          )}
+        </div>
+      );
     }
-  },
-  defaultVariants: {
-    variant: "default",
-    size: "default",
-    hasIcon: false,
-  },
-  compoundVariants: [
-    {
-      variant: ["destructive", "success", "warning", "info"],
-      className: "[&>svg]:text-current",
-    },
-  ],
-})
+    return <div className={`${classPrefix}-alert__description`}>{message}</div>;
+  };
 
-export interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof alertVariants> {
-  icon?: React.ReactNode
-}
+  // close 属性变更为 closeBtn，close废弃后可删除。（需兼容标签上直接写close和closeBtn的场景）
+  const isUsingClose = Reflect.has(props, 'close');
+  const closeNode = isUsingClose ? close : closeBtn;
+  if (isUsingClose) {
+    console.warn('TAlert', 'prop `close` is going to be deprecated, please use `closeBtn` instead.');
+  }
+  const renderClose = () => {
+    if (closeNode === false) return null;
+    return (
+      <div className={`${classPrefix}-alert__close`} onClick={handleClose}>
+        {parseTNode(closeNode, undefined, <CloseIcon className='t-icon'></CloseIcon>)}
+      </div>
+    );
+  };
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, size, icon, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="alert"
-      className={cn(alertVariants({ variant, size, hasIcon: !!icon }), className)}
-      {...props}
+  return (
+    <CSSTransition
+      in={!closed}
+      unmountOnExit
+      classNames={{
+        exitActive: `${classPrefix}-alert--closing`,
+      }}
+      nodeRef={nodeRef}
+      timeout={transitionTime}
+      onExited={onClosed}
     >
-      {icon}
-      {children}
-    </div>
-  )
-)
-Alert.displayName = "Alert"
+      <div
+        ref={composeRefs(ref, nodeRef)}
+        className={classNames(`${classPrefix}-alert`, `${classPrefix}-alert--${theme}`, className)}
+        {...alertProps}
+      >
+        <div className={`${classPrefix}-alert__icon`}>{renderIconNode()}</div>
+        <div className={`${classPrefix}-alert__content`}>
+          {title ? <div className={`${classPrefix}-alert__title`}>{title}</div> : null}
+          <div className={`${classPrefix}-alert__message`}>
+            {renderMessage()}
+            {operation ? <div className={`${classPrefix}-alert__operation`}>{parseTNode(operation)}</div> : null}
+          </div>
+        </div>
+        {renderClose()}
+      </div>
+    </CSSTransition>
+  );
+});
 
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
-    {...props}
-  />
-))
-AlertTitle.displayName = "AlertTitle"
+Alert.displayName = 'Alert';
 
-const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm", className)}
-    {...props}
-  />
-))
-AlertDescription.displayName = "AlertDescription"
-
-export { Alert, AlertTitle, AlertDescription }
+export default Alert;

@@ -13,37 +13,35 @@ const NotificationDemo = () => {
     <div style={{ padding: "20px" }}>
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
-          variant="solid"
-          className="bg-success hover:bg-success/80"
+          theme="success"
           onClick={() =>
             success(
-              {message:Array.from(
-                { length: Math.floor(Math.random() * 10) + 1 },
-                () => "操作成功完成！" + index.current++
-              ).join("\n"),title:"成功提示"}
+              {
+                message: Array.from(
+                  { length: Math.floor(Math.random() * 10) + 1 },
+                  () => "操作成功完成！" + index.current++
+                ).join("\n"), title: "成功提示"
+              }
             )
           }
         >
           显示成功通知
         </Button>
         <Button
-          variant="solid"
-          className="bg-danger hover:bg-danger/80"
-          onClick={() => error({message:"操作发生错误！",title:"错误提示错误提示错误提示错误提示错误提示错误提示"})}
+          theme="danger"
+          onClick={() => error({ message: "操作发生错误！", title: "错误提示错误提示错误提示错误提示错误提示错误提示" })}
         >
           显示错误通知
         </Button>
         <Button
-          variant="solid"
-          className="bg-warning hover:bg-warning/80"
-          onClick={() => warning({message:"请注意这个警告！",title:"警告提示"})}
+          theme="warning"
+          onClick={() => warning({ message: "请注意这个警告！", title: "警告提示" })}
         >
           显示警告通知
         </Button>
         <Button
-          variant="solid"
-          className="bg-info hover:bg-info/80"
-          onClick={() => info({message:"请注意这个信息！",title:"信息提示"})}
+          theme="primary"
+          onClick={() => info({ message: "请注意这个信息！", title: "信息提示" })}
         >
           显示信息通知
         </Button>
@@ -54,7 +52,7 @@ const NotificationDemo = () => {
 
 // Meta 配置
 const meta: Meta = {
-  title: "组件/Notification",
+  title: "Components/Notification",
   component: NotificationProvider,
   tags: ["autodocs"],
   argTypes: {
@@ -78,7 +76,7 @@ const meta: Meta = {
   decorators: [
     // 修改装饰器，使用从控制台传入的参数
     (Story, context) => (
-      <NotificationProvider 
+      <NotificationProvider
         position={context.args.position}
         maxStack={context.args.maxStack}
         displayDuration={context.args.displayDuration}

@@ -1,102 +1,101 @@
-import { ButtonHTMLAttributes, forwardRef } from "react";
-import { tv, type VariantProps } from "tailwind-variants";
-
-export const button = tv({
-  base: [
-    "relative inline-flex items-center justify-center gap-2",
-    "font-medium transition-colors duration-200",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-    "disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer",
-  ],
-  variants: {
-    variant: {
-      default: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-      solid: "bg-primary text-primary-foreground hover:bg-primary/90",
-      outline: "border border-input  bg-background hover:bg-accent hover:text-accent-foreground ",
-      ghost: "bg-transparent hover:bg-gray-50",
-      link: "bg-transparent underline-offset-4 hover:underline",
-    },
-
-    size: {
-      xs: "text-xs px-2 h-6 rounded",
-      sm: "text-sm px-3 h-8 rounded-md",
-      md: "text-base px-4 h-10 rounded-lg",
-      lg: "text-lg px-6 h-12 rounded-lg",
-    },
-    block: {
-      true: "w-full",
-    },
-    loading: {
-      true: "cursor-wait",
-    },
-  },
-
-  defaultVariants: {
-    variant: "solid",
-    colorScheme: "primary",
-    size: "md",
-  },
-});
+import React, { useMemo, forwardRef } from "react";
+import classNames from "classnames";
+import useConfig from "@/hooks/useConfig";
+import Loading from "../loading";
+import { TdButtonProps } from "./type";
+import { buttonDefaultProps } from "./defaultProps";
+import parseTNode from "@/lib/utils";
+import useDefaultProps from "@/hooks/useDefaultProps";
 
 export interface ButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color">,
-    VariantProps<typeof button> {
-  loading?: boolean;
-}
+  extends Omit<
+    React.AllHTMLAttributes<HTMLElement>,
+    'content' | 'shape' | 'size' | 'type' | 'children'
+  >,
+  TdButtonProps { }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
+const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTMLElement>) => {
+  const props = useDefaultProps(originProps, buttonDefaultProps);
+  const {
+    type,
+    theme,
+    variant,
+    icon,
+    disabled,
+    loading,
+    size,
+    block,
+    ghost,
+    shape,
+    children,
+    content,
+    className,
+    suffix,
+    href,
+    tag,
+    onClick,
+    ...buttonProps
+  } = props;
+
+
+  const { classPrefix } = useConfig();
+
+
+  const renderChildren = content ?? children;
+
+  let iconNode = icon;
+  if (loading) iconNode = <Loading loading={loading} inheritColor={true} />;
+
+  const renderTheme = useMemo(() => {
+    if (!theme) {
+      if (variant === 'base') return 'primary';
+      return 'default';
+    }
+    return theme;
+  }, [theme, variant]);
+
+  const renderTag = useMemo(() => {
+    if (!tag && href && !disabled) return 'a';
+    if (!tag && disabled) return 'div';
+    return tag || 'button';
+  }, [tag, href, disabled]);
+
+  return React.createElement(
+    renderTag,
     {
-      className,
-      variant,
-      size,
-      block,
-      loading,
-      disabled,
-      children,
-      ...props
+      ...buttonProps,
+      href,
+      type,
+      ref,
+      disabled: disabled || loading,
+      className: classNames(
+        className,
+        [
+          `${classPrefix}-button`,
+          `${classPrefix}-button--theme-${renderTheme}`,
+          `${classPrefix}-button--variant-${variant}`,
+        ],
+        {
+          [`${classPrefix}-button--shape-${shape}`]: shape !== 'rectangle',
+          [`${classPrefix}-button--ghost`]: ghost,
+          [`${classPrefix}-is-loading`]: loading,
+          [`${classPrefix}-is-disabled`]: disabled,
+          [`${classPrefix}-size-s`]: size === 'small',
+          [`${classPrefix}-size-l`]: size === 'large',
+          [`${classPrefix}-size-full-width`]: block,
+        },
+      ),
+      onClick: !disabled && !loading ? onClick : undefined,
     },
-    ref
-  ) => {
-    return (
-      <button
-        ref={ref}
-        disabled={disabled || loading}
-        className={button({
-          variant,
-          size,
-          block,
-          loading,
-          className,
-        })}
-        {...props}
-      >
-        {loading && (
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <svg
-              className="h-[1em] w-[1em] animate-spin"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-          </span>
-        )}
-        <span className={loading ? "invisible" : undefined}>{children}</span>
-      </button>
-    );
-  }
-);
+    <>
+      {iconNode}
+      {renderChildren && <span className={`${classPrefix}-button__text`}>{typeof renderChildren === 'function' ? renderChildren(children) : renderChildren}</span>}
+      {suffix && <span className={`${classPrefix}-button__suffix`}>{parseTNode(suffix)}</span>}
+    </>,
+  );
+});
+
+
+Button.displayName = 'Button';
+
+export default Button;

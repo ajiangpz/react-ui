@@ -1,0 +1,25 @@
+$badge-text-color: $text-color-anti;
+$badge-color: $error-color;
+
+// 尺寸
+// 默认尺寸 circle/round 高度
+$badge-height: $comp-size-xxs;
+// 小尺寸 circle/round 高度
+$badge-height-s: $comp-size-xxxs;
+// dot 宽/高
+$badge-dot-size: 6px;
+// $badge-status-size: 6px;
+$badge-min-width: 8px;
+
+// 字体
+$badge-font: $font-body-small;
+
+// 间距
+// 默认尺寸circle/round 左右padding
+$badge-padding: calc(($badge-height - $badge-min-width) / 2);
+// 小尺寸circle/round 左右padding
+$badge-padding-s: calc(($badge-height-s - $badge-min-width) / 2);
+
+//边框
+$badge-shape-circle: calc($badge-height / 2);
+$badge-shape-round: $border-radius-default;

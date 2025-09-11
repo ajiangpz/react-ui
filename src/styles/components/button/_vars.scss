@@ -1,0 +1,122 @@
+// 尺寸
+$btn-height-s: $comp-size-xs;
+$btn-height-default: $comp-size-m;
+$btn-height-l: $comp-size-xl;
+
+// 圆角
+$btn-border-radius: $border-radius-default;
+$btn-shape-border-radius-s: calc($btn-height-s / 2);
+$btn-shape-border-radius-default: calc($btn-height-default / 2);
+$btn-shape-border-radius-l: calc($btn-height-l / 2);
+
+//字号
+$btn-font-s: $font-body-small;
+$btn-font-default: $font-body-medium;
+$btn-font-l: $font-body-large;
+
+// 图标大小
+$btn-icon-size-s: $font-size-base;
+$btn-icon-size-default: $font-size-l;
+$btn-icon-size-l: $font-size-xl;
+$btn-loading-size: $font-size-l;
+
+// 按钮中icon和文字的间距
+$btn-icon-text-margin-left: $spacer;
+
+// padding
+$btn-padding-horizontal-s: $comp-paddingLR-s;
+$btn-padding-horizontal-default: $comp-paddingLR-l;
+$btn-padding-horizontal-l: $comp-paddingLR-xl;
+
+$btn-border-width: 1px;
+
+$btn-colors: (
+  primary: (
+    default: $brand-color,
+    hover: $brand-color-hover,
+    active: $brand-color-active,
+    disabled: $brand-color-disabled
+  ),
+  success: (
+    default: $success-color,
+    hover: $success-color-hover,
+    active: $success-color-active,
+    disabled: $success-color-disabled
+  ),
+  warning: (
+    default: $warning-color,
+    hover: $warning-color-hover,
+    active: $warning-color-active,
+    disabled: $warning-color-disabled
+  ),
+  danger: (
+    default: $error-color,
+    hover: $error-color-hover,
+    active: $error-color-active,
+    disabled: $error-color-disabled
+  ),
+  white-bg: (
+    default: $bg-color-specialcomponent,
+    hover: $bg-color-specialcomponent,
+    active: $bg-color-container-active,
+    disabled: $bg-color-component-disabled
+  ),
+  white-ghost: (
+    default: $text-color-anti,
+    hover: $brand-color-hover,
+    active: $brand-color-active,
+    disabled: $border-level-2-color
+  ),
+  gray-bg: (
+    default: $bg-color-component,
+    hover: $bg-color-component-hover,
+    active: $bg-color-component-active,
+    disabled: $bg-color-component-disabled
+  ),
+  text-bg: (
+    default: transparent,
+    hover: $bg-color-container-hover,
+    active: $bg-color-container-active,
+    disabled: transparent
+  ),
+  border-gray: (
+    default: $border-level-2-color,
+    hover: $brand-color-hover,
+    active: $brand-color-active,
+    disabled: $border-level-2-color
+  ),
+  text: (
+    default: $text-color-primary,
+    hover: $brand-color-hover,
+    active: $brand-color-active,
+    disabled: $text-color-disabled
+  ),
+  text-gray: (
+    default: $text-color-primary,
+    hover: $text-color-primary,
+    active: $text-color-primary,
+    disabled: $text-color-disabled
+  ),
+  none:(
+    default: transparent,
+    hover: transparent,
+    active: transparent,
+    disabled: transparent
+  ),
+  "ghost":(
+    disabled:rgba(255, 255, 255, .22)
+  )
+);
+
+
+
+$btn-color-none: transparent;
+$btn-color-none-hover: transparent;
+$btn-color-none-active: transparent;
+$btn-color-none-disabled: transparent;
+
+// 文本
+$btn-text-variant-base-color: $text-color-anti;
+
+// 状态色 - disabled ghost
+$btn-color-ghost-disabled: rgba(255, 255, 255, .22);

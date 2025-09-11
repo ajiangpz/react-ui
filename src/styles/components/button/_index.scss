@@ -1,0 +1,480 @@
+@use "sass:map";
+@import "../../vars.scss";
+
+@import "./_vars.scss";
+
+
+
+@import "./_mixins.scss";
+
+@import "../../mixins/_reset.scss";
+
+@function btn-color($theme, $state: default) {
+  $theme-map: map.get($btn-colors, $theme);
+
+  @if $theme-map == null {
+    @error "Theme `#{$theme}` not found in $btn-colors map.";
+  }
+
+  @return map.get($theme-map, $state);
+}
+@mixin button-attr-color($theme, $attr, $ghost: false) {
+  &:hover,
+  &:focus-visible {
+    #{$attr}:  btn-color($theme,hover)
+  }     
+  @if $ghost == true {
+    &:active  {
+        #{$attr}: btn-color($theme,active)
+    }
+  }
+
+  @if $ghost == true {
+    &.#{$prefix}-is-loading  {
+        #{$attr}:btn-color($theme,'default');
+    }
+  }
+
+  @else {
+    &.#{$prefix}-is-loading {
+        #{$attr}: btn-color($theme,'disabled');
+    }
+  }
+
+  @if $ghost == true {
+    #{$attr}: btn-color('ghost','disabled');
+    background-color: transparent;
+  }
+  
+  @else {
+    #{$attr}:btn-color($theme,disabled);
+  }
+
+
+
+
+  #{$attr}: btn-color($theme,default);
+}
+
+.#{$prefix}-button {
+  @include reset;
+  @include button;
+
+  text-decoration: none;
+
+  .#{$prefix}-button__text,
+  .t-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+  }
+
+  .t-icon {
+    font-size: $btn-icon-size-default;
+  }
+
+  .#{$prefix}-loading {
+    font-size: $btn-loading-size;
+  }
+
+  .t-icon + .#{$prefix}-button__text:not(:empty) {
+    margin-left: $btn-icon-text-margin-left;
+  }
+
+  .#{$prefix}-loading + .#{$prefix}-button__text:not(:empty) {
+    margin-left: $btn-icon-text-margin-left;
+  }
+
+  .#{$prefix}-button__suffix:not(:empty) {
+    display: inline-flex;
+    margin-left: $btn-icon-text-margin-left;
+  }
+
+  // 主要按钮
+  &--variant-base {
+    color: $btn-text-variant-base-color;
+    @include button-size($btn-height-default, $btn-font-default, $btn-icon-size-default, $btn-padding-horizontal-default);
+    @include button-attr-color("gray-bg", background-color);
+    @include button-attr-color("gray-bg", border-color);
+    @include button-attr-color("text-gray", color);
+
+    &.#{$prefix}-button--theme-primary {
+      color: $btn-text-variant-base-color;
+      @include button-attr-color("primary", background-color);
+      @include button-attr-color("primary", border-color);
+    }
+
+    &.#{$prefix}-button--theme-success {
+      color: $btn-text-variant-base-color;
+      @include button-attr-color("success", background-color);
+      @include button-attr-color("success", border-color);
+    }
+
+    &.#{$prefix}-button--theme-warning {
+      color: $btn-text-variant-base-color;
+      @include button-attr-color("warning", background-color);
+      @include button-attr-color("warning", border-color);
+    }
+
+    &.#{$prefix}-button--theme-danger {
+      color: $btn-text-variant-base-color;
+      @include button-attr-color("danger", background-color);
+      @include button-attr-color("danger", border-color);
+    }
+
+    &.#{$prefix}-button--ghost {
+      @include button-attr-color("primary", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
+
+      &.#{$prefix}-button--theme-primary {
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-success {
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
+      }
+    }
+
+    &.#{$prefix}-is-loading:not(&.#{$prefix}-button--ghost) {
+      &.#{$prefix}-button--theme-default {
+        color: btn-color(text,default);
+      }
+    }
+  }
+
+  // 次要按钮
+  &--variant-outline {
+    @include button-size($btn-height-default, $btn-font-default, $btn-icon-size-default, $btn-padding-horizontal-default);
+    @include button-attr-color("text", color);
+
+    @include button-attr-color("white-bg", background-color);
+    @include button-attr-color("border-gray", border-color);
+
+    &.#{$prefix}-button--theme-primary {
+      @include button-attr-color("primary", color);
+      @include button-attr-color("primary", border-color);
+    }
+
+    &.#{$prefix}-button--theme-success {
+      @include button-attr-color("success", color);
+      @include button-attr-color("success", border-color);
+    }
+
+    &.#{$prefix}-button--theme-warning {
+      @include button-attr-color("warning", color);
+      @include button-attr-color("warning", border-color);
+    }
+
+    &.#{$prefix}-button--theme-danger {
+      @include button-attr-color("danger", color);
+      @include button-attr-color("danger", border-color);
+    }
+
+    &.#{$prefix}-button--ghost {
+      @include button-attr-color("none", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
+
+      &.#{$prefix}-button--theme-primary {
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-success {
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
+      }
+    }
+
+    &.#{$prefix}-is-loading:not(&.#{$prefix}-button--ghost) {
+      color: btn-color(text,default);
+
+      &.#{$prefix}-button--theme-primary {
+        color: btn-color(primary,default );
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-success {
+        color: btn-color(success,default);
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        color: btn-color(warning,default );
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        color: btn-color(danger,default );
+        background-color: btn-color(text-bg,default );
+      }
+    }
+  }
+
+  // 虚线按钮
+  &--variant-dashed {
+    @include button-size($btn-height-default, $btn-font-default, $btn-icon-size-default, $btn-padding-horizontal-default);
+    @include button-attr-color(text, color);
+    @include button-attr-color(white-bg, background-color);
+    @include button-attr-color(border-gray, border-color);
+
+    border-style: dashed;
+
+    &.#{$prefix}-button--theme-primary {
+      @include button-attr-color("primary", color);
+      @include button-attr-color("primary", border-color);
+    }
+
+    &.#{$prefix}-button--theme-success {
+      @include button-attr-color("success", color);
+      @include button-attr-color("success", border-color);
+    }
+
+    &.#{$prefix}-button--theme-warning {
+      @include button-attr-color("warning", color);
+      @include button-attr-color("warning", border-color);
+    }
+
+    &.#{$prefix}-button--theme-danger {
+      @include button-attr-color("danger", color);
+      @include button-attr-color("danger", border-color);
+    }
+
+    &.#{$prefix}-button--ghost {
+      @include button-attr-color("none", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
+
+      &.#{$prefix}-button--theme-primary {
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-success {
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
+      }
+    }
+    &.#{$prefix}-is-loading:not(&.#{$prefix}-button--ghost) {
+      color: btn-color(text,default);
+
+      &.#{$prefix}-button--theme-primary {
+        color: btn-color(primary,default );
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-success {
+        color: btn-color(success,default);
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        color: btn-color(warning,default);
+        background-color: btn-color(text-bg,default );
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        color: btn-color(danger,default);
+        background-color: btn-color(text-bg,default );
+      }
+    }
+  }
+
+  // 文字按钮
+  &--variant-text {
+    @include button-size($btn-height-default, $btn-font-default, $btn-icon-size-default, $btn-padding-horizontal-default);
+    @include button-attr-color("text-gray", color);
+    @include button-attr-color("text-bg", background-color);
+    @include button-attr-color("text-bg", border-color);
+
+    &.#{$prefix}-button--theme-primary {
+      @include button-attr-color("primary", color);
+    }
+
+    &.#{$prefix}-button--theme-success {
+      @include button-attr-color("success", color);
+    }
+
+    &.#{$prefix}-button--theme-warning {
+      @include button-attr-color("warning", color);
+    }
+
+    &.#{$prefix}-button--theme-danger {
+      @include button-attr-color("danger", color);
+    }
+
+    &.#{$prefix}-button--ghost {
+      background: none;
+
+      @include button-attr-color("white-ghost", color, true);
+
+      &.#{$prefix}-button--theme-primary {
+        @include button-attr-color("primary", color, true);
+      }
+
+      &.#{$prefix}-button--theme-success {
+        @include button-attr-color("success", color, true);
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        @include button-attr-color("warning", color, true);
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        @include button-attr-color("danger", color, true);
+      }
+    }
+
+    &.#{$prefix}-is-loading:not(&.#{$prefix}-button--ghost) {
+      color: btn-color(text,default);
+
+      &.#{$prefix}-button--theme-primary {
+        color: btn-color(primary,default );
+      }
+
+      &.#{$prefix}-button--theme-success {
+        color: btn-color(success,default);
+      }
+
+      &.#{$prefix}-button--theme-warning {
+        color: btn-color(warning,default);
+      }
+
+      &.#{$prefix}-button--theme-danger {
+        color: btn-color(danger,default);
+      }
+    }
+  }
+
+  &.#{$prefix}-is-loading,
+  &.#{$prefix}-is-disabled {
+    cursor: not-allowed;
+  }
+
+  &.#{$prefix}-size-s {
+    @include button-size($btn-height-s, $btn-font-s, $btn-icon-size-s, $btn-padding-horizontal-s);
+  }
+
+  &.#{$prefix}-size-l {
+    @include button-size($btn-height-l , $btn-font-l, $btn-icon-size-l, $btn-padding-horizontal-l);
+  }
+
+  &--shape-square {
+    width: $btn-height-default;
+    padding: 0;
+
+    &.#{$prefix}-size-s {
+      width: $btn-height-s;
+      padding: 0;
+    }
+
+    &.#{$prefix}-size-l {
+      width: $btn-height-l;
+      padding: 0;
+    }
+  }
+
+  &--shape-round {
+    border-radius: $border-radius-round;
+
+    &.#{$prefix}-size-s {
+      border-radius: $btn-shape-border-radius-s;
+    }
+
+    &.#{$prefix}-size-l {
+      border-radius: $btn-shape-border-radius-l;
+    }
+  }
+
+  &--shape-circle {
+    width: $btn-height-default;
+    padding: 0;
+    text-align: center;
+    border-radius: $btn-shape-border-radius-default;
+
+    .t-icon {
+      font-size: $btn-icon-size-default;
+    }
+
+    .#{$prefix}-loading {
+      font-size: $btn-loading-size;
+    }
+
+    &.#{$prefix}-size-s {
+      width: $btn-height-s;
+      border-radius: $btn-shape-border-radius-s;
+    }
+
+    &.#{$prefix}-size-l {
+      width: $btn-height-l;
+      padding: 0;
+      border-radius: $btn-shape-border-radius-l;
+    }
+  }
+
+  &.#{$prefix}-size-full-width {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.#{$prefix}-button--ghost {
+  --ripple-color: @gray-color-10; // 幽灵按钮相当于按钮深色模式，因此固定为深色模式 token
+}
+
+.#{$prefix}-button:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(white-bg,active );
+}
+
+.#{$prefix}-button--variant-base:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(gray-bg,active );
+}
+
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-primary:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(primary,active );
+}
+
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-success:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(success,default)-active;
+}
+
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-warning:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(warning,active);
+}
+
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-danger:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
+  --ripple-color: btn-color(danger,active);
+}

@@ -1,118 +1,221 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-import postcss from 'rollup-plugin-postcss';
-import dts from 'rollup-plugin-dts';
+import url from '@rollup/plugin-url';
+import json from '@rollup/plugin-json';
+import babel from '@rollup/plugin-babel';
+import styles from 'rollup-plugin-styles';
 import copy from 'rollup-plugin-copy';
-import tailwindcss from '@tailwindcss/postcss';
-import autoprefixer from 'autoprefixer';
-import sass from 'sass'; // 新增
+import esbuild from 'rollup-plugin-esbuild';
+import postcss from 'rollup-plugin-postcss';
+import replace from '@rollup/plugin-replace';
+import analyzer from 'rollup-plugin-analyzer';
+import { terser } from 'rollup-plugin-terser';
+import commonjs from '@rollup/plugin-commonjs';
+import { DEFAULT_EXTENSIONS } from '@babel/core';
+import multiInput from 'rollup-plugin-multi-input';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import staticImport from 'rollup-plugin-static-import';
 
-export default [
-  {
-    input: 'src/inputCss.ts',
-    output: {
-      file: 'twui-react/style.css.js', // 可以忽略这个 js 文件，只提取 CSS
-      format: 'es',
-    },
-    plugins: [
+import ignoreImport from 'rollup-plugin-ignore-import';
+import { resolve, join } from 'path';
+import { copy as fileCopy } from 'fs-extra';
+
+import pkg from './package.json' assert { type: 'json' };;
+const name = 'twui-react';
+const externalDeps = Object.keys(pkg.dependencies || {});
+const externalPeerDeps = Object.keys(pkg.peerDependencies || {});
+
+const banner = `/**
+ * ${name} v${pkg.version}
+ * (c) ${new Date().getFullYear()} ${pkg.author}
+ * @license ${pkg.license}
+ */
+`;
+const input = "src/index.ts";
+const inputList = [
+  'src/components/**/*.ts',
+  'src/components/**/*.jsx',
+  'src/components/**/*.tsx',
+  '!src/components/**/*.d.ts',
+];
+
+const getPlugins = ({
+  env,
+  isProd = false,
+  ignoreScss = true,
+  extractOneCss = false,
+  extractMultiCss = false,
+} = {}) => {
+  const plugins = [
+    nodeResolve({
+      extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
+    }),
+    commonjs(),
+
+    babel({
+      babelHelpers: 'runtime',
+      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
+    }),
+    json(),
+    url(),
+    replace({
+      preventAssignment: true,
+      values: {
+        __VERSION__: JSON.stringify(pkg.version),
+      },
+    }),
+  ];
+
+  if (extractOneCss) {
+    plugins.push(
       postcss({
-        extract: 'style.css',
-        minimize: true,
+        extract: `${isProd ? `${name}.min` : name}.css`,
+        minimize: isProd,
         sourceMap: true,
-        plugins: [tailwindcss(), autoprefixer()],
-        extensions: ['.css', '.scss'], // 支持 CSS 和 SCSS
-        use: [
-          [
-            'sass',
-            {
-              implementation: sass, // 使用 sass 实现
-            },
-          ],
-        ],
+        extensions: ['.sass', '.scss', '.css', '.less'],
       }),
-    ],
-  },
-  {
-    input: 'src/index.ts',
-    output: [
-      {
-        dir: 'twui-react/esm',
-        format: 'esm',
-        sourcemap: true,
-      },
-      {
-        dir: 'twui-react/cjs',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        dir: 'twui-react/dist',
-        format: 'iife',
-        sourcemap: true,
-      },
-      {
-        dir: 'twui-react/umd',
-        format: 'umd',
-        sourcemap: true,
-        name: 'twui-react',
-      },
-      {
-        dir: 'twui-react/dist',
-        format: 'iife',
-        sourcemap: true,
-        name: 'twuiReact',
-      },
-    ],
-    external: ['react', 'react-dom'],
-    plugins: [
-      resolve(),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        compilerOptions: {
-          declaration: false,
-          module: 'ESNext',
+    );
+  } else if (extractMultiCss) {
+    plugins.push(
+      staticImport.default({
+        baseDir: 'src/components',
+        include: ['src/components/**/style/css.js'],
+      }),
+      ignoreImport({
+        include: ['src/components/*/style/*'],
+        body: 'import "./css.js";',
+      }),
+    );
+  } else if (ignoreScss) {
+    plugins.push(ignoreImport({ extensions: ['*.scss'] }));
+  } else {
+    plugins.push(
+      staticImport.default({
+        baseDir: 'src/components',
+        include: ['src/components/**/style/index.js'],
+      }),
+      staticImport.default({
+        baseDir: 'src/styles',
+        include: ['src/styles/web/**/*.scss'],
+      }),
+      ignoreImport.default({
+        include: ['src/components/*/style/*'],
+        body: 'import "./style/index.js";',
+      }),
+    );
+  }
+  if (env) {
+    plugins.push(
+      replace({
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify(env),
         },
       }),
+    );
+  }
 
-      copy({
-        targets: [
-          {
-            src: 'package.json',
-            dest: 'twui-react',
-            transform: (content) => {
-              const pkg = JSON.parse(content);
-              const newPkg = {
-                name: pkg.name,
-                version: pkg.version,
-                description: pkg.description,
-                main: pkg.main,
-                module: pkg.module,
-                types: pkg.types,
-                files: pkg.files,
-                sideEffects: pkg.sideEffects,
-                keywords: pkg.keywords,
-                author: pkg.author,
-                license: pkg.license,
-                peerDependencies: pkg.peerDependencies,
-                type: 'module',
-              };
-              return JSON.stringify(newPkg, null, 2);
-            },
-          },
-        ],
+  if (isProd) {
+    plugins.push(
+      terser({
+        output: {
+          /* eslint-disable */
+          ascii_only: true,
+          /* eslint-enable */
+        },
       }),
-    ],
+    );
+  }
+
+  return plugins;
+};
+
+const cssConfig = {
+  input: ['src/components/**/style/index.js'],
+  plugins: [
+    multiInput({ relative: 'src/components/' }),
+    styles({ mode: 'extract' }),
+  ],
+  output: {
+    banner,
+    dir: 'twui-react/es',
+    sourcemap: true,
+    assetFileNames: '[name].css',
   },
-  {
-    input: 'src/index.ts',
-    output: { file: 'twui-react/cjs/index.d.ts', format: 'esm' },
-    plugins: [dts()],
+};
+
+// 按需加载组件 带 css 样式
+const esConfig = {
+  input: inputList.concat('!src/components/index-lib.ts'),
+  // 为了保留 style/css.js
+  treeshake: false,
+  external: externalDeps.concat(externalPeerDeps),
+  plugins: [multiInput({ relative: 'src/components/' })].concat(
+    getPlugins({ extractMultiCss: true }),
+  ),
+  output: {
+    banner,
+    dir: 'twui-react/es/',
+    format: 'esm',
+    sourcemap: true,
+    chunkFileNames: '_chunks/dep-[hash].js',
   },
-  {
-    input: 'src/index.ts',
-    output: { file: 'twui-react/esm/index.d.ts', format: 'esm' },
-    plugins: [dts()],
+};
+
+const cjsExternalException = ['lodash-es'];
+
+const cjsExternal = externalDeps
+  .concat(externalPeerDeps)
+  .filter((value) => !cjsExternalException.includes(value));
+
+// commonjs 导出规范，不带 css 样式
+const cjsConfig = {
+  input: inputList,
+  external: cjsExternal,
+  plugins: [multiInput({ relative: 'src/components/' })].concat(getPlugins()),
+  output: {
+    banner,
+    dir: 'twui-react/cjs/',
+    format: 'cjs',
+    sourcemap: true,
+    exports: 'named',
+    chunkFileNames: '_chunks/dep-[hash].js',
   },
-];
+};
+
+const umdConfig = {
+  input,
+  external: externalPeerDeps,
+  plugins: getPlugins({
+    env: 'development',
+    extractOneCss: true,
+  }).concat(analyzer({ limit: 5, summaryOnly: true })),
+  output: {
+    name: 'twui-react',
+    banner,
+    format: 'umd',
+    exports: 'named',
+    globals: { react: 'React' },
+    sourcemap: true,
+    file: `twui-react/dist/${name}.js`,
+  },
+};
+
+const umdMinConfig = {
+  input,
+  external: externalPeerDeps,
+  plugins: getPlugins({
+    isProd: true,
+    extractOneCss: true,
+    env: 'production',
+  }),
+  output: {
+    name: 'twui-react',
+    banner,
+    format: 'umd',
+    exports: 'named',
+    globals: { react: 'React' },
+    sourcemap: true,
+    file: `twui-react/dist/${name}.min.js`,
+  },
+};
+
+export default [cssConfig, cjsConfig, esConfig, umdConfig, umdMinConfig];

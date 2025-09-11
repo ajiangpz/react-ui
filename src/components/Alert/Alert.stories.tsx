@@ -1,101 +1,35 @@
 import { Meta, StoryObj } from "@storybook/react"
-import { Alert, AlertDescription, AlertTitle } from "./Alert"
-import { AlertCircle, Info as InfoIcon, CheckCircle, AlertTriangle } from "lucide-react"
-
+import { Alert } from "./index"
+import "@/components/style";
 const meta: Meta<typeof Alert> = {
   title: "Components/Alert",
   component: Alert,
-
-  tags: ["autodocs"],
-  argTypes: {
-    variant: {
-      control: "select",
-      options: ["default", "destructive", "success", "warning", "info"],
-      description: "提示框的样式变体",
-    },
-    size: {
-      control: "select",
-      options: ["sm", "default", "lg"],
-      description: "提示框的大小",
-    },
-  },
+  tags: ["autodocs"]
 }
 
 export default meta
 type Story = StoryObj<typeof Alert>
-
+const Base = () =>
+  <div className="flex gap-2 flex-col">
+    <Alert theme="success" message="这是一条成功的消息提示" />
+    <Alert theme="info" message="这是一条普通的消息提示" />
+    <Alert theme="warning" message="这是一条警示消息" />
+    <Alert theme="error" message="高危操作/出错信息提示" />
+  </div>
 export const Default: Story = {
-  args: {
-    icon: <InfoIcon />,
-    children: (
-      <>
-        <AlertTitle>默认提示</AlertTitle>
-        <AlertDescription>
-          这是一个默认样式的提示信息。
-        </AlertDescription>
-      </>
-    ),  
-  },
+  args: {},
+  render: () => <Base></Base>
 }
 
-export const Success: Story = {
-  args: {
-    variant: "success",
-    icon: <CheckCircle />,
-    children: (
-      <>
-        <AlertTitle>成功提示</AlertTitle>
-        <AlertDescription>
-          操作已成功完成。
-        </AlertDescription>
-      </>
-    ),
-  },
+const Collapse = () => {
+  const message = [
+    '1.这是一条普通的消息提示描述，',
+    '2.这是一条普通的消息提示描述，',
+    '3.这是一条普通的消息提示描述，',
+    '4.这是一条普通的消息提示描述，',
+    '5.这是一条普通的消息提示描述，',
+  ];
+  return <Alert message={message} maxLine={2} closeBtn />;
 }
 
-export const Warning: Story = {
-  args: {
-    variant: "warning",
-    icon: <AlertTriangle />,
-    children: (
-      <>
-        <AlertTitle>警告提示</AlertTitle>
-        <AlertDescription>
-          请注意，此操作可能有风险。
-        </AlertDescription>
-      </>
-    ),
-  },
-}
-
-export const InfoAlert: Story = {
-  args: {
-    variant: "info",
-    icon: <InfoIcon />,
-    children: (
-      <>
-        <AlertTitle>信息提示</AlertTitle>
-        <AlertDescription>
-          这是一条重要信息。
-        </AlertDescription>
-      </>
-    ),
-  },
-}
-
-export const Destructive: Story = {
-  args: {
-    variant: "destructive",
-    icon: <AlertCircle />,
-    children: (
-      <>
-        <AlertTitle>错误提示</AlertTitle>
-        <AlertDescription>
-          这是一个错误样式的提示信息。
-        </AlertDescription>
-      </>
-    ),
-  },
-}
-
-
+export const CollapseExample = () => <Collapse></Collapse>
