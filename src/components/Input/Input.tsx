@@ -11,7 +11,7 @@ import { TdInputProps } from './type';
 import useLayoutEffect from '@/hooks/useLayoutEffect';
 import useControlled from '@/hooks/useControlled';
 import { inputDefaultProps } from './defaultProps';
-import parseTNode from '@/lib/utils';
+import parseTNode from '@/utils/parseTNode';
 import useDefaultProps from '@/hooks/useDefaultProps';
 import { StyledProps, TNode, TElement } from '../common';
 import { isFunction } from 'lodash-es';

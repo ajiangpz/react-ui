@@ -1,0 +1,76 @@
+@use 'sass:map';
+
+@mixin input-status($status) {
+  #{$prefix}-is-#{$status} {
+    // 辅助文字
+    @include input-status-extra($status);
+
+    .#{$prefix}-form__controls-content {
+      // TODO: 兼容目前未使用SelectInput重构的组件的样式 全部重构后可以都由input层控制状态变化
+      .#{$prefix}-input,
+      .#{$prefix}-select,
+      .#{$prefix}-radio-button,
+      .#{$prefix}-cascader,
+      .#{$prefix}-range-input,
+      .#{$prefix}-textarea__inner {
+        border-color: map.get(map.get($input-color, border), $status);
+
+        &--focused {
+          box-shadow: 0 0 0 2px
+            map.get(map.get($input-color, box-shadow), $status);
+        }
+
+        // 处理组件内icon颜色
+        .t-icon,
+        .#{$prefix}-fake-arrow {
+          color: map.get(map.get($input-color, border), $status);
+        }
+      }
+
+      .#{$prefix}-select {
+        > .#{$prefix}-select__right-icon:not(
+            .#{$prefix}-select__right-icon-clear
+          ) {
+          color: map.get(map.get($input-color, border), $status);
+        }
+      }
+
+      .#{$prefix}-radio-button {
+        &:last-child {
+          border-right-color: map.get(map.get($input-color, border), $status);
+        }
+      }
+
+      .#{$prefix}-textarea__inner {
+        &.#{$prefix}-is-focused {
+          box-shadow: 0 0 0 2px map.get(map.get($input-color, border), $status);
+        }
+      }
+
+      .#{$prefix}-cascader,
+      .#{$prefix}-select {
+        &.#{$prefix}-is-active {
+          box-shadow: 0 0 0 2px
+            map.get(map.get($input-color, box-shadow), $status);
+        }
+      }
+
+      // 右侧状态图标
+      @include input-status-icon($status);
+    }
+  }
+}
+
+@mixin input-status-icon($status) {
+  .#{$prefix}-form__status {
+    .t-icon {
+      color: map.get($form-color, $status);
+    }
+  }
+}
+
+@mixin input-status-extra($status) {
+  .#{$prefix}-input__extra {
+    color: map.get($form-color, $status);
+  }
+}

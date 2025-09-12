@@ -16,7 +16,6 @@ export interface ConfigProviderProps extends Config {
   notSet?: boolean;
 }
 
-// deal with https://github.com/lodash/lodash/issues/1313
 export const merge = (src: GlobalConfigProvider, config: GlobalConfigProvider) =>
   _mergeWith(src, config, (objValue, srcValue) => {
     if (Array.isArray(objValue)) {
@@ -27,9 +26,9 @@ export const merge = (src: GlobalConfigProvider, config: GlobalConfigProvider) =
 // 存放全局的上下文配置
 let globalConfig = defaultGlobalConfig;
 
-export const getGlobalConfig = (configInfo?: GlobalConfigProvider): GlobalConfigProvider=> merge({ ...globalConfig }, configInfo)
+export const getGlobalConfig = (configInfo?: GlobalConfigProvider): GlobalConfigProvider => merge({ ...globalConfig }, configInfo)
 
-export const setGlobalConfig = (configInfo?: GlobalConfigProvider)=>{
+export const setGlobalConfig = (configInfo?: GlobalConfigProvider) => {
   globalConfig = configInfo
 }
 
@@ -38,12 +37,12 @@ export default function ConfigProvider({ children, globalConfig, notSet }: Confi
   const defaultData = cloneDeep(defaultGlobalConfig);
   const mergedGlobalConfig = merge(defaultData, globalConfig);
 
-  useEffect(()=>{
-    if(!notSet){
+  useEffect(() => {
+    if (!notSet) {
       // 需要设置的情况下，当配置信息变化时更新变量中的配置信息，方便plugin调用时获取
       setGlobalConfig(mergedGlobalConfig)
     }
-  },[mergedGlobalConfig, notSet]);
+  }, [mergedGlobalConfig, notSet]);
 
   return <ConfigContext.Provider value={{ globalConfig: mergedGlobalConfig }}>{children}</ConfigContext.Provider>;
 }

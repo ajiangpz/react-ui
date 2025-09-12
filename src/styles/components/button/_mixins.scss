@@ -1,4 +1,4 @@
-@import "./_vars.scss";
+@import './_vars.scss';
 
 @mixin button() {
   position: relative;
@@ -21,7 +21,12 @@
   touch-action: manipulation;
 }
 
-@mixin button-size($btn-height, $btn-font-size, $btn-icon-size, $padding-horizontal) {
+@mixin button-size(
+  $btn-height,
+  $btn-font-size,
+  $btn-icon-size,
+  $padding-horizontal
+) {
   height: $btn-height;
   font: $btn-font-size;
   padding-left: calc($padding-horizontal - $btn-border-width);

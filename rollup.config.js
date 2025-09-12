@@ -18,7 +18,7 @@ import ignoreImport from 'rollup-plugin-ignore-import';
 import { resolve, join } from 'path';
 import { copy as fileCopy } from 'fs-extra';
 
-import pkg from './package.json' assert { type: 'json' };;
+import pkg from './package.json' assert { type: 'json' };
 const name = 'twui-react';
 const externalDeps = Object.keys(pkg.dependencies || {});
 const externalPeerDeps = Object.keys(pkg.peerDependencies || {});
@@ -29,7 +29,7 @@ const banner = `/**
  * @license ${pkg.license}
  */
 `;
-const input = "src/index.ts";
+const input = 'src/components/index.ts';
 const inputList = [
   'src/components/**/*.ts',
   'src/components/**/*.jsx',

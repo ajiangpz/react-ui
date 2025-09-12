@@ -21,6 +21,46 @@ $input-border-color-success: $success-color;
 $input-border-color-warning: $warning-color;
 $input-border-color-error: $error-color;
 
+$input-color: (
+  border: (
+    default: (
+      hover: $brand-color,
+      focus: $brand-color,
+    ),
+    success: $success-color,
+    warning: $warning-color,
+    error: $error-color,
+  ),
+  text: (
+    default: $text-color-primary,
+    success: $success-color,
+    warning: $warning-color,
+    error: $error-color,
+    readonly: $text-color-primary,
+    tips: $text-color-placeholder,
+    disabled: $text-color-disabled,
+  ),
+  bg-color: (
+    default: $text-color-placeholder,
+    readonly: $bg-color-specialcomponent,
+    disabled: $bg-color-component-disabled,
+  ),
+  extra: (
+    default: $text-color-placeholder,
+    success: $success-color,
+    warning: $warning-color,
+    error: $error-color,
+  ),
+  append: $bg-color-secondarycontainer-hover,
+  limit: $text-color-placeholder,
+  box-shadow: (
+    default: $brand-color-focus,
+    success: $success-color-focus,
+    warning: $warning-color-focus,
+    error: $error-color-focus,
+  ),
+);
+
 $input-text-color-success: $success-color;
 $input-text-color-warning: $warning-color;
 $input-text-color-error: $error-color;

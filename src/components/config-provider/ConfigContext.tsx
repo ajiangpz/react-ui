@@ -3,6 +3,8 @@ import { createContext } from 'react';
 export const defaultClassPrefix = 't';
 export const defaultGlobalConfig = {
   classPrefix: defaultClassPrefix,
+  attach: null,
+  form: {}
 };
 
 export const defaultContext = {

@@ -8,7 +8,9 @@
 
 .#{$prefix}-input {
   @include reset;
-
+  @include input-status(success);
+  @include input-status(warning);
+  @include input-status(error);
   width: 100%;
   position: relative;
   box-sizing: border-box;
@@ -107,9 +109,7 @@
   }
 
   // 输入框状态
-  @include input-status(success);
-  @include input-status(warning);
-  @include input-status(error);
+
   @include input-readonly;
   @include input-disabled;
 

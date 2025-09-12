@@ -4,7 +4,7 @@ import useConfig from "@/hooks/useConfig";
 import Loading from "../loading";
 import { TdButtonProps } from "./type";
 import { buttonDefaultProps } from "./defaultProps";
-import parseTNode from "@/lib/utils";
+import parseTNode from "@/utils/parseTNode";
 import useDefaultProps from "@/hooks/useDefaultProps";
 
 export interface ButtonProps

@@ -1,10 +1,10 @@
-@import "../../_vars.scss";
+@import '../../_vars.scss';
 
-@import "./_vars.scss";
+@import './_vars.scss';
 
-@import "./_mixins.scss";
+@import './_mixins.scss';
 
-@import "../../mixins/_reset.scss";
+@import '../../mixins/_reset.scss';
 
 .#{$prefix}-switch {
   @include reset;
@@ -49,7 +49,7 @@
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -62,14 +62,12 @@
   }
 
   &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
-
     .#{$prefix}-switch__handle::before {
       left: 0;
       right: -6px;
     }
 
     &.#{$prefix}-is-checked {
-
       .#{$prefix}-switch__handle::before {
         right: 0;
         left: -6px;
@@ -86,8 +84,7 @@
     display: inline-flex;
     align-items: center;
     color: $switch-content-color-unchecked;
-    padding:
-      0 $switch-content-margin-right-default 0
+    padding: 0 $switch-content-margin-right-default 0
       $switch-content-margin-left-default;
     font-size: $switch-content-font-size-default;
     min-width: $switch-min-width-default;
@@ -108,14 +105,17 @@
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-default);
       transform: translate(-100%, 0);
-      width: calc($switch-height-default - 2 * $switch-width-border-check-default);
-      height: calc($switch-height-default - 2 * $switch-width-border-check-default);
+      width: calc(
+        $switch-height-default - 2 * $switch-width-border-check-default
+      );
+      height: calc(
+        $switch-height-default - 2 * $switch-width-border-check-default
+      );
       top: $switch-width-border-check-default;
     }
 
     .#{$prefix}-switch__content {
-      padding:
-        0 $switch-content-margin-left-default 0
+      padding: 0 $switch-content-margin-left-default 0
         $switch-content-margin-right-default;
       color: $switch-content-color-checked;
     }
@@ -175,14 +175,12 @@
   border-radius: $border-radius-round;
 
   &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
-
     .#{$prefix}-switch__handle::before {
       left: 0;
       right: -8px;
     }
 
     &.#{$prefix}-is-checked {
-
       .#{$prefix}-switch__handle::before {
         right: 0;
         left: -8px;
@@ -212,7 +210,6 @@
   }
 
   &.#{$prefix}-is-checked {
-
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-l);
       top: $switch-width-border-check-l;
@@ -233,14 +230,12 @@
   border-radius: $border-radius-round;
 
   &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
-
     .#{$prefix}-switch__handle::before {
       left: 0;
       right: -4px;
     }
 
     &.#{$prefix}-is-checked {
-
       .#{$prefix}-switch__handle::before {
         right: 0;
         left: -4px;
@@ -270,7 +265,6 @@
   }
 
   &.#{$prefix}-is-checked {
-
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-s);
       top: $switch-width-border-check-s;
