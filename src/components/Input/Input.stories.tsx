@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Input, { InputGroup } from './index';
 import '../input/style/index.js';
-import '@/components/style/index.js';
+import '@/style/index.js';
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',

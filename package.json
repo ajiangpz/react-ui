@@ -27,8 +27,7 @@
     "dev:link": "npm run build && cd twui-react && npm link && cd ../playground && npm link twui-react",
     "type": "tsc -p tsconfig.json",
     "storybook": "storybook dev -p 6006",
-    "deploy-storybook": "gh-pages -d storybook-static",
-    "chromatic": "npx chromatic --project-token=chpt_7291eacc28bb693"
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "keywords": [
     "react",
@@ -48,7 +47,7 @@
     "@babel/runtime": "^7.28.4",
     "@commitlint/config-conventional": "^19.8.1",
     "@popperjs/core": "^2.11.8",
-    "@rollup/plugin-typescript": "^12.1.2",
+    "@tailwindcss/vite": "^4.1.13",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
@@ -62,7 +61,7 @@
     "rollup-plugin-dts": "^6.2.1",
     "tailwind-merge": "^2.6.0",
     "tailwind-variants": "^0.2.1",
-    "tailwindcss": "^4.1.10",
+    "tailwindcss": "^4.1.13",
     "tdesign-react": "^1.14.5",
     "tinycolor2": "^1.6.0"
   },
@@ -77,11 +76,13 @@
     "@babel/core": "^7.28.4",
     "@babel/plugin-transform-runtime": "^7.28.3",
     "@babel/preset-env": "^7.28.3",
+    "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@rollup/plugin-url": "^8.0.2",
     "@storybook/addon-a11y": "^9.0.16",
     "@storybook/addon-docs": "^9.0.8",

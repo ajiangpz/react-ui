@@ -141,23 +141,25 @@ const getPlugins = ({
 };
 const cssInput = fg.sync('src/components/**/style/index.js');
 const cssConfig = {
-  input: cssInput,
+  input: ['src/components/alert/style/index.js'],
   plugins: [
+    styles({ mode: 'extract' }),
     alias({
       entries: [{ find: '@', replacement: __dirname + '/src/components' }],
       customResolver,
     }),
-    styles({ mode: 'extract' }),
   ],
+  treeshake: false,
   output: {
-    dir: './twui-react/es',
+    dir: './twui-react/es/alert',
     format: 'esm',
     sourcemap: true,
 
     // 关键：开启模块保留模式
     preserveModules: true,
-    preserveModulesRoot: 'src/components', // 去掉 src 前缀，目录更干净
+    preserveModulesRoot: 'src/components/alert', // 去掉 src 前缀，目录更干净
 
+    entryFileNames: '[name].js',
     assetFileNames: '[name].css', // 每个入口的 CSS 会按入口名命名
   },
 };
@@ -183,6 +185,8 @@ const esConfig = {
     format: 'esm',
     sourcemap: false,
     chunkFileNames: '_chunks/dep-[hash].js',
+    preserveModules: true, // 添加以兼容 multiInput
+    preserveModulesRoot: 'src/components/alert', // 移除 src 前缀
   },
 };
 
@@ -245,4 +249,4 @@ const esConfig = {
 // };
 
 // export default [cssConfig, cjsConfig, esConfig, umdConfig, umdMinConfig];
-export default [cssConfig];
+export default [cssConfig, esConfig];

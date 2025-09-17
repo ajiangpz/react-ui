@@ -1,18 +1,15 @@
 import type { Preview } from "@storybook/react-vite";
 import { useEffect } from "react";
-import "../src/styles/globals.css";
-import "../src/styles/rillple.css";
-import "../src/styles/themes.css";
-import React from "react";
+import './style.css';
 export const globalTypes = {
   theme: {
     name: "Theme",
     description: "Theme for the app",
     defaultValue: "default",
     toolbar: {
-          icon: "circlehollow",
-          items: ["default", "blue", "green"],
-      showName: true    
+      icon: "circlehollow",
+      items: ["default", "blue", "green"],
+      showName: true
     }
   },
   mode: {

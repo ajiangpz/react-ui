@@ -12,7 +12,7 @@
     "paths": {
       // Specifies the paths to use for the code.
       "twui-react/*": ["./src/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/components/*"]
     },
     "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
     "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.

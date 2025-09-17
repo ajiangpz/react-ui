@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { isObject, isFunction } from 'lodash-es';
 import useControlled from '@/hooks/useControlled';
 import { TdSelectInputProps } from '../type';
-import { TdPopupProps, PopupVisibleChangeContext } from '@/components/popup';
+import { TdPopupProps, PopupVisibleChangeContext } from '@/popup';
 
 export type overlayStyleProps = Pick<
   TdSelectInputProps,

@@ -49,7 +49,7 @@ import useDefaultProps from '@/hooks/useDefaultProps';
 
 export interface SelectProps<T = SelectOption>
   extends TdSelectProps<T>,
-    StyledProps {
+  StyledProps {
   // 子节点
   children?: React.ReactNode;
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -283,7 +283,7 @@ const Select = forwardRefWithStatics(
 
       const checkAllValue =
         !checkAll &&
-        allSelectedValue.length !== (props.value as Array<SelectOption>)?.length
+          allSelectedValue.length !== (props.value as Array<SelectOption>)?.length
           ? allSelectedValue
           : [];
 

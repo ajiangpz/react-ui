@@ -17,7 +17,7 @@ import {
   SelectOption,
   SelectOptionGroup,
 } from './type';
-import useConfig from '../../hooks/useConfig';
+import useConfig from '@/hooks/useConfig';
 import usePanelVirtualScroll from './hooks/usePanelVirtualScroll';
 import Option, { SelectOptionProps } from './Option';
 import OptionGroup from './OptionGroup';
@@ -246,10 +246,10 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                   onRowMounted={handleRowMounted}
                   {...(isVirtual
                     ? {
-                        isVirtual,
-                        bufferSize: propsScroll?.bufferSize,
-                        scrollType: propsScroll?.type,
-                      }
+                      isVirtual,
+                      bufferSize: propsScroll?.bufferSize,
+                      scrollType: propsScroll?.type,
+                    }
                     : {})}
                   {...restData}
                 >

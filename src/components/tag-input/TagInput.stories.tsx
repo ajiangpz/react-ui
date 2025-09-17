@@ -4,7 +4,7 @@ import type { TagInputProps, TagInputValue } from './TagInput';
 import { useState } from 'react';
 
 import './style/index.js';
-import '@/components/style/index.js';
+import '@/style/index.js';
 
 const BaseExample = ({ ...args }) => {
   const [tags1, setTags1] = useState<TagInputValue>([

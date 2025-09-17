@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Popup from './index';
 import { Button } from '../button';
-import "@/components/style"
+import "@/style"
 const meta: Meta = {
   title: 'Components/Popup',
   component: Popup,

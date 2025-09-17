@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { SelectInput, SelectInputProps } from './index';
 import { useState, useEffect } from 'react';
-import '@/components/style/index.js';
+import '@/style/index.js';
 import '../input/index';
 import { Search } from 'lucide-react';
 

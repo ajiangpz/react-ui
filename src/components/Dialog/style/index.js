@@ -1,1 +1,1 @@
-import '../../../styles/components/dialog/_index.scss';
+import '@/styles/components/dialog/_index.scss';

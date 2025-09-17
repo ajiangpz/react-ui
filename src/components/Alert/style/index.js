@@ -1,1 +1,1 @@
-import "../../../styles/components/alert/_index.scss";
+import '@/styles/components/alert/_index.scss';

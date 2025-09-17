@@ -10,7 +10,7 @@ import { supportRef, getRefDom, getNodeRef } from '@/utils/refs';
 import composeRefs from '@/utils/composeRefs';
 import { off, on } from '@/utils/listener';
 import classNames from 'classnames';
-import { TNode } from '@/components/common';
+import { TNode } from '@/common';
 const ESC_KEY = 'Escape';
 
 interface UseTriggerProps {

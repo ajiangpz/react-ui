@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import useConfig from '../../hooks/useConfig';
+import useConfig from '@/hooks/useConfig';
 
 import { TdOptionGroupProps } from './type';
 import { optionGroupDefaultProps } from './defaultProps';
-import useDefaultProps from '../../hooks/useDefaultProps';
+import useDefaultProps from '@/hooks/useDefaultProps';
 
 export interface SelectGOptionGroupProps extends TdOptionGroupProps {
   children?: React.ReactNode;

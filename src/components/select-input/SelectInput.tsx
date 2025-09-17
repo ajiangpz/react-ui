@@ -9,7 +9,7 @@ import { StyledProps } from '../common';
 import { selectInputDefaultProps } from './defaultProps';
 import useConfig from '@/hooks/useConfig';
 import useDefaultProps from '@/hooks/useDefaultProps';
-import { InputRef } from '@/components/input';
+import { InputRef } from '@/input';
 
 export interface SelectInputProps extends TdSelectInputProps, StyledProps {
   updateScrollTop?: (content: HTMLDivElement) => void;
@@ -24,10 +24,10 @@ const SelectInput = React.forwardRef<
     originalProps,
     selectInputDefaultProps,
   );
-const { classPrefix: prefix } = useConfig();
+  const { classPrefix: prefix } = useConfig();
   const selectInputRef = useRef<PopupRef>(null);
   const selectInputWrapRef = useRef<HTMLElement>(null);
-  const {multiple, value, popupVisible, popupProps, borderless, disabled } = props;
+  const { multiple, value, popupVisible, popupProps, borderless, disabled } = props;
   const {
     commonInputProps,
     inputRef,
@@ -58,7 +58,7 @@ const { classPrefix: prefix } = useConfig();
     ...(selectInputRef.current || {}),
     ...(inputRef.current || {}),
     ...(tagInputRef.current || {})
-    
+
   }));
 
   // 浮层显示的受控与非受控

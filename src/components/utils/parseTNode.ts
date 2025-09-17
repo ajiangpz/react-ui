@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { isFunction } from 'lodash-es';
-import { TNode } from '@/components/common';
+import { TNode } from '@/common';
 
 // 解析 TNode 数据结构
 export default function parseTNode(
@@ -28,7 +28,8 @@ export default function parseTNode(
  */
 export function parseContentTNode<T>(tnode: TNode<T>, props: T) {
   if (isFunction(tnode)) return tnode(props) as ReactNode;
-  if (!tnode || ['string', 'number', 'boolean'].includes(typeof tnode)) return tnode as ReactNode;
+  if (!tnode || ['string', 'number', 'boolean'].includes(typeof tnode))
+    return tnode as ReactNode;
   try {
     return React.cloneElement(tnode as ReactElement, { ...props });
   } catch (e) {

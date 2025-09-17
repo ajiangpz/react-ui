@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./index";
-import '@/components/style';
+import { Button as TButton } from "tdesign-react";
+import '@/style';
 
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
@@ -19,6 +20,10 @@ export const Default: Story = {
   }
 };
 
+export const TButtonExample: Story = {
+  args: {},
+  render: () => <TButton variant="outline">TButton</TButton>
+}
 
 
 

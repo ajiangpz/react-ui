@@ -1,1 +1,1 @@
-import "../../../styles/components/badge/_index.scss";
+import '@/styles/components/badge/_index.scss';

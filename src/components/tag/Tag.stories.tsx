@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
 import { Tag } from './index';
 import '../tag/style/index.js';
-import '@/components/style/index.js';
+import '@/style/index.js';
 const meta: Meta<typeof Tag> = {
   title: 'Components/Tag',
   component: Tag,

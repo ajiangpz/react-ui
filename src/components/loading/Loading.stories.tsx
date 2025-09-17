@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Loading from './Loading';
-import '@/components/style';
+import '@/style';
 import './style/index';
 import { useEffect, useState } from 'react';
 import { Switch } from '../switch';

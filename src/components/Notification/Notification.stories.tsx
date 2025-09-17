@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { NotificationProvider, useNotification } from "./index";
 import './style/index';
-import '@/components/style';
+import '@/style';
 import { Button } from "../button";
 import { useRef } from "react";
 

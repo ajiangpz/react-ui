@@ -10,9 +10,14 @@ import {
   TdSelectProps,
   SelectOption,
 } from '../type';
-import { isSelectOptionGroup } from '../hooks/useOptions';
 
 type SelectLabeledValue = Required<Omit<TdOptionProps, 'disabled'>>;
+
+export function isSelectOptionGroup(
+  option: SelectOption,
+): option is SelectOptionGroup {
+  return !!option && 'group' in option && 'children' in option;
+}
 
 export type ValueToOption = {
   [value: string | number]: TdOptionProps;

@@ -6,7 +6,7 @@ import {
 import { DialogPlugin } from './plugin';
 import { Button } from "../button";
 import { useState } from "react";
-import "@/components/style";
+import "@/style";
 
 
 const meta = {

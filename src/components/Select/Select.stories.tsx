@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Select } from './index';
 import './style/index';
-import '@/components/style';
+import '@/style';
 import { useState } from 'react';
-import { Select as TSelect} from 'tdesign-react';
+import { Select as TSelect } from 'tdesign-react';
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
@@ -104,8 +104,8 @@ export const MultiSelectExample: Story = {
 };
 
 
-export const TMultiSelectExample:Story = {
-  args:{},
+export const TMultiSelectExample: Story = {
+  args: {},
   render: ({ ...args }) => <TMultiSelect {...args}></TMultiSelect>
 }
 

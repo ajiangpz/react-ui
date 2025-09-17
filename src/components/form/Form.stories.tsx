@@ -14,7 +14,7 @@ import { Button } from "../button";
 import { NotificationProvider, useNotification } from "../notification";
 import type { FormProps } from './index';
 
-import "@/components/style";
+import "@/style";
 
 const { FormItem } = Form;
 
