@@ -1,11 +1,11 @@
 import React, { useMemo, forwardRef } from "react";
 import classNames from "classnames";
-import useConfig from "@/hooks/useConfig";
+import useConfig from "../hooks/useConfig";
 import Loading from "../loading";
 import { TdButtonProps } from "./type";
 import { buttonDefaultProps } from "./defaultProps";
-import parseTNode from "@/utils/parseTNode";
-import useDefaultProps from "@/hooks/useDefaultProps";
+import parseTNode from "../utils/parseTNode";
+import useDefaultProps from "../hooks/useDefaultProps";
 
 export interface ButtonProps
   extends Omit<

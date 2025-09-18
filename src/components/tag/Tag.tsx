@@ -7,13 +7,13 @@ import React, {
 import classNames from 'classnames';
 import { X } from 'lucide-react';
 import tinycolor from 'tinycolor2';
-import noop from '@/utils/noop';
-import useConfig from '@/hooks/useConfig';
-import useGlobalIcon from '@/hooks/useGlobalIcon';
+import noop from '../utils/noop';
+import useConfig from '../hooks/useConfig';
+import useGlobalIcon from '../hooks/useGlobalIcon';
 import { StyledProps } from '../common';
 import { TdTagProps } from './type';
 import { tagDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 export interface TagProps extends TdTagProps, StyledProps {
   /**

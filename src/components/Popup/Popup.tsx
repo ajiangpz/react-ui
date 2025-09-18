@@ -8,20 +8,20 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { getRefDom } from '@/utils/ref';
-import Portal from '@/portal/Portal';
-import useControlled from '@/hooks/useControlled';
-import useDefaultProps from '@/hooks/useDefaultProps';
-import useMutationObserver from '@/hooks/useMutationObserver';
-import useWindowSize from '@/hooks/useWindowSize';
+import { getRefDom } from '../utils/ref';
+import Portal from '../portal/Portal';
+import useControlled from '../hooks/useControlled';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useMutationObserver from '../hooks/useMutationObserver';
+import useWindowSize from '../hooks/useWindowSize';
 import useTrigger from './hooks/useTrigger';
 import type { TdPopupProps } from './type';
-import usePopper from '@/hooks/usePopper';
+import usePopper from '../hooks/usePopper';
 import { popupDefaultProps } from './defaultProps';
 import classNames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
-import { getCssVarsValue } from '@/utils/style';
-import useConfig from '@/hooks/useConfig';
+import { getCssVarsValue } from '../utils/style';
+import useConfig from '../hooks/useConfig';
 
 export interface PopupProps extends TdPopupProps {
   // 是否触发展开收起动画，内部下拉式组件使用

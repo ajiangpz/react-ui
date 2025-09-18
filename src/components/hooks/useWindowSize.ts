@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash-es';
-import { getWindowSize } from '@/utils/dom';
+import { getWindowSize } from '../utils/dom';
 
 export interface WindowSize {
   width: number;

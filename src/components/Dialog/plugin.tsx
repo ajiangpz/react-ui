@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from "@/utils/react-render";
+import { render } from "../utils/react-render";
 import DialogComponent, { DialogProps } from "./Dialog";
-import { getAttach } from '@/utils/dom';
+import { getAttach } from '../utils/dom';
 import { DialogOptions, DialogMethod, DialogConfirmMethod, DialogAlertMethod, DialogInstance } from './type';
 import PluginContainer from '../common/PluginContainer';
 import ConfigProvider from '../config-provider';

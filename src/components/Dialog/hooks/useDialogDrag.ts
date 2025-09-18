@@ -1,5 +1,5 @@
 import { RefObject, useRef } from 'react';
-import useMouseEvent from '@/hooks/useMouseEvent';
+import useMouseEvent from '../../hooks/useMouseEvent';
 
 interface DialogDragProps {
   dialogCardRef: RefObject<HTMLDivElement | null>;

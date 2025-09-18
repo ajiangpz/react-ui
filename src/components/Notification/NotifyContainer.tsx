@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import NotificationItem from "./NotifyItem";
-import useConfig from "@/hooks/useConfig";
+import useConfig from "../hooks/useConfig";
 export const GAP = 14;
 export const TOAST_WIDTH = 356;
 const NotificationContainer = ({
@@ -35,12 +35,12 @@ const NotificationContainer = ({
     []
   );
 
-  const { classPrefix:prefix} = useConfig();
+  const { classPrefix: prefix } = useConfig();
 
   return (
     <div
       className={`${prefix}-notify`}
-    
+
       style={
         {
           height: isHovering ? `${notifications.length * 100 + 16}px` : "auto",

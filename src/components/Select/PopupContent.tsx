@@ -17,7 +17,7 @@ import {
   SelectOption,
   SelectOptionGroup,
 } from './type';
-import useConfig from '@/hooks/useConfig';
+import useConfig from '../hooks/useConfig';
 import usePanelVirtualScroll from './hooks/usePanelVirtualScroll';
 import Option, { SelectOptionProps } from './Option';
 import OptionGroup from './OptionGroup';

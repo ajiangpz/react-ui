@@ -6,9 +6,9 @@ import {
 } from 'tdesign-icons-react';
 import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from 'lodash-es';
 import { StyledProps } from '../common';
-import useConfig from '@/hooks/useConfig';
-import useDefaultProps from '@/hooks/useDefaultProps';
-import useGlobalIcon from '@/hooks/useGlobalIcon';
+import useConfig from '../hooks/useConfig';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
 // import { useLocaleReceiver } from '../locale/LocalReceiver';
 import { ValidateStatus } from './const';
 import { formItemDefaultProps } from './defaultProps';

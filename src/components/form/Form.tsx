@@ -1,8 +1,8 @@
 import React, { useRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
-import useConfig from '@/hooks/useConfig';
-import noop from '@/utils/noop';
-import forwardRefWithStatics from '@/utils/forwardRefWithStatics';
+import useConfig from '../hooks/useConfig';
+import noop from '../utils/noop';
+import forwardRefWithStatics from '../utils/forwardRefWithStatics';
 import type { TdFormProps } from './type';
 import useInstance from './hooks/useInstance';
 import useForm, { HOOK_MARK } from './hooks/useForm';
@@ -13,7 +13,7 @@ import FormContext from './FormContext';
 import FormItem from './FormItem';
 import FormList from './FormList';
 import { formDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 export interface FormProps extends TdFormProps, StyledProps {
     children?: React.ReactNode;

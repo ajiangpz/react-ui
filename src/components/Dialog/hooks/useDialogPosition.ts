@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react';
-import useIsomorphicLayoutEffect from '@/hooks/useLayoutEffect';
+import useIsomorphicLayoutEffect from '../../hooks/useLayoutEffect';
 type Position = { x: number; y: number };
 export default function useDialogPosition(
   visible: boolean | undefined,

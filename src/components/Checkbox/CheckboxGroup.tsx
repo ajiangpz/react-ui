@@ -1,14 +1,14 @@
 import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash-es';
-import useConfig from '@/hooks/useConfig';
+import useConfig from '../hooks/useConfig';
 import { CheckContext, CheckContextValue, CheckProps } from '../common/Check';
 import { CheckboxGroupValue, CheckboxOption, CheckboxOptionObj, TdCheckboxGroupProps, TdCheckboxProps } from './type';
 import { StyledProps } from '../common';
-import useControlled from '@/hooks/useControlled';
+import useControlled from '../hooks/useControlled';
 import Checkbox from './Checkbox';
 import { checkboxGroupDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 import type { CheckboxProps } from './Checkbox';
 

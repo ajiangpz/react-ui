@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { TdSelectInputProps, SelectInputChangeContext, SelectInputKeys, SelectInputValue } from '../type';
 import TagInput, { TagInputValue } from '../../tag-input';
 import { SelectInputCommonProperties } from '../interface';
-import useControlled from '@/hooks/useControlled';
-import useConfig from '@/hooks/useConfig';
+import useControlled from '../../hooks/useControlled';
+import useConfig from '../../hooks/useConfig';
 import { InputRef } from '../../input';
 import { StyledProps } from '../../common';
 

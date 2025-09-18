@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useMemo, CSSProperties } from 'react';
 import classnames from 'classnames';
-import { canUseDocument } from '@/utils/dom';
-import useConfig from '@/hooks/useConfig';
+import { canUseDocument } from '../utils/dom';
+import useConfig from '../hooks/useConfig';
 import { StyledProps } from '../common';
 import { TdLoadingProps } from './type';
 import Portal from '../common/Portal';
 import Gradient from './Gradient';
 import { loadingDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
-import { addClass, removeClass } from '@/utils/style';
+import useDefaultProps from '../hooks/useDefaultProps';
+import { addClass, removeClass } from '../utils/style';
 
-export interface LoadingProps extends TdLoadingProps, StyledProps {}
+export interface LoadingProps extends TdLoadingProps, StyledProps { }
 
 const Loading: React.FC<LoadingProps> = (props) => {
   const {

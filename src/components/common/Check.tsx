@@ -1,10 +1,10 @@
 import React, { forwardRef, useContext, MouseEvent, ChangeEvent } from 'react';
 import classNames from 'classnames';
 import { isBoolean } from 'lodash-es';
-import { omit } from '@/utils/helper';
+import { omit } from '../utils/helper';
 import { StyledProps } from '../common';
-import useConfig from '@/hooks/useConfig';
-import useControlled from '@/hooks/useControlled';
+import useConfig from '../hooks/useConfig';
+import useControlled from '../hooks/useControlled';
 import { TdCheckboxProps } from '../checkbox/type';
 
 export interface CheckProps extends TdCheckboxProps, StyledProps {

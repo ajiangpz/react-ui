@@ -1,5 +1,5 @@
 import { TagFunction } from './Tag';
-import forwardRefWithStatics from '@/utils/forwardRefWithStatics';
+import forwardRefWithStatics from '../utils/forwardRefWithStatics';
 import './style/index.js';
 export type { TagProps } from './Tag';
 

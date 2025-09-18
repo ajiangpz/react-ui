@@ -1,4 +1,4 @@
-import { canUseDocument } from '@/utils/dom';
+import { canUseDocument } from '../utils/dom';
 export const getCssVarsValue = (name: string, element?: HTMLElement) => {
   if (!canUseDocument) return;
 

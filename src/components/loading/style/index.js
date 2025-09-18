@@ -1,1 +1,1 @@
-import '@/styles/components/loading/_index.scss';
+import '../../styles/components/loading/_index.scss';

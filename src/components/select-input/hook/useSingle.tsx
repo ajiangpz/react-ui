@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { SelectInputCommonProperties } from '../interface';
 import { TdSelectInputProps } from '../type';
 import Input, { InputProps, InputRef, TdInputProps } from '../../input';
-import useControlled from '@/hooks/useControlled';
+import useControlled from '../../hooks/useControlled';
 
 export interface RenderSelectSingleInputParams {
   tPlaceholder: string;

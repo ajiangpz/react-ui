@@ -9,12 +9,12 @@ import {
 import Button, { ButtonProps } from '../button';
 import { TdDialogCardProps } from './type';
 import { StyledProps } from '../common';
-import parseTNode from '@/utils/parseTNode';
-import useConfig from '@/hooks/useConfig';
-import useGlobalIcon from '@/hooks/useGlobalIcon';
+import parseTNode from '../utils/parseTNode';
+import useConfig from '../hooks/useConfig';
+import useGlobalIcon from '../hooks/useGlobalIcon';
 // import { useLocaleReceiver } from '../locale/LocalReceiver';
 import { dialogCardDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 export interface DialogCardProps extends TdDialogCardProps, StyledProps, React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;

@@ -1,9 +1,9 @@
 import React from 'react';
-import forwardRefWithStatics from "@/utils/forwardRefWithStatics";
+import forwardRefWithStatics from "../utils/forwardRefWithStatics";
 import Check, { CheckProps } from '../common/Check';
 import CheckboxGroup from './CheckboxGroup';
 import { checkboxDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 export type CheckboxProps = Omit<CheckProps, 'type'>;
 

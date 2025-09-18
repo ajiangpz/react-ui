@@ -9,18 +9,18 @@ import React, {
 import { XCircle } from 'lucide-react';
 import { isFunction } from 'lodash-es';
 import classnames from 'classnames';
-import useConfig from '@/hooks/useConfig';
+import useConfig from '../hooks/useConfig';
 import TInput, { InputValue, InputRef } from '../input';
 import { TdTagInputProps } from './type';
 import useTagList from './hooks/useTagList';
 import useTagScroll from './hooks/useTagScroll';
 import useHover from './hooks/useHover';
-import useControlled from '@/hooks/useControlled';
+import useControlled from '../hooks/useControlled';
 import { StyledProps } from '../common';
 import { tagInputDefaultProps } from './defaultProps';
-import useDefaultProps from '@/hooks/useDefaultProps';
-import useGlobalIcon from '@/hooks/useGlobalIcon';
-import useDragSorter from '@/hooks/useDragSorter';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import useDragSorter from '../hooks/useDragSorter';
 
 export interface TagInputProps extends TdTagInputProps, StyledProps {
   options?: any[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
@@ -160,9 +160,9 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   // 自定义 Tag 节点
   const displayNode = isFunction(valueDisplay)
     ? valueDisplay({
-        value: tagValue,
-        onClose: (index) => onClose({ index }),
-      })
+      value: tagValue,
+      onClose: (index) => onClose({ index }),
+    })
     : valueDisplay;
 
   const isEmpty = !(Array.isArray(tagValue) && tagValue.length);
@@ -184,9 +184,9 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   const maxRowsStyle = maxRows
     ? ({
-        '--max-rows': maxRows,
-        '--tag-input-size': size,
-      } as React.CSSProperties)
+      '--max-rows': maxRows,
+      '--tag-input-size': size,
+    } as React.CSSProperties)
     : {};
 
   return (

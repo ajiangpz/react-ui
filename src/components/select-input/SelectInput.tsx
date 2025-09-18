@@ -7,9 +7,9 @@ import useOverlayInnerStyle from './hook/useOverlayInnerStyle';
 import { TdSelectInputProps } from './type';
 import { StyledProps } from '../common';
 import { selectInputDefaultProps } from './defaultProps';
-import useConfig from '@/hooks/useConfig';
-import useDefaultProps from '@/hooks/useDefaultProps';
-import { InputRef } from '@/input';
+import useConfig from '../hooks/useConfig';
+import useDefaultProps from '../hooks/useDefaultProps';
+import { InputRef } from '../input';
 
 export interface SelectInputProps extends TdSelectInputProps, StyledProps {
   updateScrollTop?: (content: HTMLDivElement) => void;

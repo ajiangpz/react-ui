@@ -9,9 +9,9 @@ import { isFunction } from 'lodash-es';
 import { TagInputChangeContext, TagInputValue, TdTagInputProps } from '../type';
 import { InputValue } from '../../input';
 import { Tag } from '../../tag';
-import useConfig from '@/hooks/useConfig';
-import useControlled from '@/hooks/useControlled';
-import { DragSortInnerProps } from '@/hooks/useDragSorter';
+import useConfig from '../../hooks/useConfig';
+import useControlled from '../../hooks/useControlled';
+import { DragSortInnerProps } from '../../hooks/useDragSorter';
 
 export type ChangeParams = [TagInputChangeContext];
 
@@ -107,21 +107,21 @@ export default function useTagList(props: TagInputProps) {
     const list = displayNode
       ? [<Fragment key="display-node">{displayNode}</Fragment>]
       : newList?.map((item, index) => {
-          const tagContent = isFunction(tag) ? tag({ value: item }) : tag;
-          return (
-            <Tag
-              key={index}
-              size={size}
-              disabled={disabled}
-              onClose={(context) => onClose({ e: context.e, index })}
-              closable={!readonly && !disabled}
-              {...getDragProps?.(index, item)}
-              {...tagProps}
-            >
-              {tagContent ?? item}
-            </Tag>
-          );
-        });
+        const tagContent = isFunction(tag) ? tag({ value: item }) : tag;
+        return (
+          <Tag
+            key={index}
+            size={size}
+            disabled={disabled}
+            onClose={(context) => onClose({ e: context.e, index })}
+            closable={!readonly && !disabled}
+            {...getDragProps?.(index, item)}
+            {...tagProps}
+          >
+            {tagContent ?? item}
+          </Tag>
+        );
+      });
     if (label) {
       list?.unshift(
         <div className={`${prefix}-tag-input__prefix`} key="label">

@@ -9,16 +9,16 @@ import {
 } from 'lucide-react';
 
 import { CSSTransition } from 'react-transition-group';
-import parseTNode from '@/utils/parseTNode';
-import noop from '@/utils/noop';
+import parseTNode from '../utils/parseTNode';
+import noop from '../utils/noop';
 
-import useConfig from '@/hooks/useConfig';
-import useGlobalIcon from '@/hooks/useGlobalIcon';
+import useConfig from '../hooks/useConfig';
+import useGlobalIcon from '../hooks/useGlobalIcon';
 import { TdAlertProps } from './type';
 import { StyledProps } from '../common';
 import { alertDefaultProps } from './defaultProps';
-import composeRefs from '@/utils/composeRefs';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import composeRefs from '../utils/composeRefs';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 const transitionTime = 200;
 

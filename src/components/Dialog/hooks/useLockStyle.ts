@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
-import { getScrollbarWidth } from '@/utils/getScrollbarWidth';
-import useLayoutEffect from '@/hooks/useLayoutEffect';
+import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
+import useLayoutEffect from '../..//hooks/useLayoutEffect';
 import type { TdDialogProps } from '../type';
 let key = 1;
 

@@ -8,7 +8,7 @@ import type {
   AllValidateResult,
   NamePath,
 } from '../type';
-import useConfig from '@/hooks/useConfig';
+import useConfig from '../../hooks/useConfig';
 import { getMapValue, objectToArray, travelMapFromObject, calcFieldValue } from '../utils';
 
 // 检测是否需要校验 默认全量校验

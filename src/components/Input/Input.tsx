@@ -8,14 +8,14 @@ import React, {
 import classNames from 'classnames';
 import { Eye, EyeOff, XCircle } from 'lucide-react';
 import { TdInputProps } from './type';
-import useLayoutEffect from '@/hooks/useLayoutEffect';
-import useControlled from '@/hooks/useControlled';
+import useLayoutEffect from '../hooks/useLayoutEffect';
+import useControlled from '../hooks/useControlled';
 import { inputDefaultProps } from './defaultProps';
-import parseTNode from '@/utils/parseTNode';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import parseTNode from '../utils/parseTNode';
+import useDefaultProps from '../hooks/useDefaultProps';
 import { StyledProps, TNode, TElement } from '../common';
 import { isFunction } from 'lodash-es';
-import useConfig from '@/hooks/useConfig';
+import useConfig from '../hooks/useConfig';
 export interface InputProps extends TdInputProps, StyledProps {
   showInput?: boolean; // 控制透传readonly同时是否展示input 默认保留 因为正常Input需要撑开宽度
   keepWrapperWidth?: boolean; // 控制透传autoWidth之后是否容器宽度也自适应 多选等组件需要用到自适应但也需要保留宽度

@@ -1,8 +1,8 @@
 import { useEffect, FC } from 'react';
 import classnames from 'classnames';
 import circleAdapter from './circleAdapter';
-import useDomRefCallback from '@/hooks/useDomRefCallback';
-import useConfig from '@/hooks/useConfig';
+import useDomRefCallback from '../hooks/useDomRefCallback';
+import useConfig from '../hooks/useConfig';
 
 /**
  * Loading组件 渐变部分实现

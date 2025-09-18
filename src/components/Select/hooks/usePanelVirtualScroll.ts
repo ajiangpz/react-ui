@@ -5,7 +5,7 @@ import {
   useCallback,
   CSSProperties,
 } from 'react';
-import useVirtualScroll from '@/hooks/useVirtualScroll';
+import useVirtualScroll from '../../hooks/useVirtualScroll';
 import { TdSelectProps } from '../type';
 import { TScroll, SizeEnum } from '../../common';
 

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { debounce, isEqual } from 'lodash-es';
-import useLatest from '@/hooks/useLastest';
+import useLatest from './useLastest';
 
 const DEFAULT_OPTIONS = {
   debounceTime: 0,

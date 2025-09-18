@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { isObject, isFunction } from 'lodash-es';
-import useControlled from '@/hooks/useControlled';
+import useControlled from '../../hooks/useControlled';
 import { TdSelectInputProps } from '../type';
 import { TdPopupProps, PopupVisibleChangeContext } from '@/popup';
 

@@ -2,8 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { isNumber, isString, get } from 'lodash-es';
 
-import useConfig from '@/hooks/useConfig';
-import useDomRefCallback from '@/hooks/useDomRefCallback';
+import useConfig from '../hooks/useConfig';
+import useDomRefCallback from '../hooks/useDomRefCallback';
 
 import { StyledProps } from '../common';
 import {
@@ -16,8 +16,8 @@ import {
 
 export interface SelectOptionProps
   extends StyledProps,
-    TdOptionProps,
-    Pick<TdSelectProps, 'size' | 'multiple' | 'max'> {
+  TdOptionProps,
+  Pick<TdSelectProps, 'size' | 'multiple' | 'max'> {
   selectedValue?: SelectValue;
   children?: React.ReactNode;
   onSelect?: (

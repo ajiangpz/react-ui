@@ -13,13 +13,13 @@ import React, {
 
 import classNames from 'classnames';
 import { isFunction, get, debounce } from 'lodash-es';
-import { getOffsetTopToContainer } from '@/utils/helper';
-import useControlled from '@/hooks/useControlled';
-import useConfig from '@/hooks/useConfig';
-import forwardRefWithStatics from '@/utils/forwardRefWithStatics';
+import { getOffsetTopToContainer } from '../utils/helper';
+import useControlled from '../hooks/useControlled';
+import useConfig from '../hooks/useConfig';
+import forwardRefWithStatics from '../utils/forwardRefWithStatics';
 import { getSelectValueArr, getSelectedOptions } from './utils/helper';
 
-import noop from '@/utils/noop';
+import noop from '../utils/noop';
 import FakeArrow from '../common/FakeArrow';
 import Loading from '../loading';
 import SelectInput, {
@@ -43,9 +43,9 @@ import { selectDefaultProps } from './defaultProps';
 import { PopupVisibleChangeContext } from '../popup';
 
 import useOptions, { isSelectOptionGroup } from './hooks/useOptions';
-import composeRefs from '@/utils/composeRefs';
-import { parseContentTNode } from '@/utils/parentTNode';
-import useDefaultProps from '@/hooks/useDefaultProps';
+import composeRefs from '../utils/composeRefs';
+import { parseContentTNode } from '../utils/parentTNode';
+import useDefaultProps from '../hooks/useDefaultProps';
 
 export interface SelectProps<T = SelectOption>
   extends TdSelectProps<T>,
