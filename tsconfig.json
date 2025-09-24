@@ -1,32 +1,63 @@
 {
   "compilerOptions": {
-    "target": "esnext", // Specifies the JavaScript version to target when transpiling code.
-    "useDefineForClassFields": true, // Enables the use of 'define' for class fields.
-    "rootDir": "./src",
-    "baseUrl": "./",
-    "jsx": "react-jsx",
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "esnext",
+    "outDir": "lib",
     "declaration": true,
-    "lib": ["esnext", "dom"], // Specifies the libraries available for the code.
-    "module": "esnext", // Defines the module system to use for code generation.
-    "skipLibCheck": true, // Skips type checking of declaration files.
+    "sourceMap": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
     "paths": {
-      // Specifies the paths to use for the code.
-      "twui-react/*": ["./src/*"],
-      "@/*": ["./src/components/*"]
+      "tdesign-react": [
+        "packages/components"
+      ],
+      "tdesign-react/*": [
+        "packages/components/*"
+      ],
+      "@test/utils": [
+        "test/utils"
+      ],
+      "@common/*": [
+        "packages/common/*"
+      ]
     },
-    "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
-    "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.
-    "resolveJsonModule": true, // Enables importing JSON modules.
-    "isolatedModules": true, // Ensures each file is treated as a separate module.
-    "noEmit": true, // Prevents TypeScript from emitting output files.
-    /* Linting */
-    "strict": true, // Enables strict type checking.
-    "noUnusedLocals": true, // Flags unused local variables.
-    "noUnusedParameters": true, // Flags unused function parameters.
-    "noFallthroughCasesInSwitch": true, // Requires handling all cases in a switch statement.
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["src"], // Specifies the directory to include when searching for TypeScript files.
-  "exclude": ["src/**/__docs__", "src/**/__test__", "use-rollup", "dist", "esm"]
+  "include": [
+    "./packages/components",
+    "./globals.d.ts",
+    "./test/config/index.d.ts",
+    "**/**/__tests__/*"
+  ],
+  "exclude": [
+    "**/*.jsx",
+    "**/**/_usage/*",
+    "node_modules",
+    "dist",
+    "lib",
+    "esm",
+    "cjs",
+    "es"
+  ],
+  "types": [
+    "node",
+    "jest",
+    "vitest/globals",
+    "@testing-library/jest-dom",
+    "@testing-library/react-hooks",
+    "@testing-library/react"
+  ],
+  "compileOnSave": false
 }
