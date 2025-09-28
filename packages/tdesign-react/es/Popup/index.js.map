@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../../components/Popup/index.ts"],"sourcesContent":["import _Popup from './Popup';\nimport './style/index';\nexport type { PopupProps, PopupRef } from './Popup';\nexport * from './type';\nexport const Popup = _Popup;\nexport default Popup;\n"],"names":["Popup","_Popup"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;AAIO,IAAMA,KAAA,GAAQC;;;;"}

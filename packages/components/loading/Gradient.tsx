@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react';
+import React, { useEffect, FC } from 'react';
 import classnames from 'classnames';
 import circleAdapter from './circleAdapter';
 import useDomRefCallback from '../hooks/useDomRefCallback';

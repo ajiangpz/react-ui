@@ -1,7 +1,6 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { Select } from './index';
-import './style/index';
-import '@/style';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { Select } from 'tendaui-react/es';
+
 import { useState } from 'react';
 import { Select as TSelect } from 'tdesign-react';
 

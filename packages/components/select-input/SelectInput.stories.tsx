@@ -1,8 +1,7 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { SelectInput, SelectInputProps } from './index';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { SelectInput, SelectInputProps } from 'tendaui-react/es';
 import { useState, useEffect } from 'react';
-import '@/style/index.js';
-import '../input/index';
+
 import { Search } from 'lucide-react';
 
 const meta: Meta<typeof SelectInput> = {

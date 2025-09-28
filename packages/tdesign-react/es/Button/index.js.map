@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../../components/Button/index.ts"],"sourcesContent":["import _Button from './Button';\n\nimport './style/index';\nexport type { ButtonProps } from './Button';\nexport const Button = _Button;\nexport * from  './type';\nexport default Button;"],"names":["Button","_Button"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;AAIO,IAAMA,MAAA,GAASC;;;;"}

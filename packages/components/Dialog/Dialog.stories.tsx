@@ -1,12 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-  Dialog, type DialogProps
-} from "./index";
+  Dialog, Button, type DialogProps
+} from "tendaui-react/es/index";
 
 import { DialogPlugin } from './plugin';
-import { Button } from "../button";
 import { useState } from "react";
-import "@/style";
 
 
 const meta = {

@@ -1,8 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { NotificationProvider, useNotification } from "./index";
-import './style/index';
-import '@/style';
-import { Button } from "../button";
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { NotificationProvider, useNotification, Button } from "tendaui-react/es";
 import { useRef } from "react";
 
 // 创建一个演示组件

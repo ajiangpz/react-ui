@@ -2,10 +2,10 @@ import React, { forwardRef, isValidElement } from 'react';
 import classNames from 'classnames';
 import { isString, isObject, isFunction } from 'lodash-es';
 import {
-    CloseIcon as TdCloseIcon,
-    InfoCircleFilledIcon as TdInfoCircleFilledIcon,
-    CheckCircleFilledIcon as TdCheckCircleFilledIcon,
-} from 'tdesign-icons-react';
+    X as TdCloseIcon,
+    Info as TdInfoCircleFilledIcon,
+    BadgeCheck as TdCheckCircleFilledIcon,
+} from 'lucide-react';
 import Button, { ButtonProps } from '../button';
 import { TdDialogCardProps } from './type';
 import { StyledProps } from '../common';

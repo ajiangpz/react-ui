@@ -1,8 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import { CheckProps } from '../common/Check';
-import { Checkbox } from "./index";
+import { Checkbox } from "tendaui-react/es/index";
 import { useState } from "react";
-import '@/style';
 
 const meta: Meta<CheckProps> = {
   title: "Components/Checkbox",

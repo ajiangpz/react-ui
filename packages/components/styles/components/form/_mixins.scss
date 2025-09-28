@@ -1,7 +1,7 @@
 @use 'sass:map';
 
 @mixin input-status($status) {
-  #{$prefix}-is-#{$status} {
+  .#{$prefix}-is-#{$status} {
     // 辅助文字
     @include input-status-extra($status);
 

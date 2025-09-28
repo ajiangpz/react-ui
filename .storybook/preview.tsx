@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
 import { useEffect } from "react";
-import './style.css';
+
 export const globalTypes = {
   theme: {
     name: "Theme",

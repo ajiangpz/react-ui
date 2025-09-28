@@ -1,10 +1,9 @@
-import { Meta, StoryObj } from '@storybook/react';
-import TagInput from './TagInput';
-import type { TagInputProps, TagInputValue } from './TagInput';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { TagInput } from 'tendaui-react/es';
+import type { TagInputProps, TagInputValue } from 'tendaui-react/es';
 import { useState } from 'react';
 
-import './style/index.js';
-import '@/style/index.js';
+
 
 const BaseExample = ({ ...args }) => {
   const [tags1, setTags1] = useState<TagInputValue>([

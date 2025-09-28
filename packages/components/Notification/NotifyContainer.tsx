@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import NotificationItem from "./NotifyItem";
 import useConfig from "../hooks/useConfig";
 export const GAP = 14;

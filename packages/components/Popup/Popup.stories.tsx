@@ -1,7 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react';
-import Popup from './index';
-import { Button } from '../button';
-import "@/style"
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { Popup, Button } from 'tendaui-react/es';
 const meta: Meta = {
   title: 'Components/Popup',
   component: Popup,

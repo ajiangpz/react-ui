@@ -1,9 +1,9 @@
 import React, { forwardRef, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import {
-  CheckCircleFilledIcon as TdCheckCircleFilledIcon,
-  CloseCircleFilledIcon as TdCloseCircleFilledIcon,
-  ErrorCircleFilledIcon as TdErrorCircleFilledIcon,
-} from 'tdesign-icons-react';
+  BadgeCheck as TdCheckCircleFilledIcon,
+  X as TdCloseCircleFilledIcon,
+  X as TdErrorCircleFilledIcon,
+} from 'lucide-react';
 import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from 'lodash-es';
 import { StyledProps } from '../common';
 import useConfig from '../hooks/useConfig';

@@ -1,11 +1,6 @@
-import { Meta, StoryObj } from '@storybook/react';
-import Loading from './Loading';
-import '@/style';
-import './style/index';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { Loading, Switch, Button } from 'tendaui-react/es';
 import { useEffect, useState } from 'react';
-import { Switch } from '../switch';
-import { Button } from '../button';
-import { Divide } from 'lucide-react';
 
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',

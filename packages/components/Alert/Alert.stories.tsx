@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react"
-import { Alert } from "./index"
-import "@/style";
+import { Alert } from "../../tendaui-react/es/alert";
 const meta: Meta<typeof Alert> = {
   title: "Components/Alert",
   component: Alert,
@@ -10,7 +9,7 @@ const meta: Meta<typeof Alert> = {
 export default meta
 type Story = StoryObj<typeof Alert>
 const Base = () =>
-  <div className="flex gap-2 flex-col">
+  <div >
     <Alert theme="success" message="这是一条成功的消息提示" />
     <Alert theme="info" message="这是一条普通的消息提示" />
     <Alert theme="warning" message="这是一条警示消息" />

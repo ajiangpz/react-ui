@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../../components/Switch/index.ts"],"sourcesContent":["import _Switch from \"./Switch\";\nimport \"./style/index\";\nexport * from \"./type\";\n\n\nexport const Switch = _Switch;\n\nexport default Switch;"],"names":["Switch","_Switch"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;AAKO,IAAMA,MAAA,GAASC;;;;"}

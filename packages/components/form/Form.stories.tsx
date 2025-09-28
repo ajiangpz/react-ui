@@ -1,20 +1,16 @@
 
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 
 
 
 
 import {
-    Form
-} from './index';
-import { Input } from "../input";
-import { Switch } from "../switch";
-import { Checkbox } from '../checkbox';
-import { Button } from "../button";
-import { NotificationProvider, useNotification } from "../notification";
+    Form, Input, Switch, Checkbox, Button
+} from 'tendaui-react/es/index';
+
+import { NotificationProvider, useNotification } from "tendaui-react/es/notification";
 import type { FormProps } from './index';
 
-import "@/style";
 
 const { FormItem } = Form;
 
