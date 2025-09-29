@@ -2,31 +2,30 @@ import { _ as _extends } from '../_chunks/dep-mO86zOh3.js';
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { a as CircleX } from '../_chunks/dep-LgDsOUkE.js';
-import { d as isFunction } from '../_chunks/dep-uPo9oRq0.js';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
+import { XCircle } from 'lucide-react';
+import { isFunction } from 'lodash-es';
+import classNames from 'classnames';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { Input } from '../input/index.js';
 import useTagList from './hooks/useTagList.js';
-import { u as useControlled } from '../_chunks/dep-IfD-elqQ.js';
+import { u as useControlled } from '../_chunks/dep-D2IWH4e_.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
 import { u as useGlobalIcon } from '../_chunks/dep-BIZNqCbw.js';
 import useDragSorter from '../hooks/useDragSorter.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-0Agal8xo.js';
 import '../config-provider/ConfigContext.js';
 import '../input/Input.js';
-import '../_chunks/dep-DcgYxvIK.js';
-import '../_chunks/dep-0EpSXuwN.js';
-import '../_chunks/dep-CVM4W9uS.js';
+import '../_chunks/dep-DN7d1SzH.js';
+import '../_chunks/dep-CKiAytca.js';
+import '../_chunks/dep-_E1HIQZ7.js';
 import '../input/InputGroup.js';
 import '../input/style/css.js';
 import '../_chunks/dep-CgyDw_YI.js';
 import '../tag/index.js';
 import '../tag/Tag.js';
 import '../_chunks/dep-CVFMdElW.js';
-import '../_chunks/dep-KHdXYwsL.js';
-import '../_chunks/dep-DFvx9dpR.js';
+import '../_chunks/dep-BP0-apUT.js';
+import 'hoist-non-react-statics';
 import '../tag/style/css.js';
 
 var mouseEnterTimer = null;
@@ -176,7 +175,7 @@ var TagInput = /*#__PURE__*/forwardRef(function (originalProps, ref) {
   var _useConfig = useConfig(),
     prefix = _useConfig.classPrefix;
   var _useGlobalIcon = useGlobalIcon({
-      CloseCircleFilledIcon: CircleX
+      CloseCircleFilledIcon: XCircle
     }),
     CloseCircleFilledIcon = _useGlobalIcon.CloseCircleFilledIcon;
   var excessTagsDisplayType = props.excessTagsDisplayType,

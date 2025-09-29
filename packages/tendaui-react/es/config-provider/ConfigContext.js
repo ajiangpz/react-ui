@@ -4,7 +4,9 @@ var defaultClassPrefix = 't';
 var defaultGlobalConfig = {
   classPrefix: defaultClassPrefix,
   attach: null,
-  form: {}
+  form: {},
+  icon: {},
+  isContextEffectPlugin: false
 };
 var defaultContext = {
   globalConfig: defaultGlobalConfig

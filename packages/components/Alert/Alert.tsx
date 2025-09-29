@@ -108,7 +108,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
     if (closeNode === false) return null;
     return (
       <div className={`${classPrefix}-alert__close`} onClick={handleClose}>
-        {parseTNode(closeNode, undefined, <CloseIcon className='t-icon'></CloseIcon>)}
+        {parseTNode(closeNode as any, undefined, <CloseIcon className='t-icon'></CloseIcon>)}
       </div>
     );
   };

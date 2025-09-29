@@ -1,9 +1,8 @@
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import React from 'react';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
+import classNames from 'classnames';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-0Agal8xo.js';
 import '../config-provider/ConfigContext.js';
 
 // 翻转箭头统一组件

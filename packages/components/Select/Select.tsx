@@ -40,7 +40,7 @@ import {
 
 import { StyledProps } from '../common';
 import { selectDefaultProps } from './defaultProps';
-import { PopupVisibleChangeContext } from '../popup';
+import { PopupVisibleChangeContext, type TdPopupProps } from '../popup';
 
 import useOptions, { isSelectOptionGroup } from './hooks/useOptions';
 import composeRefs from '../utils/composeRefs';
@@ -677,7 +677,7 @@ const Select = forwardRefWithStatics(
           collapsedItems={collapsedItems}
           updateScrollTop={updateScrollTop}
           popupProps={{
-            overlayClassName: [`${name}__dropdown`, overlayClassName],
+            overlayClassName: [`${name}__dropdown`, overlayClassName] as TdPopupProps['overlayClassName'],
             onScroll: handleScroll,
             ...restPopupProps,
           }}

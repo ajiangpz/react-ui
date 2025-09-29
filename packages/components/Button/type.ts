@@ -10,7 +10,7 @@ export interface TdButtonProps {
   /**
    * 按钮内容，同 content
    */
-  children?: TNode;
+  children?: TNode ;
   /**
    * 按钮内容
    */

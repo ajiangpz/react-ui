@@ -5,7 +5,7 @@ import ConfigProvider from '../config-provider/ConfigProvider.js';
 import '../config-provider/ConfigContext.js';
 import '../_chunks/dep-Cwish4GD.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-uPo9oRq0.js';
+import 'lodash-es';
 
 /**
  *

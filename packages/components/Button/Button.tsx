@@ -89,7 +89,7 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
     },
     <>
       {iconNode}
-      {renderChildren && <span className={`${classPrefix}-button__text`}>{typeof renderChildren === 'function' ? renderChildren(children) : renderChildren}</span>}
+      {renderChildren && <span className={`${classPrefix}-button__text`}>{renderChildren}</span>}
       {suffix && <span className={`${classPrefix}-button__suffix`}>{parseTNode(suffix)}</span>}
     </>,
   );

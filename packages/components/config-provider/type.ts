@@ -1,5 +1,5 @@
 import { TNode, TElement, SizeEnum, AttachNode } from '../common';
-
+import { ButtonProps } from '../button';
 export interface TdConfigProviderProps {
   /**
    * 全局配置
@@ -83,7 +83,7 @@ export interface GlobalConfigProvider {
   /**
    * 图标全局配置
    */
-  icon?: IconConfig;
+  icon?: any;
   /**
    * 图片全局配置
    */
@@ -210,7 +210,7 @@ export interface CalendarConfig {
   /**
    * 日历右上角控制器按钮配置
    */
-  controllerConfig?: CalendarController;
+  controllerConfig?: any;
   /**
    * 当日期数字小于 10 时，是否使用 '0' 填充
    * @default true
@@ -520,7 +520,7 @@ export interface FormConfig {
   /**
    * 表单错误信息配置，示例：`{ idcard: '请输入正确的身份证号码', max: '字符长度不能超过 ${max}' }`
    */
-  errorMessage?: FormErrorMessage;
+  errorMessage?: any;
   /**
    * 是否显示必填符号（*），默认显示
    * @default true
@@ -566,7 +566,7 @@ export interface ImageConfig {
   /**
    * 统一替换图片 `src` 地址，参数为组件的全部属性，返回值为新的图片地址
    */
-  replaceImageSrc?: (params: ImageProps) => string;
+  replaceImageSrc?: (params: any) => string;
 }
 
 export interface ImageViewerConfig {
@@ -623,7 +623,7 @@ export interface ListConfig {
   loadingText?: string;
 }
 
-export interface MessageConfig extends MessageOptions {}
+export interface MessageConfig  {}
 
 export interface PaginationConfig {
   /**
@@ -1054,3 +1054,5 @@ export interface UploadTriggerUploadText {
   continueUpload?: string;
   delete?: string;
 }
+
+export type IconConfig = any;

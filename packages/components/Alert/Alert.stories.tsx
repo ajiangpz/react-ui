@@ -1,4 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react"
+import React from "react";
+import { Meta, StoryObj } from "@storybook/react-vite"
+
 import { Alert } from "../../tendaui-react/es/alert";
 const meta: Meta<typeof Alert> = {
   title: "Components/Alert",

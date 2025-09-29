@@ -21,12 +21,6 @@
       ],
       "tdesign-react/*": [
         "packages/components/*"
-      ],
-      "@test/utils": [
-        "test/utils"
-      ],
-      "@common/*": [
-        "packages/common/*"
       ]
     },
     "allowJs": true,

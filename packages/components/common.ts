@@ -1,9 +1,10 @@
-import React, { CSSProperties, ReactElement } from 'react';
+import React, { CSSProperties, ReactElement ,FormEvent} from 'react';
 export interface StyledProps {
   style?: React.CSSProperties;
   className?: string;
 }
-
+export type FormResetEvent = FormEvent<HTMLFormElement>;
+export type FormSubmitEvent = FormEvent<HTMLFormElement>;
 export type AttachNodeReturnValue = HTMLElement | Element | Document | null;
 export type AttachNode =
   | CSSSelector
@@ -13,7 +14,7 @@ export type CSSSelector = string;
 
 export type Styles = CSSProperties;
 
-export type TNode = React.ReactNode | ((options: any) => React.ReactNode);
+export type TNode<T = undefined> = T extends undefined ? React.ReactNode : React.ReactNode | ((props: T) => React.ReactNode);
 
 export type ClassName = string | string[] | { [key: string]: boolean };
 
@@ -65,3 +66,13 @@ export interface ScrollToElementParams {
   time?: number;
   behavior?: 'auto' | 'smooth';
 }
+
+/**
+ * 通用全局类型
+ * */
+export type PlainObject = { [key: string]: any };
+
+/**
+ * @deprecated use TScroll instead
+ */
+export type InfinityScroll = TScroll;

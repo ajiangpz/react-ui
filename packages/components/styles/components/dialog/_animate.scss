@@ -84,47 +84,7 @@
     @include animation-active;
   }
 
-  &__vue {
-    &-enter-active {
-      .#{$prefix}-dialog {
-        animation-name: tDialogZoomIn;
-        @include animation-enter;
-      }
 
-      .#{$prefix}-dialog__mask {
-        animation-name: tDialogMaskIn;
-        animation-duration: $dialog-anim-duration;
-        animation-timing-function: linear;
-        @include animation-active;
-      }
-    }
-
-    &-leave-active {
-      .#{$prefix}-dialog {
-        animation-name: tDialogZoomOut;
-        @include animation-exit;
-      }
-
-      .#{$prefix}-dialog__mask {
-        animation-name: tDialogMaskOut;
-        animation-duration: $dialog-anim-duration;
-        animation-timing-function: linear;
-        @include animation-active;
-      }
-    }
-
-    &-enter-to {
-      .#{$prefix}-dialog {
-        @include animation-active;
-      }
-    }
-
-    &-leave-to {
-      .#{$prefix}-dialog {
-        @include animation-active;
-      }
-    }
-  }
 }
 
 .#{$prefix}-dialog-fade-enter,

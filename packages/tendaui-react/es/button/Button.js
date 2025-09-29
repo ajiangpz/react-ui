@@ -1,24 +1,23 @@
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
-import { _ as _objectWithoutProperties } from '../_chunks/dep-DcgYxvIK.js';
+import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { forwardRef, useMemo } from 'react';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
+import classNames from 'classnames';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { Loading } from '../loading/index.js';
-import { p as parseTNode } from '../_chunks/dep-CVM4W9uS.js';
+import { p as parseTNode } from '../_chunks/dep-_E1HIQZ7.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-0Agal8xo.js';
 import '../config-provider/ConfigContext.js';
 import '../loading/Loading.js';
 import '../_chunks/dep-CzLhKWCf.js';
-import '../_chunks/dep-0EpSXuwN.js';
-import '../_chunks/dep-uPo9oRq0.js';
+import '../_chunks/dep-CKiAytca.js';
+import 'lodash-es';
 import '../common/Portal.js';
 import 'react-dom';
 import '../loading/Gradient.js';
-import '../_chunks/dep-CCwJVofP.js';
+import '../_chunks/dep-DiKH-oTP.js';
 import '../_chunks/dep-BlRTpQ02.js';
-import '../_chunks/dep-D9QqIBS0.js';
+import '../_chunks/dep-BrowiCr7.js';
 import '../loading/style/css.js';
 
 var buttonDefaultProps = {
@@ -85,7 +84,7 @@ var Button = /*#__PURE__*/forwardRef(function (originProps, ref) {
     onClick: !disabled && !loading ? onClick : undefined
   }), /*#__PURE__*/React.createElement(React.Fragment, null, iconNode, renderChildren && /*#__PURE__*/React.createElement("span", {
     className: "".concat(classPrefix, "-button__text")
-  }, typeof renderChildren === 'function' ? renderChildren(children) : renderChildren), suffix && /*#__PURE__*/React.createElement("span", {
+  }, renderChildren), suffix && /*#__PURE__*/React.createElement("span", {
     className: "".concat(classPrefix, "-button__suffix")
   }, parseTNode(suffix))));
 });

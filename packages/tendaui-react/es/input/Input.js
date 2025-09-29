@@ -1,18 +1,17 @@
 import { _ as _extends } from '../_chunks/dep-mO86zOh3.js';
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
-import { _ as _objectWithoutProperties } from '../_chunks/dep-DcgYxvIK.js';
+import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
-import { a as CircleX, E as EyeOff, b as Eye } from '../_chunks/dep-LgDsOUkE.js';
-import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-0EpSXuwN.js';
-import { u as useControlled } from '../_chunks/dep-IfD-elqQ.js';
-import { p as parseTNode } from '../_chunks/dep-CVM4W9uS.js';
+import classNames from 'classnames';
+import { XCircle, EyeOff, Eye } from 'lucide-react';
+import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-CKiAytca.js';
+import { u as useControlled } from '../_chunks/dep-D2IWH4e_.js';
+import { p as parseTNode } from '../_chunks/dep-_E1HIQZ7.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
-import { d as isFunction } from '../_chunks/dep-uPo9oRq0.js';
+import { isFunction } from 'lodash-es';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-0Agal8xo.js';
 import '../config-provider/ConfigContext.js';
 
 var inputDefaultProps = {
@@ -127,7 +126,7 @@ var Input = /*#__PURE__*/forwardRef(function (originalProps, ref) {
   var isValueEnabled = value && !disabled;
   var isShowClearIcon = (clearable && isValueEnabled || showClearIconOnEmpty) && isHover;
   var suffixIconNew = suffixIcon;
-  if (isShowClearIcon) suffixIconNew = /*#__PURE__*/React.createElement(CircleX, {
+  if (isShowClearIcon) suffixIconNew = /*#__PURE__*/React.createElement(XCircle, {
     className: "".concat(classPrefix, "-input__suffix-clear ").concat(classPrefix, "-icon"),
     onMouseDown: handleMouseDown,
     onClick: handleClear,

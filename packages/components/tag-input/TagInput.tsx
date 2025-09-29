@@ -191,7 +191,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   return (
     <TInput
-      ref={tagInputRef as React.RefObject<InputRef>}
+      ref={tagInputRef as any}
       value={tInputValue}
       onChange={(val, context) => {
         setTInputValue(val, { ...context, trigger: 'input' });

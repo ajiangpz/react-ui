@@ -1,33 +1,31 @@
 import { _ as _extends } from '../_chunks/dep-mO86zOh3.js';
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
-import { _ as _objectWithoutProperties } from '../_chunks/dep-DcgYxvIK.js';
+import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { useMemo, useState, useCallback, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { C as CSSTransition } from '../_chunks/dep-DTNqJ2we.js';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
-import { i as isUndefined } from '../_chunks/dep-uPo9oRq0.js';
+import { CSSTransition } from 'react-transition-group';
+import classNames from 'classnames';
+import { isUndefined } from 'lodash-es';
 import Portal from '../common/Portal.js';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
-import { d as dialogDefaultProps, D as DialogCard } from '../_chunks/dep-CDPvR3ml.js';
+import { d as dialogDefaultProps, D as DialogCard } from '../_chunks/dep-CmR_x2TK.js';
 import { _ as _typeof } from '../_chunks/dep-D-UKOauR.js';
 import { _ as _toConsumableArray } from '../_chunks/dep-CgyDw_YI.js';
-import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-0EpSXuwN.js';
-import '../_chunks/dep-0Agal8xo.js';
-import '../_chunks/dep-DFvx9dpR.js';
+import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-CKiAytca.js';
 import 'react-dom';
 import '../config-provider/ConfigContext.js';
-import '../_chunks/dep-LgDsOUkE.js';
+import 'lucide-react';
 import '../button/index.js';
 import '../button/Button.js';
 import '../loading/index.js';
 import '../loading/Loading.js';
 import '../loading/Gradient.js';
-import '../_chunks/dep-CCwJVofP.js';
+import '../_chunks/dep-DiKH-oTP.js';
 import '../_chunks/dep-BlRTpQ02.js';
-import '../_chunks/dep-D9QqIBS0.js';
+import '../_chunks/dep-BrowiCr7.js';
 import '../loading/style/css.js';
-import '../_chunks/dep-CVM4W9uS.js';
+import '../_chunks/dep-_E1HIQZ7.js';
 import '../button/style/css.js';
 import '../_chunks/dep-BIZNqCbw.js';
 
@@ -367,7 +365,6 @@ var Dialog = /*#__PURE__*/forwardRef(function (originalProps, ref) {
     classPrefix = _useConfig.classPrefix;
   var componentCls = "".concat(classPrefix, "-dialog");
   var wrapRef = useRef(null);
-  var maskRef = useRef(null);
   var contentClickRef = useRef(false);
   var dialogCardRef = useRef(null);
   var dialogPosition = useRef(null);
@@ -462,12 +459,6 @@ var Dialog = /*#__PURE__*/forwardRef(function (originalProps, ref) {
       }
     };
   });
-
-  // @ts-ignore 兼容旧版本 2.0 移除
-  if (props.mode === 'normal') {
-    console.error('Dialog', 'mode="normal" is not supported, please use DialogCard.');
-    return /*#__PURE__*/React.createElement(DialogCard, props);
-  }
   var onMaskClick = function onMaskClick(e) {
     if (showOverlay && closeOnOverlayClick) {
       // 判断点击事件初次点击是否为内容区域
@@ -551,10 +542,8 @@ var Dialog = /*#__PURE__*/forwardRef(function (originalProps, ref) {
       timeout: 300,
       classNames: "".concat(componentCls, "-fade"),
       mountOnEnter: true,
-      unmountOnExit: true,
-      nodeRef: maskRef
+      unmountOnExit: true
     }, /*#__PURE__*/React.createElement("div", {
-      ref: maskRef,
       className: "".concat(componentCls, "__mask")
     })) : null;
   };

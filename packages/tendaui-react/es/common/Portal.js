@@ -1,9 +1,9 @@
 import { _ as _typeof } from '../_chunks/dep-D-UKOauR.js';
 import { forwardRef, useMemo, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
-import { c as canUseDocument, u as useIsomorphicLayoutEffect } from '../_chunks/dep-0EpSXuwN.js';
+import { c as canUseDocument, u as useIsomorphicLayoutEffect } from '../_chunks/dep-CKiAytca.js';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
-import '../_chunks/dep-uPo9oRq0.js';
+import 'lodash-es';
 import '../config-provider/ConfigContext.js';
 
 function getAttach(attach, triggerNode) {

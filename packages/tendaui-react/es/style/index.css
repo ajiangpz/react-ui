@@ -37,16 +37,16 @@
 }
 :root,
 :root[theme-mode=light] {
-  --td-brand-color-1: #f2f3ff;
-  --td-brand-color-2: #d9e1ff;
-  --td-brand-color-3: #b5c7ff;
-  --td-brand-color-4: #8eabff;
-  --td-brand-color-5: #618dff;
-  --td-brand-color-6: #366ef4;
-  --td-brand-color-7: #0052d9;
-  --td-brand-color-8: #003cab;
-  --td-brand-color-9: #002a7c;
-  --td-brand-color-10: #001a57;
+  --td-brand-color-1: hsl(118, 87%, 48%);
+  --td-brand-color-2: hsl(118, 87%, 48%);
+  --td-brand-color-3: hsl(118, 87%, 48%);
+  --td-brand-color-4: hsl(118, 87%, 48%);
+  --td-brand-color-5: hsl(118, 87%, 48%);
+  --td-brand-color-6: hsl(118, 87%, 48%);
+  --td-brand-color-7: hsl(118, 87%, 48%);
+  --td-brand-color-8: hsl(118, 87%, 48%);
+  --td-brand-color-9: hsl(118, 87%, 48%);
+  --td-brand-color-10: hsl(118, 87%, 48%);
   --td-warning-color-1: #fff1e9;
   --td-warning-color-2: #ffd9c2;
   --td-warning-color-3: #ffb98c;

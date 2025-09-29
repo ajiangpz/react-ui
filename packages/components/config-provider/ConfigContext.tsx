@@ -1,10 +1,18 @@
 import { createContext } from 'react';
-
+import { GlobalConfigProvider } from './type';
 export const defaultClassPrefix = 't';
-export const defaultGlobalConfig = {
+
+
+export const defaultGlobalConfig: GlobalConfigProvider = {
   classPrefix: defaultClassPrefix,
   attach: null,
-  form: {}
+  form: {
+
+  },
+  icon: {
+
+  },
+  isContextEffectPlugin: false,
 };
 
 export const defaultContext = {

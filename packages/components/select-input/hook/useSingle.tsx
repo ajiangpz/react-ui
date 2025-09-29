@@ -81,8 +81,8 @@ export default function useSingle(props: TdSelectInputProps) {
         : getInputValue(value, keys);
     return (
       <Input
-        ref={inputRef}
-        {...(commonInputProps as InputProps)}
+        ref={inputRef as any}
+        {...(commonInputProps as any)}
         autoWidth={props.autoWidth}
         placeholder={props.placeholder}
         value={singleValueDisplay ? ' ' : displayedValue}

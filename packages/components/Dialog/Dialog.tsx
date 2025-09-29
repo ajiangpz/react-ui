@@ -28,8 +28,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
     const { classPrefix } = useConfig();
 
     const componentCls = `${classPrefix}-dialog`;
-    const wrapRef = useRef<HTMLElement>(null);
-    const maskRef = useRef<HTMLElement>(null);
+    const wrapRef = useRef<HTMLDivElement>(null);
     const contentClickRef = useRef(false);
     const dialogCardRef = useRef<HTMLDivElement>(null);
     const dialogPosition = useRef(null);
@@ -106,11 +105,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
         },
     }));
 
-    // @ts-ignore 兼容旧版本 2.0 移除
-    if (props.mode === 'normal') {
-        console.error('Dialog', 'mode="normal" is not supported, please use DialogCard.');
-        return <DialogCard {...props} />;
-    }
+
 
     const onMaskClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (showOverlay && (closeOnOverlayClick)) {
@@ -183,9 +178,8 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
                 classNames={`${componentCls}-fade`}
                 mountOnEnter
                 unmountOnExit
-                nodeRef={maskRef}
             >
-                <div ref={maskRef} className={`${componentCls}__mask`} />
+                <div className={`${componentCls}__mask`} />
             </CSSTransition>
         ) : null;
     };
@@ -242,7 +236,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
                                     onCancel={handleCancel}
                                     onCloseBtnClick={handleClose}
                                 >
-                                    {children}
+                                    {children as React.ReactNode}
                                 </DialogCard>
                             </CSSTransition>
                         </div>

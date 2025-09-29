@@ -13,7 +13,7 @@ import {
 
 import isEqual from 'react-fast-compare';
 import useIsomorphicLayoutEffect from './useLayoutEffect';
-import type { Styles } from '@/common';
+import type { Styles } from '../common';
 
 type Options = Partial<
   PopperOptions & {

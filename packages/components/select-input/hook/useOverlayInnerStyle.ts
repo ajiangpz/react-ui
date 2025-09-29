@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { isObject, isFunction } from 'lodash-es';
 import useControlled from '../../hooks/useControlled';
 import { TdSelectInputProps } from '../type';
-import { TdPopupProps, PopupVisibleChangeContext } from '@/popup';
+import { TdPopupProps, PopupVisibleChangeContext } from '../../popup';
 
 export type overlayStyleProps = Pick<
   TdSelectInputProps,
@@ -86,7 +86,7 @@ export default function useOverlayInnerStyle(
     if (props.popupVisible !== newVisible) {
       setInnerPopupVisible(newVisible, context);
       if (!newVisible) {
-        extra?.afterHidePopup?.(context);
+        extra?.afterHidePopups?.(context);
       }
     }
   };

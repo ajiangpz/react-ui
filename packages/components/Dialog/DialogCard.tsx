@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import Button, { ButtonProps } from '../button';
 import { TdDialogCardProps } from './type';
-import { StyledProps } from '../common';
+import { StyledProps, TNode } from '../common';
 import parseTNode from '../utils/parseTNode';
 import useConfig from '../hooks/useConfig';
 import useGlobalIcon from '../hooks/useGlobalIcon';
@@ -24,13 +24,13 @@ const renderDialogButton = (btn: DialogCardProps['cancelBtn'], defaultProps: But
     let result = null;
 
     if (isString(btn)) {
-        result = <Button {...defaultProps}>{btn}</Button>;
+        result = <Button {...defaultProps}>{btn as TNode}</Button>;
     } else if (isValidElement(btn)) {
         result = btn;
     } else if (isObject(btn)) {
         result = <Button {...defaultProps} {...(btn as {})} />;
     } else if (isFunction(btn)) {
-        result = btn();
+        result = (btn as Function)();
     }
 
     return result;
@@ -99,7 +99,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
                 }}
                 onClick={(e: React.MouseEvent<HTMLDivElement>) => onCloseBtnClick?.({ e })}
             >
-                {closeIcon()}
+                {closeIcon() as React.ReactNode}
             </span>
         );
     };
@@ -116,13 +116,13 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
             const renderCancelBtn = renderDialogButton(cancelBtn, {
                 variant: 'outline',
                 onClick: (e: React.MouseEvent<HTMLButtonElement>) => onCancel?.({ e }),
-                className: classNames(`${componentCls}__cancel`, cancelBtn?.props?.className),
+                className: classNames(`${componentCls}__cancel`, (cancelBtn as any)?.props?.className),
             });
             const renderConfirmBtn = renderDialogButton(confirmBtn, {
                 theme: 'primary',
                 loading: confirmLoading,
                 onClick: (e: React.MouseEvent<HTMLButtonElement>) => onConfirm?.({ e }),
-                className: classNames(`${componentCls}__confirm`, confirmBtn?.className),
+                className: classNames(`${componentCls}__confirm`, (confirmBtn as any)?.className),
             });
 
             return (
@@ -135,11 +135,10 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
 
         return <div className={`${componentCls}__footer`}>{parseTNode(footer, null, defaultFooter())}</div>;
     };
-
     return (
         <div ref={ref} {...otherProps} className={classNames(componentCls, `${componentCls}--default`, className)}>
             {!!header && renderHeader()}
-            <div className={`${componentCls}__body`}>{body || children}</div>
+            <div className={`${componentCls}__body`}>{(body || children) as React.ReactNode}</div>
             {!!footer && renderFooter()}
         </div>
     );

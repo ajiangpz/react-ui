@@ -1,12 +1,11 @@
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useMemo, useEffect } from 'react';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
-import { f as isNumber, a as isString, g as get } from '../_chunks/dep-uPo9oRq0.js';
+import classNames from 'classnames';
+import { isNumber, isString, get } from 'lodash-es';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { u as useDomRefCallback } from '../_chunks/dep-BlRTpQ02.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-0Agal8xo.js';
 import '../config-provider/ConfigContext.js';
 
 var componentType = 'select';

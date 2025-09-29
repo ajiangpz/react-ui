@@ -1,0 +1,4 @@
+export default function useDomRefCallback(): [
+    HTMLElement,
+    React.Dispatch<React.SetStateAction<HTMLElement>>
+];

@@ -6,12 +6,14 @@
     "**/**/_example-js/*",
     "**/**/_example/*",
     "**/**/_usage/*",
+    "**/**/*.stories.tsx",
     "node_modules",
     "dist",
     "lib",
     "esm",
     "cjs",
-    "es"
+    "es",
+    "packages/tendaui-react/",
   ],
   "compilerOptions": {
     "emitDeclarationOnly": true,

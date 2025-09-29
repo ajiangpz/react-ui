@@ -17,12 +17,12 @@ interface Notification {
   message: string;
   createdAt: number;
   isRemoved: boolean;
-  title:string
+  title: string
 }
 
 // 2. 定义 Context 类型
 interface NotificationContextType {
-  notify: (type: NotificationType, message: string) => void;
+  notify: (type: NotificationType, message: Message) => void;
   success: (message: Message) => void;
   error: (message: Message) => void;
   warning: (message: Message) => void;
@@ -44,10 +44,10 @@ interface NotificationProviderProps {
   position?: string;
 }
 
- type Message = {
-    title:string,
-    message:string
-  }
+type Message = {
+  title: string,
+  message: string
+}
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
   maxStack = 5,
@@ -89,7 +89,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     [displayDuration],
   );
 
- 
+
 
   // 6. 核心通知函数
   const addNotification = useCallback(
@@ -97,8 +97,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       const newNotification: Notification = {
         id: generateId(),
         type,
-        title:message.title,
-        message:message.message,
+        title: message.title,
+        message: message.message,
         createdAt: Date.now(),
         isRemoved: false,
       };
@@ -124,7 +124,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const contextValue = React.useMemo(
     () => ({
       notify: addNotification,
-      success: (message:Message) => addNotification('success', message),
+      success: (message: Message) => addNotification('success', message),
       error: (message: Message) => addNotification('error', message),
       warning: (message: Message) => addNotification('warning', message),
       info: (message: Message) => addNotification('info', message),

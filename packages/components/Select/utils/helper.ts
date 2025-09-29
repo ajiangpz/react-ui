@@ -15,7 +15,7 @@ type SelectLabeledValue = Required<Omit<TdOptionProps, 'disabled'>>;
 
 export function isSelectOptionGroup(
   option: SelectOption,
-): option is SelectOptionGroup {
+): option is any {
   return !!option && 'group' in option && 'children' in option;
 }
 
@@ -57,11 +57,11 @@ export const getValueToOption = (
           };
         });
       } else {
-        valueToOption[get(option, keys?.value || 'value')] = {
-          ...option,
+        valueToOption[get(option, keys?.value || 'value')]   = {
+          ...option as Object,
           value: get(option, keys?.value || 'value'),
           label: get(option, keys?.label || 'label'),
-        };
+        } as never;
       }
     });
     return valueToOption;

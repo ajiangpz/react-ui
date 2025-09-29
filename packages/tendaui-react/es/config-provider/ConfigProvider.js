@@ -1,6 +1,6 @@
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import React, { useEffect } from 'react';
-import { m as mergeWith, c as cloneDeep } from '../_chunks/dep-uPo9oRq0.js';
+import { mergeWith, cloneDeep } from 'lodash-es';
 import ConfigContext, { defaultGlobalConfig } from './ConfigContext.js';
 import '../_chunks/dep-D-UKOauR.js';
 

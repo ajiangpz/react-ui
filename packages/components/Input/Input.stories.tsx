@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Input, { InputGroup } from 'tendaui-react/es/input';
-
+import React from 'react';
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',

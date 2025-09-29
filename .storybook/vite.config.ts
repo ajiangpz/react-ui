@@ -20,14 +20,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      crypto: 'crypto-js',
-      '@': path.resolve(__dirname, '../src'),
     },
   },
   build: {
     sourcemap: true,
     rollupOptions: {
-      external: ['crypto'],
     },
   },
   server: {

@@ -3,7 +3,7 @@
  */
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { isEqual } from 'lodash-es';
-import type { ScrollToElementParams, TScroll } from '../components/common';
+import type { ScrollToElementParams, TScroll } from '../common';
 
 export type UseVirtualScrollParams = {
   /** 列数据 */

@@ -102,7 +102,7 @@ const SelectInput = React.forwardRef<
   }
 
   return (
-    <div ref={selectInputWrapRef} className={`t-select-input__wrap`}>
+    <div ref={selectInputWrapRef as any} className={`t-select-input__wrap`}>
       {mainContent}
       {props.tips && (
         <div

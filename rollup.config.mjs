@@ -1,40 +1,38 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
-import ignoreImport from "./packages/plugins/rollup-plugin-ignore-import.js";
-import staticImport from "./packages/plugins/rollup-plugin-static-import.js";
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-
-
+import ignoreImport from "./plugins/rollup-plugin-ignore-import.js";
+import staticImport from "./plugins/rollup-plugin-static-import.js";
 import multiInput from "rollup-plugin-multi-input";
 import styles from "rollup-plugin-styles";
 import esbuild from "rollup-plugin-esbuild";
-import { resolve } from "path";
 import babel from "@rollup/plugin-babel";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { dirname, resolve } from "path";
+import json from '@rollup/plugin-json';
+import { readFileSync } from "fs";
+const filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(filename);
 import commonjs from '@rollup/plugin-commonjs'
-import copy from 'rollup-plugin-copy';
 import fg from 'fast-glob';
 import url from "@rollup/plugin-url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 const inputList = [
   "packages/components/**/index.ts",
   "packages/components/**/*.jsx",
   "packages/components/**/*.tsx",
   "!packages/components/**/*.stories.tsx",
 ];
+const pkg = JSON.parse(readFileSync(resolve(__dirname, "packages/tendaui-react/package.json"), 'utf-8'));
+const externalDeps = Object.keys(pkg.dependencies || {});
+const externalPeerDeps = Object.keys(pkg.peerDependencies || {});
 
 const styleInputList = fg.sync(['packages/components/**/style/index.js'], { onlyDirectories: false });
-const cssInputList = fg.sync(['packages/components/*/style/css.js'], { onlyDirectories: false });
 
 const baseConfig = {
   input: inputList,
   treeshake: false,
+  external: externalDeps.concat(externalPeerDeps),
   plugins: [
-    peerDepsExternal(),
     multiInput.default({ relative: "packages/components/" }),
-
     nodeResolve({
       extensions: [".mjs", ".js", ".json", ".node", ".ts", ".tsx"],
     }),
@@ -43,7 +41,7 @@ const baseConfig = {
     //   include: /\.[jt]sx?$/,
     //   target: "esnext",
     //   minify: false,
-    //   treeShaking:false,
+    //   treeShaking: false,
     //   jsx: "transform",
     //   jsxFactory: "React.createElement",
     //   jsxFragment: "React.Fragment",
@@ -54,11 +52,10 @@ const baseConfig = {
       extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx"],
       exclude: "node_modules/**",
     }),
-    // copy({ targets: [
-    //   ...cssInputList.map((file) => ({ src: file, dest: 'packages/tendaui-react/es/' + file.replace('packages/components/', '').replace('/css.js', '')  }))
-    // ]}),
+
     url(),
-    staticImport.default({
+    json(),
+    staticImport({
       baseDir: "packages/components",
       include: ["packages/components/**/style/css.js"],
     }),
@@ -79,8 +76,7 @@ const baseConfig = {
 const cssConfig = {
   input: styleInputList,
   plugins: [
-    // multiInput.default({ relative: "packages/components/" }),
-    styles({ mode: ["extract", (id) => `${id}.css`] }),
+    styles({ mode: ["extract"] }),
   ],
   output: {
     dir: "packages/tendaui-react/es",
@@ -92,4 +88,4 @@ const cssConfig = {
   },
 };
 
-export default [cssConfig , baseConfig];
+export default [cssConfig, baseConfig];

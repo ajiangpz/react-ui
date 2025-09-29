@@ -1,4 +1,4 @@
-import { camelCase } from 'lodash-es';
+import { camelCase,isNumber } from 'lodash-es';
 
 export function omit(obj: object, fields: string[]): object {
   const shallowCopy = {

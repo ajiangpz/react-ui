@@ -2,7 +2,7 @@ import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _toConsumableArray } from '../_chunks/dep-CgyDw_YI.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import { C as CircleCheckBig, a as CircleX, I as Info, c as CircleAlert } from '../_chunks/dep-LgDsOUkE.js';
+import { CheckCircle, XCircle, Info, AlertCircle } from 'lucide-react';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import '../_chunks/dep-D-UKOauR.js';
 import '../config-provider/ConfigContext.js';
@@ -128,13 +128,13 @@ var NotificationItem = function NotificationItem(_ref) {
     className: "".concat(prefix, "-notify__header")
   }, /*#__PURE__*/React.createElement("div", {
     className: "".concat(prefix, "-notify__icon")
-  }, type === "success" && /*#__PURE__*/React.createElement(CircleCheckBig, {
+  }, type === "success" && /*#__PURE__*/React.createElement(CheckCircle, {
     className: "t-icon t-is-success"
-  }), type === "error" && /*#__PURE__*/React.createElement(CircleX, {
+  }), type === "error" && /*#__PURE__*/React.createElement(XCircle, {
     className: "t-icon t-is-error"
   }), type === "info" && /*#__PURE__*/React.createElement(Info, {
     className: "t-icon t-is-info"
-  }), type === "warning" && /*#__PURE__*/React.createElement(CircleAlert, {
+  }), type === "warning" && /*#__PURE__*/React.createElement(AlertCircle, {
     className: "t-icon t-is-warning"
   }), type === "default" && /*#__PURE__*/React.createElement(Info, {
     className: "t-icon t-is-info"

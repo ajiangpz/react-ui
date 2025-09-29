@@ -2,7 +2,7 @@ import { _ as _toConsumableArray } from '../_chunks/dep-CgyDw_YI.js';
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useState, useRef, useEffect, useImperativeHandle } from 'react';
-import { g as get, s as set, u as unset, h as flattenDeep, k as merge } from '../_chunks/dep-uPo9oRq0.js';
+import { get, set, unset, flattenDeep, merge } from 'lodash-es';
 import { useFormContext, FormListContext } from './FormContext.js';
 import { H as HOOK_MARK } from '../_chunks/dep-Bo0GwPc0.js';
 import { calcFieldValue } from './utils/index.js';

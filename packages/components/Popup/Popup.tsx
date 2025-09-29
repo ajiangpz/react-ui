@@ -124,7 +124,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // popperRef 表示 popper 实例
   popperRef.current = usePopper(getRefDom(triggerRef), popupElement as any, {
-    placement: popperPlacement,
+    placement: popperPlacement as Placement,
     ...restPopperOptions,
   });
 

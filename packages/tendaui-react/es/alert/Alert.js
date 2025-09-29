@@ -1,22 +1,19 @@
 import { _ as _extends } from '../_chunks/dep-mO86zOh3.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
-import { _ as _objectWithoutProperties } from '../_chunks/dep-DcgYxvIK.js';
+import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { forwardRef, useRef } from 'react';
-import { c as classNames } from '../_chunks/dep-Cro9u0Fl.js';
-import { T as TriangleAlert, C as CircleCheckBig, I as Info, X } from '../_chunks/dep-LgDsOUkE.js';
-import { C as CSSTransition } from '../_chunks/dep-DTNqJ2we.js';
-import { p as parseTNode } from '../_chunks/dep-CVM4W9uS.js';
+import classNames from 'classnames';
+import { AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
+import { CSSTransition } from 'react-transition-group';
+import { p as parseTNode } from '../_chunks/dep-_E1HIQZ7.js';
 import { n as noop } from '../_chunks/dep-CVFMdElW.js';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { u as useGlobalIcon } from '../_chunks/dep-BIZNqCbw.js';
 import { c as composeRefs } from '../_chunks/dep-BggCUGKG.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
-import '../_chunks/dep-0Agal8xo.js';
-import '../_chunks/dep-DFvx9dpR.js';
-import 'react-dom';
 import '../_chunks/dep-Cwish4GD.js';
 import '../_chunks/dep-D-UKOauR.js';
-import '../_chunks/dep-uPo9oRq0.js';
+import 'lodash-es';
 import '../config-provider/ConfigContext.js';
 
 var alertDefaultProps = {
@@ -35,8 +32,8 @@ var Alert = /*#__PURE__*/forwardRef(function (props, ref) {
   var _useGlobalIcon = useGlobalIcon({
       CloseIcon: X,
       InfoCircleFilledIcon: Info,
-      CheckCircleFilledIcon: CircleCheckBig,
-      ErrorCircleFilledIcon: TriangleAlert
+      CheckCircleFilledIcon: CheckCircle,
+      ErrorCircleFilledIcon: AlertTriangle
     }),
     CloseIcon = _useGlobalIcon.CloseIcon,
     InfoCircleFilledIcon = _useGlobalIcon.InfoCircleFilledIcon,
