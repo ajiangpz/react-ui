@@ -1,6 +1,6 @@
 
 import { Meta, StoryObj } from "@storybook/react-vite";
-
+import React from "react";
 
 
 
@@ -44,7 +44,7 @@ export const BaseForm = () => {
 
     return (
         <Form form={form} onSubmit={onSubmit} onReset={onReset} colon labelWidth={100}>
-            <FormItem label="姓名" name="name" requiredMark>
+            <FormItem label="姓名" name="name" requiredMark rules={[{ required: true, message: '请输入姓名' }]}>
                 <Input />
             </FormItem>
 

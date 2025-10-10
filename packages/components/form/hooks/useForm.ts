@@ -9,7 +9,6 @@ import type {
 
 export const HOOK_MARK = 'TD_FORM_INTERNAL_HOOKS';
 
-// TODO 后续将所有实例函数迁移到 FormStore 内统一管理
 class FormStore {
   private prevStore: Store = {};
 
