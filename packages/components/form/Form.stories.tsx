@@ -5,14 +5,14 @@ import React from "react";
 
 
 import {
-    Form, Input, Switch, Checkbox, Button
-} from 'tendaui-react/es/index';
+    Form, Input, Switch, Checkbox, Button, Select
+} from '../../tendaui-react/es/index';
 
 import { NotificationProvider, useNotification } from "tendaui-react/es/notification";
 import type { FormProps } from './index';
 
 
-const { FormItem } = Form;
+const { FormItem, FormList } = Form;
 
 export const BaseForm = () => {
     const [form] = Form.useForm();
@@ -108,4 +108,49 @@ export default meta;
 export const Default: StoryObj<typeof Form> = {
     args: {},
     render: () => <BaseForm></BaseForm>
+}
+
+const cityOptions = [
+    { label: '北京', value: 'bj' },
+    { label: '上海', value: 'sh' },
+    { label: '广州', value: 'gz' },
+    { label: '深圳', value: 'sz' },
+];
+const FormListExample = () => {
+
+    const [form] = Form.useForm();
+
+    const onSubmit: FormProps['onSubmit'] = (e) => {
+        const allFields = form.getFieldsValue(true);
+        console.log('allFields', allFields);
+    };
+
+    return (
+        <Form form={form} colon onSubmit={onSubmit} labelWidth={100} initialData={{ address: [{ city: 'bj', area: "海淀" }, { city: 'sh', area: "浦东" }] }}>
+            <FormList name="address" >
+                {(fields, { add, remove }) => (
+                    <>
+                        {fields.map(({ key, name, ...resetField }) => (
+                            <FormItem key={key}>
+                                <FormItem name={[name, 'city']} label="城市" requiredMark rules={[{ required: true, message: '请选择城市' }]} {...resetField}>
+                                    <Select options={cityOptions}></Select>
+                                </FormItem>
+                            </FormItem>
+
+                        ))}
+                        <FormItem style={{ marginLeft: 100 }}>
+                            <Button theme="primary" onClick={() => add({ city: 'gz', area: '' })}>添加地址</Button>
+                        </FormItem>
+                    </>)}
+            </FormList>
+        </Form>
+
+
+    )
+}
+
+
+export const FormListDemo: StoryObj<typeof Form> = {
+    args: {},
+    render: () => <FormListExample></FormListExample>
 }

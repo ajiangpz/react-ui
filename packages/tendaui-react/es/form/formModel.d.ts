@@ -25,7 +25,7 @@ export type ValidateFuncType = (typeof VALIDATE_MAP)[keyof typeof VALIDATE_MAP];
  * 校验某一条数据的某一条规则，一种校验规则不满足则不再进行校验。
  * @param value 值
  * @param rule 校验规则
- * @returns 两种校验结果，一种是内置校验规则的校验结果哦，二种是自定义校验规则（validator）的校验结果
+ * @returns 两种校验结果，一种是内置校验规则的校验结果，二种是自定义校验规则（validator）的校验结果
  */
 export declare function validateOneRule(value: ValueType, rule: FormRule): Promise<AllValidateResult>;
 export declare function validate(value: ValueType, rules: Array<FormRule>): Promise<AllValidateResult[]>;

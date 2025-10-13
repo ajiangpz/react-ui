@@ -20,8 +20,6 @@ function _classCallCheck(a, n) {
 }
 
 var HOOK_MARK = 'TD_FORM_INTERNAL_HOOKS';
-
-// TODO 后续将所有实例函数迁移到 FormStore 内统一管理
 var FormStore = /*#__PURE__*/_createClass(function FormStore(forceReRender) {
   var _this = this;
   _classCallCheck(this, FormStore);
@@ -178,4 +176,4 @@ function useForm(form) {
 }
 
 export { HOOK_MARK as H, useForm as u };
-//# sourceMappingURL=dep-Bo0GwPc0.js.map
+//# sourceMappingURL=dep-DB-U1pIn.js.map

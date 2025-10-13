@@ -12,7 +12,7 @@ import { u as useGlobalIcon } from './dep-BIZNqCbw.js';
 import { u as useFormItemStyle, V as ValidateStatus } from './dep-DN28Mx6T.js';
 import { useFormContext, useFormListContext } from '../form/FormContext.js';
 import { g as getCharacterLength } from './dep-DiKH-oTP.js';
-import { H as HOOK_MARK } from './dep-Bo0GwPc0.js';
+import { H as HOOK_MARK } from './dep-DB-U1pIn.js';
 import { C as Checkbox, a as CheckboxGroup } from './dep-ghu6pHtY.js';
 import TagInput from '../tag-input/TagInput.js';
 import { calcFieldValue } from '../form/utils/index.js';
@@ -936,7 +936,7 @@ var VALIDATE_MAP = {
  * 校验某一条数据的某一条规则，一种校验规则不满足则不再进行校验。
  * @param value 值
  * @param rule 校验规则
- * @returns 两种校验结果，一种是内置校验规则的校验结果哦，二种是自定义校验规则（validator）的校验结果
+ * @returns 两种校验结果，一种是内置校验规则的校验结果，二种是自定义校验规则（validator）的校验结果
  */
 function validateOneRule(_x, _x2) {
   return _validateOneRule.apply(this, arguments);
@@ -1742,4 +1742,4 @@ var FormItem = /*#__PURE__*/forwardRef(function (originalProps, ref) {
 FormItem.displayName = 'FormItem';
 
 export { FormItem as F, formDefaultProps as f };
-//# sourceMappingURL=dep-BDSxIowZ.js.map
+//# sourceMappingURL=dep-Djq0Yviw.js.map
