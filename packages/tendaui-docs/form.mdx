@@ -1,0 +1,132 @@
+## form 组件的实现思路
+#### 表单校验逻辑
+1. 点击提交按钮后 调用 `formInstance.submit` 方法
+2. `submit` 中根据 `props.preventSubmitDefault` 阻止事件冒泡
+3. 调用 `formInstance.validate` 方法
+```tsx
+  function submit(e?: React.FormEvent<HTMLFormElement>) {
+    if (preventSubmitDefault) {
+      e?.preventDefault?.();
+      e?.stopPropagation?.();
+    }
+    validate().then((r) => {
+      const firstError = getFirstError(r);
+      const fields = getFieldsValue(true);
+      onSubmit?.({ validateResult: r, firstError, e, fields });
+    });
+  }
+```
+
+4. `validate` 中遍历`formMapRef`中的 `formItemRef` ,调用每个 `FormItem` 组件的 `validate` 方法。
+```tsx
+  async function validate(param?: Record<string, any>): Promise<FormValidateResult<FormData>> {
+    const { fields, trigger = 'all', showErrorMessage } = param || {};
+    const list = [...formMapRef.current.values()]
+      .filter(
+        (formItemRef) => isFunction(formItemRef?.current?.validate) && needValidate(formItemRef?.current?.name, fields),
+      )
+      .map((formItemRef) => formItemRef?.current.validate(trigger, showErrorMessage));
+
+    const validateList = await Promise.all(list);
+    return formatValidateResult(validateList);
+  }
+```
+
+5. FormItem 的 validate 方法首先会调用 analysisValidateResult 
+
+```tsx
+  const result = {
+    successList: [],
+    errorList: [],
+    rules: [],
+    resultList: [],
+    allowSetValue: false,
+  };
+  // 获取配置的规则
+  result.rules = trigger === 'all' ? innerRules : innerRules.filter((item) => (item.trigger || 'change') === trigger);
+  if (!result.rules?.length) {
+    setResetValidating(false);
+    return result;
+  }
+
+  result.allowSetValue = true;
+  result.resultList = await validateModal(formValue, result.rules);
+```
+
+6.  validateModal 中调用 validateOneRule 
+
+```tsx
+export async function validate(
+  value: ValueType,
+  rules: Array<FormRule>,
+): Promise<AllValidateResult[]> {
+  const all = rules.map((rule) => validateOneRule(value, rule));
+  const r = await Promise.all(all);
+  return r;
+}
+```
+
+7. validateOneRule 中判断是内置校验规则还是自定义校验规则，校验完后返回校验对象，根据result字段判断是否校验通过
+```tsx
+export async function validateOneRule(
+  value: ValueType,
+  rule: FormRule,
+): Promise<AllValidateResult> {
+  let validateResult: CustomValidateResolveType | ValidateResultType = {
+    result: true,
+  };
+  const keys = Object.keys(rule);
+  let vOptions;
+  let vValidateFun: ValidateFuncType;
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    // 非必填选项，值为空，非自定义规则：无需校验，直接返回 true
+    if (!rule.required && isValueEmpty(value) && !rule.validator) {
+      return validateResult;
+    }
+    const validateRule: ValidateFuncType = VALIDATE_MAP[key];
+    // 找到一个校验规则，则无需再找，因为参数只允许对一个规则进行校验
+    if (validateRule && ![undefined, null].includes(rule[key])) {
+      // rule 值为 true 则表示没有校验参数，只是对值进行默认规则校验
+      vOptions = rule[key] === true ? undefined : rule[key];
+      vValidateFun = validateRule;
+      break;
+    }
+  }
+  if (vValidateFun) {
+    validateResult = await vValidateFun(value, vOptions);
+    // 如果校验不通过，则返回校验不通过的规则
+    if (typeof validateResult === 'boolean') {
+      return { ...rule, result: validateResult };
+    }
+    // 校验结果为 CustomValidateObj，只有自定义校验规则会存在这种情况
+    if (typeof validateResult === 'object') {
+      return validateResult;
+    }
+  }
+  return validateResult;
+}
+```
+
+8. 整理校验结果
+```tsx
+function formatValidateResult(validateResultList) {
+    const result = validateResultList.reduce((r, err) => Object.assign(r || {}, err), {});
+    Object.keys(result).forEach((key) => {
+        if (result[key] === true) {
+        delete result[key];
+        } else {
+        result[key] = result[key].filter((fr: AllValidateResult) => fr.result === false);
+        }
+
+        // 整理嵌套数据
+        if (result[key] && key.includes(',')) {
+        const keyList = key.split(',');
+        const fieldValue = calcFieldValue(keyList, result[key]);
+        merge(result, fieldValue);
+        delete result[key];
+        }
+    });
+    return isEmpty(result) ? true : result;
+}
+```

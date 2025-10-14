@@ -263,6 +263,8 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   }
 
   async function validate(trigger = 'all', showErrorMessage?: boolean) {
+
+
     if (innerFormItemsRef.current.length) {
       return innerFormItemsRef.current.map((innerFormItem) => innerFormItem?.validate(trigger, showErrorMessage));
     }
@@ -270,6 +272,9 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     setResetValidating(true);
     // undefined | boolean
     setFreeShowErrorMessage(showErrorMessage);
+
+
+
     const {
       successList: innerSuccessList,
       errorList: innerErrorList,
@@ -277,6 +282,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       resultList,
       allowSetValue,
     } = await analysisValidateResult(trigger);
+
 
     // 缓存不同 trigger 下的错误信息 all 包含了所有场景需过滤
     if (innerErrorList.length && trigger !== 'all') {
@@ -310,6 +316,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     if (needResetField) {
       resetHandler();
     }
+
     setResetValidating(false);
     return {
       [snakeName]: innerErrorList.length === 0 ? true : resultList,
@@ -496,7 +503,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       {label && (
         <div className={formItemLabelClass} style={labelStyle}>
           <label htmlFor={props?.for}>{label}</label>
-          {colon || 'Colon'}
+          {colon || '：'}
         </div>
       )}
       <div className={contentClass()} style={contentStyle}>
