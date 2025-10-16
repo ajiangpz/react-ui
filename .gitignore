@@ -4,4 +4,4 @@ package-lock.json
 .vscode/
 *storybook.log
 storybook-static
-twui-react/**
+packages/tendaui-icons/lib
