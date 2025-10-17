@@ -33,6 +33,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
     const dialogCardRef = useRef<HTMLDivElement>(null);
     const dialogPosition = useRef(null);
     const portalRef = useRef(null);
+    const maskRef = useRef(null)
     const [state, setState] = useSetState<DialogProps>({ isPlugin: false, ...restProps });
     // const [local] = useLocaleReceiver('dialog');
 
@@ -178,8 +179,9 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
                 classNames={`${componentCls}-fade`}
                 mountOnEnter
                 unmountOnExit
+                nodeRef={maskRef}
             >
-                <div className={`${componentCls}__mask`} />
+                <div ref={maskRef} className={`${componentCls}__mask`} />
             </CSSTransition>
         ) : null;
     };

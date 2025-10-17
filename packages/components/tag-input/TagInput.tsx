@@ -4,9 +4,9 @@ import React, {
   useRef,
   useImperativeHandle,
   forwardRef,
-  MouseEvent,
+  MouseEvent
 } from 'react';
-import { XCircle } from 'lucide-react';
+import { IconClose } from 'tendaui-react-icons';
 import { isFunction } from 'lodash-es';
 import classnames from 'classnames';
 import useConfig from '../hooks/useConfig';
@@ -29,12 +29,12 @@ export interface TagInputProps extends TdTagInputProps, StyledProps {
 const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   const props = useDefaultProps<TagInputProps>(
     originalProps,
-    tagInputDefaultProps,
+    tagInputDefaultProps
   );
   const { classPrefix: prefix } = useConfig();
 
   const { CloseCircleFilledIcon } = useGlobalIcon({
-    CloseCircleFilledIcon: XCircle,
+    CloseCircleFilledIcon: IconClose
   });
 
   const {
@@ -58,13 +58,13 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
     onClick,
     onPaste,
     onFocus,
-    onBlur,
+    onBlur
   } = props;
 
   const [tInputValue, setTInputValue] = useControlled(
     props,
     'inputValue',
-    props.onInputChange,
+    props.onInputChange
   );
 
   const { isHover, addHover, cancelHover } = useHover(props);
@@ -73,8 +73,8 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
     sortOnDraggable: props.dragSort,
     onDragOverCheck: {
       x: true,
-      targetClassNameRegExp: new RegExp(`^${prefix}-tag`),
-    },
+      targetClassNameRegExp: new RegExp(`^${prefix}-tag`)
+    }
   });
   const isCompositionRef = useRef(false);
 
@@ -83,7 +83,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
     onWheel,
     scrollToRightOnEnter,
     scrollToLeftOnLeave,
-    tagInputRef,
+    tagInputRef
   } = useTagScroll(props);
   // handle tag add and remove
   const {
@@ -93,10 +93,10 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
     onInputBackspaceKeyUp,
     clearAll,
     renderLabel,
-    onInputBackspaceKeyDown,
+    onInputBackspaceKeyDown
   } = useTagList({
     ...props,
-    getDragProps,
+    getDragProps
   });
   const NAME_CLASS = `${prefix}-tag-input`;
   const WITH_SUFFIX_ICON_CLASS = `${prefix}-tag-input__with-suffix-icon`;
@@ -106,16 +106,16 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   const tagInputPlaceholder = !tagValue?.length ? placeholder : '';
 
   const showClearIcon = Boolean(
-    !readonly && !disabled && clearable && isHover && tagValue?.length,
+    !readonly && !disabled && clearable && isHover && tagValue?.length
   );
 
   useImperativeHandle(ref as InputRef, () => ({
-    ...(tagInputRef.current || {}),
+    ...(tagInputRef.current || {})
   }));
 
   const onInputCompositionstart = (
     value: InputValue,
-    context: { e: CompositionEvent<HTMLInputElement> },
+    context: { e: CompositionEvent<HTMLInputElement> }
   ) => {
     isCompositionRef.current = true;
     inputProps?.onCompositionstart?.(value, context);
@@ -123,7 +123,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   const onInputCompositionend = (
     value: InputValue,
-    context: { e: CompositionEvent<HTMLInputElement> },
+    context: { e: CompositionEvent<HTMLInputElement> }
   ) => {
     isCompositionRef.current = false;
     inputProps?.onCompositionend?.(value, context);
@@ -131,7 +131,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   const onInputEnter = (
     value: InputValue,
-    context: { e: KeyboardEvent<HTMLInputElement> },
+    context: { e: KeyboardEvent<HTMLInputElement> }
   ) => {
     setTInputValue('', { e: context.e, trigger: 'enter' });
     !isCompositionRef.current && onInnerEnter(value, context);
@@ -160,9 +160,9 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   // 自定义 Tag 节点
   const displayNode = isFunction(valueDisplay)
     ? valueDisplay({
-      value: tagValue,
-      onClose: (index) => onClose({ index }),
-    })
+        value: tagValue,
+        onClose: index => onClose({ index })
+      })
     : valueDisplay;
 
   const isEmpty = !(Array.isArray(tagValue) && tagValue.length);
@@ -177,16 +177,16 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
       [`${prefix}-tag-input--max-rows`]:
         excessTagsDisplayType === 'break-line' && maxRows,
       [`${prefix}-tag-input--drag-sort`]:
-        props.dragSort && !disabled && !readonly,
+        props.dragSort && !disabled && !readonly
     },
-    props.className,
+    props.className
   ];
 
   const maxRowsStyle = maxRows
     ? ({
-      '--max-rows': maxRows,
-      '--tag-input-size': size,
-    } as React.CSSProperties)
+        '--max-rows': maxRows,
+        '--tag-input-size': size
+      } as React.CSSProperties)
     : {};
 
   return (
@@ -206,7 +206,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
       className={classnames(classes)}
       style={{
         ...props.style,
-        ...maxRowsStyle,
+        ...maxRowsStyle
       }}
       tips={tips}
       status={status}
@@ -221,11 +221,11 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
       onEnter={onInputEnter}
       onKeydown={onInputBackspaceKeyDown}
       onKeyup={onInputBackspaceKeyUp}
-      onMouseenter={(context) => {
+      onMouseenter={context => {
         addHover(context);
         scrollToRightOnEnter();
       }}
-      onMouseleave={(context) => {
+      onMouseleave={context => {
         cancelHover(context);
         scrollToLeftOnLeave();
       }}

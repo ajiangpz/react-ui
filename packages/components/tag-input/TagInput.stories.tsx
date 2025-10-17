@@ -1,15 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { TagInput } from 'tendaui-react/es';
-import type { TagInputProps, TagInputValue } from 'tendaui-react/es';
+import { TagInputProps, TagInputValue, TagInput } from './index';
 import { useState } from 'react';
-
-
 
 const BaseExample = ({ ...args }) => {
   const [tags1, setTags1] = useState<TagInputValue>([
     'Vue',
     'React',
-    'Angular',
+    'Angular'
   ]);
 
   const [tags2] = useState(['Vue', 'React']);
@@ -24,7 +21,7 @@ const BaseExample = ({ ...args }) => {
     setTags1(val);
   };
 
-  const onPaste: TagInputProps['onPaste'] = (context) => {
+  const onPaste: TagInputProps['onPaste'] = context => {
     console.log(context);
   };
 
@@ -59,12 +56,12 @@ const BaseExample = ({ ...args }) => {
 const meta: Meta<typeof TagInput> = {
   title: 'Components/TagInput',
   component: TagInput,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 };
 
 export default meta;
 
 export const Default: StoryObj = {
   args: {},
-  render: (args) => <BaseExample {...args}></BaseExample>,
+  render: args => <BaseExample {...args}></BaseExample>
 };

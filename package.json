@@ -59,8 +59,8 @@
     "lucide-react": "^0.544.0",
     "prettier": "^1.19.1",
     "prettier-plugin-tailwindcss": "^0.7.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rimraf": "^6.0.1",
     "rollup": "^4.52.3",
     "rollup-plugin-copy": "^3.5.0",
@@ -78,7 +78,7 @@
     "tailwindcss": "^4.1.14",
     "tdesign-react": "^1.15.1",
     "tendaui-react": "^1.0.1",
-    "tendaui-react-icons": "1.0.1",
+    "tendaui-react-icons": "1.1.1",
     "tinycolor2": "^1.6.0"
   },
   "dependencies": {

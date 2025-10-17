@@ -2,10 +2,10 @@ import React, {
   ForwardRefRenderFunction,
   FocusEvent,
   forwardRef,
-  useMemo,
+  useMemo
 } from 'react';
 import classNames from 'classnames';
-import { X } from 'lucide-react';
+import { IconClose } from 'tendaui-react-icons';
 import tinycolor from 'tinycolor2';
 import noop from '../utils/noop';
 import useConfig from '../hooks/useConfig';
@@ -26,7 +26,7 @@ export interface TagProps extends TdTagProps, StyledProps {
 
 export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
   originalProps,
-  ref,
+  ref
 ) => {
   const props = useDefaultProps<TagProps>(originalProps, tagDefaultProps);
   const {
@@ -51,14 +51,14 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
   const { classPrefix } = useConfig();
   const { CloseIcon } = useGlobalIcon({
-    CloseIcon: X,
+    CloseIcon: IconClose
   });
 
   const tagClassPrefix = `${classPrefix}-tag`;
 
   const sizeMap = {
     large: `${classPrefix}-size-l`,
-    small: `${classPrefix}-size-s`,
+    small: `${classPrefix}-size-s`
   };
 
   const tagClassNames = classNames(
@@ -68,15 +68,15 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     {
       [`${tagClassPrefix}--${shape}`]: shape !== 'square',
       [`${tagClassPrefix}--ellipsis`]: !!maxWidth,
-      [`${tagClassPrefix}--disabled`]: disabled,
+      [`${tagClassPrefix}--disabled`]: disabled
     },
     sizeMap[size],
-    className,
+    className
   );
 
   const deleteIcon = (
     <CloseIcon
-      onClick={(e) => {
+      onClick={e => {
         if (disabled) return;
         onClose({ e });
       }}
@@ -123,7 +123,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     if (!maxWidth) return {};
 
     return {
-      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`,
+      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`
     };
   }, [maxWidth]);
 
@@ -131,7 +131,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     <div
       ref={ref}
       className={tagClassNames}
-      onClick={(e) => {
+      onClick={e => {
         if (disabled) return;
         onClick({ e });
       }}

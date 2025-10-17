@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-  Dialog, Button, type DialogProps
+  Button, type DialogProps
 } from "tendaui-react/es/index";
-
+import { Dialog } from "./index";
 import { DialogPlugin } from './plugin';
 import { useState } from "react";
 

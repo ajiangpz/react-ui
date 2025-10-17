@@ -1,9 +1,9 @@
 import React, { forwardRef, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import {
-  BadgeCheck as TdCheckCircleFilledIcon,
-  X as TdCloseCircleFilledIcon,
-  X as TdErrorCircleFilledIcon,
-} from 'lucide-react';
+  IconCheckCircleStroked as TdCheckCircleFilledIcon,
+  IconClose as TdCloseCircleFilledIcon,
+  IconClose as TdErrorCircleFilledIcon,
+} from 'tendaui-react-icons';
 import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from 'lodash-es';
 import { StyledProps } from '../common';
 import useConfig from '../hooks/useConfig';

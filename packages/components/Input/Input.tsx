@@ -3,10 +3,10 @@ import React, {
   useRef,
   useEffect,
   useImperativeHandle,
-  forwardRef,
+  forwardRef
 } from 'react';
 import classNames from 'classnames';
-import { Eye, EyeOff, XCircle } from 'lucide-react';
+import { IconEyeOpened, IconEyeClosed, IconClose } from 'tendaui-react-icons';
 import { TdInputProps } from './type';
 import useLayoutEffect from '../hooks/useLayoutEffect';
 import useControlled from '../hooks/useControlled';
@@ -34,7 +34,7 @@ type InputContextTrigger = 'input' | 'clear' | 'initial';
 const renderIcon = (
   classPrefix: string,
   type: 'prefix' | 'suffix',
-  icon: TNode | TElement,
+  icon: TNode | TElement
 ) => {
   const result = parseTNode(icon);
 
@@ -118,7 +118,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   let suffixIconNew = suffixIcon;
   if (isShowClearIcon)
     suffixIconNew = (
-      <XCircle
+      <IconClose
         className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
         onMouseDown={handleMouseDown}
         onClick={handleClear}
@@ -129,14 +129,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   if (type === 'password' && typeof suffixIcon === 'undefined') {
     if (renderType === 'password') {
       suffixIconNew = (
-        <EyeOff
+        <IconEyeClosed
           className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
           onClick={togglePasswordVisible}
         />
       );
     } else if (renderType === 'text') {
       suffixIconNew = (
-        <Eye
+        <IconEyeOpened
           className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
           onClick={togglePasswordVisible}
         />
@@ -147,7 +147,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const suffixIconContent = renderIcon(
     't',
     'suffix',
-    parseTNode(suffixIconNew),
+    parseTNode(suffixIconNew)
   );
   const labelContent = isFunction(label) ? label() : label;
   const suffixContent = isFunction(suffix) ? suffix() : suffix;
@@ -191,7 +191,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     setRenderType(type);
   }, [type]);
 
-  const innerValue = composingRef.current ? composingValue : (value ?? '');
+  const innerValue = composingRef.current ? composingValue : value ?? '';
   const formatDisplayValue =
     format && !isFocused ? format(innerValue) : innerValue;
 
@@ -201,7 +201,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       placeholder={placeholder}
       type={renderType}
       className={classNames(`${classPrefix}-input__inner`, {
-        [`${classPrefix}-input--soft-hidden`]: !showInput,
+        [`${classPrefix}-input--soft-hidden`]: !showInput
       })}
       value={formatDisplayValue}
       readOnly={isInnerInputReadonly}
@@ -234,12 +234,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
         [`${classPrefix}-inpu${classPrefix}--suffix`]:
           suffixIconContent || suffixContent,
         [`${classPrefix}-inpu${classPrefix}--borderless`]: borderless,
-        [`${classPrefix}-input--focused`]: isFocused,
+        [`${classPrefix}-input--focused`]: isFocused
       })}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onWheel={(e) => onWheel?.({ e })}
-      onClick={(e) => {
+      onWheel={e => onWheel?.({ e })}
+      onClick={e => {
         inputRef.current?.focus();
         onClick?.({ e });
       }}
@@ -289,7 +289,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.CompositionEvent<HTMLInputElement>,
-    trigger: InputContextTrigger = 'input',
+    trigger: InputContextTrigger = 'input'
   ) {
     let { value: newStr } = e.currentTarget;
     if (composingRef.current) {
@@ -304,7 +304,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   // 添加MouseDown阻止冒泡，防止點擊Clear value會導致彈窗閃爍一下
   // https://github.com/Tencent/tdesign-react/issues/2320
   function handleMouseDown(
-    e: React.MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
+    e: React.MouseEvent<SVGSVGElement, globalThis.MouseEvent>
   ) {
     e.stopPropagation();
     // 兼容React16
@@ -319,7 +319,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
       key,
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     key === 'Enter' && onEnter?.(value, { e });
     onKeydown?.(value, { e });
@@ -327,14 +327,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onKeyup?.(value, { e });
   }
 
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onKeypress?.(value, { e });
   }
@@ -342,14 +342,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleCompositionStart(e: React.CompositionEvent<HTMLInputElement>) {
     composingRef.current = true;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onCompositionstart?.(value, { e });
   }
 
   function handleCompositionEnd(e: React.CompositionEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     if (composingRef.current) {
       composingRef.current = false;
@@ -361,7 +361,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onFocus?.(value, { e });
     toggleIsFocused(true);
@@ -370,7 +370,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onBlur?.(value, { e });
     toggleIsFocused(false);
@@ -397,7 +397,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     inputElement: inputRef.current,
     focus: () => inputRef.current?.focus(),
     blur: () => inputRef.current?.blur(),
-    select: () => inputRef.current?.select(),
+    select: () => inputRef.current?.select()
   }));
 
   return (
@@ -405,7 +405,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       ref={wrapperRef}
       style={style}
       className={classNames(`${classPrefix}-input__wrap`, className, {
-        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth,
+        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth
       })}
       {...restProps}
     >

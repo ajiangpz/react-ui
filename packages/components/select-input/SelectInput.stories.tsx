@@ -2,12 +2,12 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 import { SelectInput, SelectInputProps } from 'tendaui-react/es';
 import { useState, useEffect } from 'react';
 
-import { Search } from 'lucide-react';
+import { IconSearch } from 'tendaui-react-icons';
 
 const meta: Meta<typeof SelectInput> = {
   title: 'Components/SelectInput',
   component: SelectInput,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 };
 
 export default meta;
@@ -46,7 +46,7 @@ const OPTIONS = [
   'Student C',
   'Student D',
   'Student E',
-  'Student F',
+  'Student F'
 ];
 
 const SelectInputAutocomplete = (args: SelectInputProps) => {
@@ -90,14 +90,14 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
         onPopupVisibleChange={onPopupVisibleChange}
         panel={
           <ul className="tdesign-demo__select-input-ul-autocomplete">
-            {options.map((item) => (
+            {options.map(item => (
               <li key={item} onClick={() => onOptionClick(item)}>
                 {item}
               </li>
             ))}
           </ul>
         }
-        suffixIcon={<Search />}
+        suffixIcon={<IconSearch />}
         {...args}
       />
     </div>
@@ -107,5 +107,5 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
 type Story = StoryObj<typeof SelectInput>;
 export const Default: Story = {
   args: {},
-  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />,
+  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />
 };
