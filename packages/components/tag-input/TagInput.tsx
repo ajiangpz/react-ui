@@ -6,7 +6,7 @@ import React, {
   forwardRef,
   MouseEvent
 } from 'react';
-import { IconClose } from 'tendaui-react-icons';
+import { IconClear } from 'tendaui-react-icons';
 import { isFunction } from 'lodash-es';
 import classnames from 'classnames';
 import useConfig from '../hooks/useConfig';
@@ -34,7 +34,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   const { classPrefix: prefix } = useConfig();
 
   const { CloseCircleFilledIcon } = useGlobalIcon({
-    CloseCircleFilledIcon: IconClose
+    CloseCircleFilledIcon: IconClear
   });
 
   const {
@@ -100,7 +100,7 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
   });
   const NAME_CLASS = `${prefix}-tag-input`;
   const WITH_SUFFIX_ICON_CLASS = `${prefix}-tag-input__with-suffix-icon`;
-  const CLEAR_CLASS = `${prefix}-tag-input__suffix-clear`;
+  const CLEAR_CLASS = `${prefix}-tag-input__suffix-clear ${prefix}-icon`;
   const BREAK_LINE_CLASS = `${prefix}-tag-input--break-line`;
 
   const tagInputPlaceholder = !tagValue?.length ? placeholder : '';

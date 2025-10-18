@@ -1,20 +1,36 @@
 {
-  "name": "tendaui-react",
+  "name": "@tendaui/monorepo",
   "version": "1.0.0",
-  "description": "a react ui component library",
-  "main": "index.js",
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "README.md"
+  "description": "TendaUI React Component Library Monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rimraf packages/tendaui-react/es",
-    "build": "npm run prebuild && rollup -c rollup.config.mjs && npm run build:tsc-es",
-    "dev": "storybook dev -p 6006",
+    "build": "node scripts/build.js",
+    "build:components": "pnpm --filter @tendaui/components build",
+    "build:icons": "pnpm --filter @tendaui/icons build",
+    "build:react": "pnpm --filter @tendaui/react build",
+    "build:utils": "pnpm --filter @tendaui/utils build",
+    "dev": "node scripts/dev.js",
+    "dev:storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build:tsc-es": "tsc -p ./tsconfig.build.json --outDir packages/tendaui-react/es/"
+    "clean": "node scripts/clean.js",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "type-check": "pnpm -r type-check",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish",
+    "install:all": "pnpm install",
+    "update:deps": "pnpm update -r",
+    "check:workspace": "pnpm list --depth=0",
+    "outdated": "pnpm outdated -r"
   },
   "peerDependencies": {
     "react": ">=16.13.1",
@@ -23,11 +39,14 @@
   "keywords": [
     "react",
     "ui",
-    "component"
+    "component",
+    "monorepo",
+    "tendaui"
   ],
   "author": "ajiangz",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@babel/core": "^7.28.4",
     "@babel/plugin-transform-runtime": "^7.28.3",
     "@babel/preset-env": "^7.28.3",

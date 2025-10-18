@@ -1,14 +1,25 @@
 // rollup.config.es.mjs
-import { esmPlugins } from "./getPlugins.js";
+import pkg from "./getPlugins.js";
+const { esmPlugins } = pkg;
 
 /**@type {import('rollup').RollupOptions} */
 export default {
-  input: "./src/index.tsx",
-  output: {
-    dir: "./dist/es",
-    format: "esm",
-    sourcemap: true,
-    preserveModules: true
-  },
+  input: "./src/index.ts",
+  output: [
+    {
+      dir: "./dist/esm",
+      format: "esm",
+      sourcemap: true,
+      preserveModules: true,
+      preserveModulesRoot: "src"
+    },
+    {
+      dir: "./dist/cjs",
+      format: "cjs",
+      sourcemap: true,
+      preserveModules: true,
+      preserveModulesRoot: "src"
+    }
+  ],
   plugins: esmPlugins
 };

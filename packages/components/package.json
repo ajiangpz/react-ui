@@ -1,0 +1,38 @@
+{
+  "name": "@tendaui/components",
+  "version": "1.0.0",
+  "description": "TendaUI React Components",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": [
+    "**/*.scss",
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "rollup -c ../../config/rollup.config.es.mjs",
+    "dev": "rollup -c ../../config/rollup.config.es.mjs -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
+  },
+  "dependencies": {
+    "@tendaui/icons": "workspace:*",
+    "@tendaui/utils": "workspace:*"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "tendaui"
+  ],
+  "author": "ajiangz",
+  "license": "MIT"
+}
+

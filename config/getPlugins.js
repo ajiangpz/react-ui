@@ -1,15 +1,48 @@
-/**@type {import('rollup').RollupOptions} */
-
-const resolve = require("@rollup/plugin-node-resolve");
-const postcss = require("rollup-plugin-postcss");
-const typescript = require("@rollup/plugin-typescript");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const styles = require("rollup-plugin-styles");
 const commonjs = require("@rollup/plugin-commonjs");
 const { babel } = require("@rollup/plugin-babel");
+const url = require("@rollup/plugin-url");
+const json = require("@rollup/plugin-json");
+
 const basePlugins = [
-  resolve(),
+  nodeResolve({
+    extensions: [".mjs", ".js", ".json", ".node", ".ts", ".tsx"],
+  }),
   commonjs(),
-  postcss({ extract: "rollup-build.css" }),
-  image()
+  styles({ mode: ["extract"] }),
+  url(),
+  json()
 ];
 
+const esmPlugins = [
+  ...basePlugins,
+  babel({
+    babelHelpers: "bundled",
+    exclude: "node_modules/**",
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    presets: [
+      ["@babel/preset-env", { targets: { node: "current" } }],
+      "@babel/preset-typescript"
+    ]
+  })
+];
 
+const cjsPlugins = [
+  ...basePlugins,
+  babel({
+    babelHelpers: "bundled",
+    exclude: "node_modules/**",
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    presets: [
+      ["@babel/preset-env", { targets: { node: "current" } }],
+      "@babel/preset-typescript"
+    ]
+  })
+];
+
+module.exports = {
+  esmPlugins,
+  cjsPlugins,
+  basePlugins
+};

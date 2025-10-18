@@ -1,55 +1,117 @@
-# TWUI React
+# TendaUI React Component Library
 
-一个基于 Tailwind CSS 构建的轻量级 React UI 组件库。
+A modern, high-quality React component library built with TypeScript and styled with SCSS.
 
-## 安装
+## 📦 Monorepo Structure
+
+This project uses a monorepo architecture managed by pnpm workspaces:
+
+```
+packages/
+├── components/          # Core UI components
+├── icons/              # Icon components (@tendaui/icons)
+├── react/              # Main React package (@tendaui/react)
+├── utils/              # Utility functions (@tendaui/utils)
+└── tendaui-docs/       # Documentation
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- pnpm >= 8.0.0
+
+### Installation
 
 ```bash
-npm install twui-react
-# 或
-yarn add twui-react
-# 或
-pnpm add twui-react
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Start development mode
+pnpm dev
 ```
 
-## 使用
+## 📋 Available Scripts
 
-```jsx
-import { Button } from 'twui-react';
-
-function App() {
-  return (
-    <Button>点击我</Button>
-  );
-}
-```
-
-## 特性
-
-- 🎨 精心设计的现代化组件
-- ⚡️ 基于 Tailwind CSS 构建
-- 🚀 使用 TypeScript 开发
-- 🎯 支持按需加载
-- 📦 体积轻量
-- 🎭 高度可定制的主题
-
-## 文档
-
-访问我们的 [Storybook](https://your-username.github.io/tw-react-ui) 查看完整文档和示例。
-
-## 开发
-
+### Development
 ```bash
-# 安装依赖
-npm install
-
-# 启动 Storybook
-npm run dev
-
-# 构建
-npm run build
+pnpm dev                 # Start all packages in watch mode
+pnpm dev:storybook      # Start Storybook development server
 ```
 
-## 许可证
+### Building
+```bash
+pnpm build              # Build all packages
+pnpm build:components  # Build components package only
+pnpm build:icons       # Build icons package only
+pnpm build:react       # Build react package only
+pnpm build:utils       # Build utils package only
+```
 
-MIT
+### Maintenance
+```bash
+pnpm clean              # Clean all build artifacts
+pnpm lint               # Lint all packages
+pnpm test               # Run tests for all packages
+pnpm type-check         # Type check all packages
+```
+
+### Package Management
+```bash
+pnpm changeset          # Create a changeset
+pnpm version-packages   # Version packages based on changesets
+pnpm release            # Build and publish packages
+pnpm update:deps        # Update dependencies across all packages
+```
+
+## 🏗️ Package Details
+
+### @tendaui/components
+Core UI components including:
+- Button, Input, Select, Checkbox
+- Dialog, Notification, Alert
+- Form, Tag, Switch, Loading
+- And many more...
+
+### @tendaui/icons
+Icon components built from SVG files with TypeScript support.
+
+### @tendaui/utils
+Shared utility functions used across components.
+
+### @tendaui/react
+Main package that exports all components and utilities.
+
+## 🔧 Development Workflow
+
+1. **Make changes** to components in `packages/components/`
+2. **Run development mode** with `pnpm dev`
+3. **Test changes** using Storybook with `pnpm dev:storybook`
+4. **Build packages** with `pnpm build`
+5. **Create changeset** with `pnpm changeset` for versioning
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Create a changeset
+6. Submit a pull request
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+## 👥 Authors
+
+- **ajiangz** - *Initial work*
+
+## 🔗 Links
+
+- [Storybook Documentation](http://localhost:6006) (when running `pnpm dev:storybook`)
+- [NPM Package](https://www.npmjs.com/package/@tendaui/react)
