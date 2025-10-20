@@ -8,7 +8,7 @@ import '../_chunks/dep-CzLhKWCf.js';
 import '../_chunks/dep-DN7d1SzH.js';
 import 'react';
 import 'classnames';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-CKiAytca.js';
 import 'lodash-es';
 import '../_chunks/dep-D2IWH4e_.js';

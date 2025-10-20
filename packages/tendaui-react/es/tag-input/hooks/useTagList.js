@@ -11,7 +11,7 @@ import '../../_chunks/dep-D-UKOauR.js';
 import '../../tag/Tag.js';
 import '../../_chunks/dep-DN7d1SzH.js';
 import 'classnames';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../../_chunks/dep-CVFMdElW.js';
 import '../../_chunks/dep-BIZNqCbw.js';
 import '../../_chunks/dep-5jl2j2BI.js';

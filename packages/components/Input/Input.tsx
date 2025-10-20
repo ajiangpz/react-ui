@@ -122,7 +122,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
         className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
         onMouseDown={handleMouseDown}
         onClick={handleClear}
-        absoluteStrokeWidth={true}
       />
     );
 
@@ -304,16 +303,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   // 添加MouseDown阻止冒泡，防止點擊Clear value會導致彈窗閃爍一下
   // https://github.com/Tencent/tdesign-react/issues/2320
   function handleMouseDown(
-    e: React.MouseEvent<SVGSVGElement, globalThis.MouseEvent>
+    e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>
   ) {
     e.stopPropagation();
     // 兼容React16
     e.nativeEvent.stopImmediatePropagation();
   }
 
-  function handleClear(e: React.MouseEvent<SVGSVGElement>) {
+  function handleClear(e: React.MouseEvent<HTMLSpanElement>) {
     onChange?.('', { e, trigger: 'clear' });
-    onClear?.({ e });
+    onClear?.({ e: e as any });
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

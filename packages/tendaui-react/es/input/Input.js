@@ -4,7 +4,7 @@ import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
 import classNames from 'classnames';
-import { XCircle, EyeOff, Eye } from 'lucide-react';
+import { IconClose, IconEyeClosed, IconEyeOpened } from 'tendaui-react-icons';
 import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-CKiAytca.js';
 import { u as useControlled } from '../_chunks/dep-D2IWH4e_.js';
 import { p as parseTNode } from '../_chunks/dep-_E1HIQZ7.js';
@@ -126,20 +126,19 @@ var Input = /*#__PURE__*/forwardRef(function (originalProps, ref) {
   var isValueEnabled = value && !disabled;
   var isShowClearIcon = (clearable && isValueEnabled || showClearIconOnEmpty) && isHover;
   var suffixIconNew = suffixIcon;
-  if (isShowClearIcon) suffixIconNew = /*#__PURE__*/React.createElement(XCircle, {
+  if (isShowClearIcon) suffixIconNew = /*#__PURE__*/React.createElement(IconClose, {
     className: "".concat(classPrefix, "-input__suffix-clear ").concat(classPrefix, "-icon"),
     onMouseDown: handleMouseDown,
-    onClick: handleClear,
-    absoluteStrokeWidth: true
+    onClick: handleClear
   });
   if (type === 'password' && typeof suffixIcon === 'undefined') {
     if (renderType === 'password') {
-      suffixIconNew = /*#__PURE__*/React.createElement(EyeOff, {
+      suffixIconNew = /*#__PURE__*/React.createElement(IconEyeClosed, {
         className: "".concat(classPrefix, "-input__suffix-clear ").concat(classPrefix, "-icon"),
         onClick: togglePasswordVisible
       });
     } else if (renderType === 'text') {
-      suffixIconNew = /*#__PURE__*/React.createElement(Eye, {
+      suffixIconNew = /*#__PURE__*/React.createElement(IconEyeOpened, {
         className: "".concat(classPrefix, "-input__suffix-clear ").concat(classPrefix, "-icon"),
         onClick: togglePasswordVisible
       });

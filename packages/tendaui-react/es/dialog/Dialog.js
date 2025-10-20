@@ -9,13 +9,13 @@ import { isUndefined } from 'lodash-es';
 import Portal from '../common/Portal.js';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
-import { d as dialogDefaultProps, D as DialogCard } from '../_chunks/dep-CmR_x2TK.js';
+import { d as dialogDefaultProps, D as DialogCard } from '../_chunks/dep-DOfB01id.js';
 import { _ as _typeof } from '../_chunks/dep-D-UKOauR.js';
 import { _ as _toConsumableArray } from '../_chunks/dep-CgyDw_YI.js';
 import { u as useIsomorphicLayoutEffect } from '../_chunks/dep-CKiAytca.js';
 import 'react-dom';
 import '../config-provider/ConfigContext.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../button/index.js';
 import '../button/Button.js';
 import '../loading/index.js';
@@ -369,6 +369,7 @@ var Dialog = /*#__PURE__*/forwardRef(function (originalProps, ref) {
   var dialogCardRef = useRef(null);
   var dialogPosition = useRef(null);
   var portalRef = useRef(null);
+  var maskRef = useRef(null);
   var _useSetState = useSetState(_objectSpread({
       isPlugin: false
     }, restProps)),
@@ -542,8 +543,10 @@ var Dialog = /*#__PURE__*/forwardRef(function (originalProps, ref) {
       timeout: 300,
       classNames: "".concat(componentCls, "-fade"),
       mountOnEnter: true,
-      unmountOnExit: true
+      unmountOnExit: true,
+      nodeRef: maskRef
     }, /*#__PURE__*/React.createElement("div", {
+      ref: maskRef,
       className: "".concat(componentCls, "__mask")
     })) : null;
   };

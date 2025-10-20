@@ -6,7 +6,7 @@ import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import '../_chunks/dep-Cwish4GD.js';
 import '../_chunks/dep-D-UKOauR.js';
 import '../_chunks/dep-CgyDw_YI.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../config-provider/ConfigContext.js';
 
 var GAP = 14;

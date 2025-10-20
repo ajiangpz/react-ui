@@ -5,10 +5,13 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "dependencies": {
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1",
+    "react-is": ">=16.13.1",
+    "lodash-es": "^4.17.21",
+    "hoist-non-react-statics": "^3.3.2"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c ../../config/rollup.config.es.mjs && npm run build:types",

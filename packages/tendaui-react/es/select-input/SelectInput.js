@@ -14,7 +14,7 @@ import { u as useDefaultProps } from '../_chunks/dep-5jl2j2BI.js';
 import '../input/index.js';
 import '../input/Input.js';
 import '../_chunks/dep-DN7d1SzH.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-CKiAytca.js';
 import '../_chunks/dep-_E1HIQZ7.js';
 import '../config-provider/ConfigContext.js';

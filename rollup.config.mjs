@@ -55,6 +55,7 @@ const baseConfig = {
 
     url(),
     json(),
+    styles({ mode: ["extract"] }),
     staticImport({
       baseDir: "packages/components",
       include: ["packages/components/**/style/css.js"],

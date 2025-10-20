@@ -3,7 +3,7 @@ import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { useMemo, forwardRef } from 'react';
 import classNames from 'classnames';
-import { X } from 'lucide-react';
+import { IconClose } from 'tendaui-react-icons';
 import { n as noop } from '../_chunks/dep-CVFMdElW.js';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import { u as useGlobalIcon } from '../_chunks/dep-BIZNqCbw.js';
@@ -1239,7 +1239,7 @@ var TagFunction = function TagFunction(originalProps, ref) {
   var _useConfig = useConfig(),
     classPrefix = _useConfig.classPrefix;
   var _useGlobalIcon = useGlobalIcon({
-      CloseIcon: X
+      CloseIcon: IconClose
     }),
     CloseIcon = _useGlobalIcon.CloseIcon;
   var tagClassPrefix = "".concat(classPrefix, "-tag");

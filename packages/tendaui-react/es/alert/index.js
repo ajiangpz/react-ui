@@ -5,7 +5,7 @@ import '../_chunks/dep-CzLhKWCf.js';
 import '../_chunks/dep-DN7d1SzH.js';
 import 'react';
 import 'classnames';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import 'react-transition-group';
 import '../_chunks/dep-_E1HIQZ7.js';
 import '../_chunks/dep-Cwish4GD.js';

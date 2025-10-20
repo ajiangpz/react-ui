@@ -9,7 +9,7 @@ import 'react-dom';
 import './NotifyContainer.js';
 import '../_chunks/dep-mO86zOh3.js';
 import './NotifyItem.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-u1x3x6MJ.js';
 import '../config-provider/ConfigContext.js';
 

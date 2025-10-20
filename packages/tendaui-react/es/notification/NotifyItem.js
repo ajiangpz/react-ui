@@ -2,7 +2,7 @@ import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _toConsumableArray } from '../_chunks/dep-CgyDw_YI.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import { CheckCircle, XCircle, Info, AlertCircle } from 'lucide-react';
+import { IconCheckCircleStroked, IconClose, IconInfoCircle, IconAlertTriangle } from 'tendaui-react-icons';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
 import '../_chunks/dep-D-UKOauR.js';
 import '../config-provider/ConfigContext.js';
@@ -61,7 +61,7 @@ var NotificationItem = function NotificationItem(_ref) {
     var notifyNode = nofityItem.current;
     if (notifyNode) {
       var originalHeight = notifyNode.style.height;
-      notifyNode.style.height = "auto";
+      notifyNode.style.height = 'auto';
       var newHeight = notifyNode.getBoundingClientRect().height;
       notifyNode.style.height = originalHeight;
       setInitialHeight(newHeight);
@@ -109,13 +109,13 @@ var NotificationItem = function NotificationItem(_ref) {
     className: "".concat(prefix, "-notify__item"),
     ref: nofityItem,
     style: {
-      position: "absolute",
+      position: 'absolute',
       height: isExpanded ? "auto" : "var(--front-toast-height)",
       width: "var(--toast-width)",
-      "--offset": offset + "px",
-      "--index": heightIndex,
-      "--gap": gap + "px",
-      "--z-index": heights.length - heightIndex
+      '--offset': offset + 'px',
+      '--index': heightIndex,
+      '--gap': gap + 'px',
+      '--z-index': heights.length - heightIndex
     },
     "data-toast": true,
     "data-mounted": isMounted,
@@ -128,15 +128,15 @@ var NotificationItem = function NotificationItem(_ref) {
     className: "".concat(prefix, "-notify__header")
   }, /*#__PURE__*/React.createElement("div", {
     className: "".concat(prefix, "-notify__icon")
-  }, type === "success" && /*#__PURE__*/React.createElement(CheckCircle, {
+  }, type === 'success' && /*#__PURE__*/React.createElement(IconCheckCircleStroked, {
     className: "t-icon t-is-success"
-  }), type === "error" && /*#__PURE__*/React.createElement(XCircle, {
+  }), type === 'error' && /*#__PURE__*/React.createElement(IconClose, {
     className: "t-icon t-is-error"
-  }), type === "info" && /*#__PURE__*/React.createElement(Info, {
+  }), type === 'info' && /*#__PURE__*/React.createElement(IconInfoCircle, {
     className: "t-icon t-is-info"
-  }), type === "warning" && /*#__PURE__*/React.createElement(AlertCircle, {
+  }), type === 'warning' && /*#__PURE__*/React.createElement(IconAlertTriangle, {
     className: "t-icon t-is-warning"
-  }), type === "default" && /*#__PURE__*/React.createElement(Info, {
+  }), type === 'default' && /*#__PURE__*/React.createElement(IconInfoCircle, {
     className: "t-icon t-is-info"
   })), /*#__PURE__*/React.createElement("div", {
     className: "".concat(prefix, "-notify__title")

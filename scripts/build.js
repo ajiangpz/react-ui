@@ -6,8 +6,7 @@ const path = require('path');
 const packages = [
   '@tendaui/utils',
   '@tendaui/icons', 
-  '@tendaui/components',
-  '@tendaui/react'
+  '@tendaui/components'
 ];
 
 function buildPackage(packageName) {

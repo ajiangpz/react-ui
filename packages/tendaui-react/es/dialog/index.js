@@ -1,5 +1,5 @@
 import Dialog$1 from './Dialog.js';
-import { D as DialogCard$1 } from '../_chunks/dep-CmR_x2TK.js';
+import { D as DialogCard$1 } from '../_chunks/dep-DOfB01id.js';
 import { DialogPlugin as DialogPlugin$1 } from './plugin.js';
 import './style/css.js';
 import '../_chunks/dep-mO86zOh3.js';
@@ -18,7 +18,7 @@ import '../_chunks/dep-u1x3x6MJ.js';
 import '../config-provider/ConfigContext.js';
 import '../_chunks/dep-5jl2j2BI.js';
 import '../_chunks/dep-CgyDw_YI.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../button/index.js';
 import '../button/Button.js';
 import '../loading/index.js';

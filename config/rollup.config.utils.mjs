@@ -5,6 +5,13 @@ const { esmPlugins } = pkg;
 /**@type {import('rollup').RollupOptions} */
 export default {
   input: "./src/index.ts",
+  external: [
+    'react',
+    'react-dom',
+    'react-is',
+    'lodash-es',
+    'hoist-non-react-statics'
+  ],
   output: [
     {
       dir: "./dist/esm",

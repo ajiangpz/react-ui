@@ -3,7 +3,7 @@ import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
 import React, { forwardRef, useRef } from 'react';
 import classNames from 'classnames';
-import { AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
+import { IconAlertTriangle, IconCheckCircleStroked, IconInfoCircle, IconClose } from 'tendaui-react-icons';
 import { CSSTransition } from 'react-transition-group';
 import { p as parseTNode } from '../_chunks/dep-_E1HIQZ7.js';
 import { n as noop } from '../_chunks/dep-CVFMdElW.js';
@@ -24,16 +24,15 @@ var alertDefaultProps = {
 
 var _excluded = ["message", "title", "operation", "theme", "icon", "closeBtn", "maxLine", "onClose", "className", "onClosed"];
 var transitionTime = 200;
-;
 var Alert = /*#__PURE__*/forwardRef(function (props, ref) {
   var _useConfig = useConfig(),
     classPrefix = _useConfig.classPrefix;
   // const [local, t] = useLocaleReceiver('alert');
   var _useGlobalIcon = useGlobalIcon({
-      CloseIcon: X,
-      InfoCircleFilledIcon: Info,
-      CheckCircleFilledIcon: CheckCircle,
-      ErrorCircleFilledIcon: AlertTriangle
+      CloseIcon: IconClose,
+      InfoCircleFilledIcon: IconInfoCircle,
+      CheckCircleFilledIcon: IconCheckCircleStroked,
+      ErrorCircleFilledIcon: IconAlertTriangle
     }),
     CloseIcon = _useGlobalIcon.CloseIcon,
     InfoCircleFilledIcon = _useGlobalIcon.InfoCircleFilledIcon,
@@ -80,7 +79,9 @@ var Alert = /*#__PURE__*/forwardRef(function (props, ref) {
   };
   var renderIconNode = function renderIconNode() {
     if (/*#__PURE__*/React.isValidElement(icon)) return icon;
-    return /*#__PURE__*/React.createElement(iconMap[theme]);
+    return /*#__PURE__*/React.createElement(iconMap[theme], {
+      className: 't-icon'
+    });
   };
   var renderMessage = function renderMessage() {
     if (+maxLine > 0 && Array.isArray(message)) {
@@ -102,7 +103,7 @@ var Alert = /*#__PURE__*/forwardRef(function (props, ref) {
       }), +maxLine < message.length && /*#__PURE__*/React.createElement("div", {
         className: "".concat(classPrefix, "-alert__collapse"),
         onClick: handleCollapse
-      }, collapsed ? "展开" : "收起"));
+      }, collapsed ? '展开' : '收起'));
     }
     return /*#__PURE__*/React.createElement("div", {
       className: "".concat(classPrefix, "-alert__description")

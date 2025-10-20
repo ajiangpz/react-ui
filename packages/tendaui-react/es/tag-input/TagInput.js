@@ -2,7 +2,7 @@ import { _ as _extends } from '../_chunks/dep-mO86zOh3.js';
 import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
 import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
 import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { XCircle } from 'lucide-react';
+import { IconClear } from 'tendaui-react-icons';
 import { isFunction } from 'lodash-es';
 import classNames from 'classnames';
 import { u as useConfig } from '../_chunks/dep-u1x3x6MJ.js';
@@ -175,7 +175,7 @@ var TagInput = /*#__PURE__*/forwardRef(function (originalProps, ref) {
   var _useConfig = useConfig(),
     prefix = _useConfig.classPrefix;
   var _useGlobalIcon = useGlobalIcon({
-      CloseCircleFilledIcon: XCircle
+      CloseCircleFilledIcon: IconClear
     }),
     CloseCircleFilledIcon = _useGlobalIcon.CloseCircleFilledIcon;
   var excessTagsDisplayType = props.excessTagsDisplayType,
@@ -235,7 +235,7 @@ var TagInput = /*#__PURE__*/forwardRef(function (originalProps, ref) {
     onInputBackspaceKeyDown = _useTagList.onInputBackspaceKeyDown;
   var NAME_CLASS = "".concat(prefix, "-tag-input");
   var WITH_SUFFIX_ICON_CLASS = "".concat(prefix, "-tag-input__with-suffix-icon");
-  var CLEAR_CLASS = "".concat(prefix, "-tag-input__suffix-clear");
+  var CLEAR_CLASS = "".concat(prefix, "-tag-input__suffix-clear ").concat(prefix, "-icon");
   var BREAK_LINE_CLASS = "".concat(prefix, "-tag-input--break-line");
   var tagInputPlaceholder = !(tagValue !== null && tagValue !== void 0 && tagValue.length) ? placeholder : '';
   var showClearIcon = Boolean(!readonly && !disabled && clearable && isHover && (tagValue === null || tagValue === void 0 ? void 0 : tagValue.length));

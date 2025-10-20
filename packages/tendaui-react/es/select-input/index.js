@@ -11,7 +11,7 @@ import 'lodash-es';
 import '../input/index.js';
 import '../input/Input.js';
 import '../_chunks/dep-DN7d1SzH.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-CKiAytca.js';
 import '../_chunks/dep-D2IWH4e_.js';
 import '../_chunks/dep-_E1HIQZ7.js';

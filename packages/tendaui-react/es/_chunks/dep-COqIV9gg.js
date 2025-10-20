@@ -4,7 +4,7 @@ import { g as getDefaultExportFromCjs, _ as _asyncToGenerator, a as _regenerator
 import { _ as _defineProperty } from './dep-Cwish4GD.js';
 import { _ as _slicedToArray } from './dep-CzLhKWCf.js';
 import React, { useEffect, forwardRef, useState, useRef, useMemo, useImperativeHandle } from 'react';
-import { X, BadgeCheck } from 'lucide-react';
+import { IconClose, IconCheckCircleStroked } from 'tendaui-react-icons';
 import { isEmpty, isNumber, unset, get, flattenDeep, isEqual, set, isString, isObject, isFunction, merge as merge$1 } from 'lodash-es';
 import { u as useConfig } from './dep-u1x3x6MJ.js';
 import { u as useDefaultProps } from './dep-5jl2j2BI.js';
@@ -1135,9 +1135,9 @@ var FormItem = /*#__PURE__*/forwardRef(function (originalProps, ref) {
     classPrefix = _useConfig.classPrefix,
     globalFormConfig = _useConfig.form;
   var _useGlobalIcon = useGlobalIcon({
-      CheckCircleFilledIcon: BadgeCheck,
-      CloseCircleFilledIcon: X,
-      ErrorCircleFilledIcon: X
+      CheckCircleFilledIcon: IconCheckCircleStroked,
+      CloseCircleFilledIcon: IconClose,
+      ErrorCircleFilledIcon: IconClose
     }),
     CheckCircleFilledIcon = _useGlobalIcon.CheckCircleFilledIcon,
     CloseCircleFilledIcon = _useGlobalIcon.CloseCircleFilledIcon,
@@ -1695,7 +1695,7 @@ var FormItem = /*#__PURE__*/forwardRef(function (originalProps, ref) {
     style: labelStyle
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: props === null || props === void 0 ? void 0 : props["for"]
-  }, label), colon || 'Colon'), /*#__PURE__*/React.createElement("div", {
+  }, label), colon || '：'), /*#__PURE__*/React.createElement("div", {
     className: contentClass(),
     style: contentStyle
   }, /*#__PURE__*/React.createElement("div", {
@@ -1742,4 +1742,4 @@ var FormItem = /*#__PURE__*/forwardRef(function (originalProps, ref) {
 FormItem.displayName = 'FormItem';
 
 export { FormItem as F, formDefaultProps as f };
-//# sourceMappingURL=dep-Djq0Yviw.js.map
+//# sourceMappingURL=dep-COqIV9gg.js.map

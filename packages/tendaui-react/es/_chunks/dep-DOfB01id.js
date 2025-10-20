@@ -3,7 +3,7 @@ import { _ as _extends } from './dep-mO86zOh3.js';
 import React, { isValidElement, forwardRef } from 'react';
 import classNames from 'classnames';
 import { isString, isObject, isFunction } from 'lodash-es';
-import { BadgeCheck, Info, X } from 'lucide-react';
+import { IconCheckCircleStroked, IconInfoCircle, IconClose } from 'tendaui-react-icons';
 import { Button } from '../button/index.js';
 import { p as parseTNode } from './dep-_E1HIQZ7.js';
 import { u as useConfig } from './dep-u1x3x6MJ.js';
@@ -52,9 +52,9 @@ var DialogCard = /*#__PURE__*/forwardRef(function (props, ref) {
     classPrefix = _useConfig.classPrefix;
   var componentCls = "".concat(classPrefix, "-dialog");
   var _useGlobalIcon = useGlobalIcon({
-      CloseIcon: X,
-      InfoCircleFilledIcon: Info,
-      CheckCircleFilledIcon: BadgeCheck
+      CloseIcon: IconClose,
+      InfoCircleFilledIcon: IconInfoCircle,
+      CheckCircleFilledIcon: IconCheckCircleStroked
     }),
     CloseIcon = _useGlobalIcon.CloseIcon,
     InfoCircleFilledIcon = _useGlobalIcon.InfoCircleFilledIcon,
@@ -167,4 +167,4 @@ var DialogCard = /*#__PURE__*/forwardRef(function (props, ref) {
 DialogCard.displayName = 'DialogCard';
 
 export { DialogCard as D, dialogDefaultProps as d };
-//# sourceMappingURL=dep-CmR_x2TK.js.map
+//# sourceMappingURL=dep-DOfB01id.js.map

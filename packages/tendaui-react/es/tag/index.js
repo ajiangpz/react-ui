@@ -7,7 +7,7 @@ import '../_chunks/dep-D-UKOauR.js';
 import '../_chunks/dep-DN7d1SzH.js';
 import 'react';
 import 'classnames';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-CVFMdElW.js';
 import '../_chunks/dep-u1x3x6MJ.js';
 import '../config-provider/ConfigContext.js';

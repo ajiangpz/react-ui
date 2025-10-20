@@ -35,7 +35,7 @@ import '../select-input/SelectInput.js';
 import '../select-input/hook/useSingle.js';
 import '../input/index.js';
 import '../input/Input.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../_chunks/dep-_E1HIQZ7.js';
 import '../input/InputGroup.js';
 import '../input/style/css.js';

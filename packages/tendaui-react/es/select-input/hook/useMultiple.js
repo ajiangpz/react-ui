@@ -9,7 +9,7 @@ import { u as useControlled } from '../../_chunks/dep-D2IWH4e_.js';
 import { u as useConfig } from '../../_chunks/dep-u1x3x6MJ.js';
 import '../../_chunks/dep-D-UKOauR.js';
 import '../../tag-input/TagInput.js';
-import 'lucide-react';
+import 'tendaui-react-icons';
 import '../../input/index.js';
 import '../../input/Input.js';
 import '../../_chunks/dep-DN7d1SzH.js';
