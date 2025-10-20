@@ -55,7 +55,11 @@ const baseConfig = {
 
     url(),
     json(),
-    styles({ mode: ["extract"] }),
+    styles({ 
+      sass: {
+        silenceDeprecations: ['legacy-js-api', 'import', 'slash-div']
+      }
+    }),
     staticImport({
       baseDir: "packages/components",
       include: ["packages/components/**/style/css.js"],
@@ -72,12 +76,28 @@ const baseConfig = {
     sourcemap: true,
     chunkFileNames: "_chunks/dep-[hash].js",
   },
+  onwarn(warning, warn) {
+    // 忽略空 chunk 警告
+    if (warning.code === 'EMPTY_BUNDLE') return;
+    // 忽略循环依赖警告（对于 compound components 是正常的）
+    if (warning.code === 'CIRCULAR_DEPENDENCY') {
+      const message = warning.message || warning.toString();
+      if (message.includes('Checkbox.tsx') && message.includes('CheckboxGroup.tsx')) {
+        return;
+      }
+    }
+    warn(warning);
+  },
 };
 
 const cssConfig = {
   input: styleInputList,
   plugins: [
-    styles({ mode: ["extract"] }),
+    styles({ 
+      sass: {
+        silenceDeprecations: ['legacy-js-api', 'import', 'slash-div']
+      }
+    }),
   ],
   output: {
     dir: "packages/tendaui-react/es",
@@ -86,6 +106,11 @@ const cssConfig = {
     preserveModulesRoot: "packages/components",
     format: "esm",
     sourcemap: true,
+  },
+  onwarn(warning, warn) {
+    // 忽略空 chunk 警告
+    if (warning.code === 'EMPTY_BUNDLE') return;
+    warn(warning);
   },
 };
 
