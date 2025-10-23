@@ -211,8 +211,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.2(react-dom@18.3.1)(react@18.3.1)
       tendaui-react-icons:
-        specifier: 1.1.1
-        version: 1.1.1
+        specifier: 1.1.3
+        version: link:packages/tendaui-icons
       tinycolor2:
         specifier: ^1.6.0
         version: 1.6.0
@@ -329,8 +329,8 @@ importers:
         specifier: ^1.15.0
         version: 1.15.6
       tendaui-react-icons:
-        specifier: ^1.1.1
-        version: 1.1.1
+        specifier: ^1.1.3
+        version: link:../tendaui-icons
       tslib:
         specifier: ~2.3.1
         version: 2.3.1
@@ -9319,11 +9319,6 @@ packages:
       tslib: 2.3.1
       validator: 13.15.15
     dev: true
-
-  /tendaui-react-icons@1.1.1:
-    resolution: {integrity: sha512-rfQMCHSa9S6aFUA2x6+c1GbZT2SShXLQbeogFLNh88lIFYPLz2qW80uoDf8+9MGKkKZziin4M4j9EcXI0lTDkg==}
-    dependencies:
-      classnames: 2.5.1
 
   /tendaui-react@1.0.2(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-lkJfkYjnxDN77bhYaaNrenOV0YTkMzHA4+twVjHluFBVTIEA6xjYT85jYsPvkQRj6DXsHsPAP/M5ZveTQyPbrg==}
