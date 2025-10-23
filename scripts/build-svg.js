@@ -2,12 +2,12 @@
  * 转换svg元素成React组件
  */
 
-const svgr = require('@svgr/core').default;
-const { optimize } = require('svgo');
-const fs = require('fs');
-const { resolve, basename, extname } = require('path');
-const camelCase = require('camelcase');
-const prettier = require('prettier');
+const svgr = require("@svgr/core").default;
+const { optimize } = require("svgo");
+const fs = require("fs");
+const { resolve, basename, extname } = require("path");
+const camelCase = require("camelcase");
+const prettier = require("prettier");
 
 /**
  *
@@ -17,49 +17,41 @@ const prettier = require('prettier');
  * @param {*} prefix 图标前缀
  * @param {*} suffix 图标后缀
  */
-async function build(
-  entryDir,
-  outDir,
-  prefix,
-  suffix,
-  svgoPlugins = [],
-  svgrOptions = {}
-) {
-  const prettierConfig = require(resolve(__dirname, '../.prettierrc.js'));
+async function build(entryDir, outDir, prefix, suffix, svgoPlugins = [], svgrOptions = {}) {
+  const prettierConfig = require(resolve(__dirname, "../.prettierrc.js"));
   fs.rmSync(outDir, { recursive: true });
   fs.mkdirSync(outDir);
   // 读取svg文件夹下的文件，转译成React组件，并输出
-  const files = fs.readdirSync(entryDir, 'utf-8');
-  const indexFileName = 'index.ts';
+  const files = fs.readdirSync(entryDir, "utf-8");
+  const indexFileName = "index.ts";
   const batches = files
-    .filter(f => extname(f) === '.svg')
-    .map(async file => {
+    .filter((f) => extname(f) === ".svg")
+    .map(async (file) => {
       try {
-        const svgFileName = basename(file, '.svg');
+        const svgFileName = basename(file, ".svg");
         const componentName = `${prefix}${camelCase(svgFileName, {
-          pascalCase: true
+          pascalCase: true,
         })}${suffix}`;
         const reactFileName = `${componentName}.tsx`;
-        const svgContent = fs.readFileSync(resolve(entryDir, file), 'utf-8');
+        const svgContent = fs.readFileSync(resolve(entryDir, file), "utf-8");
         const svgProps = {
-          focusable: '{false}',
-          'aria-hidden': true
+          focusable: "{false}",
+          "aria-hidden": true,
         };
         const result = optimize(svgContent, {
-          plugins: svgoPlugins
+          plugins: svgoPlugins,
         });
         const jsxCode = await svgr(result.data, {
-          plugins: ['@svgr/plugin-jsx'],
+          plugins: ["@svgr/plugin-jsx"],
           svgProps,
           iconType: svgFileName,
-          ...svgrOptions
+          ...svgrOptions,
         });
-        const formattedCode = await prettier.format(jsxCode, prettierConfig);
-        fs.writeFileSync(
-          resolve(outDir, reactFileName),
-          formattedCode,
-          'utf-8'
-        );
+        const formattedCode = await prettier.format(jsxCode, {
+          ...prettierConfig,
+          parser: "typescript",
+        });
+        fs.writeFileSync(resolve(outDir, reactFileName), formattedCode, "utf-8");
         return { fileName: reactFileName, componentName };
       } catch (error) {
         console.error(error);
@@ -68,12 +60,9 @@ async function build(
     });
   const arr = await Promise.all(batches);
   const indexFileContent = arr
-    .map(
-      a =>
-        `export { default as ${a.componentName} } from './${a.componentName}';`
-    )
-    .join('\n');
-  fs.writeFileSync(resolve(outDir, indexFileName), indexFileContent, 'utf-8');
+    .map((a) => `export { default as ${a.componentName} } from './${a.componentName}';`)
+    .join("\n");
+  fs.writeFileSync(resolve(outDir, indexFileName), indexFileContent, "utf-8");
   return arr;
 }
 

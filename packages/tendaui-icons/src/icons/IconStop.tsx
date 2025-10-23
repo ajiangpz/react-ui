@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { convertIcon } from '../components/Icon';
+import * as React from "react";
+import { convertIcon } from "../components/Icon";
 function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="1em"
-            height="1em"
-            focusable={false}
-            aria-hidden={true}
-            {...props}
-        >
-            <path d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="currentColor" />
-        </svg>
-    );
+  return (
+    <svg
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      focusable={false}
+      aria-hidden={true}
+      {...props}
+    >
+      <path d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="currentColor" />
+    </svg>
+  );
 }
-const IconComponent = convertIcon(SvgComponent, 'stop');
+const IconComponent = convertIcon(SvgComponent, "stop");
 export default IconComponent;

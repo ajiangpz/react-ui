@@ -13,10 +13,10 @@
     "esm",
     "cjs",
     "es",
-    "packages/tendaui-react/",
+    "packages/tendaui-react/"
   ],
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "rootDir": "packages/components"
-  },
+  }
 }

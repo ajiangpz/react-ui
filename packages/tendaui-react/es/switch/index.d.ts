@@ -1,4 +1,0 @@
-import "./style/index";
-export * from "./type";
-export declare const Switch: <T extends import("./type").SwitchValue = import("./type").SwitchValue>(props: import("./Switch").SwitchProps<T> & React.RefAttributes<HTMLButtonElement>) => React.ReactElement;
-export default Switch;

@@ -1,23 +1,23 @@
-import * as React from 'react';
-import { convertIcon } from '../components/Icon';
+import * as React from "react";
+import { convertIcon } from "../components/Icon";
 function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="1em"
-            height="1em"
-            focusable={false}
-            aria-hidden={true}
-            {...props}
-        >
-            <path
-                d="M17.08 16.32H6.95a.5.5 0 0 1-.41-.78l5.06-7.6c.2-.3.64-.3.83 0l5.07 7.6a.5.5 0 0 1-.42.78"
-                fill="currentColor"
-            />
-        </svg>
-    );
+  return (
+    <svg
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      focusable={false}
+      aria-hidden={true}
+      {...props}
+    >
+      <path
+        d="M17.08 16.32H6.95a.5.5 0 0 1-.41-.78l5.06-7.6c.2-.3.64-.3.83 0l5.07 7.6a.5.5 0 0 1-.42.78"
+        fill="currentColor"
+      />
+    </svg>
+  );
 }
-const IconComponent = convertIcon(SvgComponent, 'small_triangle_top');
+const IconComponent = convertIcon(SvgComponent, "small_triangle_top");
 export default IconComponent;

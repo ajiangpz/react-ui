@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { convertIcon } from '../components/Icon';
+import * as React from "react";
+import { convertIcon } from "../components/Icon";
 function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="1em"
-            height="1em"
-            focusable={false}
-            aria-hidden={true}
-            {...props}
-        >
-            <path d="M9 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
-            <path d="M9 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
-            <path d="M11 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0" fill="currentColor" />
-            <path d="M15 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
-            <path d="M17 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0" fill="currentColor" />
-            <path d="M15 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
-        </svg>
-    );
+  return (
+    <svg
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      focusable={false}
+      aria-hidden={true}
+      {...props}
+    >
+      <path d="M9 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
+      <path d="M9 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
+      <path d="M11 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0" fill="currentColor" />
+      <path d="M15 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
+      <path d="M17 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0" fill="currentColor" />
+      <path d="M15 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4" fill="currentColor" />
+    </svg>
+  );
 }
-const IconComponent = convertIcon(SvgComponent, 'handle');
+const IconComponent = convertIcon(SvgComponent, "handle");
 export default IconComponent;
