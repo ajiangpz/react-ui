@@ -1,32 +1,32 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Input, { InputGroup } from 'tendaui-react/es/input';
-import React from 'react';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Input, { InputGroup } from "tendaui-react/es/input";
+import React from "react";
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input',
+  title: "Components/Input",
   component: Input,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     type: {
-      control: 'select',
+      control: "select",
       options: [
-        'text',
-        'file',
-        'password',
-        'number',
-        'tel',
-        'url',
-        'search',
-        'date',
-        'time',
-        'datetime-local',
-        'month',
-        'week',
+        "text",
+        "file",
+        "password",
+        "number",
+        "tel",
+        "url",
+        "search",
+        "date",
+        "time",
+        "datetime-local",
+        "month",
+        "week",
       ],
-      defaultValue: 'text',
+      defaultValue: "text",
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
       defaultValue: false,
     },
   },
@@ -38,10 +38,10 @@ type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {
-    type: 'text',
-    placeholder: '请输入内容',
+    type: "text",
+    placeholder: "请输入内容",
     disabled: false,
-    name: 'input',
+    name: "input",
   },
 };
 
@@ -53,5 +53,5 @@ export const Group: StoryObj<typeof InputGroup> = {
       <Input type="password" placeholder="密码" />
     </InputGroup>
   ),
-  name: 'InputGroup 示例',
+  name: "InputGroup 示例",
 };

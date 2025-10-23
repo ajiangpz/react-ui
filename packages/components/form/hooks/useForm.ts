@@ -1,13 +1,8 @@
-import { useState, useRef } from 'react';
-import type { NamePath } from '../type';
-import type {
-  WatchCallBack,
-  InternalHooks,
-  InternalFormInstance,
-  Store,
-} from './interface';
+import { useState, useRef } from "react";
+import type { NamePath } from "../type";
+import type { WatchCallBack, InternalHooks, InternalFormInstance, Store } from "./interface";
 
-export const HOOK_MARK = 'TD_FORM_INTERNAL_HOOKS';
+export const HOOK_MARK = "TD_FORM_INTERNAL_HOOKS";
 
 class FormStore {
   private prevStore: Store = {};
@@ -31,27 +26,27 @@ class FormStore {
 
   public getForm = (): InternalFormInstance => ({
     submit: (...args) => {
-      this.taskQueue.push({ args, name: 'submit' });
+      this.taskQueue.push({ args, name: "submit" });
     },
     reset: (...args) => {
-      this.taskQueue.push({ args, name: 'reset' });
+      this.taskQueue.push({ args, name: "reset" });
     },
     validate: null,
     validateOnly: null,
     clearValidate: (...args) => {
-      this.taskQueue.push({ args, name: 'clearValidate' });
+      this.taskQueue.push({ args, name: "clearValidate" });
     },
     setFields: (...args) => {
-      this.taskQueue.push({ args, name: 'setFields' });
+      this.taskQueue.push({ args, name: "setFields" });
     },
     setFieldsValue: (...args) => {
-      this.taskQueue.push({ args, name: 'setFieldsValue' });
+      this.taskQueue.push({ args, name: "setFieldsValue" });
     },
     setValidateMessage: (...args) => {
-      this.taskQueue.push({ args, name: 'setValidateMessage' });
+      this.taskQueue.push({ args, name: "setValidateMessage" });
     },
     getValidateMessage: (...args) => {
-      this.taskQueue.push({ args, name: 'getValidateMessage' });
+      this.taskQueue.push({ args, name: "getValidateMessage" });
     },
     getFieldValue: null,
     getFieldsValue: null,
@@ -78,16 +73,13 @@ class FormStore {
       };
     }
 
-    console.warn(
-      'Form',
-      '`getInternalHooks` is internal usage. Should not call directly.',
-    );
+    console.warn("Form", "`getInternalHooks` is internal usage. Should not call directly.");
     return null;
   };
 
   private watchList: WatchCallBack[] = [];
 
-  private registerWatch: InternalHooks['registerWatch'] = (callback) => {
+  private registerWatch: InternalHooks["registerWatch"] = (callback) => {
     this.watchList.push(callback);
 
     return () => {

@@ -1,12 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from "react";
 
-import {
-  IconClose,
-  IconInfoCircle,
-  IconCheckCircleStroked,
-  IconAlertTriangle
-} from 'tendaui-react-icons';
-import useConfig from '../hooks/useConfig';
+import { IconClose, IconInfoCircle, IconCheckCircleStroked, IconAlertTriangle } from "tendaui-react-icons";
+import useConfig from "../hooks/useConfig";
 
 const NotificationItem: React.FC<{
   id: string;
@@ -15,24 +10,12 @@ const NotificationItem: React.FC<{
   heights: { toastId: string; height: number }[];
   gap: number;
   setHeights: React.Dispatch<
-    React.SetStateAction<
-      { toastId: string; height: number; message: string; type: string }[]
-    >
+    React.SetStateAction<{ toastId: string; height: number; message: string; type: string }[]>
   >;
   isRemoved: boolean;
   isExpanded: boolean;
   title: string;
-}> = ({
-  message,
-  type,
-  heights,
-  setHeights,
-  id,
-  gap,
-  isExpanded,
-  isRemoved,
-  title
-}) => {
+}> = ({ message, type, heights, setHeights, id, gap, isExpanded, isRemoved, title }) => {
   const [initialHeight, setInitialHeight] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const nofityItem = useRef<HTMLDivElement>(null);
@@ -46,12 +29,12 @@ const NotificationItem: React.FC<{
     if (notifyNode) {
       const height = notifyNode.getBoundingClientRect().height;
       setInitialHeight(height);
-      setHeights(h => {
+      setHeights((h) => {
         // 如果不存在，则添加
         return [{ toastId: id, height, message, type }, ...h];
       });
       return () => {
-        setHeights(h => h.filter(h => h.toastId !== id));
+        setHeights((h) => h.filter((h) => h.toastId !== id));
       };
     }
   }, [setHeights, id]);
@@ -61,17 +44,15 @@ const NotificationItem: React.FC<{
     const notifyNode = nofityItem.current;
     if (notifyNode) {
       const originalHeight = notifyNode.style.height;
-      notifyNode.style.height = 'auto';
+      notifyNode.style.height = "auto";
       const newHeight = notifyNode.getBoundingClientRect().height;
       notifyNode.style.height = originalHeight;
       setInitialHeight(newHeight);
-      setHeights(heights => {
-        const isExist = heights.some(h => h.toastId === id);
+      setHeights((heights) => {
+        const isExist = heights.some((h) => h.toastId === id);
         if (isExist) {
           // 如果存在，则更新高度
-          return heights.map(h =>
-            h.toastId === id ? { ...h, height: newHeight, message, type } : h
-          );
+          return heights.map((h) => (h.toastId === id ? { ...h, height: newHeight, message, type } : h));
         }
         // 如果不存在，则添加
         return [{ toastId: id, height: newHeight, message, type }, ...heights];
@@ -79,7 +60,7 @@ const NotificationItem: React.FC<{
     }
   }, [isMounted, initialHeight, setHeights, id, message, type]);
   const heightIndex = React.useMemo(() => {
-    return heights.findIndex(h => h.toastId === id);
+    return heights.findIndex((h) => h.toastId === id);
   }, [heights, id]);
   const toastHeightBefore = React.useMemo(() => {
     return heights.reduce((acc, h, reduceIndex) => {
@@ -90,10 +71,7 @@ const NotificationItem: React.FC<{
     }, 0);
   }, [initialHeight, heightIndex, heights]);
 
-  const offset = React.useMemo(() => heightIndex * gap + toastHeightBefore, [
-    toastHeightBefore,
-    heightIndex
-  ]);
+  const offset = React.useMemo(() => heightIndex * gap + toastHeightBefore, [toastHeightBefore, heightIndex]);
 
   return (
     <div
@@ -101,13 +79,13 @@ const NotificationItem: React.FC<{
       ref={nofityItem}
       style={
         {
-          position: 'absolute',
+          position: "absolute",
           height: isExpanded ? `auto` : `var(--front-toast-height)`,
           width: `var(--toast-width)`,
-          '--offset': offset + 'px',
-          '--index': heightIndex,
-          '--gap': gap + 'px',
-          '--z-index': heights.length - heightIndex
+          "--offset": offset + "px",
+          "--index": heightIndex,
+          "--gap": gap + "px",
+          "--z-index": heights.length - heightIndex,
         } as React.CSSProperties
       }
       data-toast
@@ -119,17 +97,11 @@ const NotificationItem: React.FC<{
       <div className={`${prefix}-notify__content`}>
         <div className={`${prefix}-notify__header`}>
           <div className={`${prefix}-notify__icon`}>
-            {type === 'success' && (
-              <IconCheckCircleStroked className="t-icon t-is-success" />
-            )}
-            {type === 'error' && <IconClose className="t-icon t-is-error" />}
-            {type === 'info' && <IconInfoCircle className="t-icon t-is-info" />}
-            {type === 'warning' && (
-              <IconAlertTriangle className="t-icon t-is-warning" />
-            )}
-            {type === 'default' && (
-              <IconInfoCircle className="t-icon t-is-info" />
-            )}
+            {type === "success" && <IconCheckCircleStroked className="t-icon t-is-success" />}
+            {type === "error" && <IconClose className="t-icon t-is-error" />}
+            {type === "info" && <IconInfoCircle className="t-icon t-is-info" />}
+            {type === "warning" && <IconAlertTriangle className="t-icon t-is-warning" />}
+            {type === "default" && <IconInfoCircle className="t-icon t-is-info" />}
           </div>
 
           <div className={`${prefix}-notify__title`}>{title}</div>
@@ -139,7 +111,7 @@ const NotificationItem: React.FC<{
         className={`${prefix}-notify__detail`}
         style={{
           opacity: heightIndex === 0 || isExpanded ? 1 : 0,
-          transition: `opacity 400ms`
+          transition: `opacity 400ms`,
         }}
       >
         {message}

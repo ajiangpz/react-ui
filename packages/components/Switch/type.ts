@@ -1,6 +1,5 @@
-
-import { TNode } from '../common';
-import { MouseEvent } from 'react';
+import { TNode } from "../common";
+import { MouseEvent } from "react";
 
 export interface TdSwitchProps<T = SwitchValue> {
   /**
@@ -29,7 +28,7 @@ export interface TdSwitchProps<T = SwitchValue> {
    * 开关尺寸
    * @default medium
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   /**
    * 开关值
    */

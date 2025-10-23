@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo, CSSProperties } from 'react';
-import classnames from 'classnames';
-import { canUseDocument } from '../utils/dom';
-import useConfig from '../hooks/useConfig';
-import { StyledProps } from '../common';
-import { TdLoadingProps } from './type';
-import Portal from '../common/Portal';
-import Gradient from './Gradient';
-import { loadingDefaultProps } from './defaultProps';
-import useDefaultProps from '../hooks/useDefaultProps';
-import { addClass, removeClass } from '../utils/style';
+import React, { useState, useEffect, useMemo, CSSProperties } from "react";
+import classnames from "classnames";
+import { canUseDocument } from "../utils/dom";
+import useConfig from "../hooks/useConfig";
+import { StyledProps } from "../common";
+import { TdLoadingProps } from "./type";
+import Portal from "../common/Portal";
+import Gradient from "./Gradient";
+import { loadingDefaultProps } from "./defaultProps";
+import useDefaultProps from "../hooks/useDefaultProps";
+import { addClass, removeClass } from "../utils/style";
 
-export interface LoadingProps extends TdLoadingProps, StyledProps { }
+export interface LoadingProps extends TdLoadingProps, StyledProps {}
 
 const Loading: React.FC<LoadingProps> = (props) => {
   const {
@@ -31,9 +31,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
     style,
   } = useDefaultProps<LoadingProps>(props, loadingDefaultProps);
 
-  const [showLoading, setShowLoading] = useState(() =>
-    delay ? false : loading,
-  );
+  const [showLoading, setShowLoading] = useState(() => (delay ? false : loading));
 
   const { classPrefix } = useConfig();
 
@@ -69,7 +67,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
       styles.zIndex = zIndex;
     }
 
-    if (!['small', 'medium', 'large'].includes(size)) {
+    if (!["small", "medium", "large"].includes(size)) {
       styles.fontSize = size;
     }
 
@@ -88,7 +86,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
     {
       [inheritColorClass]: inheritColor,
     },
-    className,
+    className
   );
 
   useEffect(() => {
@@ -103,7 +101,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
   const commonContent = () => {
     let renderIndicator = <Gradient />;
 
-    if (indicator && typeof indicator !== 'boolean') {
+    if (indicator && typeof indicator !== "boolean") {
       renderIndicator = indicator as React.ReactElement;
     }
     return (
@@ -116,10 +114,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
 
   if (fullscreen) {
     return loading ? (
-      <div
-        className={classnames(name, fullscreenClass, centerClass, overlayClass)}
-        style={{ ...calcStyles, ...style }}
-      >
+      <div className={classnames(name, fullscreenClass, centerClass, overlayClass)} style={{ ...calcStyles, ...style }}>
         <div className={baseClasses}>{commonContent()}</div>
       </div>
     ) : null;
@@ -160,15 +155,12 @@ const Loading: React.FC<LoadingProps> = (props) => {
   }
 
   return loading ? (
-    <div
-      className={classnames(name, baseClasses)}
-      style={{ ...calcStyles, ...style }}
-    >
+    <div className={classnames(name, baseClasses)} style={{ ...calcStyles, ...style }}>
       {commonContent()}
     </div>
   ) : null;
 };
 
-Loading.displayName = 'Loading';
+Loading.displayName = "Loading";
 
 export default Loading;

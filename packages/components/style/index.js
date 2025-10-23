@@ -1,2 +1,2 @@
-import '../styles/_global.scss';
-import '../styles/themes/_index.scss';
+import "../styles/_global.scss";
+import "../styles/themes/_index.scss";

@@ -1,1 +1,1 @@
-import '../../styles/components/tag-input/_index.scss';
+import "../../styles/components/tag-input/_index.scss";

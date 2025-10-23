@@ -1,4 +1,4 @@
-import { canUseDocument } from './dom';
+import { canUseDocument } from "./dom";
 export const getCssVarsValue = (name: string, element?: HTMLElement) => {
   if (!canUseDocument) return;
 
@@ -6,13 +6,11 @@ export const getCssVarsValue = (name: string, element?: HTMLElement) => {
   return getComputedStyle(el).getPropertyValue(name);
 };
 
-const trim = (str: string): string =>
-  (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
+const trim = (str: string): string => (str || "").replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, "");
 
 export function hasClass(el: Element, cls: string) {
   if (!el || !cls) return false;
-  if (cls.indexOf(' ') !== -1)
-    throw new Error('className should not contain space.');
+  if (cls.indexOf(" ") !== -1) throw new Error("className should not contain space.");
   if (el.classList) {
     return el.classList.contains(cls);
   }
@@ -22,7 +20,7 @@ export function hasClass(el: Element, cls: string) {
 export const addClass = function (el: Element, cls: string) {
   if (!el) return;
   let curClass = el.className;
-  const classes = (cls || '').split(' ');
+  const classes = (cls || "").split(" ");
 
   for (let i = 0, j = classes.length; i < j; i++) {
     const clsName = classes[i];
@@ -42,7 +40,7 @@ export const addClass = function (el: Element, cls: string) {
 
 export const removeClass = function (el: Element, cls: string) {
   if (!el || !cls) return;
-  const classes = cls.split(' ');
+  const classes = cls.split(" ");
   let curClass = ` ${el.className} `;
 
   for (let i = 0, j = classes.length; i < j; i++) {
@@ -52,7 +50,7 @@ export const removeClass = function (el: Element, cls: string) {
     if (el.classList) {
       el.classList.remove(clsName);
     } else if (hasClass(el, clsName)) {
-      curClass = curClass.replace(` ${clsName} `, ' ');
+      curClass = curClass.replace(` ${clsName} `, " ");
     }
   }
   if (!el.classList) {

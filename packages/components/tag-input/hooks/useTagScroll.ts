@@ -3,15 +3,15 @@
  * 如果标签过多时的处理方式，是标签省略，则不需要此功能
  */
 
-import { isFunction } from 'lodash-es';
-import { useRef, useEffect, useState, WheelEvent } from 'react';
-import { TdTagInputProps } from '../type';
+import { isFunction } from "lodash-es";
+import { useRef, useEffect, useState, WheelEvent } from "react";
+import { TdTagInputProps } from "../type";
 
 let mouseEnterTimer: ReturnType<typeof setTimeout> | null = null;
 
 export default function useTagScroll(props: TdTagInputProps) {
   const tagInputRef = useRef<{ currentElement: HTMLDivElement }>(null);
-  const { excessTagsDisplayType = 'scroll', readonly, disabled } = props;
+  const { excessTagsDisplayType = "scroll", readonly, disabled } = props;
   // 允许向右滚动的最大距离
   const [scrollDistance, setScrollDistance] = useState(0);
   const [scrollElement, setScrollElement] = useState<HTMLDivElement>();
@@ -28,7 +28,7 @@ export default function useTagScroll(props: TdTagInputProps) {
 
   const scrollTo = (distance: number) => {
     if (isFunction(scrollElement?.scroll)) {
-      scrollElement.scroll({ left: distance, behavior: 'smooth' });
+      scrollElement.scroll({ left: distance, behavior: "smooth" });
     }
   };
 
@@ -56,7 +56,7 @@ export default function useTagScroll(props: TdTagInputProps) {
 
   // 鼠标 hover，自动滑动到最右侧，以便输入新标签
   const scrollToRightOnEnter = () => {
-    if (excessTagsDisplayType !== 'scroll') return;
+    if (excessTagsDisplayType !== "scroll") return;
     // 一闪而过的 mousenter 不需要执行
     mouseEnterTimer = setTimeout(() => {
       scrollToRight();
@@ -65,7 +65,7 @@ export default function useTagScroll(props: TdTagInputProps) {
   };
 
   const scrollToLeftOnLeave = () => {
-    if (excessTagsDisplayType !== 'scroll') return;
+    if (excessTagsDisplayType !== "scroll") return;
     scrollTo(0);
     if (mouseEnterTimer) {
       clearTimeout(mouseEnterTimer);

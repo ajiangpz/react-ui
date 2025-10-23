@@ -1,7 +1,7 @@
 // https://github.com/scottrippey/react-use-event-hook/blob/75ba34af9175dc311afb3fb302d6fea44e4a5203/src/useEvent.ts
 // [RFC](https://github.com/reactjs/rfcs/blob/useevent/text/0000-useevent.md)
-import React from 'react';
-import noop from '../utils/noop';
+import React from "react";
+import noop from "../utils/noop";
 
 type AnyFunction = (...args: unknown[]) => unknown;
 
@@ -9,10 +9,7 @@ type AnyFunction = (...args: unknown[]) => unknown;
  * Suppress the warning when using useLayoutEffect with SSR. (https://reactjs.org/link/uselayouteffect-ssr)
  * Make use of useInsertionEffect if available.
  */
-const useInsertionEffect =
-  typeof window !== 'undefined'
-    ? React.useInsertionEffect || React.useLayoutEffect
-    : noop;
+const useInsertionEffect = typeof window !== "undefined" ? React.useInsertionEffect || React.useLayoutEffect : noop;
 
 /**
  * Render methods should be pure, especially when concurrency is used,
@@ -20,7 +17,7 @@ const useInsertionEffect =
  */
 function useEventCallbackShouldNotBeInvokedBeforeMount() {
   throw new Error(
-    'INVALID_USEEVENTCALLBACK_INVOCATION: the callback from useEventCallback cannot be invoked before the component has mounted.',
+    "INVALID_USEEVENTCALLBACK_INVOCATION: the callback from useEventCallback cannot be invoked before the component has mounted."
   );
 }
 
@@ -30,13 +27,9 @@ function useEventCallbackShouldNotBeInvokedBeforeMount() {
  * - No dependency lists required
  * - Properties or state accessed within the callback will always be "current"
  */
-export default function useEventCallback<TCallback extends AnyFunction>(
-  callback: TCallback,
-): TCallback {
+export default function useEventCallback<TCallback extends AnyFunction>(callback: TCallback): TCallback {
   // Keep track of the latest callback:
-  const latestRef = React.useRef<TCallback>(
-    useEventCallbackShouldNotBeInvokedBeforeMount as any,
-  );
+  const latestRef = React.useRef<TCallback>(useEventCallbackShouldNotBeInvokedBeforeMount as any);
   useInsertionEffect(() => {
     latestRef.current = callback;
   }, [callback]);

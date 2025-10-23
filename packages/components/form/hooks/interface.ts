@@ -1,4 +1,4 @@
-import type { NamePath, FormInstanceFunctions } from '../type';
+import type { NamePath, FormInstanceFunctions } from "../type";
 
 export type Store = Record<string, any>;
 

@@ -12,7 +12,7 @@ const basePlugins = [
   commonjs(),
   styles({ mode: ["extract"] }),
   url(),
-  json()
+  json(),
 ];
 
 const esmPlugins = [
@@ -21,11 +21,8 @@ const esmPlugins = [
     babelHelpers: "bundled",
     exclude: "node_modules/**",
     extensions: [".js", ".jsx", ".ts", ".tsx"],
-    presets: [
-      ["@babel/preset-env", { targets: { node: "current" } }],
-      "@babel/preset-typescript"
-    ]
-  })
+    presets: [["@babel/preset-env", { targets: { node: "current" } }], "@babel/preset-typescript"],
+  }),
 ];
 
 const cjsPlugins = [
@@ -34,15 +31,12 @@ const cjsPlugins = [
     babelHelpers: "bundled",
     exclude: "node_modules/**",
     extensions: [".js", ".jsx", ".ts", ".tsx"],
-    presets: [
-      ["@babel/preset-env", { targets: { node: "current" } }],
-      "@babel/preset-typescript"
-    ]
-  })
+    presets: [["@babel/preset-env", { targets: { node: "current" } }], "@babel/preset-typescript"],
+  }),
 ];
 
 module.exports = {
   esmPlugins,
   cjsPlugins,
-  basePlugins
+  basePlugins,
 };

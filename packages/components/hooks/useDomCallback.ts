@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 export default function useDomRefCallback<T extends HTMLElement>() {
   const [refCurrent, setRefCurrent] = useState<T | null>(null);

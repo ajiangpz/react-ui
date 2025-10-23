@@ -1,9 +1,9 @@
-import React, { forwardRef, useMemo, useImperativeHandle } from 'react';
-import { createPortal } from 'react-dom';
-import { AttachNode, AttachNodeReturnValue } from '../common';
-import { canUseDocument } from '../utils/dom';
-import useConfig from '../hooks/useConfig';
-import useIsomorphicLayoutEffect from '../hooks/useLayoutEffect';
+import React, { forwardRef, useMemo, useImperativeHandle } from "react";
+import { createPortal } from "react-dom";
+import { AttachNode, AttachNodeReturnValue } from "../common";
+import { canUseDocument } from "../utils/dom";
+import useConfig from "../hooks/useConfig";
+import useIsomorphicLayoutEffect from "../hooks/useLayoutEffect";
 
 export interface PortalProps {
   /**
@@ -17,20 +17,17 @@ export interface PortalProps {
   children: React.ReactNode;
 }
 
-export function getAttach(
-  attach: PortalProps['attach'],
-  triggerNode?: HTMLElement,
-): AttachNodeReturnValue {
+export function getAttach(attach: PortalProps["attach"], triggerNode?: HTMLElement): AttachNodeReturnValue {
   if (!canUseDocument) return null;
 
   let el: AttachNodeReturnValue;
-  if (typeof attach === 'string') {
+  if (typeof attach === "string") {
     el = document.querySelector(attach);
   }
-  if (typeof attach === 'function') {
+  if (typeof attach === "function") {
     el = attach(triggerNode);
   }
-  if (typeof attach === 'object' && attach instanceof window.HTMLElement) {
+  if (typeof attach === "object" && attach instanceof window.HTMLElement) {
     el = attach;
   }
 
@@ -46,7 +43,7 @@ const Portal = forwardRef((props: PortalProps, ref) => {
 
   const container = useMemo(() => {
     if (!canUseDocument) return null;
-    const el = document.createElement('div');
+    const el = document.createElement("div");
     el.className = `${classPrefix}-portal-wrapper`;
     return el;
   }, [classPrefix]);
@@ -65,6 +62,6 @@ const Portal = forwardRef((props: PortalProps, ref) => {
   return canUseDocument ? createPortal(children, container) : null;
 });
 
-Portal.displayName = 'Portal';
+Portal.displayName = "Portal";
 
 export default Portal;

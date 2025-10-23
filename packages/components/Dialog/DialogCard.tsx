@@ -1,32 +1,26 @@
-import React, { forwardRef, isValidElement } from 'react';
-import classNames from 'classnames';
-import { isString, isObject, isFunction } from 'lodash-es';
+import React, { forwardRef, isValidElement } from "react";
+import classNames from "classnames";
+import { isString, isObject, isFunction } from "lodash-es";
 import {
   IconClose as TdCloseIcon,
   IconInfoCircle as TdInfoCircleFilledIcon,
-  IconCheckCircleStroked as TdCheckCircleFilledIcon
-} from 'tendaui-react-icons';
-import Button, { ButtonProps } from '../button';
-import { TdDialogCardProps } from './type';
-import { StyledProps, TNode } from '../common';
-import parseTNode from '../utils/parseTNode';
-import useConfig from '../hooks/useConfig';
-import useGlobalIcon from '../hooks/useGlobalIcon';
+  IconCheckCircleStroked as TdCheckCircleFilledIcon,
+} from "tendaui-react-icons";
+import Button, { ButtonProps } from "../button";
+import { TdDialogCardProps } from "./type";
+import { StyledProps, TNode } from "../common";
+import parseTNode from "../utils/parseTNode";
+import useConfig from "../hooks/useConfig";
+import useGlobalIcon from "../hooks/useGlobalIcon";
 // import { useLocaleReceiver } from '../locale/LocalReceiver';
-import { dialogCardDefaultProps } from './defaultProps';
-import useDefaultProps from '../hooks/useDefaultProps';
+import { dialogCardDefaultProps } from "./defaultProps";
+import useDefaultProps from "../hooks/useDefaultProps";
 
-export interface DialogCardProps
-  extends TdDialogCardProps,
-    StyledProps,
-    React.HTMLAttributes<HTMLDivElement> {
+export interface DialogCardProps extends TdDialogCardProps, StyledProps, React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-const renderDialogButton = (
-  btn: DialogCardProps['cancelBtn'],
-  defaultProps: ButtonProps
-) => {
+const renderDialogButton = (btn: DialogCardProps["cancelBtn"], defaultProps: ButtonProps) => {
   let result = null;
 
   if (isString(btn)) {
@@ -45,20 +39,16 @@ const renderDialogButton = (
 const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
   const { classPrefix } = useConfig();
   const componentCls = `${classPrefix}-dialog`;
-  const {
-    CloseIcon,
-    InfoCircleFilledIcon,
-    CheckCircleFilledIcon
-  } = useGlobalIcon({
+  const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon } = useGlobalIcon({
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
-    CheckCircleFilledIcon: TdCheckCircleFilledIcon
+    CheckCircleFilledIcon: TdCheckCircleFilledIcon,
   });
   // const [local, t] = useLocaleReceiver('dialog');
   // const confirmText = t(local.confirm);
   // const cancelText = t(local.cancel);
-  const confirmText = '确认';
-  const cancelText = '取消';
+  const confirmText = "确认";
+  const cancelText = "取消";
   const {
     theme,
     header,
@@ -83,7 +73,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       // error is going to deprecated
       error: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
       danger: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
-      success: <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />
+      success: <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />,
     };
 
     return (
@@ -105,11 +95,9 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       <span
         className={`${componentCls}__close`}
         style={{
-          marginLeft: 'auto'
+          marginLeft: "auto",
         }}
-        onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-          onCloseBtnClick?.({ e })
-        }
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => onCloseBtnClick?.({ e })}
       >
         {closeIcon() as React.ReactNode}
       </span>
@@ -126,21 +114,15 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
   const renderFooter = () => {
     const defaultFooter = () => {
       const renderCancelBtn = renderDialogButton(cancelBtn, {
-        variant: 'outline',
+        variant: "outline",
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onCancel?.({ e }),
-        className: classNames(
-          `${componentCls}__cancel`,
-          (cancelBtn as any)?.props?.className
-        )
+        className: classNames(`${componentCls}__cancel`, (cancelBtn as any)?.props?.className),
       });
       const renderConfirmBtn = renderDialogButton(confirmBtn, {
-        theme: 'primary',
+        theme: "primary",
         loading: confirmLoading,
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onConfirm?.({ e }),
-        className: classNames(
-          `${componentCls}__confirm`,
-          (confirmBtn as any)?.className
-        )
+        className: classNames(`${componentCls}__confirm`, (confirmBtn as any)?.className),
       });
 
       return (
@@ -151,31 +133,17 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       );
     };
 
-    return (
-      <div className={`${componentCls}__footer`}>
-        {parseTNode(footer, null, defaultFooter())}
-      </div>
-    );
+    return <div className={`${componentCls}__footer`}>{parseTNode(footer, null, defaultFooter())}</div>;
   };
   return (
-    <div
-      ref={ref}
-      {...otherProps}
-      className={classNames(
-        componentCls,
-        `${componentCls}--default`,
-        className
-      )}
-    >
+    <div ref={ref} {...otherProps} className={classNames(componentCls, `${componentCls}--default`, className)}>
       {!!header && renderHeader()}
-      <div className={`${componentCls}__body`}>
-        {(body || children) as React.ReactNode}
-      </div>
+      <div className={`${componentCls}__body`}>{(body || children) as React.ReactNode}</div>
       {!!footer && renderFooter()}
     </div>
   );
 });
 
-DialogCard.displayName = 'DialogCard';
+DialogCard.displayName = "DialogCard";
 
 export default DialogCard;

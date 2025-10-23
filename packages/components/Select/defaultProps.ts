@@ -1,4 +1,4 @@
-import { TdSelectProps, TdOptionProps, TdOptionGroupProps } from './type';
+import { TdSelectProps, TdOptionProps, TdOptionGroupProps } from "./type";
 
 export const selectDefaultProps: TdSelectProps = {
   autoWidth: false,
@@ -14,9 +14,9 @@ export const selectDefaultProps: TdSelectProps = {
   readonly: false,
   reserveKeyword: false,
   showArrow: true,
-  size: 'medium',
-  status: 'default',
-  valueType: 'value',
+  size: "medium",
+  status: "default",
+  valueType: "value",
 };
 
 export const optionDefaultProps: TdOptionProps = {

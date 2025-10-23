@@ -4,7 +4,7 @@ import { Switch } from "tendaui-react/es";
 const meta = {
   title: "Components/Switch",
   component: Switch,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 } satisfies Meta<typeof Switch>;
 
 export default meta;

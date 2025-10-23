@@ -1,4 +1,4 @@
-import { TdButtonProps } from './type';
+import { TdButtonProps } from "./type";
 
 export const buttonDefaultProps: TdButtonProps = {
   block: false,
@@ -6,8 +6,8 @@ export const buttonDefaultProps: TdButtonProps = {
   form: undefined,
   ghost: false,
   loading: false,
-  shape: 'rectangle',
-  size: 'medium',
-  type: 'button',
-  variant: 'base',
+  shape: "rectangle",
+  size: "medium",
+  type: "button",
+  variant: "base",
 };

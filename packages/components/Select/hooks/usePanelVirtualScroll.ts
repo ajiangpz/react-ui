@@ -1,33 +1,22 @@
-import {
-  useEffect,
-  useMemo,
-  MutableRefObject,
-  useCallback,
-  CSSProperties,
-} from 'react';
-import useVirtualScroll from '../../hooks/useVirtualScroll';
-import { TdSelectProps } from '../type';
-import { TScroll, SizeEnum } from '../../common';
+import { useEffect, useMemo, MutableRefObject, useCallback, CSSProperties } from "react";
+import useVirtualScroll from "../../hooks/useVirtualScroll";
+import { TdSelectProps } from "../type";
+import { TScroll, SizeEnum } from "../../common";
 
 interface PanelVirtualScroll {
-  scroll?: TdSelectProps['scroll'];
+  scroll?: TdSelectProps["scroll"];
   popupContentRef: MutableRefObject<HTMLDivElement>;
-  options: TdSelectProps['options'];
+  options: TdSelectProps["options"];
   size: SizeEnum;
 }
 
-const usePanelVirtualScroll = ({
-  popupContentRef,
-  scroll,
-  options,
-  size,
-}: PanelVirtualScroll) => {
+const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: PanelVirtualScroll) => {
   const scrollThreshold = scroll?.threshold || 100;
   const scrollType = scroll?.type;
 
   const isVirtual = useMemo<boolean>(
-    () => scrollType === 'virtual' && options?.length > scrollThreshold,
-    [scrollType, scrollThreshold, options],
+    () => scrollType === "virtual" && options?.length > scrollThreshold,
+    [scrollType, scrollThreshold, options]
   );
 
   const scrollParams = useMemo<TScroll>(() => {
@@ -38,7 +27,7 @@ const usePanelVirtualScroll = ({
     };
     const rowHeight = heightMap[size] || 28;
     return {
-      type: 'virtual',
+      type: "virtual",
       isFixedRowHeight: scroll?.isFixedRowHeight || false,
       rowHeight: scroll?.rowHeight || rowHeight,
       bufferSize: scroll?.bufferSize || 20,
@@ -79,22 +68,22 @@ const usePanelVirtualScroll = ({
   useEffect(() => {
     const popupContentDom = popupContentRef?.current;
     if (isVirtual) {
-      popupContentDom?.addEventListener?.('scroll', onInnerVirtualScroll);
+      popupContentDom?.addEventListener?.("scroll", onInnerVirtualScroll);
     }
     return () => {
       // 卸载时取消监听
       if (isVirtual) {
-        popupContentDom?.removeEventListener?.('scroll', onInnerVirtualScroll);
+        popupContentDom?.removeEventListener?.("scroll", onInnerVirtualScroll);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVirtual, onInnerVirtualScroll, popupContentRef.current]);
 
   const cursorStyle = {
-    position: 'absolute',
-    width: '1px',
-    height: '1px',
-    transition: 'transform 0.2s',
+    position: "absolute",
+    width: "1px",
+    height: "1px",
+    transition: "transform 0.2s",
     transform: `translate(0, ${scrollHeight}px)`,
     MsTransform: `translate(0, ${scrollHeight}px)`,
     MozTransform: `translate(0, ${scrollHeight}px)`,

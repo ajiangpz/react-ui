@@ -1,10 +1,7 @@
-import { RefObject, useEffect, useRef } from 'react';
-import useIsomorphicLayoutEffect from '../../hooks/useLayoutEffect';
+import { RefObject, useEffect, useRef } from "react";
+import useIsomorphicLayoutEffect from "../../hooks/useLayoutEffect";
 type Position = { x: number; y: number };
-export default function useDialogPosition(
-  visible: boolean | undefined,
-  dialogCardRef: RefObject<HTMLElement | null>,
-) {
+export default function useDialogPosition(visible: boolean | undefined, dialogCardRef: RefObject<HTMLElement | null>) {
   const mousePosRef = useRef<Position>(null);
 
   const getClickPosition = (e: MouseEvent) => {
@@ -20,9 +17,9 @@ export default function useDialogPosition(
   };
 
   useIsomorphicLayoutEffect(() => {
-    document.addEventListener('click', getClickPosition, true);
+    document.addEventListener("click", getClickPosition, true);
     return () => {
-      document.removeEventListener('click', getClickPosition, true);
+      document.removeEventListener("click", getClickPosition, true);
     };
   }, []);
 

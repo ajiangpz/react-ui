@@ -8,11 +8,8 @@ import parseTNode from "../utils/parseTNode";
 import useDefaultProps from "../hooks/useDefaultProps";
 
 export interface ButtonProps
-  extends Omit<
-    React.AllHTMLAttributes<HTMLElement>,
-    'content' | 'shape' | 'size' | 'type' | 'children'
-  >,
-  TdButtonProps { }
+  extends Omit<React.AllHTMLAttributes<HTMLElement>, "content" | "shape" | "size" | "type" | "children">,
+    TdButtonProps {}
 
 const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTMLElement>) => {
   const props = useDefaultProps(originProps, buttonDefaultProps);
@@ -37,9 +34,7 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
     ...buttonProps
   } = props;
 
-
   const { classPrefix } = useConfig();
-
 
   const renderChildren = content ?? children;
 
@@ -48,16 +43,16 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
 
   const renderTheme = useMemo(() => {
     if (!theme) {
-      if (variant === 'base') return 'primary';
-      return 'default';
+      if (variant === "base") return "primary";
+      return "default";
     }
     return theme;
   }, [theme, variant]);
 
   const renderTag = useMemo(() => {
-    if (!tag && href && !disabled) return 'a';
-    if (!tag && disabled) return 'div';
-    return tag || 'button';
+    if (!tag && href && !disabled) return "a";
+    if (!tag && disabled) return "div";
+    return tag || "button";
   }, [tag, href, disabled]);
 
   return React.createElement(
@@ -76,14 +71,14 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
           `${classPrefix}-button--variant-${variant}`,
         ],
         {
-          [`${classPrefix}-button--shape-${shape}`]: shape !== 'rectangle',
+          [`${classPrefix}-button--shape-${shape}`]: shape !== "rectangle",
           [`${classPrefix}-button--ghost`]: ghost,
           [`${classPrefix}-is-loading`]: loading,
           [`${classPrefix}-is-disabled`]: disabled,
-          [`${classPrefix}-size-s`]: size === 'small',
-          [`${classPrefix}-size-l`]: size === 'large',
+          [`${classPrefix}-size-s`]: size === "small",
+          [`${classPrefix}-size-l`]: size === "large",
           [`${classPrefix}-size-full-width`]: block,
-        },
+        }
       ),
       onClick: !disabled && !loading ? onClick : undefined,
     },
@@ -91,11 +86,10 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
       {iconNode}
       {renderChildren && <span className={`${classPrefix}-button__text`}>{renderChildren}</span>}
       {suffix && <span className={`${classPrefix}-button__suffix`}>{parseTNode(suffix)}</span>}
-    </>,
+    </>
   );
 });
 
-
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export default Button;

@@ -1,4 +1,3 @@
+import { TdSwitchProps } from "./type";
 
-import { TdSwitchProps } from './type';
-
-export const switchDefaultProps: TdSwitchProps = { label: [], loading: false, size: 'medium' };
+export const switchDefaultProps: TdSwitchProps = { label: [], loading: false, size: "medium" };

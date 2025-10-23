@@ -9,13 +9,13 @@ type NotificationMessage = {
 
 let addNotification: (notification: NotificationMessage) => void = () => {};
 
-export function notification(message: string, type: NotificationType = "default",title:string) {
+export function notification(message: string, type: NotificationType = "default", title: string) {
   const id = new Date().getTime().toString();
   addNotification({
     id,
     message,
     type,
-    title
+    title,
   });
 }
 

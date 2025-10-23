@@ -1,23 +1,23 @@
-import React, { forwardRef, useRef } from 'react';
-import classNames from 'classnames';
+import React, { forwardRef, useRef } from "react";
+import classNames from "classnames";
 import {
   IconClose as TdCloseIcon,
   IconInfoCircle as TdInfoCircleFilledIcon,
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
-  IconAlertTriangle as TdErrorCircleFilledIcon
-} from 'tendaui-react-icons';
+  IconAlertTriangle as TdErrorCircleFilledIcon,
+} from "tendaui-react-icons";
 
-import { CSSTransition } from 'react-transition-group';
-import parseTNode from '../utils/parseTNode';
-import noop from '../utils/noop';
+import { CSSTransition } from "react-transition-group";
+import parseTNode from "../utils/parseTNode";
+import noop from "../utils/noop";
 
-import useConfig from '../hooks/useConfig';
-import useGlobalIcon from '../hooks/useGlobalIcon';
-import { TdAlertProps } from './type';
-import { StyledProps } from '../common';
-import { alertDefaultProps } from './defaultProps';
-import composeRefs from '../utils/composeRefs';
-import useDefaultProps from '../hooks/useDefaultProps';
+import useConfig from "../hooks/useConfig";
+import useGlobalIcon from "../hooks/useGlobalIcon";
+import { TdAlertProps } from "./type";
+import { StyledProps } from "../common";
+import { alertDefaultProps } from "./defaultProps";
+import composeRefs from "../utils/composeRefs";
+import useDefaultProps from "../hooks/useDefaultProps";
 
 const transitionTime = 200;
 
@@ -26,16 +26,11 @@ export interface AlertProps extends TdAlertProps, StyledProps {}
 const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   const { classPrefix } = useConfig();
   // const [local, t] = useLocaleReceiver('alert');
-  const {
-    CloseIcon,
-    InfoCircleFilledIcon,
-    CheckCircleFilledIcon,
-    ErrorCircleFilledIcon
-  } = useGlobalIcon({
+  const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon, ErrorCircleFilledIcon } = useGlobalIcon({
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
     CheckCircleFilledIcon: TdCheckCircleFilledIcon,
-    ErrorCircleFilledIcon: TdErrorCircleFilledIcon
+    ErrorCircleFilledIcon: TdErrorCircleFilledIcon,
   });
 
   const {
@@ -60,7 +55,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
     success: CheckCircleFilledIcon,
     info: InfoCircleFilledIcon,
     error: ErrorCircleFilledIcon,
-    warning: ErrorCircleFilledIcon
+    warning: ErrorCircleFilledIcon,
   };
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -69,12 +64,12 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   };
 
   const handleCollapse = () => {
-    setCollapsed(collapsed => !collapsed);
+    setCollapsed((collapsed) => !collapsed);
   };
 
   const renderIconNode = () => {
     if (React.isValidElement(icon)) return icon;
-    return React.createElement(iconMap[theme], { className: 't-icon' });
+    return React.createElement(iconMap[theme], { className: "t-icon" });
   };
 
   const renderMessage = () => {
@@ -92,11 +87,8 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
             return true;
           })}
           {+maxLine < message.length && (
-            <div
-              className={`${classPrefix}-alert__collapse`}
-              onClick={handleCollapse}
-            >
-              {collapsed ? '展开' : '收起'}
+            <div className={`${classPrefix}-alert__collapse`} onClick={handleCollapse}>
+              {collapsed ? "展开" : "收起"}
             </div>
           )}
         </div>
@@ -106,23 +98,16 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   };
 
   // close 属性变更为 closeBtn，close废弃后可删除。（需兼容标签上直接写close和closeBtn的场景）
-  const isUsingClose = Reflect.has(props, 'close');
+  const isUsingClose = Reflect.has(props, "close");
   const closeNode = isUsingClose ? close : closeBtn;
   if (isUsingClose) {
-    console.warn(
-      'TAlert',
-      'prop `close` is going to be deprecated, please use `closeBtn` instead.'
-    );
+    console.warn("TAlert", "prop `close` is going to be deprecated, please use `closeBtn` instead.");
   }
   const renderClose = () => {
     if (closeNode === false) return null;
     return (
       <div className={`${classPrefix}-alert__close`} onClick={handleClose}>
-        {parseTNode(
-          closeNode as any,
-          undefined,
-          <CloseIcon className="t-icon"></CloseIcon>
-        )}
+        {parseTNode(closeNode as any, undefined, <CloseIcon className="t-icon"></CloseIcon>)}
       </div>
     );
   };
@@ -132,7 +117,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
       in={!closed}
       unmountOnExit
       classNames={{
-        exitActive: `${classPrefix}-alert--closing`
+        exitActive: `${classPrefix}-alert--closing`,
       }}
       nodeRef={nodeRef}
       timeout={transitionTime}
@@ -140,25 +125,15 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
     >
       <div
         ref={composeRefs(ref, nodeRef)}
-        className={classNames(
-          `${classPrefix}-alert`,
-          `${classPrefix}-alert--${theme}`,
-          className
-        )}
+        className={classNames(`${classPrefix}-alert`, `${classPrefix}-alert--${theme}`, className)}
         {...alertProps}
       >
         <div className={`${classPrefix}-alert__icon`}>{renderIconNode()}</div>
         <div className={`${classPrefix}-alert__content`}>
-          {title ? (
-            <div className={`${classPrefix}-alert__title`}>{title}</div>
-          ) : null}
+          {title ? <div className={`${classPrefix}-alert__title`}>{title}</div> : null}
           <div className={`${classPrefix}-alert__message`}>
             {renderMessage()}
-            {operation ? (
-              <div className={`${classPrefix}-alert__operation`}>
-                {parseTNode(operation)}
-              </div>
-            ) : null}
+            {operation ? <div className={`${classPrefix}-alert__operation`}>{parseTNode(operation)}</div> : null}
           </div>
         </div>
         {renderClose()}
@@ -167,6 +142,6 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   );
 });
 
-Alert.displayName = 'Alert';
+Alert.displayName = "Alert";
 
 export default Alert;

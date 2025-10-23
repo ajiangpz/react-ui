@@ -1,11 +1,11 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { flattenDeep, get, merge, set, unset } from 'lodash-es';
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+import { flattenDeep, get, merge, set, unset } from "lodash-es";
 // import log from '@tdesign/common-js/log/index';
-import { FormListContext, useFormContext } from './FormContext';
-import type { FormItemInstance } from './FormItem';
-import { HOOK_MARK } from './hooks/useForm';
-import type { FormListField, FormListFieldOperation, TdFormListProps } from './type';
-import { calcFieldValue } from './utils';
+import { FormListContext, useFormContext } from "./FormContext";
+import type { FormItemInstance } from "./FormItem";
+import { HOOK_MARK } from "./hooks/useForm";
+import type { FormListField, FormListFieldOperation, TdFormListProps } from "./type";
+import { calcFieldValue } from "./utils";
 
 let key = 0;
 
@@ -28,7 +28,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       key: (key += 1),
       name: index,
       isListField: true,
-    })),
+    }))
   );
   const formListMapRef = useRef(new Map()); // 收集 formItem 实例
   const formListRef = useRef<FormItemInstance>(null); // 当前 formList 实例
@@ -44,7 +44,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
     () => () => {
       isMounted.current = false;
     },
-    [],
+    []
   );
 
   const operation: FormListFieldOperation = {
@@ -60,7 +60,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       setFields(cloneFields);
 
       const nextFormListValue = [...formListValue];
-      if (typeof defaultValue !== 'undefined') {
+      if (typeof defaultValue !== "undefined") {
         nextFormListValue[index] = defaultValue;
         setFormListValue(nextFormListValue);
       }
@@ -109,7 +109,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
         key: (key += 1),
         name: index,
         isListField: true,
-      })),
+      }))
     );
     // 添加至队列中 等待下次渲染完成执行对应逻辑
     fieldsTaskQueueRef.current.push({ callback, fieldData, originData });
@@ -133,7 +133,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       if (isUpdated) return; // 内部更新过值则跳过
 
       const data = get(formListValue, name);
-      formItemRef.current.setField({ value: data, status: 'not' });
+      formItemRef.current.setField({ value: data, status: "not" });
     });
   }, [formListValue]);
 
@@ -191,10 +191,10 @@ const FormList: React.FC<TdFormListProps> = (props) => {
         });
         return formListValue;
       },
-      validate: (trigger = 'all') => {
+      validate: (trigger = "all") => {
         const resultList = [];
         const validates = [...formListMapRef.current.values()].map((formItemRef) =>
-          formItemRef?.current?.validate?.(trigger),
+          formItemRef?.current?.validate?.(trigger)
         );
         return new Promise((resolve) => {
           Promise.all(validates).then((validateResult) => {
@@ -218,7 +218,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
           (formItemRef, data) => {
             formItemRef?.current?.setValue?.(data);
           },
-          originData,
+          originData
         );
       },
       setField: (fieldData: { value?: any[]; status?: string }, originData) => {
@@ -228,13 +228,13 @@ const FormList: React.FC<TdFormListProps> = (props) => {
           (formItemRef, data) => {
             formItemRef?.current?.setField?.({ value: data, status });
           },
-          originData,
+          originData
         );
       },
       resetField: (type: string) => {
         const resetType = type || resetTypeFromContext;
 
-        if (resetType === 'initial') {
+        if (resetType === "initial") {
           setFormListValue(initialData);
 
           const newFields = initialData.map((data, index) => ({
@@ -252,7 +252,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
               const { name: itemName } = formItemRef.current;
               const itemValue = get(initialData, itemName);
               if (itemValue !== undefined) {
-                formItemRef.current.setField({ value: itemValue, status: 'not' });
+                formItemRef.current.setField({ value: itemValue, status: "not" });
               }
             });
           });
@@ -284,11 +284,11 @@ const FormList: React.FC<TdFormListProps> = (props) => {
           formItemRef?.current?.resetValidate?.();
         });
       },
-    }),
+    })
   );
 
-  if (typeof children !== 'function') {
-    console.error('Form', `FormList's children must be a function!`);
+  if (typeof children !== "function") {
+    console.error("Form", `FormList's children must be a function!`);
     return null;
   }
 
@@ -299,6 +299,6 @@ const FormList: React.FC<TdFormListProps> = (props) => {
   );
 };
 
-FormList.displayName = 'FormList';
+FormList.displayName = "FormList";
 
 export default FormList;

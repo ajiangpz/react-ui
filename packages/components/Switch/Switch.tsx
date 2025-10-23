@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import Loading from '../loading';
-import useConfig from '../hooks/useConfig';
-import { StyledProps } from '../common';
-import useCommonClassName from '../hooks/useCommonClassName';
-import { SwitchValue, TdSwitchProps } from './type';
-import { switchDefaultProps } from './defaultProps';
-import parseTNode from '../utils/parentTNode';
-import useDefaultProps from '../hooks/useDefaultProps';
+import React, { useEffect, useState } from "react";
+import classNames from "classnames";
+import Loading from "../loading";
+import useConfig from "../hooks/useConfig";
+import { StyledProps } from "../common";
+import useCommonClassName from "../hooks/useCommonClassName";
+import { SwitchValue, TdSwitchProps } from "./type";
+import { switchDefaultProps } from "./defaultProps";
+import parseTNode from "../utils/parentTNode";
+import useDefaultProps from "../hooks/useDefaultProps";
 
 export type SwitchChangeEventHandler = (value: boolean, event: React.MouseEvent<HTMLButtonElement>) => void;
 export type SwitchClickEventHandler = SwitchChangeEventHandler;
 
-export interface SwitchProps<T extends SwitchValue = SwitchValue> extends TdSwitchProps<T>, StyledProps { }
+export interface SwitchProps<T extends SwitchValue = SwitchValue> extends TdSwitchProps<T>, StyledProps {}
 
 const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, ref) => {
   const { classPrefix } = useConfig();
@@ -32,13 +32,13 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
   } = props;
   const [activeValue = true, inactiveValue = false] = customValue || [];
 
-  const isControlled = typeof value !== 'undefined';
+  const isControlled = typeof value !== "undefined";
   const initChecked = defaultValue === activeValue || value === activeValue;
   const [innerChecked, setInnerChecked] = useState(initChecked);
 
   const contentNode = React.useMemo<React.ReactNode>(() => {
     if (Array.isArray(label)) {
-      const [activeContent = '', inactiveContent = ''] = label;
+      const [activeContent = "", inactiveContent = ""] = label;
       const content = innerChecked ? activeContent : inactiveContent;
       return parseTNode(content, { value });
     }
@@ -67,13 +67,13 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
         }
       })
       .catch((e) => {
-        console.error('Switch', `some error occurred: ${e}`);
+        console.error("Switch", `some error occurred: ${e}`);
       });
   };
 
   useEffect(() => {
     if (Array.isArray(customValue) && !customValue.includes(value)) {
-      console.error('Switch', `value is not in customValue: ${JSON.stringify(customValue)}`);
+      console.error("Switch", `value is not in customValue: ${JSON.stringify(customValue)}`);
     }
     isControlled && setInnerChecked(value === activeValue);
   }, [value, customValue, activeValue, isControlled]);
@@ -87,7 +87,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
       [STATUS.disabled]: disabled,
       [STATUS.loading]: loading,
     },
-    SIZE[size],
+    SIZE[size]
   );
 
   return (
@@ -106,8 +106,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
   );
 });
 
-Switch.displayName = 'Switch';
+Switch.displayName = "Switch";
 
 export default Switch as <T extends SwitchValue = SwitchValue>(
-  props: SwitchProps<T> & React.RefAttributes<HTMLButtonElement>,
+  props: SwitchProps<T> & React.RefAttributes<HTMLButtonElement>
 ) => React.ReactElement;

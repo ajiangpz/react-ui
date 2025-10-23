@@ -1,11 +1,11 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
-import React, { useState } from 'react';
-import { Tag } from 'tendaui-react/es';
+import { Meta, StoryObj } from "@storybook/react-vite";
+import React, { useState } from "react";
+import { Tag } from "tendaui-react/es";
 
 const meta: Meta<typeof Tag> = {
-  title: 'Components/Tag',
+  title: "Components/Tag",
   component: Tag,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -35,15 +35,15 @@ const ClosableTagExample = () => {
   const [inputVisible, toggleInputVisible] = useState(false);
   const [tagList, setTagList] = useState([
     {
-      name: '可删除标签1',
+      name: "可删除标签1",
       showClose: true,
     },
     {
-      name: '可删除标签2',
+      name: "可删除标签2",
       showClose: true,
     },
     {
-      name: '可删除标签3',
+      name: "可删除标签3",
       showClose: true,
     },
   ]);
@@ -60,10 +60,7 @@ const ClosableTagExample = () => {
 
   const handleInputEnter = (value: string) => {
     toggleInputVisible(false);
-    if (value)
-      setTagList((currentList) =>
-        currentList.concat([{ name: value, showClose: true }]),
-      );
+    if (value) setTagList((currentList) => currentList.concat([{ name: value, showClose: true }]));
   };
 
   return tagList.map((tag, i) => (

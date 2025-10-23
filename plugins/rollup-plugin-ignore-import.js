@@ -1,21 +1,27 @@
-import { createFilter } from '@rollup/pluginutils';
+import { createFilter } from "@rollup/pluginutils";
 function noopImport(options) {
-  if ( options === void 0 ) options = {};
+  if (options === void 0) options = {};
 
-  var include = options.include || options.extensions.map(function (ext) { return ("**/*" + ext); });
-  var filter = createFilter(include, options.exclude || 'node_modules/**');
+  var include =
+    options.include ||
+    options.extensions.map(function (ext) {
+      return "**/*" + ext;
+    });
+  var filter = createFilter(include, options.exclude || "node_modules/**");
 
   return {
     transform: function transform(code, id) {
-      if (!filter(id)) { return; }
+      if (!filter(id)) {
+        return;
+      }
 
-      var body = (options.body || options.body === '') ? options.body : 'export default undefined;';
+      var body = options.body || options.body === "" ? options.body : "export default undefined;";
 
       return {
         code: body,
-        map: null
+        map: null,
       };
-    }
+    },
   };
 }
 

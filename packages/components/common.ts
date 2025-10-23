@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactElement ,FormEvent} from 'react';
+import React, { CSSProperties, ReactElement, FormEvent } from "react";
 export interface StyledProps {
   style?: React.CSSProperties;
   className?: string;
@@ -6,31 +6,29 @@ export interface StyledProps {
 export type FormResetEvent = FormEvent<HTMLFormElement>;
 export type FormSubmitEvent = FormEvent<HTMLFormElement>;
 export type AttachNodeReturnValue = HTMLElement | Element | Document | null;
-export type AttachNode =
-  | CSSSelector
-  | ((triggerNode?: HTMLElement) => AttachNodeReturnValue);
+export type AttachNode = CSSSelector | ((triggerNode?: HTMLElement) => AttachNodeReturnValue);
 
 export type CSSSelector = string;
 
 export type Styles = CSSProperties;
 
-export type TNode<T = undefined> = T extends undefined ? React.ReactNode : React.ReactNode | ((props: T) => React.ReactNode);
+export type TNode<T = undefined> = T extends undefined
+  ? React.ReactNode
+  : React.ReactNode | ((props: T) => React.ReactNode);
 
 export type ClassName = string | string[] | { [key: string]: boolean };
 
-export type SizeEnum = 'small' | 'medium' | 'large';
+export type SizeEnum = "small" | "medium" | "large";
 
-export type ShapeEnum = 'circle' | 'round';
+export type ShapeEnum = "circle" | "round";
 
-export type HorizontalAlignEnum = 'left' | 'center' | 'right';
+export type HorizontalAlignEnum = "left" | "center" | "right";
 
-export type VerticalAlignEnum = 'top' | 'middle' | 'bottom';
+export type VerticalAlignEnum = "top" | "middle" | "bottom";
 
-export type LayoutEnum = 'vertical' | 'horizontal';
+export type LayoutEnum = "vertical" | "horizontal";
 // TElement 表示 API 只接受传入组件
-export type TElement<T = undefined> = T extends undefined
-  ? ReactElement
-  : (props: T) => ReactElement;
+export type TElement<T = undefined> = T extends undefined ? ReactElement : (props: T) => ReactElement;
 
 export interface TScroll {
   /**
@@ -55,7 +53,7 @@ export interface TScroll {
   /**
    * 滚动加载类型，有两种：懒加载和虚拟滚动。<br />值为 `lazy` ，表示滚动时会进行懒加载，非可视区域内的内容将不会默认渲染，直到该内容可见时，才会进行渲染，并且已渲染的内容滚动到不可见时，不会被销毁；<br />值为`virtual`时，表示会进行虚拟滚动，无论滚动条滚动到哪个位置，同一时刻，仅渲染该可视区域内的内容，当需要展示的数据量较大时，建议开启该特性
    */
-  type: 'lazy' | 'virtual';
+  type: "lazy" | "virtual";
 }
 export interface ScrollToElementParams {
   /** 跳转元素下标 */
@@ -64,7 +62,7 @@ export interface ScrollToElementParams {
   top?: number;
   /** 单个元素高度非固定场景下，即 isFixedRowHeight = false。延迟设置元素位置，一般用于依赖不同高度异步渲染等场景，单位：毫秒 */
   time?: number;
-  behavior?: 'auto' | 'smooth';
+  behavior?: "auto" | "smooth";
 }
 
 /**

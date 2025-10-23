@@ -12,34 +12,29 @@ const NotificationDemo = () => {
         <Button
           theme="success"
           onClick={() =>
-            success(
-              {
-                message: Array.from(
-                  { length: Math.floor(Math.random() * 10) + 1 },
-                  () => "操作成功完成！" + index.current++
-                ).join("\n"), title: "成功提示"
-              }
-            )
+            success({
+              message: Array.from(
+                { length: Math.floor(Math.random() * 10) + 1 },
+                () => "操作成功完成！" + index.current++
+              ).join("\n"),
+              title: "成功提示",
+            })
           }
         >
           显示成功通知
         </Button>
         <Button
           theme="danger"
-          onClick={() => error({ message: "操作发生错误！", title: "错误提示错误提示错误提示错误提示错误提示错误提示" })}
+          onClick={() =>
+            error({ message: "操作发生错误！", title: "错误提示错误提示错误提示错误提示错误提示错误提示" })
+          }
         >
           显示错误通知
         </Button>
-        <Button
-          theme="warning"
-          onClick={() => warning({ message: "请注意这个警告！", title: "警告提示" })}
-        >
+        <Button theme="warning" onClick={() => warning({ message: "请注意这个警告！", title: "警告提示" })}>
           显示警告通知
         </Button>
-        <Button
-          theme="primary"
-          onClick={() => info({ message: "请注意这个信息！", title: "信息提示" })}
-        >
+        <Button theme="primary" onClick={() => info({ message: "请注意这个信息！", title: "信息提示" })}>
           显示信息通知
         </Button>
       </div>
@@ -56,19 +51,19 @@ const meta: Meta = {
     maxStack: {
       control: { type: "number", min: 1, max: 10 },
       description: "最大通知堆叠数量",
-      defaultValue: 5
+      defaultValue: 5,
     },
     displayDuration: {
       control: { type: "number", min: 1000, max: 10000, step: 500 },
       description: "通知显示时间（毫秒）",
-      defaultValue: 300000
+      defaultValue: 300000,
     },
     position: {
       control: "select",
       options: ["top-right", "top-center", "top-left"],
       description: "显示位置",
-      defaultValue: "top-right"
-    }
+      defaultValue: "top-right",
+    },
   },
   decorators: [
     // 修改装饰器，使用从控制台传入的参数
@@ -80,8 +75,8 @@ const meta: Meta = {
       >
         <Story />
       </NotificationProvider>
-    )
-  ]
+    ),
+  ],
 };
 
 export default meta;
@@ -90,5 +85,5 @@ type Story = StoryObj<typeof NotificationProvider>;
 
 // 基础用法
 export const BasicStory: Story = {
-  render: () => <NotificationDemo />
+  render: () => <NotificationDemo />,
 };

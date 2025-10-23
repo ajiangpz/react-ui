@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { get, isUndefined } from 'lodash-es';
-import type { NamePath } from '../type';
-import type { InternalFormInstance } from './interface';
-import { HOOK_MARK } from './useForm';
-import noop from '../../utils/noop';
+import { useState, useEffect, useMemo, useRef } from "react";
+import { get, isUndefined } from "lodash-es";
+import type { NamePath } from "../type";
+import type { InternalFormInstance } from "./interface";
+import { HOOK_MARK } from "./useForm";
+import noop from "../../utils/noop";
 
 export default function useWatch(name: NamePath, form: InternalFormInstance) {
   const [value, setValue] = useState<any>();

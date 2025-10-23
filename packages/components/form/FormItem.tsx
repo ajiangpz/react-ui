@@ -1,22 +1,22 @@
-import React, { forwardRef, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import {
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
   IconClose as TdCloseCircleFilledIcon,
   IconClose as TdErrorCircleFilledIcon,
-} from 'tendaui-react-icons';
-import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from 'lodash-es';
-import { StyledProps } from '../common';
-import useConfig from '../hooks/useConfig';
-import useDefaultProps from '../hooks/useDefaultProps';
-import useGlobalIcon from '../hooks/useGlobalIcon';
+} from "tendaui-react-icons";
+import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from "lodash-es";
+import { StyledProps } from "../common";
+import useConfig from "../hooks/useConfig";
+import useDefaultProps from "../hooks/useDefaultProps";
+import useGlobalIcon from "../hooks/useGlobalIcon";
 // import { useLocaleReceiver } from '../locale/LocalReceiver';
-import { ValidateStatus } from './const';
-import { formItemDefaultProps } from './defaultProps';
-import { useFormContext, useFormListContext } from './FormContext';
-import { parseMessage, validate as validateModal } from './formModel';
-import { HOOK_MARK } from './hooks/useForm';
-import useFormItemInitialData, { ctrlKeyMap } from './hooks/useFormItemInitialData';
-import useFormItemStyle from './hooks/useFormItemStyle';
+import { ValidateStatus } from "./const";
+import { formItemDefaultProps } from "./defaultProps";
+import { useFormContext, useFormListContext } from "./FormContext";
+import { parseMessage, validate as validateModal } from "./formModel";
+import { HOOK_MARK } from "./hooks/useForm";
+import useFormItemInitialData, { ctrlKeyMap } from "./hooks/useFormItemInitialData";
+import useFormItemStyle from "./hooks/useFormItemStyle";
 import type {
   FormInstanceFunctions,
   FormItemValidateMessage,
@@ -24,8 +24,8 @@ import type {
   NamePath,
   TdFormItemProps,
   ValueType,
-} from './type';
-import { calcFieldValue } from './utils';
+} from "./type";
+import { calcFieldValue } from "./utils";
 
 export interface FormItemProps extends TdFormItemProps, StyledProps {
   children?: React.ReactNode | React.ReactNode[] | ((form: FormInstanceFunctions) => React.ReactElement);
@@ -102,7 +102,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   const [freeShowErrorMessage, setFreeShowErrorMessage] = useState(undefined);
   const [errorList, setErrorList] = useState([]);
   const [successList, setSuccessList] = useState([]);
-  const [verifyStatus, setVerifyStatus] = useState('validating');
+  const [verifyStatus, setVerifyStatus] = useState("validating");
   const [resetValidating, setResetValidating] = useState(false);
   const [needResetField, setNeedResetField] = useState(false);
   const [formValue, setFormValue] = useState(() => {
@@ -135,8 +135,8 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   const errorMessages = useMemo(() => errorMessage ?? globalFormConfig.errorMessage, [errorMessage, globalFormConfig]);
 
   const showErrorMessage = useMemo(() => {
-    if (typeof freeShowErrorMessage === 'boolean') return freeShowErrorMessage;
-    if (typeof props.showErrorMessage === 'boolean') return props.showErrorMessage;
+    if (typeof freeShowErrorMessage === "boolean") return freeShowErrorMessage;
+    if (typeof props.showErrorMessage === "boolean") return props.showErrorMessage;
     return showErrorMessageFromContext;
   }, [freeShowErrorMessage, props.showErrorMessage, showErrorMessageFromContext]);
 
@@ -188,7 +188,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   // 初始化 rules，最终以 formItem 上优先级最高
   function getInnerRules(name, formRules, formListName, formListRules): FormRule[] {
     if (Array.isArray(name)) {
-      return get(formRules?.[formListName], name) || get(formListRules, name) || get(formRules, name.join('.')) || [];
+      return get(formRules?.[formListName], name) || get(formListRules, name) || get(formRules, name.join(".")) || [];
     }
     return formRules?.[name] || formListRules || [];
   }
@@ -208,7 +208,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
         return resultIcon(iconMap[verifyStatus]);
       }
       if (errorList && errorList[0]) {
-        const type = errorList[0].type || 'error';
+        const type = errorList[0].type || "error";
         return resultIcon(iconMap[type]);
       }
       return null;
@@ -216,7 +216,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
     if (React.isValidElement(statusIcon)) {
       // @ts-ignore
-      return resultIcon(React.cloneElement(statusIcon, { style: { color: 'unset' }, ...statusIcon.props }));
+      return resultIcon(React.cloneElement(statusIcon, { style: { color: "unset" }, ...statusIcon.props }));
     }
     if (statusIcon === true) {
       return getDefaultIcon();
@@ -233,7 +233,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       resultList: [],
       allowSetValue: false,
     };
-    result.rules = trigger === 'all' ? innerRules : innerRules.filter((item) => (item.trigger || 'change') === trigger);
+    result.rules = trigger === "all" ? innerRules : innerRules.filter((item) => (item.trigger || "change") === trigger);
     if (!result.rules?.length) {
       setResetValidating(false);
       return result;
@@ -256,15 +256,13 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       });
     // 仅有自定义校验方法才会存在 successList
     result.successList = result.resultList.filter(
-      (item) => item.result === true && item.message && item.type === 'success',
+      (item) => item.result === true && item.message && item.type === "success"
     );
 
     return result;
   }
 
-  async function validate(trigger = 'all', showErrorMessage?: boolean) {
-
-
+  async function validate(trigger = "all", showErrorMessage?: boolean) {
     if (innerFormItemsRef.current.length) {
       return innerFormItemsRef.current.map((innerFormItem) => innerFormItem?.validate(trigger, showErrorMessage));
     }
@@ -272,8 +270,6 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     setResetValidating(true);
     // undefined | boolean
     setFreeShowErrorMessage(showErrorMessage);
-
-
 
     const {
       successList: innerSuccessList,
@@ -283,16 +279,15 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       allowSetValue,
     } = await analysisValidateResult(trigger);
 
-
     // 缓存不同 trigger 下的错误信息 all 包含了所有场景需过滤
-    if (innerErrorList.length && trigger !== 'all') {
+    if (innerErrorList.length && trigger !== "all") {
       errorListMapRef.current.set(trigger, innerErrorList);
     } else {
       errorListMapRef.current.delete(trigger);
     }
 
     // all 校验无错误信息时清空所有错误缓存
-    if (!innerErrorList.length && trigger === 'all') {
+    if (!innerErrorList.length && trigger === "all") {
       errorListMapRef.current.clear();
     }
 
@@ -323,7 +318,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     };
   }
 
-  async function validateOnly(trigger = 'all') {
+  async function validateOnly(trigger = "all") {
     const { errorList: innerErrorList, resultList } = await analysisValidateResult(trigger);
 
     return {
@@ -333,13 +328,13 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
   // blur 下触发校验
   function handleItemBlur() {
-    const filterRules = innerRules.filter((item) => item.trigger === 'blur');
+    const filterRules = innerRules.filter((item) => item.trigger === "blur");
 
-    filterRules.length && validate('blur');
+    filterRules.length && validate("blur");
   }
 
   function getResetValue(resetType: string): ValueType {
-    if (resetType === 'initial') {
+    if (resetType === "initial") {
       return getDefaultInitialData({
         children,
         initialData,
@@ -352,14 +347,14 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     } else if (isObject(formValue)) {
       emptyValue = {};
     } else if (isString(formValue)) {
-      emptyValue = '';
+      emptyValue = "";
     }
 
     return emptyValue;
   }
 
   function resetField(type: string) {
-    if (typeof name === 'undefined') return;
+    if (typeof name === "undefined") return;
 
     const resetType = type || resetTypeFromContext;
     const resetValue = getResetValue(resetType);
@@ -382,15 +377,15 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
   function setField(field: { value?: string; status?: ValidateStatus; validateMessage?: FormItemValidateMessage }) {
     const { value, status, validateMessage } = field;
-    if (typeof status !== 'undefined') {
+    if (typeof status !== "undefined") {
       setErrorList(validateMessage ? [validateMessage] : []);
       setSuccessList(validateMessage ? [validateMessage] : []);
       setNeedResetField(false);
       setVerifyStatus(status);
     }
-    if (typeof value !== 'undefined') {
+    if (typeof value !== "undefined") {
       // 手动设置 status 则不需要校验 交给用户判断
-      updateFormValue(value, typeof status === 'undefined' ? true : false, true);
+      updateFormValue(value, typeof status === "undefined" ? true : false, true);
     }
   }
 
@@ -429,7 +424,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
   useEffect(() => {
     // 记录填写 name 属性 formItem
-    if (typeof name === 'undefined') return;
+    if (typeof name === "undefined") return;
 
     // formList 下特殊处理
     if (formListName && isSameForm) {
@@ -458,7 +453,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     if (!shouldValidate.current) return;
 
     // value change event
-    if (typeof name !== 'undefined' && shouldEmitChangeRef.current) {
+    if (typeof name !== "undefined" && shouldEmitChangeRef.current) {
       if (formListName && isSameForm) {
         // 整理 formItem 的值
         const formListValue = merge([], calcFieldValue(name, formValue));
@@ -471,9 +466,9 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       }
     }
 
-    const filterRules = innerRules.filter((item) => (item.trigger || 'change') === 'change');
+    const filterRules = innerRules.filter((item) => (item.trigger || "change") === "change");
 
-    filterRules.length && validate('change');
+    filterRules.length && validate("change");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue, snakeName]);
 
@@ -503,7 +498,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       {label && (
         <div className={formItemLabelClass} style={labelStyle}>
           <label htmlFor={props?.for}>{label}</label>
-          {colon || '：'}
+          {colon || "："}
         </div>
       )}
       <div className={contentClass()} style={contentStyle}>
@@ -511,7 +506,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
           {React.Children.map(children, (child, index) => {
             if (!child) return null;
 
-            let ctrlKey = 'value';
+            let ctrlKey = "value";
             if (React.isValidElement(child)) {
               if (child.type === FormItem) {
                 return React.cloneElement(child, {
@@ -522,8 +517,8 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
                   },
                 });
               }
-              if (typeof child.type === 'object') {
-                ctrlKey = ctrlKeyMap.get(child.type) || 'value';
+              if (typeof child.type === "object") {
+                ctrlKey = ctrlKeyMap.get(child.type) || "value";
               }
               const childProps = child.props as any;
               return React.cloneElement(child, {
@@ -552,6 +547,6 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   );
 });
 
-FormItem.displayName = 'FormItem';
+FormItem.displayName = "FormItem";
 
 export default FormItem;

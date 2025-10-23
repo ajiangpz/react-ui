@@ -1,13 +1,13 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
-import { SelectInput, SelectInputProps } from 'tendaui-react/es';
-import { useState, useEffect } from 'react';
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { SelectInput, SelectInputProps } from "tendaui-react/es";
+import { useState, useEffect } from "react";
 
-import { IconSearch } from 'tendaui-react-icons';
+import { IconSearch } from "tendaui-react-icons";
 
 const meta: Meta<typeof SelectInput> = {
-  title: 'Components/SelectInput',
+  title: "Components/SelectInput",
   component: SelectInput,
-  tags: ['autodocs']
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -40,18 +40,11 @@ const classStyles = `
 </style>  
 `;
 
-const OPTIONS = [
-  'Student A',
-  'Student B',
-  'Student C',
-  'Student D',
-  'Student E',
-  'Student F'
-];
+const OPTIONS = ["Student A", "Student B", "Student C", "Student D", "Student E", "Student F"];
 
 const SelectInputAutocomplete = (args: SelectInputProps) => {
   const [popupVisible, setPopupVisible] = useState(false);
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState("");
   const [options, setOptions] = useState(OPTIONS);
 
   const onOptionClick = (item: string) => {
@@ -61,9 +54,7 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
 
   const onInputChange = (keyword: string) => {
     setSelectValue(keyword);
-    const options = new Array(5)
-      .fill(null)
-      .map((t, index) => `${keyword} Student ${index}`);
+    const options = new Array(5).fill(null).map((t, index) => `${keyword} Student ${index}`);
     setOptions(options);
   };
 
@@ -73,7 +64,7 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
 
   useEffect(() => {
     // 添加示例代码所需样式
-    document.head.insertAdjacentHTML('beforeend', classStyles);
+    document.head.insertAdjacentHTML("beforeend", classStyles);
   }, []);
 
   // 如果需要输入框宽度自适应，可以使用 autoWidth
@@ -85,12 +76,12 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
         placeholder="请输入任意关键词"
         allowInput
         clearable
-        style={{ width: '300px' }}
+        style={{ width: "300px" }}
         onInputChange={onInputChange}
         onPopupVisibleChange={onPopupVisibleChange}
         panel={
           <ul className="tdesign-demo__select-input-ul-autocomplete">
-            {options.map(item => (
+            {options.map((item) => (
               <li key={item} onClick={() => onOptionClick(item)}>
                 {item}
               </li>
@@ -107,5 +98,5 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
 type Story = StoryObj<typeof SelectInput>;
 export const Default: Story = {
   args: {},
-  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />
+  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />,
 };

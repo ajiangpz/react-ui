@@ -1,23 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
-import classNames from 'classnames';
-import { isNumber, isString, get } from 'lodash-es';
+import React, { useEffect, useMemo } from "react";
+import classNames from "classnames";
+import { isNumber, isString, get } from "lodash-es";
 
-import useConfig from '../hooks/useConfig';
-import useDomRefCallback from '../hooks/useDomRefCallback';
+import useConfig from "../hooks/useConfig";
+import useDomRefCallback from "../hooks/useDomRefCallback";
 
-import { StyledProps } from '../common';
-import {
-  SelectValue,
-  TdOptionProps,
-  TdSelectProps,
-  SelectKeysType,
-  SelectOption,
-} from './type';
+import { StyledProps } from "../common";
+import { SelectValue, TdOptionProps, TdSelectProps, SelectKeysType, SelectOption } from "./type";
 
 export interface SelectOptionProps
   extends StyledProps,
-  TdOptionProps,
-  Pick<TdSelectProps, 'size' | 'multiple' | 'max'> {
+    TdOptionProps,
+    Pick<TdSelectProps, "size" | "multiple" | "max"> {
   selectedValue?: SelectValue;
   children?: React.ReactNode;
   onSelect?: (
@@ -27,12 +21,9 @@ export interface SelectOptionProps
       selected?: boolean;
       event: React.MouseEvent<HTMLLIElement>;
       restData?: Record<string, any>;
-    },
+    }
   ) => void;
-  onCheckAllChange?: (
-    checkAll: boolean,
-    e: React.MouseEvent<HTMLLIElement>,
-  ) => void;
+  onCheckAllChange?: (checkAll: boolean, e: React.MouseEvent<HTMLLIElement>) => void;
   restData?: Record<string, any>;
   keys?: SelectKeysType;
   optionLength?: number;
@@ -40,7 +31,7 @@ export interface SelectOptionProps
   onRowMounted?: (rowData: { ref: HTMLElement; data: SelectOption }) => void;
 }
 
-const componentType = 'select';
+const componentType = "select";
 
 const Option: React.FC<SelectOptionProps> = (props) => {
   const {
@@ -65,18 +56,13 @@ const Option: React.FC<SelectOptionProps> = (props) => {
   let selected: boolean;
   let indeterminate: boolean;
   const label = propLabel || value;
-  const disabled =
-    propDisabled ||
-    (multiple &&
-      Array.isArray(selectedValue) &&
-      max &&
-      selectedValue.length >= max);
+  const disabled = propDisabled || (multiple && Array.isArray(selectedValue) && max && selectedValue.length >= max);
 
   const titleContent = useMemo(() => {
     // 外部设置 props，说明希望受控
-    const controlledTitle = Reflect.has(props, 'title');
+    const controlledTitle = Reflect.has(props, "title");
     if (controlledTitle) return propTitle;
-    if (typeof label === 'string') return label;
+    if (typeof label === "string") return label;
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propTitle, label]);
@@ -99,7 +85,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     selected =
       isNumber(selectedValue) || isString(selectedValue)
         ? value === selectedValue
-        : value === get(selectedValue, keys?.value || 'value');
+        : value === get(selectedValue, keys?.value || "value");
   }
 
   // 处理多选场景
@@ -109,7 +95,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
         // 如果非 object 类型
         return item === value;
       }
-      return get(item, keys?.value || 'value') === value;
+      return get(item, keys?.value || "value") === value;
     });
     if (props.checkAll) {
       selected = selectedValue.length === props.optionLength;
@@ -119,8 +105,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
 
   const handleSelect = (event: React.MouseEvent<HTMLLIElement>) => {
     if (!disabled && !checkAll) {
-      if (value)
-        onSelect?.(value, { label: String(label), selected, event, restData });
+      if (value) onSelect?.(value, { label: String(label), selected, event, restData });
     }
     if (checkAll) {
       props.onCheckAllChange?.(selected, event);
@@ -149,9 +134,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
             }}
           />
           <span className={classNames(`${classPrefix}-checkbox__input`)}></span>
-          <span className={classNames(`${classPrefix}-checkbox__label`)}>
-            {children || content || label}
-          </span>
+          <span className={classNames(`${classPrefix}-checkbox__label`)}>{children || content || label}</span>
         </label>
       );
     }
@@ -160,16 +143,12 @@ const Option: React.FC<SelectOptionProps> = (props) => {
 
   return (
     <li
-      className={classNames(
-        className,
-        `${classPrefix}-${componentType}-option`,
-        {
-          [`${classPrefix}-is-disabled`]: disabled,
-          [`${classPrefix}-is-selected`]: selected,
-          [`${classPrefix}-size-s`]: size === 'small',
-          [`${classPrefix}-size-l`]: size === 'large',
-        },
-      )}
+      className={classNames(className, `${classPrefix}-${componentType}-option`, {
+        [`${classPrefix}-is-disabled`]: disabled,
+        [`${classPrefix}-is-selected`]: selected,
+        [`${classPrefix}-size-s`]: size === "small",
+        [`${classPrefix}-size-l`]: size === "large",
+      })}
       key={value}
       onClick={handleSelect}
       ref={setRefCurrent}

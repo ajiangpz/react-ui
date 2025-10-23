@@ -9,7 +9,7 @@ const NotificationContainer = ({
   onHoverStart,
   onHoverEnd,
   maxStack,
-  position
+  position,
 }: {
   notifications: any[];
   onRemove: (id: string) => void;
@@ -31,22 +31,19 @@ const NotificationContainer = ({
     onHoverEnd();
   }, [onHoverEnd]);
 
-  const [heights, setHeights] = useState<{ toastId: string; height: number }[]>(
-    []
-  );
+  const [heights, setHeights] = useState<{ toastId: string; height: number }[]>([]);
 
   const { classPrefix: prefix } = useConfig();
 
   return (
     <div
       className={`${prefix}-notify`}
-
       style={
         {
           height: isHovering ? `${notifications.length * 100 + 16}px` : "auto",
           minHeight: "80px",
           "--front-toast-height": (heights[0]?.height || 0) + "px",
-          "--toast-width": TOAST_WIDTH + "px"
+          "--toast-width": TOAST_WIDTH + "px",
         } as React.CSSProperties
       }
       data-toaster
@@ -58,10 +55,10 @@ const NotificationContainer = ({
       <div
         className={`${prefix}-notify__container`}
         style={{
-          pointerEvents: "all"
+          pointerEvents: "all",
         }}
       >
-        {latestNotifications.map(notification => {
+        {latestNotifications.map((notification) => {
           // const stackedStyle = !isHovering && !isLast;
 
           // let offsetY = isHovering

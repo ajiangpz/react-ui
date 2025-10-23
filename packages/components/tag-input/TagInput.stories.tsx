@@ -1,27 +1,23 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
-import { TagInputProps, TagInputValue, TagInput } from './index';
-import { useState } from 'react';
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { TagInputProps, TagInputValue, TagInput } from "./index";
+import { useState } from "react";
 
 const BaseExample = ({ ...args }) => {
-  const [tags1, setTags1] = useState<TagInputValue>([
-    'Vue',
-    'React',
-    'Angular'
-  ]);
+  const [tags1, setTags1] = useState<TagInputValue>(["Vue", "React", "Angular"]);
 
-  const [tags2] = useState(['Vue', 'React']);
-  const [tags3] = useState(['Vue', 'React']);
+  const [tags2] = useState(["Vue", "React"]);
+  const [tags3] = useState(["Vue", "React"]);
 
-  const onTagInputEnter: TagInputProps['onEnter'] = (val, context) => {
+  const onTagInputEnter: TagInputProps["onEnter"] = (val, context) => {
     console.log(val, context);
   };
 
-  const onChange: TagInputProps['onChange'] = (val, context) => {
+  const onChange: TagInputProps["onChange"] = (val, context) => {
     console.log(val, context);
     setTags1(val);
   };
 
-  const onPaste: TagInputProps['onPaste'] = context => {
+  const onPaste: TagInputProps["onPaste"] = (context) => {
     console.log(context);
   };
 
@@ -36,32 +32,20 @@ const BaseExample = ({ ...args }) => {
         placeholder="请输入"
         {...args}
       />
-      <TagInput
-        value={tags2}
-        label="Controlled: "
-        placeholder="请输入"
-        clearable
-        {...args}
-      />
-      <TagInput
-        defaultValue={tags3}
-        label="UnControlled: "
-        placeholder="请输入"
-        clearable
-        {...args}
-      />
+      <TagInput value={tags2} label="Controlled: " placeholder="请输入" clearable {...args} />
+      <TagInput defaultValue={tags3} label="UnControlled: " placeholder="请输入" clearable {...args} />
     </div>
   );
 };
 const meta: Meta<typeof TagInput> = {
-  title: 'Components/TagInput',
+  title: "Components/TagInput",
   component: TagInput,
-  tags: ['autodocs']
+  tags: ["autodocs"],
 };
 
 export default meta;
 
 export const Default: StoryObj = {
   args: {},
-  render: args => <BaseExample {...args}></BaseExample>
+  render: (args) => <BaseExample {...args}></BaseExample>,
 };

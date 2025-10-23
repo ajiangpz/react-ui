@@ -1,19 +1,14 @@
-import React, {
-  ForwardRefRenderFunction,
-  FocusEvent,
-  forwardRef,
-  useMemo
-} from 'react';
-import classNames from 'classnames';
-import { IconClose } from 'tendaui-react-icons';
-import tinycolor from 'tinycolor2';
-import noop from '../utils/noop';
-import useConfig from '../hooks/useConfig';
-import useGlobalIcon from '../hooks/useGlobalIcon';
-import { StyledProps } from '../common';
-import { TdTagProps } from './type';
-import { tagDefaultProps } from './defaultProps';
-import useDefaultProps from '../hooks/useDefaultProps';
+import React, { ForwardRefRenderFunction, FocusEvent, forwardRef, useMemo } from "react";
+import classNames from "classnames";
+import { IconClose } from "tendaui-react-icons";
+import tinycolor from "tinycolor2";
+import noop from "../utils/noop";
+import useConfig from "../hooks/useConfig";
+import useGlobalIcon from "../hooks/useGlobalIcon";
+import { StyledProps } from "../common";
+import { TdTagProps } from "./type";
+import { tagDefaultProps } from "./defaultProps";
+import useDefaultProps from "../hooks/useDefaultProps";
 
 export interface TagProps extends TdTagProps, StyledProps {
   /**
@@ -24,10 +19,7 @@ export interface TagProps extends TdTagProps, StyledProps {
   onBlur?: (e: FocusEvent<HTMLDivElement>) => void;
 }
 
-export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
-  originalProps,
-  ref
-) => {
+export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (originalProps, ref) => {
   const props = useDefaultProps<TagProps>(originalProps, tagDefaultProps);
   const {
     theme,
@@ -51,14 +43,14 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
   const { classPrefix } = useConfig();
   const { CloseIcon } = useGlobalIcon({
-    CloseIcon: IconClose
+    CloseIcon: IconClose,
   });
 
   const tagClassPrefix = `${classPrefix}-tag`;
 
   const sizeMap = {
     large: `${classPrefix}-size-l`,
-    small: `${classPrefix}-size-s`
+    small: `${classPrefix}-size-s`,
   };
 
   const tagClassNames = classNames(
@@ -66,9 +58,9 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     `${tagClassPrefix}--${theme}`,
     `${tagClassPrefix}--${variant}`,
     {
-      [`${tagClassPrefix}--${shape}`]: shape !== 'square',
+      [`${tagClassPrefix}--${shape}`]: shape !== "square",
       [`${tagClassPrefix}--ellipsis`]: !!maxWidth,
-      [`${tagClassPrefix}--disabled`]: disabled
+      [`${tagClassPrefix}--disabled`]: disabled,
     },
     sizeMap[size],
     className
@@ -76,7 +68,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
   const deleteIcon = (
     <CloseIcon
-      onClick={e => {
+      onClick={(e) => {
         if (disabled) return;
         onClose({ e });
       }}
@@ -85,9 +77,9 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
   );
 
   const title = useMemo(() => {
-    if (Reflect.has(props, 'title')) return titleAttr;
-    if (children && typeof children === 'string') return children;
-    if (content && typeof content === 'string') return content;
+    if (Reflect.has(props, "title")) return titleAttr;
+    if (children && typeof children === "string") return children;
+    if (content && typeof content === "string") return content;
   }, [children, content, props, titleAttr]);
 
   const titleAttribute = title ? { title } : undefined;
@@ -98,22 +90,21 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
     const calculatedStyle: React.CSSProperties = {};
 
-    calculatedStyle.color = luminance > 0.5 ? 'black' : 'white';
-    if (variant === 'outline' || variant === 'light-outline') {
+    calculatedStyle.color = luminance > 0.5 ? "black" : "white";
+    if (variant === "outline" || variant === "light-outline") {
       calculatedStyle.borderColor = color;
     }
 
-    if (variant !== 'outline') {
+    if (variant !== "outline") {
       const getLightestShade = () => {
         const { r, g, b } = tinycolor(color).toRgb();
         // alpha 0.1  is designed by @wen1kang
         return `rgba(${r}, ${g}, ${b}, 0.1)`;
       };
 
-      calculatedStyle.backgroundColor =
-        variant === 'dark' ? color : getLightestShade();
+      calculatedStyle.backgroundColor = variant === "dark" ? color : getLightestShade();
     }
-    if (variant !== 'dark') {
+    if (variant !== "dark") {
       calculatedStyle.color = color;
     }
     return { ...calculatedStyle, ...style };
@@ -123,7 +114,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     if (!maxWidth) return {};
 
     return {
-      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`
+      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`,
     };
   }, [maxWidth]);
 
@@ -131,7 +122,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     <div
       ref={ref}
       className={tagClassNames}
-      onClick={e => {
+      onClick={(e) => {
         if (disabled) return;
         onClick({ e });
       }}
@@ -140,11 +131,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     >
       <>
         {icon}
-        <span
-          className={maxWidth ? `${tagClassPrefix}--text` : undefined}
-          style={getTextStyle}
-          {...titleAttribute}
-        >
+        <span className={maxWidth ? `${tagClassPrefix}--text` : undefined} style={getTextStyle} {...titleAttribute}>
           {children ?? content}
         </span>
         {closable && !disabled && deleteIcon}
@@ -157,6 +144,6 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
 export const Tag = forwardRef(TagFunction);
 
-Tag.displayName = 'Tag';
+Tag.displayName = "Tag";
 
 export default Tag;

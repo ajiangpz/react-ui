@@ -1,5 +1,5 @@
-import React from 'react';
-import ConfigProvider, { ConfigProviderProps } from '../config-provider';
+import React from "react";
+import ConfigProvider, { ConfigProviderProps } from "../config-provider";
 
 /**
  *

@@ -1,4 +1,4 @@
-import { TdSelectInputProps } from './type';
+import { TdSelectInputProps } from "./type";
 
 export const selectInputDefaultProps: TdSelectInputProps = {
   allowInput: false,
@@ -11,5 +11,5 @@ export const selectInputDefaultProps: TdSelectInputProps = {
   multiple: false,
   readonly: false,
   reserveKeyword: false,
-  status: 'default',
+  status: "default",
 };

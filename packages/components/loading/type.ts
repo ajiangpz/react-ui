@@ -1,4 +1,4 @@
-import { TNode, AttachNode } from '../common';
+import { TNode, AttachNode } from "../common";
 
 export interface TdLoadingProps {
   /**
@@ -68,6 +68,4 @@ export interface LoadingInstance {
   hide: () => void;
 }
 
-export type LoadingMethod = (
-  options: boolean | TdLoadingProps,
-) => LoadingInstance;
+export type LoadingMethod = (options: boolean | TdLoadingProps) => LoadingInstance;

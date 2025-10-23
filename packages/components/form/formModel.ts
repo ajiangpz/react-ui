@@ -1,10 +1,10 @@
 // https://github.com/validatorjs/validator.js
 
-import isDate from 'validator/lib/isDate';
-import isEmail from 'validator/lib/isEmail';
-import { isEmpty, isNumber } from 'lodash-es';
-import isURL from 'validator/lib/isURL';
-import { getCharacterLength } from '../utils/helper';
+import isDate from "validator/lib/isDate";
+import isEmail from "validator/lib/isEmail";
+import { isEmpty, isNumber } from "lodash-es";
+import isURL from "validator/lib/isURL";
+import { getCharacterLength } from "../utils/helper";
 import {
   CustomValidator,
   FormRule,
@@ -12,30 +12,23 @@ import {
   AllValidateResult,
   ValidateResultType,
   CustomValidateResolveType,
-} from './type';
+} from "./type";
 
 // `{} / [] / '' / undefined / null` 等内容被认为是空； 0 和 false 被认为是正常数据，部分数据的值就是 0 或者 false
 export function isValueEmpty(val: ValueType): boolean {
   const type: string = Object.prototype.toString.call(val);
   const typeMap: Record<string, any> = {
-    Date: '[object Date]',
+    Date: "[object Date]",
   };
   if (type === typeMap.Date) {
     return false;
   }
-  return typeof val === 'object'
-    ? isEmpty(val)
-    : ['', undefined, null].includes(val);
+  return typeof val === "object" ? isEmpty(val) : ["", undefined, null].includes(val);
 }
 
 // 比较值大小
-const compareValue: (val: ValueType, num: number, isMax: boolean) => boolean = (
-  val,
-  num,
-  isMax,
-) => {
-  const compare: (a: number | any, b: number) => boolean = (a, b) =>
-    isMax ? a <= b : a >= b;
+const compareValue: (val: ValueType, num: number, isMax: boolean) => boolean = (val, num, isMax) => {
+  const compare: (a: number | any, b: number) => boolean = (a, b) => (isMax ? a <= b : a >= b);
   if (isNumber(val)) return compare(val, num);
   if (Array.isArray(val)) return compare(val.length, num);
   return compare(getCharacterLength(val), num);
@@ -46,23 +39,18 @@ const VALIDATE_MAP = {
   url: isURL,
   email: isEmail,
   required: (val: ValueType): boolean => !isValueEmpty(val),
-  whitespace: (val: ValueType): boolean => !(/^\s+$/.test(val) || val === ''),
-  boolean: (val: ValueType): boolean => typeof val === 'boolean',
+  whitespace: (val: ValueType): boolean => !(/^\s+$/.test(val) || val === ""),
+  boolean: (val: ValueType): boolean => typeof val === "boolean",
   max: (val: ValueType, num: number): boolean => compareValue(val, num, true),
   min: (val: ValueType, num: number): boolean => compareValue(val, num, false),
-  len: (val: ValueType, num: number): boolean =>
-    getCharacterLength(val) === num,
+  len: (val: ValueType, num: number): boolean => getCharacterLength(val) === num,
   number: (val: ValueType): boolean => isNumber(val),
   enum: (val: ValueType, strs: Array<string>): boolean => strs.includes(val),
-  idcard: (val: ValueType): boolean =>
-    /^(\d{18,18}|\d{15,15}|\d{17,17}x)$/i.test(val),
+  idcard: (val: ValueType): boolean => /^(\d{18,18}|\d{15,15}|\d{17,17}x)$/i.test(val),
   telnumber: (val: ValueType): boolean => /^1[3-9]\d{9}$/.test(val),
   pattern: (val: ValueType, regexp: RegExp): boolean => regexp.test(val),
   // 自定义校验规则，可能是异步校验
-  validator: (
-    val: ValueType,
-    validate: CustomValidator,
-  ): ReturnType<CustomValidator> => validate(val),
+  validator: (val: ValueType, validate: CustomValidator): ReturnType<CustomValidator> => validate(val),
 };
 
 export type ValidateFuncType = (typeof VALIDATE_MAP)[keyof typeof VALIDATE_MAP];
@@ -73,10 +61,7 @@ export type ValidateFuncType = (typeof VALIDATE_MAP)[keyof typeof VALIDATE_MAP];
  * @param rule 校验规则
  * @returns 两种校验结果，一种是内置校验规则的校验结果，二种是自定义校验规则（validator）的校验结果
  */
-export async function validateOneRule(
-  value: ValueType,
-  rule: FormRule,
-): Promise<AllValidateResult> {
+export async function validateOneRule(value: ValueType, rule: FormRule): Promise<AllValidateResult> {
   let validateResult: CustomValidateResolveType | ValidateResultType = {
     result: true,
   };
@@ -101,11 +86,11 @@ export async function validateOneRule(
   if (vValidateFun) {
     validateResult = await vValidateFun(value, vOptions);
     // 如果校验不通过，则返回校验不通过的规则
-    if (typeof validateResult === 'boolean') {
+    if (typeof validateResult === "boolean") {
       return { ...rule, result: validateResult };
     }
     // 校验结果为 CustomValidateObj，只有自定义校验规则会存在这种情况
-    if (typeof validateResult === 'object') {
+    if (typeof validateResult === "object") {
       return validateResult;
     }
   }
@@ -113,10 +98,7 @@ export async function validateOneRule(
 }
 
 // 单个数据进行全规则校验，校验成功也可能会有 message
-export async function validate(
-  value: ValueType,
-  rules: Array<FormRule>,
-): Promise<AllValidateResult[]> {
+export async function validate(value: ValueType, rules: Array<FormRule>): Promise<AllValidateResult[]> {
   const all = rules.map((rule) => validateOneRule(value, rule));
   const r = await Promise.all(all);
   return r;
@@ -126,10 +108,7 @@ export async function validate(
  * Replace with template.
  * `${name} is wrong` + { name: 'password' } = password is wrong
  */
-export function parseMessage(
-  template: string,
-  options: Record<string, string>,
-): string {
+export function parseMessage(template: string, options: Record<string, string>): string {
   return template.replace(/\$\{\w+\}/g, (str: string) => {
     const key = str.slice(2, -1);
     return options[key];

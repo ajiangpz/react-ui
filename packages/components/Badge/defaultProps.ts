@@ -1,11 +1,10 @@
-
-import { TdBadgeProps } from './type';
+import { TdBadgeProps } from "./type";
 
 export const badgeDefaultProps: TdBadgeProps = {
   count: 0,
   dot: false,
   maxCount: 99,
-  shape: 'circle',
+  shape: "circle",
   showZero: false,
-  size: 'medium',
+  size: "medium",
 };

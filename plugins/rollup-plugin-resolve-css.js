@@ -9,9 +9,7 @@ function resolveRelativeImports() {
       }
       return null;
     },
-    
   };
-
 }
 
 export default resolveRelativeImports;

@@ -1,4 +1,4 @@
-import { TdLoadingProps } from './type';
+import { TdLoadingProps } from "./type";
 
 export const loadingDefaultProps: TdLoadingProps = {
   delay: 0,
@@ -8,5 +8,5 @@ export const loadingDefaultProps: TdLoadingProps = {
   loading: true,
   preventScrollThrough: true,
   showOverlay: true,
-  size: 'medium',
+  size: "medium",
 };

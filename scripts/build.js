@@ -1,20 +1,16 @@
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const path = require('path');
+const { execSync } = require("child_process");
+const path = require("path");
 
-const packages = [
-  '@tendaui/utils',
-  '@tendaui/icons', 
-  '@tendaui/components'
-];
+const packages = ["@tendaui/utils", "@tendaui/icons", "@tendaui/components"];
 
 function buildPackage(packageName) {
   console.log(`Building ${packageName}...`);
   try {
-    execSync(`pnpm --filter ${packageName} build`, { 
-      stdio: 'inherit',
-      cwd: process.cwd()
+    execSync(`pnpm --filter ${packageName} build`, {
+      stdio: "inherit",
+      cwd: process.cwd(),
     });
     console.log(`✅ ${packageName} built successfully`);
   } catch (error) {
@@ -24,13 +20,13 @@ function buildPackage(packageName) {
 }
 
 function buildAll() {
-  console.log('🚀 Starting build process...');
-  
+  console.log("🚀 Starting build process...");
+
   for (const pkg of packages) {
     buildPackage(pkg);
   }
-  
-  console.log('🎉 All packages built successfully!');
+
+  console.log("🎉 All packages built successfully!");
 }
 
 if (require.main === module) {
@@ -38,4 +34,3 @@ if (require.main === module) {
 }
 
 module.exports = { buildAll, buildPackage };
-

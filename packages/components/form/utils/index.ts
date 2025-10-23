@@ -1,11 +1,8 @@
-import { has, get, isObject, isArray, isEmpty } from 'lodash-es';
-import type { NamePath } from '../type';
+import { has, get, isObject, isArray, isEmpty } from "lodash-es";
+import type { NamePath } from "../type";
 
 // 获取 formMap 管理的数据
-export function getMapValue(
-  name: NamePath,
-  formMapRef: React.RefObject<Map<any, any>>,
-) {
+export function getMapValue(name: NamePath, formMapRef: React.RefObject<Map<any, any>>) {
   if (!formMapRef.current) return;
 
   // 提取所有 map key
@@ -62,7 +59,7 @@ export function calcFieldValue(name: NamePath, value: any, isFormList = true) {
 export function travelMapFromObject(
   obj: Record<any, any>,
   formMapRef: React.RefObject<Map<any, any>>,
-  callback: Function,
+  callback: Function
 ) {
   for (const [mapName, formItemRef] of formMapRef.current.entries()) {
     if (has(obj, mapName)) {

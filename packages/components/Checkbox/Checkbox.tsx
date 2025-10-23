@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 import forwardRefWithStatics from "../utils/forwardRefWithStatics";
-import Check, { CheckProps } from '../common/Check';
-import CheckboxGroup from './CheckboxGroup';
-import { checkboxDefaultProps } from './defaultProps';
-import useDefaultProps from '../hooks/useDefaultProps';
+import Check, { CheckProps } from "../common/Check";
+import CheckboxGroup from "./CheckboxGroup";
+import { checkboxDefaultProps } from "./defaultProps";
+import useDefaultProps from "../hooks/useDefaultProps";
 
-export type CheckboxProps = Omit<CheckProps, 'type'>;
+export type CheckboxProps = Omit<CheckProps, "type">;
 
 const Checkbox = forwardRefWithStatics(
   (props: CheckboxProps, ref: React.Ref<HTMLLabelElement>) => (
     <Check ref={ref} type="checkbox" {...useDefaultProps<CheckboxProps>(props, checkboxDefaultProps)} />
   ),
-  { Group: CheckboxGroup },
+  { Group: CheckboxGroup }
 );
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
 
 export default Checkbox;

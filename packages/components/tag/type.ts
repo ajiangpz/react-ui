@@ -1,5 +1,5 @@
-import { TNode, TElement, SizeEnum } from '../common';
-import { MouseEvent, KeyboardEvent } from 'react';
+import { TNode, TElement, SizeEnum } from "../common";
+import { MouseEvent, KeyboardEvent } from "react";
 
 export interface TdTagProps {
   /**
@@ -37,7 +37,7 @@ export interface TdTagProps {
    * 标签类型，有三种：方形、圆角方形、标记型
    * @default square
    */
-  shape?: 'square' | 'round' | 'mark';
+  shape?: "square" | "round" | "mark";
   /**
    * 标签尺寸
    * @default medium
@@ -47,7 +47,7 @@ export interface TdTagProps {
    * 组件风格，用于描述组件不同的应用场景
    * @default default
    */
-  theme?: 'default' | 'primary' | 'warning' | 'danger' | 'success';
+  theme?: "default" | "primary" | "warning" | "danger" | "success";
   /**
    * 标签标题，在标签hover时展示，默认为标签内容
    * @default ''
@@ -57,7 +57,7 @@ export interface TdTagProps {
    * 标签风格变体
    * @default dark
    */
-  variant?: 'dark' | 'light' | 'outline' | 'light-outline';
+  variant?: "dark" | "light" | "outline" | "light-outline";
   /**
    * 点击时触发
    */
@@ -148,10 +148,7 @@ export interface TdCheckTagGroupProps {
   /**
    * null
    */
-  onChange?: (
-    value: CheckTagGroupValue,
-    context: CheckTagGroupChangeContext,
-  ) => void;
+  onChange?: (value: CheckTagGroupValue, context: CheckTagGroupChangeContext) => void;
 }
 
 export interface CheckTagChangeContext {
@@ -167,7 +164,7 @@ export interface CheckTagGroupOption extends TdCheckTagProps {
 export type CheckTagGroupValue = Array<string | number>;
 
 export interface CheckTagGroupChangeContext {
-  type: 'check' | 'uncheck';
+  type: "check" | "uncheck";
   e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>;
   value: string | number;
 }

@@ -1,11 +1,8 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, type RefObject } from "react";
 
 const dialogSet: Set<RefObject<HTMLElement | null>> = new Set();
 
-const useDialogEsc = (
-  visible: boolean | undefined,
-  dialog: RefObject<HTMLElement | null>,
-) => {
+const useDialogEsc = (visible: boolean | undefined, dialog: RefObject<HTMLElement | null>) => {
   useEffect(() => {
     if (visible) {
       // 将 dialog 添加至 Set 对象

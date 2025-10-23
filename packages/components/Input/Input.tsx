@@ -1,21 +1,15 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useImperativeHandle,
-  forwardRef
-} from 'react';
-import classNames from 'classnames';
-import { IconEyeOpened, IconEyeClosed, IconClose } from 'tendaui-react-icons';
-import { TdInputProps } from './type';
-import useLayoutEffect from '../hooks/useLayoutEffect';
-import useControlled from '../hooks/useControlled';
-import { inputDefaultProps } from './defaultProps';
-import parseTNode from '../utils/parseTNode';
-import useDefaultProps from '../hooks/useDefaultProps';
-import { StyledProps, TNode, TElement } from '../common';
-import { isFunction } from 'lodash-es';
-import useConfig from '../hooks/useConfig';
+import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from "react";
+import classNames from "classnames";
+import { IconEyeOpened, IconEyeClosed, IconClose } from "tendaui-react-icons";
+import { TdInputProps } from "./type";
+import useLayoutEffect from "../hooks/useLayoutEffect";
+import useControlled from "../hooks/useControlled";
+import { inputDefaultProps } from "./defaultProps";
+import parseTNode from "../utils/parseTNode";
+import useDefaultProps from "../hooks/useDefaultProps";
+import { StyledProps, TNode, TElement } from "../common";
+import { isFunction } from "lodash-es";
+import useConfig from "../hooks/useConfig";
 export interface InputProps extends TdInputProps, StyledProps {
   showInput?: boolean; // 控制透传readonly同时是否展示input 默认保留 因为正常Input需要撑开宽度
   keepWrapperWidth?: boolean; // 控制透传autoWidth之后是否容器宽度也自适应 多选等组件需要用到自适应但也需要保留宽度
@@ -29,22 +23,14 @@ export interface InputRef extends React.RefObject<unknown> {
   select: () => void;
 }
 
-type InputContextTrigger = 'input' | 'clear' | 'initial';
+type InputContextTrigger = "input" | "clear" | "initial";
 
-const renderIcon = (
-  classPrefix: string,
-  type: 'prefix' | 'suffix',
-  icon: TNode | TElement
-) => {
+const renderIcon = (classPrefix: string, type: "prefix" | "suffix", icon: TNode | TElement) => {
   const result = parseTNode(icon);
 
-  const iconClassName = icon ? `${classPrefix}-input__${type}-icon` : '';
+  const iconClassName = icon ? `${classPrefix}-input__${type}-icon` : "";
 
-  return result ? (
-    <span className={`${classPrefix}-input__${type} ${iconClassName}`}>
-      {result}
-    </span>
-  ) : null;
+  return result ? <span className={`${classPrefix}-input__${type} ${iconClassName}`}>{result}</span> : null;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
@@ -55,7 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     type,
     autoWidth,
     borderless,
-    placeholder = '请输入内容',
+    placeholder = "请输入内容",
     disabled,
     status,
     size,
@@ -101,7 +87,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     ...restProps
   } = props;
   const composingRef = useRef(false);
-  const [value, onChange] = useControlled(props, 'value', onChangeFromProps);
+  const [value, onChange] = useControlled(props, "value", onChangeFromProps);
   const inputRef: React.RefObject<HTMLInputElement | null> = useRef(null);
   const inputPreRef: React.RefObject<HTMLInputElement | null> = useRef(null);
   const wrapperRef: React.RefObject<HTMLDivElement | null> = useRef(null);
@@ -110,11 +96,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const [isFocused, toggleIsFocused] = useState(false);
   const [renderType, setRenderType] = useState(type);
 
-  const [composingValue, setComposingValue] = useState<string>('');
+  const [composingValue, setComposingValue] = useState<string>("");
   const isInnerInputReadonly = readonly || !allowInput;
   const isValueEnabled = value && !disabled;
-  const isShowClearIcon =
-    ((clearable && isValueEnabled) || showClearIconOnEmpty) && isHover;
+  const isShowClearIcon = ((clearable && isValueEnabled) || showClearIconOnEmpty) && isHover;
   let suffixIconNew = suffixIcon;
   if (isShowClearIcon)
     suffixIconNew = (
@@ -125,15 +110,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       />
     );
 
-  if (type === 'password' && typeof suffixIcon === 'undefined') {
-    if (renderType === 'password') {
+  if (type === "password" && typeof suffixIcon === "undefined") {
+    if (renderType === "password") {
       suffixIconNew = (
         <IconEyeClosed
           className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
           onClick={togglePasswordVisible}
         />
       );
-    } else if (renderType === 'text') {
+    } else if (renderType === "text") {
       suffixIconNew = (
         <IconEyeOpened
           className={`${classPrefix}-input__suffix-clear ${classPrefix}-icon`}
@@ -142,12 +127,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       );
     }
   }
-  const prefixIconContent = renderIcon('t', 'prefix', parseTNode(prefixIcon));
-  const suffixIconContent = renderIcon(
-    't',
-    'suffix',
-    parseTNode(suffixIconNew)
-  );
+  const prefixIconContent = renderIcon("t", "prefix", parseTNode(prefixIcon));
+  const suffixIconContent = renderIcon("t", "suffix", parseTNode(suffixIconNew));
   const labelContent = isFunction(label) ? label() : label;
   const suffixContent = isFunction(suffix) ? suffix() : suffix;
 
@@ -172,8 +153,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   useEffect(() => {
     let resizeObserver: ResizeObserver = null as any;
     // IE 11 以下使用设置 minWidth 兼容；IE 11 以上使用 ResizeObserver
-    if (typeof window.ResizeObserver === 'undefined' || !inputRef.current)
-      return;
+    if (typeof window.ResizeObserver === "undefined" || !inputRef.current) return;
     resizeObserver = new window.ResizeObserver(() => {
       updateInputWidth();
     });
@@ -190,9 +170,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     setRenderType(type);
   }, [type]);
 
-  const innerValue = composingRef.current ? composingValue : value ?? '';
-  const formatDisplayValue =
-    format && !isFocused ? format(innerValue) : innerValue;
+  const innerValue = composingRef.current ? composingValue : value ?? "";
+  const formatDisplayValue = format && !isFocused ? format(innerValue) : innerValue;
 
   const renderInput = (
     <input
@@ -200,7 +179,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       placeholder={placeholder}
       type={renderType}
       className={classNames(`${classPrefix}-input__inner`, {
-        [`${classPrefix}-input--soft-hidden`]: !showInput
+        [`${classPrefix}-input--soft-hidden`]: !showInput,
       })}
       value={formatDisplayValue}
       readOnly={isInnerInputReadonly}
@@ -225,40 +204,31 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
         [`${classPrefix}-is-readonly`]: readonly,
         [`${classPrefix}-is-disabled`]: disabled,
         [`${classPrefix}-is-focused`]: isFocused,
-        [`${classPrefix}-size-s`]: size === 'small',
-        [`${classPrefix}-size-l`]: size === 'large',
+        [`${classPrefix}-size-s`]: size === "small",
+        [`${classPrefix}-size-l`]: size === "large",
         [`${classPrefix}-align-${align}`]: align,
-        [`${classPrefix}-inpu${classPrefix}--prefix`]:
-          prefixIcon || labelContent,
-        [`${classPrefix}-inpu${classPrefix}--suffix`]:
-          suffixIconContent || suffixContent,
+        [`${classPrefix}-inpu${classPrefix}--prefix`]: prefixIcon || labelContent,
+        [`${classPrefix}-inpu${classPrefix}--suffix`]: suffixIconContent || suffixContent,
         [`${classPrefix}-inpu${classPrefix}--borderless`]: borderless,
-        [`${classPrefix}-input--focused`]: isFocused
+        [`${classPrefix}-input--focused`]: isFocused,
       })}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onWheel={e => onWheel?.({ e })}
-      onClick={e => {
+      onWheel={(e) => onWheel?.({ e })}
+      onClick={(e) => {
         inputRef.current?.focus();
         onClick?.({ e });
       }}
     >
       {prefixIconContent}
-      {labelContent ? (
-        <div className={`${classPrefix}-input__prefix`}>{labelContent}</div>
-      ) : null}
+      {labelContent ? <div className={`${classPrefix}-input__prefix`}>{labelContent}</div> : null}
       {renderInput}
       {autoWidth && (
-        <span
-          ref={inputPreRef}
-          className={`${classPrefix}-input__inpu${classPrefix}-pre`}
-        >
+        <span ref={inputPreRef} className={`${classPrefix}-input__inpu${classPrefix}-pre`}>
           {innerValue || placeholder}
         </span>
       )}
-      {suffixContent ? (
-        <div className={`${classPrefix}-input__suffix`}>{suffixContent}</div>
-      ) : null}
+      {suffixContent ? <div className={`${classPrefix}-input__suffix`}>{suffixContent}</div> : null}
       {suffixIconContent}
     </div>
   );
@@ -276,7 +246,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     const inputEl = inputRef.current;
     const cursorPosition = inputRef.current?.selectionStart || 0;
 
-    const toggleType = renderType === 'password' ? 'text' : 'password';
+    const toggleType = renderType === "password" ? "text" : "password";
     setRenderType(toggleType);
 
     requestAnimationFrame(() => {
@@ -285,10 +255,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   }
 
   function handleChange(
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.CompositionEvent<HTMLInputElement>,
-    trigger: InputContextTrigger = 'input'
+    e: React.ChangeEvent<HTMLInputElement> | React.CompositionEvent<HTMLInputElement>,
+    trigger: InputContextTrigger = "input"
   ) {
     let { value: newStr } = e.currentTarget;
     if (composingRef.current) {
@@ -302,38 +270,36 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
 
   // 添加MouseDown阻止冒泡，防止點擊Clear value會導致彈窗閃爍一下
   // https://github.com/Tencent/tdesign-react/issues/2320
-  function handleMouseDown(
-    e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>
-  ) {
+  function handleMouseDown(e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
     e.stopPropagation();
     // 兼容React16
     e.nativeEvent.stopImmediatePropagation();
   }
 
   function handleClear(e: React.MouseEvent<HTMLSpanElement>) {
-    onChange?.('', { e, trigger: 'clear' });
+    onChange?.("", { e, trigger: "clear" });
     onClear?.({ e: e as any });
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
       key,
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
-    key === 'Enter' && onEnter?.(value, { e });
+    key === "Enter" && onEnter?.(value, { e });
     onKeydown?.(value, { e });
   }
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     onKeyup?.(value, { e });
   }
 
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     onKeypress?.(value, { e });
   }
@@ -341,14 +307,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleCompositionStart(e: React.CompositionEvent<HTMLInputElement>) {
     composingRef.current = true;
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     onCompositionstart?.(value, { e });
   }
 
   function handleCompositionEnd(e: React.CompositionEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     if (composingRef.current) {
       composingRef.current = false;
@@ -360,7 +326,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     onFocus?.(value, { e });
     toggleIsFocused(true);
@@ -369,7 +335,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = e;
     onBlur?.(value, { e });
     toggleIsFocused(false);
@@ -377,7 +343,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
     const clipData = e.clipboardData;
-    const pasteValue = clipData?.getData('text/plain');
+    const pasteValue = clipData?.getData("text/plain");
     onPaste?.({ e, pasteValue });
   }
 
@@ -396,7 +362,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     inputElement: inputRef.current,
     focus: () => inputRef.current?.focus(),
     blur: () => inputRef.current?.blur(),
-    select: () => inputRef.current?.select()
+    select: () => inputRef.current?.select(),
   }));
 
   return (
@@ -404,16 +370,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       ref={wrapperRef}
       style={style}
       className={classNames(`${classPrefix}-input__wrap`, className, {
-        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth
+        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth,
       })}
       {...restProps}
     >
       {renderInputNode}
-      {tips && (
-        <div className={classNames(`${classPrefix}-input__tips`)}>{tips}</div>
-      )}
+      {tips && <div className={classNames(`${classPrefix}-input__tips`)}>{tips}</div>}
     </div>
   );
 });
-Input.displayName = 'Input';
+Input.displayName = "Input";
 export default Input;

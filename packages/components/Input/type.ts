@@ -1,20 +1,12 @@
-import { TNode, TElement, SizeEnum, ClassName } from '../common';
-import {
-  MouseEvent,
-  KeyboardEvent,
-  ClipboardEvent,
-  FocusEvent,
-  WheelEvent,
-  FormEvent,
-  CompositionEvent,
-} from 'react';
+import { TNode, TElement, SizeEnum, ClassName } from "../common";
+import { MouseEvent, KeyboardEvent, ClipboardEvent, FocusEvent, WheelEvent, FormEvent, CompositionEvent } from "react";
 
 export interface TdInputProps {
   /**
    * 文本内容位置，居左/居中/居右
    * @default left
    */
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
   /**
    * 输入框是否可输入内容
    * @default true
@@ -115,7 +107,7 @@ export interface TdInputProps {
    * 输入框状态
    * @default default
    */
-  status?: 'default' | 'success' | 'warning' | 'error';
+  status?: "default" | "success" | "warning" | "error";
   /**
    * 后置图标前的后置内容
    */
@@ -132,15 +124,7 @@ export interface TdInputProps {
    * 输入框类型
    * @default text
    */
-  type?:
-    | 'text'
-    | 'number'
-    | 'url'
-    | 'tel'
-    | 'password'
-    | 'search'
-    | 'submit'
-    | 'hidden';
+  type?: "text" | "number" | "url" | "tel" | "password" | "search" | "submit" | "hidden";
   /**
    * 输入框的值
    * @default ''
@@ -154,22 +138,16 @@ export interface TdInputProps {
   /**
    * 失去焦点时触发
    */
-  onBlur?: (
-    value: InputValue,
-    context: { e: FocusEvent<HTMLInputElement> },
-  ) => void;
+  onBlur?: (value: InputValue, context: { e: FocusEvent<HTMLInputElement> }) => void;
   /**
    * 输入框值发生变化时触发。参数 `trigger=initial` 表示传入的数据不符合预期，组件自动处理后触发 change 告知父组件。如：初始值长度超过 `maxlength` 限制
    */
   onChange?: (
     value: InputValue,
     context?: {
-      e?:
-        | FormEvent<HTMLInputElement>
-        | MouseEvent<any>
-        | CompositionEvent<HTMLDivElement>;
-      trigger: 'input' | 'initial' | 'clear';
-    },
+      e?: FormEvent<HTMLInputElement> | MouseEvent<any> | CompositionEvent<HTMLDivElement>;
+      trigger: "input" | "initial" | "clear";
+    }
   ) => void;
   /**
    * 清空按钮点击时触发
@@ -182,52 +160,31 @@ export interface TdInputProps {
   /**
    * 中文输入结束时触发
    */
-  onCompositionend?: (
-    value: InputValue,
-    context: { e: CompositionEvent<HTMLDivElement> },
-  ) => void;
+  onCompositionend?: (value: InputValue, context: { e: CompositionEvent<HTMLDivElement> }) => void;
   /**
    * 中文输入开始时触发
    */
-  onCompositionstart?: (
-    value: InputValue,
-    context: { e: CompositionEvent<HTMLDivElement> },
-  ) => void;
+  onCompositionstart?: (value: InputValue, context: { e: CompositionEvent<HTMLDivElement> }) => void;
   /**
    * 回车键按下时触发
    */
-  onEnter?: (
-    value: InputValue,
-    context: { e: KeyboardEvent<HTMLInputElement> },
-  ) => void;
+  onEnter?: (value: InputValue, context: { e: KeyboardEvent<HTMLInputElement> }) => void;
   /**
    * 获得焦点时触发
    */
-  onFocus?: (
-    value: InputValue,
-    context: { e: FocusEvent<HTMLInputElement> },
-  ) => void;
+  onFocus?: (value: InputValue, context: { e: FocusEvent<HTMLInputElement> }) => void;
   /**
    * 键盘按下时触发
    */
-  onKeydown?: (
-    value: InputValue,
-    context: { e: KeyboardEvent<HTMLDivElement> },
-  ) => void;
+  onKeydown?: (value: InputValue, context: { e: KeyboardEvent<HTMLDivElement> }) => void;
   /**
    * 按下字符键时触发（keydown -> keypress -> keyup）
    */
-  onKeypress?: (
-    value: InputValue,
-    context: { e: KeyboardEvent<HTMLDivElement> },
-  ) => void;
+  onKeypress?: (value: InputValue, context: { e: KeyboardEvent<HTMLDivElement> }) => void;
   /**
    * 释放键盘时触发
    */
-  onKeyup?: (
-    value: InputValue,
-    context: { e: KeyboardEvent<HTMLDivElement> },
-  ) => void;
+  onKeyup?: (value: InputValue, context: { e: KeyboardEvent<HTMLDivElement> }) => void;
   /**
    * 进入输入框时触发
    */
@@ -239,16 +196,11 @@ export interface TdInputProps {
   /**
    * 粘贴事件，`pasteValue` 表示粘贴板的内容
    */
-  onPaste?: (context: {
-    e: ClipboardEvent<HTMLDivElement>;
-    pasteValue: string;
-  }) => void;
+  onPaste?: (context: { e: ClipboardEvent<HTMLDivElement>; pasteValue: string }) => void;
   /**
    * 字数超出限制时触发
    */
-  onValidate?: (context: {
-    error?: 'exceed-maximum' | 'below-minimum';
-  }) => void;
+  onValidate?: (context: { error?: "exceed-maximum" | "below-minimum" }) => void;
   /**
    * 输入框中滚动鼠标时触发
    */

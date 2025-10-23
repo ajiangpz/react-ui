@@ -1,5 +1,5 @@
-import { TNode, ClassName, Styles, AttachNode } from '../common';
-import { MouseEvent, KeyboardEvent, FocusEvent, WheelEvent } from 'react';
+import { TNode, ClassName, Styles, AttachNode } from "../common";
+import { MouseEvent, KeyboardEvent, FocusEvent, WheelEvent } from "react";
 
 export interface TdPopupProps {
   /**
@@ -44,15 +44,11 @@ export interface TdPopupProps {
   /**
    * 浮层内容部分样式，第一个参数 `triggerElement` 表示触发元素 DOM 节点，第二个参数 `popupElement` 表示浮层元素 DOM 节点
    */
-  overlayInnerStyle?:
-    | Styles
-    | ((triggerElement: HTMLElement, popupElement: HTMLElement) => Styles);
+  overlayInnerStyle?: Styles | ((triggerElement: HTMLElement, popupElement: HTMLElement) => Styles);
   /**
    * 浮层样式，第一个参数 `triggerElement` 表示触发元素 DOM 节点，第二个参数 `popupElement` 表示浮层元素 DOM 节点
    */
-  overlayStyle?:
-    | Styles
-    | ((triggerElement: HTMLElement, popupElement: HTMLElement) => Styles);
+  overlayStyle?: Styles | ((triggerElement: HTMLElement, popupElement: HTMLElement) => Styles);
   /**
    * 浮层出现位置
    * @default top
@@ -71,7 +67,7 @@ export interface TdPopupProps {
    * 触发浮层出现的方式
    * @default hover
    */
-  trigger?: 'hover' | 'click' | 'focus' | 'mousedown' | 'context-menu';
+  trigger?: "hover" | "click" | "focus" | "mousedown" | "context-menu";
   /**
    * 触发元素。值类型为字符串表示元素选择器
    */
@@ -99,42 +95,36 @@ export interface TdPopupProps {
   /**
    * 当浮层隐藏或显示时触发，`trigger=document` 表示点击非浮层元素触发；`trigger=context-menu` 表示右击触发
    */
-  onVisibleChange?: (
-    visible: boolean,
-    context: PopupVisibleChangeContext,
-  ) => void;
+  onVisibleChange?: (visible: boolean, context: PopupVisibleChangeContext) => void;
 }
 
 export type PopupPlacement =
-  | 'top'
-  | 'left'
-  | 'right'
-  | 'bottom'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left-top'
-  | 'left-bottom'
-  | 'right-top'
-  | 'right-bottom';
+  | "top"
+  | "left"
+  | "right"
+  | "bottom"
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right"
+  | "left-top"
+  | "left-bottom"
+  | "right-top"
+  | "right-bottom";
 
 export interface PopupVisibleChangeContext {
   e?: PopupTriggerEvent;
   trigger?: PopupTriggerSource;
 }
 
-export type PopupTriggerEvent =
-  | MouseEvent<HTMLDivElement>
-  | FocusEvent<HTMLDivElement>
-  | KeyboardEvent<HTMLDivElement>;
+export type PopupTriggerEvent = MouseEvent<HTMLDivElement> | FocusEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>;
 
 export type PopupTriggerSource =
-  | 'document'
-  | 'trigger-element-click'
-  | 'trigger-element-hover'
-  | 'trigger-element-blur'
-  | 'trigger-element-focus'
-  | 'trigger-element-mousedown'
-  | 'context-menu'
-  | 'keydown-esc';
+  | "document"
+  | "trigger-element-click"
+  | "trigger-element-hover"
+  | "trigger-element-blur"
+  | "trigger-element-focus"
+  | "trigger-element-mousedown"
+  | "context-menu"
+  | "keydown-esc";

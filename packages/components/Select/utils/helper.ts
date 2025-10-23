@@ -1,39 +1,27 @@
-import { ReactElement } from 'react';
-import { isPlainObject, get } from 'lodash-es';
-import OptionGroup from '../OptionGroup';
-import Option from '../Option';
+import { ReactElement } from "react";
+import { isPlainObject, get } from "lodash-es";
+import OptionGroup from "../OptionGroup";
+import Option from "../Option";
 
-import {
-  SelectValue,
-  TdOptionProps,
-  SelectKeysType,
-  TdSelectProps,
-  SelectOption,
-} from '../type';
+import { SelectValue, TdOptionProps, SelectKeysType, TdSelectProps, SelectOption } from "../type";
 
-type SelectLabeledValue = Required<Omit<TdOptionProps, 'disabled'>>;
+type SelectLabeledValue = Required<Omit<TdOptionProps, "disabled">>;
 
-export function isSelectOptionGroup(
-  option: SelectOption,
-): option is any {
-  return !!option && 'group' in option && 'children' in option;
+export function isSelectOptionGroup(option: SelectOption): option is any {
+  return !!option && "group" in option && "children" in option;
 }
 
 export type ValueToOption = {
   [value: string | number]: TdOptionProps;
 };
 
-function setValueToOptionFormOptionDom(
-  dom: ReactElement,
-  valueToOption: ValueToOption,
-  keys: SelectKeysType,
-) {
+function setValueToOptionFormOptionDom(dom: ReactElement, valueToOption: ValueToOption, keys: SelectKeysType) {
   const { value, label, children } = dom.props;
-  // eslint-disable-next-line no-param-reassign
+
   valueToOption[value] = {
     ...dom.props,
-    [keys?.value || 'value']: value,
-    [keys?.label || 'label']: label || children || value,
+    [keys?.value || "value"]: value,
+    [keys?.label || "label"]: label || children || value,
   };
 }
 
@@ -41,7 +29,7 @@ function setValueToOptionFormOptionDom(
 export const getValueToOption = (
   children: ReactElement,
   options: SelectOption[],
-  keys: SelectKeysType,
+  keys: SelectKeysType
 ): ValueToOption => {
   const valueToOption = {};
 
@@ -50,17 +38,17 @@ export const getValueToOption = (
     options.forEach((option) => {
       if (isSelectOptionGroup(option)) {
         option.children?.forEach((child) => {
-          valueToOption[get(child, keys?.value || 'value')] = {
+          valueToOption[get(child, keys?.value || "value")] = {
             ...child,
-            value: get(child, keys?.value || 'value'),
-            label: get(child, keys?.label || 'label'),
+            value: get(child, keys?.value || "value"),
+            label: get(child, keys?.label || "label"),
           };
         });
       } else {
-        valueToOption[get(option, keys?.value || 'value')]   = {
-          ...option as Object,
-          value: get(option, keys?.value || 'value'),
-          label: get(option, keys?.label || 'label'),
+        valueToOption[get(option, keys?.value || "value")] = {
+          ...(option as object),
+          value: get(option, keys?.value || "value"),
+          label: get(option, keys?.label || "label"),
         } as never;
       }
     });
@@ -120,13 +108,13 @@ export const getLabel = (
   children: ReactElement,
   value: SelectValue<TdOptionProps>,
   options: TdOptionProps[],
-  keys: SelectKeysType,
+  keys: SelectKeysType
 ) => {
-  let selectedLabel = '';
+  let selectedLabel = "";
   // 处理带 options 属性的情况
   if (Array.isArray(options)) {
     options.some((option) => {
-      if ([get(value, keys?.value || 'value'), value].includes(option.value)) {
+      if ([get(value, keys?.value || "value"), value].includes(option.value)) {
         selectedLabel = option.label;
         return true;
       }
@@ -144,9 +132,7 @@ export const getLabel = (
 
       if (Array.isArray(groupChildren)) {
         groupChildren.some((item) => {
-          const selectedValue = isPlainObject(value)
-            ? get(value, 'value')
-            : value;
+          const selectedValue = isPlainObject(value) ? get(value, "value") : value;
           if (isPlainObject(item.props) && item.props.value === selectedValue) {
             selectedLabel = item.props.label || item.props.children;
             return true;
@@ -164,13 +150,8 @@ export const getLabel = (
         const groupChildren = item.props.children;
         if (Array.isArray(groupChildren)) {
           const isSelected = groupChildren.some((item) => {
-            const selectedValue = isPlainObject(value)
-              ? get(value, 'value')
-              : value;
-            if (
-              isPlainObject(item.props) &&
-              item.props.value === selectedValue
-            ) {
+            const selectedValue = isPlainObject(value) ? get(value, "value") : value;
+            if (isPlainObject(item.props) && item.props.value === selectedValue) {
               selectedLabel = item.props.label || item.props.children;
               return true;
             }
@@ -179,7 +160,7 @@ export const getLabel = (
           return isSelected;
         }
       }
-      const selectedValue = isPlainObject(value) ? get(value, 'value') : value;
+      const selectedValue = isPlainObject(value) ? get(value, "value") : value;
       if (isPlainObject(item.props) && item.props.value === selectedValue) {
         selectedLabel = item.props.label || item.props.children;
         return true;
@@ -191,13 +172,10 @@ export const getLabel = (
   return selectedLabel;
 };
 
-export const getMultipleTags = (
-  values: SelectValue[],
-  keys: SelectKeysType,
-) => {
+export const getMultipleTags = (values: SelectValue[], keys: SelectKeysType) => {
   const tags = values.map((item) => ({
-    label: get(item, keys?.label || 'label') || item.toString(),
-    value: get(item, keys?.value || 'value') || item,
+    label: get(item, keys?.label || "label") || item.toString(),
+    value: get(item, keys?.value || "value") || item,
   }));
   return tags;
 };
@@ -206,26 +184,22 @@ export const getSelectValueArr = (
   values: SelectValue | SelectValue[],
   activeValue: SelectValue,
   selected?: boolean,
-  valueType?: TdSelectProps['valueType'],
+  valueType?: TdSelectProps["valueType"],
   keys?: SelectKeysType,
-  objVal?: SelectValue,
+  objVal?: SelectValue
 ) => {
-  // eslint-disable-next-line no-param-reassign
   values = Array.isArray(values) ? values : [];
 
   if (Array.isArray(values)) {
     let currentValues = [...values];
-    const isValueObj = valueType === 'object';
+    const isValueObj = valueType === "object";
     if (selected) {
       currentValues = currentValues.filter((item: SelectLabeledValue) => {
         if (isValueObj) {
           if (isPlainObject(activeValue)) {
-            return (
-              get(item, keys?.value || 'value') !==
-              get(activeValue, keys?.value || 'value')
-            );
+            return get(item, keys?.value || "value") !== get(activeValue, keys?.value || "value");
           }
-          return get(item, keys?.value || 'value') !== activeValue;
+          return get(item, keys?.value || "value") !== activeValue;
         }
         return item !== activeValue;
       });
@@ -241,13 +215,13 @@ export const getSelectValueArr = (
 // 计算onChange事件回调的selectedOptions参数
 export const getSelectedOptions = (
   value: SelectValue,
-  multiple: TdSelectProps['multiple'],
-  valueType: TdSelectProps['valueType'],
+  multiple: TdSelectProps["multiple"],
+  valueType: TdSelectProps["valueType"],
   keys: SelectKeysType,
   valueToOption: ValueToOption,
-  selectedValue?: SelectValue,
+  selectedValue?: SelectValue
 ) => {
-  const isObjectType = valueType === 'object';
+  const isObjectType = valueType === "object";
   // 当前所有选中的选项
   let currentSelectedOptions = [];
   // 当前选中的选项
@@ -259,34 +233,23 @@ export const getSelectedOptions = (
   if (multiple) {
     currentSelectedOptions = isObjectType
       ? (value as Array<SelectValue>)
-      : tmpPropOptions?.filter?.((v) =>
-          (value as Array<string | number>).includes?.(
-            v[keys?.value || 'value'],
-          ),
-        );
+      : tmpPropOptions?.filter?.((v) => (value as Array<string | number>).includes?.(v[keys?.value || "value"]));
 
     allSelectedValue = isObjectType
       ? currentSelectedOptions
-      : currentSelectedOptions?.map((v) => v[keys?.value || 'value']);
+      : currentSelectedOptions?.map((v) => v[keys?.value || "value"]);
 
     currentOption = isObjectType
-      ? (value as Array<SelectValue>).find(
-          (v) => v[keys?.value || 'value'] === selectedValue,
-        )
-      : currentSelectedOptions?.find(
-          (option) => option[keys?.value || 'value'] === selectedValue,
-        );
+      ? (value as Array<SelectValue>).find((v) => v[keys?.value || "value"] === selectedValue)
+      : currentSelectedOptions?.find((option) => option[keys?.value || "value"] === selectedValue);
   } else {
     currentSelectedOptions = isObjectType
       ? [value]
-      : tmpPropOptions?.filter?.((v) => value === v[keys?.value || 'value']) ||
-        [];
+      : tmpPropOptions?.filter?.((v) => value === v[keys?.value || "value"]) || [];
     allSelectedValue = currentSelectedOptions;
     currentOption = isObjectType
       ? value
-      : currentSelectedOptions?.find(
-          (option) => option[keys?.value || 'value'] === selectedValue,
-        );
+      : currentSelectedOptions?.find((option) => option[keys?.value || "value"] === selectedValue);
   }
 
   return { currentSelectedOptions, currentOption, allSelectedValue };

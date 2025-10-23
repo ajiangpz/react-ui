@@ -1,1 +1,1 @@
-import '../../styles/components/popup/_index.scss';
+import "../../styles/components/popup/_index.scss";

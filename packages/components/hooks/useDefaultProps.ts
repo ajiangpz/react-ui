@@ -1,11 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
 // defaultProps 将于 19.0.0 废弃，故需实现 hook 在组件内部兼容
 // https://github.com/facebook/react/pull/16210
-export default function useDefaultProps<T>(
-  originalProps: T,
-  defaultProps: Record<PropertyKey, any>,
-): T {
+export default function useDefaultProps<T>(originalProps: T, defaultProps: Record<PropertyKey, any>): T {
   return useMemo<T>(() => {
     // eslint-disable-next-line
     const props: Record<string, any> = Object.assign({}, originalProps);

@@ -1,5 +1,4 @@
-
-import { TdCheckboxProps, TdCheckboxGroupProps } from './type';
+import { TdCheckboxProps, TdCheckboxGroupProps } from "./type";
 
 export const checkboxDefaultProps: TdCheckboxProps = {
   checkAll: false,

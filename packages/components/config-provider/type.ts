@@ -1,5 +1,5 @@
-import { TNode, TElement, SizeEnum, AttachNode } from '../common';
-import { ButtonProps } from '../button';
+import { TNode, TElement, SizeEnum, AttachNode } from "../common";
+import { ButtonProps } from "../button";
 export interface TdConfigProviderProps {
   /**
    * 全局配置
@@ -19,7 +19,7 @@ export interface GlobalConfigProvider {
   /**
    * 动画效果控制，`ripple` 指波纹动画， `expand` 指展开动画，`fade` 指渐变动画。默认为 `{ include: ['ripple','expand','fade'], exclude: [] }`
    */
-  animation?: Partial<Record<'include' | 'exclude', Array<AnimationType>>>;
+  animation?: Partial<Record<"include" | "exclude", Array<AnimationType>>>;
   /**
    * null
    */
@@ -530,7 +530,7 @@ export interface FormConfig {
    * 表单必填符号（*）显示位置
    * @default left
    */
-  requiredMarkPosition?: 'left' | 'right';
+  requiredMarkPosition?: "left" | "right";
 }
 
 export interface GuideConfig {
@@ -602,7 +602,7 @@ export interface InputConfig {
    * 清空图标触发方式，仅在输入框有值时有效
    * @default focus
    */
-  clearTrigger?: 'always' | 'focus';
+  clearTrigger?: "always" | "focus";
   /**
    * 语言配置，“请输入”占位符描述文本
    * @default ''
@@ -623,7 +623,7 @@ export interface ListConfig {
   loadingText?: string;
 }
 
-export interface MessageConfig  {}
+export interface MessageConfig {}
 
 export interface PaginationConfig {
   /**
@@ -830,7 +830,7 @@ export interface TableConfig {
   /**
    * 树形结构，展开和折叠图标。如果没有配置，会使用组件内置的默认图标
    */
-  treeExpandAndFoldIcon?: TNode<{ type: 'expand' | 'fold' }>;
+  treeExpandAndFoldIcon?: TNode<{ type: "expand" | "fold" }>;
 }
 
 export interface TagConfig {
@@ -1032,7 +1032,7 @@ export interface UploadConfigProgress {
   waitingText?: string;
 }
 
-export type AnimationType = 'ripple' | 'expand' | 'fade';
+export type AnimationType = "ripple" | "expand" | "fade";
 
 export interface ConfigPresetDate {
   [name: string]: DateConfigValue | (() => DateConfigValue);

@@ -1,11 +1,11 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
-import { Loading, Switch, Button } from 'tendaui-react/es';
-import { useEffect, useState } from 'react';
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { Loading, Switch, Button } from "tendaui-react/es";
+import { useEffect, useState } from "react";
 
 const meta: Meta<typeof Loading> = {
-  title: 'Components/Loading',
+  title: "Components/Loading",
   component: Loading,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -22,7 +22,7 @@ export const Default: Story = {
 };
 
 const LoadingFullscreen = ({ ...args }) => {
-  const [checked, setChecked] = useState('on');
+  const [checked, setChecked] = useState("on");
   const [loading, setLoading] = useState(false);
 
   const onChange = (value) => {
@@ -32,19 +32,13 @@ const LoadingFullscreen = ({ ...args }) => {
 
     if (value)
       setTimeout(() => {
-        setChecked('off');
+        setChecked("off");
         setLoading(false);
       }, 2000);
   };
   return (
     <>
-      <Loading
-        loading={loading}
-        fullscreen
-        preventScrollThrough={true}
-        text="加载中"
-        {...args}
-      ></Loading>
+      <Loading loading={loading} fullscreen preventScrollThrough={true} text="加载中" {...args}></Loading>
       Loading state:
       <Switch value={checked} onCheckedChange={onChange} />
     </>
@@ -56,15 +50,15 @@ export const Fullscreen: Story = {
 };
 
 const LoadingDelay = ({ ...args }) => {
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
 
   const loadingData = (time?: number) => {
     setLoading(true);
-    setData('');
+    setData("");
     const timer = setTimeout(() => {
       setLoading(false);
-      setData('数据加载完成，短时间的数据加载并未出现 loading');
+      setData("数据加载完成，短时间的数据加载并未出现 loading");
       clearTimeout(timer);
     }, time || 100);
   };
@@ -81,14 +75,8 @@ const LoadingDelay = ({ ...args }) => {
       </div> */}
 
       <div>
-        <Loading
-          loading={loading}
-          delay={500}
-          size="small"
-          showOverlay
-          {...args}
-        >
-          <div>{data ? `loading 作为包裹元素：${data}` : ''}</div>
+        <Loading loading={loading} delay={500} size="small" showOverlay {...args}>
+          <div>{data ? `loading 作为包裹元素：${data}` : ""}</div>
         </Loading>
       </div>
 

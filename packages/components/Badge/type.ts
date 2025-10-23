@@ -1,5 +1,4 @@
-
-import { TNode } from '../common';
+import { TNode } from "../common";
 
 export interface TdBadgeProps {
   /**
@@ -38,7 +37,7 @@ export interface TdBadgeProps {
    * 形状
    * @default circle
    */
-  shape?: 'circle' | 'round';
+  shape?: "circle" | "round";
   /**
    * 当数值为 0 时，是否展示徽标
    * @default false
@@ -48,5 +47,5 @@ export interface TdBadgeProps {
    * 尺寸
    * @default medium
    */
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
 }

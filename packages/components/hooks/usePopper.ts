@@ -1,19 +1,19 @@
 // https://github.com/floating-ui/react-popper/blob/master/src/usePopper.js
 // React popper was archived by the owner on Dec 6, 2024.
 // to maintain this hook in the repo since upgrading to support React 19.0
-import { useMemo, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   createPopper as defaultCreatePopper,
   type Options as PopperOptions,
   type VirtualElement,
   type State as PopperState,
   type Instance as PopperInstance,
-} from '@popperjs/core';
+} from "@popperjs/core";
 
-import isEqual from 'react-fast-compare';
-import useIsomorphicLayoutEffect from './useLayoutEffect';
-import type { Styles } from '../common';
+import isEqual from "react-fast-compare";
+import useIsomorphicLayoutEffect from "./useLayoutEffect";
+import type { Styles } from "../common";
 
 type Options = Partial<
   PopperOptions & {
@@ -30,7 +30,7 @@ type State = {
   attributes: Attributes;
 };
 
-import type { ModifierPhases } from '@popperjs/core';
+import type { ModifierPhases } from "@popperjs/core";
 
 interface Modifier {
   name: string;
@@ -46,8 +46,8 @@ type UsePopperResult = {
   state?: PopperState;
   styles: Styles;
   attributes: Attributes;
-  update: PopperInstance['update'] | null;
-  forceUpdate: PopperInstance['forceUpdate'] | null;
+  update: PopperInstance["update"] | null;
+  forceUpdate: PopperInstance["forceUpdate"] | null;
 };
 
 const fromEntries = (entries: Array<[string, any]>): { [key: string]: any } =>
@@ -56,20 +56,20 @@ const fromEntries = (entries: Array<[string, any]>): { [key: string]: any } =>
       acc[key] = value;
       return acc;
     },
-    {} as { [key: string]: any },
+    {} as { [key: string]: any }
   );
 
 const usePopper = (
   referenceElement?: Element | VirtualElement,
   popperElement?: HTMLElement,
-  options: Options = {},
+  options: Options = {}
 ): UsePopperResult => {
   const prevOptions = useRef<PopperOptions>(null);
 
   const optionsWithDefaults = {
     onFirstUpdate: options.onFirstUpdate,
-    placement: options.placement || 'bottom',
-    strategy: options.strategy || 'absolute',
+    placement: options.placement || "bottom",
+    strategy: options.strategy || "absolute",
     modifiers: options.modifiers || EMPTY_MODIFIERS,
   };
 
@@ -77,11 +77,11 @@ const usePopper = (
     styles: {
       popper: {
         position: optionsWithDefaults.strategy,
-        left: '0',
-        top: '0',
+        left: "0",
+        top: "0",
       },
       arrow: {
-        position: 'absolute',
+        position: "absolute",
       },
     },
     attributes: {},
@@ -89,26 +89,22 @@ const usePopper = (
 
   const updateStateModifier = useMemo(
     () => ({
-      name: 'updateState',
+      name: "updateState",
       enabled: true,
-      phase: 'write' as ModifierPhases,
+      phase: "write" as ModifierPhases,
       fn: ({ state }: { state: PopperState }) => {
         const elements = Object.keys(state.elements);
 
         flushSync(() => {
           setState({
-            styles: fromEntries(
-              elements.map((element) => [element, state.styles[element] || {}]),
-            ),
-            attributes: fromEntries(
-              elements.map((element) => [element, state.attributes[element]]),
-            ),
+            styles: fromEntries(elements.map((element) => [element, state.styles[element] || {}])),
+            attributes: fromEntries(elements.map((element) => [element, state.attributes[element]])),
           });
         });
       },
-      requires: ['computeStyles'],
+      requires: ["computeStyles"],
     }),
-    [],
+    []
   );
 
   const popperOptions = useMemo(() => {
@@ -120,9 +116,9 @@ const usePopper = (
         ...optionsWithDefaults.modifiers,
         updateStateModifier,
         {
-          name: 'applyStyles',
+          name: "applyStyles",
           enabled: false,
-          phase: 'write' as ModifierPhases,
+          phase: "write" as ModifierPhases,
         },
       ],
     };
@@ -154,11 +150,7 @@ const usePopper = (
     }
 
     const createPopper = options.createPopper || defaultCreatePopper;
-    const popperInstance = createPopper(
-      referenceElement,
-      popperElement,
-      popperOptions,
-    );
+    const popperInstance = createPopper(referenceElement, popperElement, popperOptions);
 
     popperInstanceRef.current = popperInstance;
 
@@ -169,15 +161,11 @@ const usePopper = (
   }, [referenceElement, popperElement, options.createPopper]);
 
   return {
-    state: popperInstanceRef.current
-      ? popperInstanceRef.current.state
-      : undefined,
+    state: popperInstanceRef.current ? popperInstanceRef.current.state : undefined,
     styles: state.styles,
     attributes: state.attributes,
     update: popperInstanceRef.current ? popperInstanceRef.current.update : null,
-    forceUpdate: popperInstanceRef.current
-      ? popperInstanceRef.current.forceUpdate
-      : null,
+    forceUpdate: popperInstanceRef.current ? popperInstanceRef.current.forceUpdate : null,
   };
 };
 

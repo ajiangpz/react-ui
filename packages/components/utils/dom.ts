@@ -1,10 +1,6 @@
-import { isString } from 'lodash-es';
+import { isString } from "lodash-es";
 
-export const canUseDocument = !!(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-);
+export const canUseDocument = !!(typeof window !== "undefined" && window.document && window.document.createElement);
 
 export const getWindowSize = (): { width: number; height: number } => {
   if (!canUseDocument) {
@@ -17,7 +13,7 @@ export const getWindowSize = (): { width: number; height: number } => {
 };
 
 export const getAttach = (node: any): HTMLElement | null => {
-  const attachNode = typeof node === 'function' ? node() : node;
+  const attachNode = typeof node === "function" ? node() : node;
   if (!attachNode) {
     return document.body;
   }

@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import useEventCallback from './useEventCallback';
+import { useCallback, useState } from "react";
+import useEventCallback from "./useEventCallback";
 
 interface DragSortProps<T> {
   sortOnDraggable: boolean;
@@ -10,11 +10,7 @@ interface DragSortProps<T> {
   };
 }
 
-type DragFnType = (
-  e?: React.DragEvent<HTMLTableRowElement>,
-  index?: number,
-  record?: any,
-) => void;
+type DragFnType = (e?: React.DragEvent<HTMLTableRowElement>, index?: number, record?: any) => void;
 interface DragSortInnerData {
   dragging?: boolean;
   draggable?: boolean;
@@ -51,10 +47,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
     (e, index, record: T) => {
       e.preventDefault();
       if (draggingIndex === index || draggingIndex === -1) return;
-      if (
-        onDragOverCheck?.targetClassNameRegExp &&
-        !onDragOverCheck?.targetClassNameRegExp.test(e.target?.className)
-      ) {
+      if (onDragOverCheck?.targetClassNameRegExp && !onDragOverCheck?.targetClassNameRegExp.test(e.target?.className)) {
         return;
       }
 
@@ -93,7 +86,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
       startInfo.mouseX,
       startInfo.nodeX,
       onDragSortEvent,
-    ],
+    ]
   );
 
   if (!sortOnDraggable) {

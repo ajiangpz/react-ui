@@ -1,4 +1,4 @@
-import { isEmpty, isFunction, isEqual, merge, get, set } from 'lodash-es';
+import { isEmpty, isFunction, isEqual, merge, get, set } from "lodash-es";
 // import log from '@tdesign/common-js/log/index';
 import type {
   TdFormProps,
@@ -7,9 +7,9 @@ import type {
   FormValidateMessage,
   AllValidateResult,
   NamePath,
-} from '../type';
-import useConfig from '../../hooks/useConfig';
-import { getMapValue, objectToArray, travelMapFromObject, calcFieldValue } from '../utils';
+} from "../type";
+import useConfig from "../../hooks/useConfig";
+import { getMapValue, objectToArray, travelMapFromObject, calcFieldValue } from "../utils";
 
 // 检测是否需要校验 默认全量校验
 function needValidate(name: NamePath, fields: string[]) {
@@ -28,8 +28,8 @@ function formatValidateResult(validateResultList) {
     }
 
     // 整理嵌套数据
-    if (result[key] && key.includes(',')) {
-      const keyList = key.split(',');
+    if (result[key] && key.includes(",")) {
+      const keyList = key.split(",");
       const fieldValue = calcFieldValue(keyList, result[key]);
       merge(result, fieldValue);
       delete result[key];
@@ -42,7 +42,7 @@ export default function useInstance(
   props: TdFormProps,
   formRef,
   formMapRef: React.MutableRefObject<Map<any, any>>,
-  floatingFormDataRef: React.RefObject<Record<any, any>>,
+  floatingFormDataRef: React.RefObject<Record<any, any>>
 ) {
   const { classPrefix } = useConfig();
 
@@ -80,10 +80,10 @@ export default function useInstance(
 
   // 对外方法，该方法会触发全部表单组件错误信息显示
   async function validate(param?: Record<string, any>): Promise<FormValidateResult<FormData>> {
-    const { fields, trigger = 'all', showErrorMessage } = param || {};
+    const { fields, trigger = "all", showErrorMessage } = param || {};
     const list = [...formMapRef.current.values()]
       .filter(
-        (formItemRef) => isFunction(formItemRef?.current?.validate) && needValidate(formItemRef?.current?.name, fields),
+        (formItemRef) => isFunction(formItemRef?.current?.validate) && needValidate(formItemRef?.current?.name, fields)
       )
       .map((formItemRef) => formItemRef?.current.validate(trigger, showErrorMessage));
 
@@ -93,11 +93,11 @@ export default function useInstance(
 
   // 对外方法，该方法只会校验不会触发信息提示
   async function validateOnly(param?: Record<string, any>): Promise<FormValidateResult<FormData>> {
-    const { fields, trigger = 'all' } = param || {};
+    const { fields, trigger = "all" } = param || {};
     const list = [...formMapRef.current.values()]
       .filter(
         (formItemRef) =>
-          isFunction(formItemRef?.current?.validateOnly) && needValidate(formItemRef?.current?.name, fields),
+          isFunction(formItemRef?.current?.validateOnly) && needValidate(formItemRef?.current?.name, fields)
       )
       .map((formItemRef) => formItemRef?.current.validateOnly?.(trigger));
 
@@ -130,7 +130,7 @@ export default function useInstance(
       }
     } else {
       if (!Array.isArray(nameList)) {
-        console.error('Form', '`getFieldsValue` 参数需要 Array 类型');
+        console.error("Form", "`getFieldsValue` 参数需要 Array 类型");
         return {};
       }
 
@@ -175,7 +175,7 @@ export default function useInstance(
 
   // 对外方法，设置对应 formItem 的数据
   function setFields(fields = []) {
-    if (!Array.isArray(fields)) throw new Error('setFields 参数需要 Array 类型');
+    if (!Array.isArray(fields)) throw new Error("setFields 参数需要 Array 类型");
 
     fields.forEach((field) => {
       const { name, ...restFields } = field;
@@ -188,12 +188,12 @@ export default function useInstance(
   // 对外方法，重置对应 formItem 的数据
   function reset(params: FormResetParams<FormData>) {
     // reset all
-    if (typeof params === 'undefined') {
+    if (typeof params === "undefined") {
       [...formMapRef.current.values()].forEach((formItemRef) => {
         formItemRef?.current?.resetField();
       });
     } else {
-      const { type = 'initial', fields = [] } = params;
+      const { type = "initial", fields = [] } = params;
 
       fields.forEach((name) => {
         const formItemRef = getMapValue(name, formMapRef);
@@ -206,12 +206,12 @@ export default function useInstance(
   // 对外方法，重置对应 formItem 的状态
   function clearValidate(fields?: Array<keyof FormData>) {
     // reset all
-    if (typeof fields === 'undefined') {
+    if (typeof fields === "undefined") {
       [...formMapRef.current.values()].forEach((formItemRef) => {
         formItemRef?.current?.resetValidate();
       });
     } else {
-      if (!Array.isArray(fields)) throw new Error('clearValidate 参数需要 Array 类型');
+      if (!Array.isArray(fields)) throw new Error("clearValidate 参数需要 Array 类型");
 
       fields.forEach((name) => {
         const formItemRef = getMapValue(name, formMapRef);
@@ -231,14 +231,14 @@ export default function useInstance(
   function getValidateMessage(fields?: Array<keyof FormData>) {
     const message = {};
 
-    if (typeof fields === 'undefined') {
+    if (typeof fields === "undefined") {
       [...formMapRef.current.values()].forEach((formItemRef) => {
         const item = formItemRef?.current?.getValidateMessage?.();
         if (isEmpty(item)) return;
         message[formItemRef?.current?.name] = item;
       });
     } else {
-      if (!Array.isArray(fields)) throw new Error('getValidateMessage 参数需要 Array 类型');
+      if (!Array.isArray(fields)) throw new Error("getValidateMessage 参数需要 Array 类型");
 
       fields.forEach((name) => {
         const formItemRef = getMapValue(name, formMapRef);

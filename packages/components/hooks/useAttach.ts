@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { AttachNode } from '../common';
-import useConfig from './useConfig';
+import { useMemo } from "react";
+import { AttachNode } from "../common";
+import useConfig from "./useConfig";
 
-const defaultAttach = 'body';
+const defaultAttach = "body";
 /**
  * useAttach
  *
@@ -14,12 +14,8 @@ const useAttach = (name: string, attach: AttachNode | undefined) => {
   const globalConfig = useConfig();
 
   const attachVal = useMemo<AttachNode>(
-    () =>
-      attach ||
-      globalConfig?.attach?.[name] ||
-      globalConfig?.attach ||
-      defaultAttach,
-    [name, attach, globalConfig?.attach],
+    () => attach || globalConfig?.attach?.[name] || globalConfig?.attach || defaultAttach,
+    [name, attach, globalConfig?.attach]
   );
 
   return attachVal;

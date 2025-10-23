@@ -1,12 +1,12 @@
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
-import { StyledProps } from '../common';
-import useConfig from '../hooks/useConfig';
-import { TdBadgeProps } from './type';
-import { badgeDefaultProps } from './defaultProps';
-import useDefaultProps from '../hooks/useDefaultProps';
+import React, { forwardRef } from "react";
+import classNames from "classnames";
+import { StyledProps } from "../common";
+import useConfig from "../hooks/useConfig";
+import { TdBadgeProps } from "./type";
+import { badgeDefaultProps } from "./defaultProps";
+import useDefaultProps from "../hooks/useDefaultProps";
 
-export interface BadgeProps extends TdBadgeProps, StyledProps { }
+export interface BadgeProps extends TdBadgeProps, StyledProps {}
 
 const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   const {
@@ -31,18 +31,18 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   const badgeClassName = classNames(
     !childNode && `${classPrefix}-badge--static`,
     dot ? `${classPrefix}-badge--dot` : `${classPrefix}-badge--${shape}`,
-    size === 'small' && `${classPrefix}-size-s`,
-    !childNode && className,
+    size === "small" && `${classPrefix}-size-s`,
+    !childNode && className
   );
   const getDisplayCount = () => {
-    if (typeof count === 'number' && count > maxCount) {
+    if (typeof count === "number" && count > maxCount) {
       return `${maxCount}+`;
     }
     return count;
   };
 
   let isHidden = !count;
-  if (typeof count === 'number') {
+  if (typeof count === "number") {
     isHidden = count < 1 && !showZero;
   }
 
@@ -80,6 +80,6 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   );
 });
 
-Badge.displayName = 'Badge';
+Badge.displayName = "Badge";
 
 export default Badge;

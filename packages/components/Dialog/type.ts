@@ -1,6 +1,6 @@
-import { KeyboardEvent, MouseEvent } from 'react';
-import { ButtonProps } from '../button';
-import { AttachNode, Styles, TNode } from '../common';
+import { KeyboardEvent, MouseEvent } from "react";
+import { ButtonProps } from "../button";
+import { AttachNode, Styles, TNode } from "../common";
 
 export interface TdDialogProps {
   /**
@@ -84,12 +84,12 @@ export interface TdDialogProps {
    * 对话框类型，有 3 种：模态对话框、非模态对话框、全屏对话框。弹出「模态对话框」时，只能操作对话框里面的内容，不能操作其他内容。弹出「非模态对话框」时，则可以操作页面内所有内容。「普通对话框」是指没有脱离文档流的对话框，可以在这个基础上开发更多的插件
    * @default modal
    */
-  mode?: 'modal' | 'modeless' | 'full-screen';
+  mode?: "modal" | "modeless" | "full-screen";
   /**
    * 对话框位置，内置两种：垂直水平居中显示 和 靠近顶部（top:20%）显示。默认情况，为避免贴顶或贴底，顶部和底部距离最小为 `48px`，可通过调整 `top` 覆盖默认大小
    * @default top
    */
-  placement?: 'top' | 'center';
+  placement?: "top" | "center";
   /**
    * 防止滚动穿透
    * @default true
@@ -109,7 +109,7 @@ export interface TdDialogProps {
    * 对话框风格
    * @default default
    */
-  theme?: 'default' | 'info' | 'warning' | 'danger' | 'success';
+  theme?: "default" | "info" | "warning" | "danger" | "success";
   /**
    * 用于弹框具体窗口顶部的距离，优先级大于 placement
    */
@@ -153,9 +153,7 @@ export interface TdDialogProps {
   /**
    * 如果“确认”按钮存在，则点击“确认”按钮时触发，或者键盘按下回车键时触发
    */
-  onConfirm?: (context: {
-    e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLDivElement>;
-  }) => void;
+  onConfirm?: (context: { e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLDivElement> }) => void;
   /**
    * 按下 ESC 时触发事件
    */
@@ -173,20 +171,20 @@ export interface TdDialogProps {
 export interface TdDialogCardProps
   extends Pick<
     TdDialogProps,
-    | 'body'
-    | 'cancelBtn'
-    | 'closeBtn'
-    | 'confirmBtn'
-    | 'footer'
-    | 'header'
-    | 'theme'
-    | 'onCancel'
-    | 'onCloseBtnClick'
-    | 'onConfirm'
-    | 'confirmLoading'
+    | "body"
+    | "cancelBtn"
+    | "closeBtn"
+    | "confirmBtn"
+    | "footer"
+    | "header"
+    | "theme"
+    | "onCancel"
+    | "onCloseBtnClick"
+    | "onConfirm"
+    | "confirmLoading"
   > {}
 
-export interface DialogOptions extends Omit<TdDialogProps, 'attach'> {
+export interface DialogOptions extends Omit<TdDialogProps, "attach"> {
   /**
    * 对话框挂载的节点。数据类型为 String 时，会被当作选择器处理，进行节点查询。示例：'body' 或 () => document.body
    * @default 'body'
@@ -226,7 +224,7 @@ export interface DialogInstance {
   update: (props: DialogOptions) => void;
 }
 
-export type DialogEventSource = 'esc' | 'close-btn' | 'cancel' | 'overlay';
+export type DialogEventSource = "esc" | "close-btn" | "cancel" | "overlay";
 
 export interface DialogCloseContext {
   trigger: DialogEventSource;
@@ -237,6 +235,4 @@ export type DialogMethod = (options?: DialogOptions) => DialogInstance;
 
 export type DialogConfirmMethod = (options?: DialogOptions) => DialogInstance;
 
-export type DialogAlertMethod = (
-  options?: Omit<DialogOptions, 'cancelBtn'>,
-) => DialogInstance;
+export type DialogAlertMethod = (options?: Omit<DialogOptions, "cancelBtn">) => DialogInstance;

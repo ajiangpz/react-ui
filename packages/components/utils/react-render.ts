@@ -1,8 +1,8 @@
 // Implementation reference from: https://github.com/react-component/util/blob/master/src/React/render.ts
 // @ts-ignore
-import type * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import type { Root } from 'react-dom/client';
+import type * as React from "react";
+import * as ReactDOM from "react-dom";
+import type { Root } from "react-dom/client";
 
 // Let compiler not to search module usage
 const fullClone = {
@@ -21,13 +21,13 @@ const { version, render: reactRender, unmountComponentAtNode } = fullClone;
 
 let legacyCreateRoot: CreateRoot;
 try {
-  const mainVersion = Number((version || '').split('.')[0]);
+  const mainVersion = Number((version || "").split(".")[0]);
   if (mainVersion >= 18 && mainVersion < 19) {
     legacyCreateRoot = fullClone.createRoot;
   }
-  if (process.env.NODE_ENV !== 'production' && mainVersion >= 19) {
+  if (process.env.NODE_ENV !== "production" && mainVersion >= 19) {
     console.warn(
-      'TDesign warning: Please import react-19-adapter in React 19, See link: https://github.com/Tencent/tdesign-react/blob/develop/packages/tdesign-react/site/docs/getting-started.md#如何在-react-19-中使用',
+      "TDesign warning: Please import react-19-adapter in React 19, See link: https://github.com/Tencent/tdesign-react/blob/develop/packages/tdesign-react/site/docs/getting-started.md#如何在-react-19-中使用"
     );
   }
 } catch (e) {
@@ -39,14 +39,13 @@ function toggleWarning(skip: boolean) {
 
   if (
     __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED &&
-    typeof __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED === 'object'
+    typeof __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED === "object"
   ) {
-    __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.usingClientEntryPoint =
-      skip;
+    __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.usingClientEntryPoint = skip;
   }
 }
 
-const MARK = '__td_react_root__';
+const MARK = "__td_react_root__";
 
 // ========================== Render ==========================
 type ContainerType = (Element | DocumentFragment) & {

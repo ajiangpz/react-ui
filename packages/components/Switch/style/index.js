@@ -1,1 +1,1 @@
-import '../../styles/components/switch/_index.scss';
+import "../../styles/components/switch/_index.scss";

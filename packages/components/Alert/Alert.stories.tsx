@@ -1,11 +1,11 @@
-import React from 'react';
-import { Meta, StoryObj } from '@storybook/react-vite';
+import React from "react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 
-import { Alert } from './index';
+import { Alert } from "./index";
 const meta: Meta<typeof Alert> = {
-  title: 'Components/Alert',
+  title: "Components/Alert",
   component: Alert,
-  tags: ['autodocs']
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -20,16 +20,16 @@ const Base = () => (
 );
 export const Default: Story = {
   args: {},
-  render: () => <Base></Base>
+  render: () => <Base></Base>,
 };
 
 const Collapse = () => {
   const message = [
-    '1.这是一条普通的消息提示描述，',
-    '2.这是一条普通的消息提示描述，',
-    '3.这是一条普通的消息提示描述，',
-    '4.这是一条普通的消息提示描述，',
-    '5.这是一条普通的消息提示描述，'
+    "1.这是一条普通的消息提示描述，",
+    "2.这是一条普通的消息提示描述，",
+    "3.这是一条普通的消息提示描述，",
+    "4.这是一条普通的消息提示描述，",
+    "5.这是一条普通的消息提示描述，",
   ];
   return <Alert message={message} maxLine={2} closeBtn />;
 };

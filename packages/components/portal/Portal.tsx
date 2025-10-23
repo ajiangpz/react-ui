@@ -1,8 +1,8 @@
-import React, { forwardRef, useMemo, useImperativeHandle } from 'react';
-import { createPortal } from 'react-dom';
-import { canUseDocument } from '../utils/dom';
-import { AttachNode, AttachNodeReturnValue } from '../common';
-import useIsomorphicLayoutEffect from '../hooks/useLayoutEffect';
+import React, { forwardRef, useMemo, useImperativeHandle } from "react";
+import { createPortal } from "react-dom";
+import { canUseDocument } from "../utils/dom";
+import { AttachNode, AttachNodeReturnValue } from "../common";
+import useIsomorphicLayoutEffect from "../hooks/useLayoutEffect";
 
 export interface PortalProps {
   /**
@@ -17,20 +17,17 @@ export interface PortalProps {
 }
 // 获取挂载的 HTML 节点
 
-export function getAttach(
-  attach: PortalProps['attach'],
-  triggerNode?: HTMLElement,
-): AttachNodeReturnValue {
+export function getAttach(attach: PortalProps["attach"], triggerNode?: HTMLElement): AttachNodeReturnValue {
   if (!canUseDocument) return null;
 
   let el: AttachNodeReturnValue = null;
-  if (typeof attach === 'string') {
+  if (typeof attach === "string") {
     el = document.querySelector(attach);
   }
-  if (typeof attach === 'function') {
+  if (typeof attach === "function") {
     el = attach(triggerNode);
   }
-  if (typeof attach === 'object' && attach instanceof window.HTMLElement) {
+  if (typeof attach === "object" && attach instanceof window.HTMLElement) {
     el = attach;
   }
 
@@ -43,8 +40,8 @@ export function getAttach(
 const Portal = forwardRef((props: PortalProps, ref) => {
   const { attach, children, triggerNode } = props;
   const container = useMemo(() => {
-    const div = document.createElement('div');
-    div.className = 'portal-container bg-primary';
+    const div = document.createElement("div");
+    div.className = "portal-container bg-primary";
     return div;
   }, []);
   // 兼容 SSR 环境
@@ -62,5 +59,5 @@ const Portal = forwardRef((props: PortalProps, ref) => {
   return canUseDocument ? createPortal(children, container) : null;
 });
 
-Portal.displayName = 'Portal';
+Portal.displayName = "Portal";
 export default Portal;

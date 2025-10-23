@@ -1,1 +1,1 @@
-import '../../styles/components/input/_index.scss';
+import "../../styles/components/input/_index.scss";

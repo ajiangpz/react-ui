@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { CheckProps } from '../common/Check';
+import { CheckProps } from "../common/Check";
 import { Checkbox } from "tendaui-react/es/index";
 import { useState } from "react";
 
 const meta: Meta<CheckProps> = {
   title: "Components/Checkbox",
   component: Checkbox,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -18,19 +18,23 @@ const CheckboxExample = ({ ...args }) => {
   return (
     <div className="flex gap-2">
       <Checkbox {...args}>未选中项</Checkbox>
-      <Checkbox indeterminate {...args}>半选状态</Checkbox>
+      <Checkbox indeterminate {...args}>
+        半选状态
+      </Checkbox>
       <Checkbox {...args} checked={value} onChange={setValue}>
         选中项
       </Checkbox>
-      <Checkbox {...args} disabled>未选禁用项</Checkbox>
+      <Checkbox {...args} disabled>
+        未选禁用项
+      </Checkbox>
       <Checkbox {...args} disabled defaultChecked>
         选中禁用项
       </Checkbox>
     </div>
   );
-}
+};
 
 // 基础示例
 export const Default: Story = {
-  render: ({ ...args }) => <CheckboxExample {...args}></CheckboxExample>
+  render: ({ ...args }) => <CheckboxExample {...args}></CheckboxExample>,
 };

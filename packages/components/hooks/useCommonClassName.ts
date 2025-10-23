@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import useConfig from './useConfig';
+import { useMemo } from "react";
+import useConfig from "./useConfig";
 
 export default function useCommonClassName() {
   const { classPrefix } = useConfig();
@@ -7,7 +7,7 @@ export default function useCommonClassName() {
   return useMemo(() => {
     const names = {
       SIZE: {
-        default: '',
+        default: "",
         xs: `${classPrefix}-size-xs`,
         small: `${classPrefix}-size-s`,
         medium: `${classPrefix}-size-m`,

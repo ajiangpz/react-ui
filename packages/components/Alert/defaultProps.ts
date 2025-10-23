@@ -1,3 +1,3 @@
-import { TdAlertProps } from './type';
+import { TdAlertProps } from "./type";
 
-export const alertDefaultProps: TdAlertProps = { closeBtn: false, maxLine: 0, theme: 'info' };
+export const alertDefaultProps: TdAlertProps = { closeBtn: false, maxLine: 0, theme: "info" };

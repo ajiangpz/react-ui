@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+import React, { forwardRef } from "react";
+import classNames from "classnames";
 
 export interface InputGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -24,6 +24,6 @@ const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>((props, ref) => {
   );
 });
 
-InputGroup.displayName = 'InputGroup';
+InputGroup.displayName = "InputGroup";
 
 export default InputGroup;

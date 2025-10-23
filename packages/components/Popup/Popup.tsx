@@ -1,27 +1,20 @@
-import { Placement, type Options } from '@popperjs/core';
-import { debounce, isFunction } from 'lodash-es';
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { getRefDom } from '../utils/ref';
-import Portal from '../portal/Portal';
-import useControlled from '../hooks/useControlled';
-import useDefaultProps from '../hooks/useDefaultProps';
-import useMutationObserver from '../hooks/useMutationObserver';
-import useWindowSize from '../hooks/useWindowSize';
-import useTrigger from './hooks/useTrigger';
-import type { TdPopupProps } from './type';
-import usePopper from '../hooks/usePopper';
-import { popupDefaultProps } from './defaultProps';
-import classNames from 'classnames';
-import { CSSTransition } from 'react-transition-group';
-import { getCssVarsValue } from '../utils/style';
-import useConfig from '../hooks/useConfig';
+import { Placement, type Options } from "@popperjs/core";
+import { debounce, isFunction } from "lodash-es";
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { getRefDom } from "../utils/ref";
+import Portal from "../portal/Portal";
+import useControlled from "../hooks/useControlled";
+import useDefaultProps from "../hooks/useDefaultProps";
+import useMutationObserver from "../hooks/useMutationObserver";
+import useWindowSize from "../hooks/useWindowSize";
+import useTrigger from "./hooks/useTrigger";
+import type { TdPopupProps } from "./type";
+import usePopper from "../hooks/usePopper";
+import { popupDefaultProps } from "./defaultProps";
+import classNames from "classnames";
+import { CSSTransition } from "react-transition-group";
+import { getCssVarsValue } from "../utils/style";
+import useConfig from "../hooks/useConfig";
 
 export interface PopupProps extends TdPopupProps {
   // 是否触发展开收起动画，内部下拉式组件使用
@@ -69,11 +62,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 全局配置
   const { height: windowHeight, width: windowWidth } = useWindowSize();
-  const [visible, onVisibleChange] = useControlled(
-    props,
-    'visible',
-    props.onVisibleChange as any,
-  );
+  const [visible, onVisibleChange] = useControlled(props, "visible", props.onVisibleChange as any);
   // 记录 popup 元素
   // 如果内容为 null 或 undefined，且 hideEmptyPopup 为 true，则不展示 popup
   const [popupElement, setPopupElement] = useState(null);
@@ -101,12 +90,8 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 转化 placement
   const popperPlacement = useMemo(
-    () =>
-      placement &&
-      (placement
-        .replace(/-(left|top)$/, '-start')
-        .replace(/-(right|bottom)$/, '-end') as Placement),
-    [placement],
+    () => placement && (placement.replace(/-(left|top)$/, "-start").replace(/-(right|bottom)$/, "-end") as Placement),
+    [placement]
   );
   // 获取 triggerNode
   const { getTriggerNode, getPopupProps, getTriggerDom } = useTrigger({
@@ -129,28 +114,20 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   });
 
   // arrow modifier 用于显示箭头
-  const hasArrowModifier = popperOptions?.modifiers?.some(
-    (modifier) => modifier.name === 'arrow',
-  );
+  const hasArrowModifier = popperOptions?.modifiers?.some((modifier) => modifier.name === "arrow");
   const { styles, attributes } = popperRef.current;
   // 获取 triggerNode
   // 如果 children 是函数，则调用函数获取 triggerNode
   // getTriggerNode 设置触发元素的事件
-  const triggerNode = isFunction(children)
-    ? getTriggerNode(children({ visible }))
-    : getTriggerNode(children);
+  const triggerNode = isFunction(children) ? getTriggerNode(children({ visible })) : getTriggerNode(children);
 
   const updateTimeRef = useRef(null);
   // 监听 trigger 节点或内容变化动态更新 popup 定位
   useMutationObserver(getRefDom(triggerRef), () => {
-    const isDisplayNone =
-      getCssVarsValue('display', getRefDom(triggerRef)) === 'none';
+    const isDisplayNone = getCssVarsValue("display", getRefDom(triggerRef)) === "none";
     if (visible && !isDisplayNone) {
       clearTimeout(updateTimeRef.current as any);
-      updateTimeRef.current = setTimeout(
-        () => popperRef.current?.update?.(),
-        0,
-      ) as any;
+      updateTimeRef.current = setTimeout(() => popperRef.current?.update?.(), 0) as any;
     }
   });
   // 清理定时器
@@ -172,27 +149,19 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   }, [visible, updateScrollTop, getTriggerDom]);
 
   function handleExited() {
-    !destroyOnClose &&
-      popupElement &&
-      ((popupElement as HTMLElement).style.display = 'none');
+    !destroyOnClose && popupElement && ((popupElement as HTMLElement).style.display = "none");
   }
   function handleEnter() {
-    !destroyOnClose &&
-      popupElement &&
-      ((popupElement as HTMLElement).style.display = 'block');
+    !destroyOnClose && popupElement && ((popupElement as HTMLElement).style.display = "block");
   }
 
   function handleScroll(e: React.WheelEvent<HTMLDivElement>) {
     onScroll?.({ e });
 
     // 防止多次触发添加截流
-    const debounceOnScrollBottom = debounce(
-      (e) => onScrollToBottom?.({ e }),
-      100,
-    );
+    const debounceOnScrollBottom = debounce((e) => onScrollToBottom?.({ e }), 100);
 
-    const { scrollTop, clientHeight, scrollHeight } =
-      e.target as HTMLDivElement;
+    const { scrollTop, clientHeight, scrollHeight } = e.target as HTMLDivElement;
     // windows 下滚动会出现小数，所以这里取整
     if (clientHeight + Math.floor(scrollTop) === scrollHeight) {
       // touch bottom
@@ -201,12 +170,8 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   }
 
   // 整理浮层样式
-  function getOverlayStyle(overlayStyle: TdPopupProps['overlayStyle']) {
-    if (
-      getRefDom(triggerRef) &&
-      popupRef.current &&
-      typeof overlayStyle === 'function'
-    ) {
+  function getOverlayStyle(overlayStyle: TdPopupProps["overlayStyle"]) {
+    if (getRefDom(triggerRef) && popupRef.current && typeof overlayStyle === "function") {
       return { ...overlayStyle(getRefDom(triggerRef), popupRef.current) };
     }
     return { ...overlayStyle };
@@ -224,13 +189,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       classNames={`${classPrefix}-portal`}
     >
       <Portal triggerNode={getRefDom(triggerRef)} attach="body" ref={portalRef}>
-        <CSSTransition
-          appear
-          timeout={0}
-          in={visible}
-          nodeRef={popupRef}
-          classNames={`${classPrefix}-popup`}
-        >
+        <CSSTransition appear timeout={0} in={visible} nodeRef={popupRef} classNames={`${classPrefix}-popup`}>
           <div
             ref={(node) => {
               if (node) {
@@ -243,7 +202,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
               zIndex,
               ...getOverlayStyle(overlayStyle),
             }}
-            className={classNames(`${classPrefix}-popup`, overlayClassName, '')}
+            className={classNames(`${classPrefix}-popup`, overlayClassName, "")}
             {...attributes.popper}
             {...getPopupProps()}
           >
@@ -254,7 +213,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
                 {
                   [`${classPrefix}-popup__content--arrow`]: showArrow,
                 },
-                overlayInnerClassName,
+                overlayInnerClassName
               )}
               style={getOverlayStyle(overlayInnerStyle)}
               onScroll={handleScroll}
@@ -264,7 +223,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
                 <div
                   style={(styles as any).arrow}
                   className={`${classPrefix}-popup__arrow`}
-                  {...(hasArrowModifier && { 'data-popper-arrow': '' })}
+                  {...(hasArrowModifier && { "data-popper-arrow": "" })}
                 />
               )}
             </div>
@@ -282,8 +241,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     getPopupElement: () => popupRef.current as any,
     getPortalElement: () => portalRef.current as any,
     getPopupContentElement: () => contentRef.current as any,
-    setVisible: (visible: boolean) =>
-      onVisibleChange(visible, { trigger: 'document' }),
+    setVisible: (visible: boolean) => onVisibleChange(visible, { trigger: "document" }),
   }));
   // 这里使用 React.Fragment 包裹 triggerNode 和 overlay，确保返回一个单一的父节点
   // 这样可以避免在渲染时出现多个根节点的错误
@@ -295,6 +253,6 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   );
 });
 
-Popup.displayName = 'Popup';
+Popup.displayName = "Popup";
 
 export default Popup;

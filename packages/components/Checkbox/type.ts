@@ -1,6 +1,5 @@
-
-import { TNode } from '../common';
-import { MouseEvent, ChangeEvent } from 'react';
+import { TNode } from "../common";
+import { MouseEvent, ChangeEvent } from "react";
 
 export interface TdCheckboxProps {
   /**
@@ -114,5 +113,5 @@ export interface CheckboxGroupChangeContext {
   e: ChangeEvent<HTMLDivElement>;
   current: CheckboxOption | TdCheckboxProps;
   option: CheckboxOption | TdCheckboxProps;
-  type: 'check' | 'uncheck';
+  type: "check" | "uncheck";
 }

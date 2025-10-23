@@ -1,5 +1,5 @@
 export const inputDefaultProps = {
-  align: 'left',
+  align: "left",
   allowInputOverMax: false,
   autoWidth: false,
   autocomplete: undefined,
@@ -14,9 +14,9 @@ export const inputDefaultProps = {
   readonly: false,
   showClearIconOnEmpty: false,
   showLimitNumber: false,
-  size: 'medium',
+  size: "medium",
   spellCheck: false,
-  status: 'default',
-  type: 'text',
-  defaultValue: '',
+  status: "default",
+  type: "text",
+  defaultValue: "",
 };

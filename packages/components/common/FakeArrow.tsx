@@ -1,8 +1,8 @@
-import React from 'react';
-import classNames from 'classnames';
-import { ClassName } from '../common';
+import React from "react";
+import classNames from "classnames";
+import { ClassName } from "../common";
 
-import useConfig from '../hooks/useConfig';
+import useConfig from "../hooks/useConfig";
 
 // 翻转箭头统一组件
 function FakeArrow(props: {
@@ -18,10 +18,9 @@ function FakeArrow(props: {
       className={classNames(
         `${classPrefix}-fake-arrow`,
         {
-          [`${classPrefix}-fake-arrow--active`]:
-            props?.isActive && !props?.disabled,
+          [`${classPrefix}-fake-arrow--active`]: props?.isActive && !props?.disabled,
         },
-        props?.className,
+        props?.className
       )}
       width="16"
       height="16"
@@ -29,12 +28,7 @@ function FakeArrow(props: {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M3.75 5.7998L7.99274 10.0425L12.2361 5.79921"
-        stroke="black"
-        strokeOpacity="0.9"
-        strokeWidth="1.3"
-      />
+      <path d="M3.75 5.7998L7.99274 10.0425L12.2361 5.79921" stroke="black" strokeOpacity="0.9" strokeWidth="1.3" />
     </svg>
   );
 }

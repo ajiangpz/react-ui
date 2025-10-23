@@ -1,10 +1,10 @@
-import _Loading from './Loading';
+import _Loading from "./Loading";
 // import { LoadingPlugin as _LoadingPlugin } from './plugin';
 
-import './style/index.js';
+import "./style/index.js";
 
-export type { LoadingProps } from './Loading';
-export * from './type';
+export type { LoadingProps } from "./Loading";
+export * from "./type";
 
 export const Loading = _Loading;
 // export const loading = _LoadingPlugin;

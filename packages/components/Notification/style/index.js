@@ -1,1 +1,1 @@
-import '../../styles/components/notification/_index.scss';
+import "../../styles/components/notification/_index.scss";
