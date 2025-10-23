@@ -7,11 +7,11 @@ export const defaultGlobalConfig: GlobalConfigProvider = {
   attach: null,
   form: {},
   icon: {},
-  isContextEffectPlugin: false,
+  isContextEffectPlugin: false
 };
 
 export const defaultContext = {
-  globalConfig: defaultGlobalConfig,
+  globalConfig: defaultGlobalConfig
 };
 
 export type Config = typeof defaultContext;

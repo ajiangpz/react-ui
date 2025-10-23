@@ -68,7 +68,7 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
         [
           `${classPrefix}-button`,
           `${classPrefix}-button--theme-${renderTheme}`,
-          `${classPrefix}-button--variant-${variant}`,
+          `${classPrefix}-button--variant-${variant}`
         ],
         {
           [`${classPrefix}-button--shape-${shape}`]: shape !== "rectangle",
@@ -77,10 +77,10 @@ const Button = forwardRef((originProps: ButtonProps, ref: React.ForwardedRef<HTM
           [`${classPrefix}-is-disabled`]: disabled,
           [`${classPrefix}-size-s`]: size === "small",
           [`${classPrefix}-size-l`]: size === "large",
-          [`${classPrefix}-size-full-width`]: block,
+          [`${classPrefix}-size-full-width`]: block
         }
       ),
-      onClick: !disabled && !loading ? onClick : undefined,
+      onClick: !disabled && !loading ? onClick : undefined
     },
     <>
       {iconNode}

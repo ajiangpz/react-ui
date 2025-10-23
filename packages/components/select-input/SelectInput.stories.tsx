@@ -7,7 +7,7 @@ import { IconSearch } from "tendaui-react-icons";
 const meta: Meta<typeof SelectInput> = {
   title: "Components/SelectInput",
   component: SelectInput,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -98,5 +98,5 @@ const SelectInputAutocomplete = (args: SelectInputProps) => {
 type Story = StoryObj<typeof SelectInput>;
 export const Default: Story = {
   args: {},
-  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />,
+  render: (args: SelectInputProps) => <SelectInputAutocomplete {...args} />
 };

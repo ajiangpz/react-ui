@@ -33,7 +33,7 @@ const useControlled: <P extends any[], R extends object, K extends keyof R>(
     (newValue, ...args) => {
       setInternalValue(newValue);
       onChange?.(newValue, ...args);
-    },
+    }
   ];
 };
 

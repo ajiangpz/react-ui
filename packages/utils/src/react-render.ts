@@ -1,12 +1,12 @@
 // Implementation reference from: https://github.com/react-component/util/blob/master/src/React/render.ts
-// @ts-ignore
+// @ts-expect-error React types are not available in this context
 import type * as React from "react";
 import * as ReactDOM from "react-dom";
 import type { Root } from "react-dom/client";
 
 // Let compiler not to search module usage
 const fullClone = {
-  ...ReactDOM,
+  ...ReactDOM
 } as typeof ReactDOM & {
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED?: {
     usingClientEntryPoint?: boolean;
@@ -16,7 +16,7 @@ const fullClone = {
 
 type CreateRoot = (container: ContainerType) => Root;
 
-// @ts-ignore
+// @ts-expect-error ReactDOM internal API access
 const { version, render: reactRender, unmountComponentAtNode } = fullClone;
 
 let legacyCreateRoot: CreateRoot;
@@ -30,7 +30,7 @@ try {
       "TDesign warning: Please import react-19-adapter in React 19, See link: https://github.com/Tencent/tdesign-react/blob/develop/packages/tdesign-react/site/docs/getting-started.md#如何在-react-19-中使用"
     );
   }
-} catch (e) {
+} catch {
   // Do nothing;
 }
 
@@ -59,7 +59,6 @@ function modernRender(node: React.ReactElement, container: ContainerType) {
 
   root.render(node);
 
-  // eslint-disable-next-line
   container[MARK] = root;
 }
 
@@ -82,7 +81,6 @@ async function modernUnmount(container: ContainerType) {
   return Promise.resolve().then(() => {
     container[MARK]?.unmount();
 
-    // eslint-disable-next-line
     delete container[MARK];
   });
 }

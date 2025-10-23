@@ -24,7 +24,7 @@ export default function useFormItemStyle(props) {
     requiredMark,
     requiredMarkPosition,
     showErrorMessage,
-    innerRules,
+    innerRules
   } = props;
 
   // 传入 status 时受控
@@ -67,7 +67,7 @@ export default function useFormItemStyle(props) {
   const formItemClass = classNames(`${classPrefix}-form__item`, className, {
     [`${classPrefix}-form-item__${formSnakeName}`]: formSnakeName,
     [`${classPrefix}-form__item-with-help`]: helpNode,
-    [`${classPrefix}-form__item-with-extra`]: extraNode,
+    [`${classPrefix}-form__item-with-extra`]: extraNode
   });
 
   const formItemLabelClass = classNames(`${classPrefix}-form__label`, {
@@ -75,7 +75,7 @@ export default function useFormItemStyle(props) {
     [`${classPrefix}-form__label--required-right`]: needRequiredMark && requiredMarkPosition === "right",
     [`${classPrefix}-form__label--top`]: labelAlign === "top" || !labelWidth,
     [`${classPrefix}-form__label--left`]: labelAlign === "left" && labelWidth,
-    [`${classPrefix}-form__label--right`]: labelAlign === "right" && labelWidth,
+    [`${classPrefix}-form__label--right`]: labelAlign === "right" && labelWidth
   });
 
   const contentClass = () => {
@@ -85,7 +85,7 @@ export default function useFormItemStyle(props) {
     const isSuccess = renderStatus === ValidateStatus.SUCCESS;
     if (isSuccess) {
       return classNames(controlCls, `${classPrefix}-is-success`, {
-        [`${classPrefix}-form--success-border`]: successBorder,
+        [`${classPrefix}-form--success-border`]: successBorder
       });
     }
 
@@ -93,7 +93,7 @@ export default function useFormItemStyle(props) {
       [`${classPrefix}-is-warning`]: renderStatus === "warning",
       [`${classPrefix}-is-error`]: ["fail", "error"].includes(renderStatus),
       [`${classPrefix}-form--has-error`]:
-        renderStatus === ValidateStatus.ERROR || renderStatus === ValidateStatus.WARNING,
+        renderStatus === ValidateStatus.ERROR || renderStatus === ValidateStatus.WARNING
     });
   };
 
@@ -116,6 +116,6 @@ export default function useFormItemStyle(props) {
     labelStyle,
     contentStyle,
     helpNode,
-    extraNode,
+    extraNode
   };
 }

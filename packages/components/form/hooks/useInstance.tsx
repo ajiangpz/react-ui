@@ -6,7 +6,7 @@ import type {
   FormResetParams,
   FormValidateMessage,
   AllValidateResult,
-  NamePath,
+  NamePath
 } from "../type";
 import useConfig from "../../hooks/useConfig";
 import { getMapValue, objectToArray, travelMapFromObject, calcFieldValue } from "../utils";
@@ -62,7 +62,9 @@ export default function useInstance(
   function scrollTo(selector: string) {
     const dom = formRef.current.querySelector?.(selector);
     const behavior = scrollToFirstError as ScrollBehavior;
-    dom && dom.scrollIntoView({ behavior });
+    if (dom) {
+      dom.scrollIntoView({ behavior });
+    }
   }
 
   // 对外方法 手动提交表单
@@ -265,7 +267,6 @@ export default function useInstance(
     getValidateMessage,
     getFieldValue,
     getFieldsValue,
-    currentElement: formRef.current,
-    getCurrentElement: () => formRef.current,
+    getCurrentElement: () => formRef.current
   };
 }

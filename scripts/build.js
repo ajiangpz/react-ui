@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const { execSync } = require("child_process");
-const path = require("path");
 
 const packages = ["@tendaui/utils", "@tendaui/icons", "@tendaui/components"];
 
@@ -10,7 +9,7 @@ function buildPackage(packageName) {
   try {
     execSync(`pnpm --filter ${packageName} build`, {
       stdio: "inherit",
-      cwd: process.cwd(),
+      cwd: process.cwd()
     });
     console.log(`✅ ${packageName} built successfully`);
   } catch (error) {

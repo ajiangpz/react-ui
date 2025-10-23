@@ -11,7 +11,7 @@ export const tagDefaultProps: TdTagProps = {
   shape: "square",
   size: "medium",
   theme: "default",
-  variant: "dark",
+  variant: "dark"
 };
 
 export const checkTagDefaultProps: TdCheckTagProps = { disabled: false, size: "medium" };

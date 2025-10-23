@@ -43,7 +43,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     borderless,
     placeholder = "请输入内容",
     disabled,
-    status,
     size,
     className,
     inputClass,
@@ -53,8 +52,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     clearable,
     tips,
     align,
-    maxlength,
-    maxcharacter,
     showClearIconOnEmpty,
     autofocus,
     autocomplete,
@@ -63,9 +60,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     suffix,
     showInput = true,
     keepWrapperWidth,
-    showLimitNumber,
     allowInput,
-    allowInputOverMax,
     name,
     format,
     onClick,
@@ -82,7 +77,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     onWheel,
     onCompositionstart,
     onCompositionend,
-    onValidate,
     onChange: onChangeFromProps,
     ...restProps
   } = props;
@@ -179,7 +173,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       placeholder={placeholder}
       type={renderType}
       className={classNames(`${classPrefix}-input__inner`, {
-        [`${classPrefix}-input--soft-hidden`]: !showInput,
+        [`${classPrefix}-input--soft-hidden`]: !showInput
       })}
       value={formatDisplayValue}
       readOnly={isInnerInputReadonly}
@@ -210,7 +204,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
         [`${classPrefix}-inpu${classPrefix}--prefix`]: prefixIcon || labelContent,
         [`${classPrefix}-inpu${classPrefix}--suffix`]: suffixIconContent || suffixContent,
         [`${classPrefix}-inpu${classPrefix}--borderless`]: borderless,
-        [`${classPrefix}-input--focused`]: isFocused,
+        [`${classPrefix}-input--focused`]: isFocused
       })}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -284,22 +278,24 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
       key,
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
-    key === "Enter" && onEnter?.(value, { e });
+    if (key === "Enter") {
+      onEnter?.(value, { e });
+    }
     onKeydown?.(value, { e });
   }
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onKeyup?.(value, { e });
   }
 
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onKeypress?.(value, { e });
   }
@@ -307,14 +303,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleCompositionStart(e: React.CompositionEvent<HTMLInputElement>) {
     composingRef.current = true;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onCompositionstart?.(value, { e });
   }
 
   function handleCompositionEnd(e: React.CompositionEvent<HTMLInputElement>) {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     if (composingRef.current) {
       composingRef.current = false;
@@ -326,7 +322,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onFocus?.(value, { e });
     toggleIsFocused(true);
@@ -335,7 +331,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
     if (isInnerInputReadonly) return;
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = e;
     onBlur?.(value, { e });
     toggleIsFocused(false);
@@ -348,12 +344,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   }
 
   function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
-    !readonly && toggleIsHover(true);
+    if (!readonly) {
+      toggleIsHover(true);
+    }
     onMouseenter?.({ e });
   }
 
   function handleMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
-    !readonly && toggleIsHover(false);
+    if (!readonly) {
+      toggleIsHover(false);
+    }
     onMouseleave?.({ e });
   }
 
@@ -362,7 +362,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     inputElement: inputRef.current,
     focus: () => inputRef.current?.focus(),
     blur: () => inputRef.current?.blur(),
-    select: () => inputRef.current?.select(),
+    select: () => inputRef.current?.select()
   }));
 
   return (
@@ -370,7 +370,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       ref={wrapperRef}
       style={style}
       className={classNames(`${classPrefix}-input__wrap`, className, {
-        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth,
+        [`${classPrefix}-input--auto-width`]: autoWidth && !keepWrapperWidth
       })}
       {...restProps}
     >

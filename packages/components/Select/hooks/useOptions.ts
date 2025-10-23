@@ -41,12 +41,12 @@ function UseOptions(
             return {
               ...v.props,
               group: v.props.label,
-              children: v.props.children?.map((v) => handlerOptionElement(v)),
+              children: v.props.children?.map((v) => handlerOptionElement(v))
             };
           }
           return {
             ...v.props,
-            label: v.props.label || v.props.children,
+            label: v.props.label || v.props.children
           };
         }
         return { label: v };
@@ -58,7 +58,7 @@ function UseOptions(
       transformedOptions = transformedOptions?.map<SelectOption>((option) => ({
         ...option,
         value: get(option, keys?.value || "value"),
-        label: get(option, keys?.label || "label"),
+        label: get(option, keys?.label || "label")
       }));
     }
     setCurrentOptions(transformedOptions);
@@ -80,7 +80,7 @@ function UseOptions(
             valueToOption[item as string | number] ||
             oldSelectedOptions.find((option) => get(option, valueKey) === item) || {
               [valueKey]: item,
-              [labelKey]: item,
+              [labelKey]: item
             }
           );
         }
@@ -113,7 +113,7 @@ function UseOptions(
     valueToOption,
     setValueToOption,
     selectedOptions,
-    setSelectedOptions,
+    setSelectedOptions
   };
 }
 

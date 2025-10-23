@@ -8,7 +8,7 @@ export const getWindowSize = (): { width: number; height: number } => {
   }
   return {
     width: window.innerWidth || document.documentElement.clientWidth,
-    height: window.innerHeight || document.documentElement.clientHeight,
+    height: window.innerHeight || document.documentElement.clientHeight
   };
 };
 

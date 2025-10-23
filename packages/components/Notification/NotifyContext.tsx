@@ -46,7 +46,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
   maxStack = 5,
   displayDuration = 3000,
-  position = "top-right",
+  position = "top-right"
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const timersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -86,7 +86,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         title: message.title,
         message: message.message,
         createdAt: Date.now(),
-        isRemoved: false,
+        isRemoved: false
       };
 
       setNotifications((prev) => {
@@ -118,7 +118,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         setNotifications((prev) => prev.filter((t) => t.id !== id));
         clearNotificationTimer(id);
         pausedAtRef.current.delete(id);
-      },
+      }
     }),
     [addNotification, clearNotificationTimer]
   );

@@ -2,7 +2,7 @@ import React, { forwardRef, ReactNode, useEffect, useImperativeHandle, useMemo, 
 import {
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
   IconClose as TdCloseCircleFilledIcon,
-  IconClose as TdErrorCircleFilledIcon,
+  IconClose as TdErrorCircleFilledIcon
 } from "tendaui-react-icons";
 import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from "lodash-es";
 import { StyledProps } from "../common";
@@ -23,7 +23,7 @@ import type {
   FormRule,
   NamePath,
   TdFormItemProps,
-  ValueType,
+  ValueType
 } from "./type";
 import { calcFieldValue } from "./utils";
 
@@ -35,15 +35,15 @@ export interface FormItemInstance {
   name?: NamePath;
   isUpdated?: boolean;
   value?: any;
-  getValue?: Function;
-  setValue?: Function;
-  setField?: Function;
-  validate?: Function;
-  resetField?: Function;
-  setValidateMessage?: Function;
-  getValidateMessage?: Function;
-  resetValidate?: Function;
-  validateOnly?: Function;
+  getValue?: (...args: unknown[]) => unknown;
+  setValue?: (...args: unknown[]) => unknown;
+  setField?: (...args: unknown[]) => unknown;
+  validate?: (...args: unknown[]) => unknown;
+  resetField?: (...args: unknown[]) => unknown;
+  setValidateMessage?: (...args: unknown[]) => unknown;
+  getValidateMessage?: (...args: unknown[]) => unknown;
+  resetValidate?: (...args: unknown[]) => unknown;
+  validateOnly?: (...args: unknown[]) => unknown;
   isFormList?: boolean;
 }
 
@@ -53,7 +53,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   const { CheckCircleFilledIcon, CloseCircleFilledIcon, ErrorCircleFilledIcon } = useGlobalIcon({
     CheckCircleFilledIcon: TdCheckCircleFilledIcon,
     CloseCircleFilledIcon: TdCloseCircleFilledIcon,
-    ErrorCircleFilledIcon: TdErrorCircleFilledIcon,
+    ErrorCircleFilledIcon: TdErrorCircleFilledIcon
   });
   const {
     form,
@@ -70,7 +70,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     statusIcon: statusIconFromContext,
     errorMessage,
     formMapRef,
-    onFormItemValueChange,
+    onFormItemValueChange
   } = useFormContext();
 
   const { name: formListName, rules: formListRules, formListMapRef, form: formOfFormList } = useFormListContext();
@@ -93,7 +93,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     rules: innerRules = getInnerRules(name, rulesFromContext, formListName, formListRules),
     labelWidth = labelWidthFromContext,
     labelAlign = labelAlignFromContext,
-    requiredMark = requiredMarkFromContext,
+    requiredMark = requiredMarkFromContext
   } = props;
 
   const { getDefaultInitialData } = useFormItemInitialData(name);
@@ -113,7 +113,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       storeValue ??
       getDefaultInitialData({
         children,
-        initialData,
+        initialData
       })
     );
   });
@@ -158,7 +158,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       requiredMark,
       requiredMarkPosition,
       showErrorMessage,
-      innerRules,
+      innerRules
     });
 
   // 更新 form 表单字段
@@ -202,7 +202,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       const iconMap = {
         success: <CheckCircleFilledIcon size="25px" />,
         error: <CloseCircleFilledIcon size="25px" />,
-        warning: <ErrorCircleFilledIcon size="25px" />,
+        warning: <ErrorCircleFilledIcon size="25px" />
       };
       if (verifyStatus === ValidateStatus.SUCCESS) {
         return resultIcon(iconMap[verifyStatus]);
@@ -215,7 +215,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     };
 
     if (React.isValidElement(statusIcon)) {
-      // @ts-ignore
+      // @ts-expect-error React.cloneElement type inference issue
       return resultIcon(React.cloneElement(statusIcon, { style: { color: "unset" }, ...statusIcon.props }));
     }
     if (statusIcon === true) {
@@ -231,7 +231,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       errorList: [],
       rules: [],
       resultList: [],
-      allowSetValue: false,
+      allowSetValue: false
     };
     result.rules = trigger === "all" ? innerRules : innerRules.filter((item) => (item.trigger || "change") === trigger);
     if (!result.rules?.length) {
@@ -245,10 +245,9 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       .map((item) => {
         Object.keys(item).forEach((key) => {
           if (!item.message && errorMessages[key]) {
-            // eslint-disable-next-line
             item.message = parseMessage(errorMessages[key], {
               validate: item[key],
-              name: isString(label) ? label : String(name),
+              name: isString(label) ? label : String(name)
             });
           }
         });
@@ -276,7 +275,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       errorList: innerErrorList,
       rules: validateRules,
       resultList,
-      allowSetValue,
+      allowSetValue
     } = await analysisValidateResult(trigger);
 
     // 缓存不同 trigger 下的错误信息 all 包含了所有场景需过滤
@@ -314,7 +313,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
     setResetValidating(false);
     return {
-      [snakeName]: innerErrorList.length === 0 ? true : resultList,
+      [snakeName]: innerErrorList.length === 0 ? true : resultList
     };
   }
 
@@ -322,7 +321,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     const { errorList: innerErrorList, resultList } = await analysisValidateResult(trigger);
 
     return {
-      [snakeName]: innerErrorList.length === 0 ? true : resultList,
+      [snakeName]: innerErrorList.length === 0 ? true : resultList
     };
   }
 
@@ -330,14 +329,16 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
   function handleItemBlur() {
     const filterRules = innerRules.filter((item) => item.trigger === "blur");
 
-    filterRules.length && validate("blur");
+    if (filterRules.length) {
+      validate("blur");
+    }
   }
 
   function getResetValue(resetType: string): ValueType {
     if (resetType === "initial") {
       return getDefaultInitialData({
         children,
-        initialData,
+        initialData
       });
     }
 
@@ -468,7 +469,9 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
     const filterRules = innerRules.filter((item) => (item.trigger || "change") === "change");
 
-    filterRules.length && validate("change");
+    if (filterRules.length) {
+      validate("change");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue, snakeName]);
 
@@ -485,7 +488,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     resetField,
     setValidateMessage,
     getValidateMessage,
-    resetValidate: resetHandler,
+    resetValidate: resetHandler
   };
   useImperativeHandle(ref, (): FormItemInstance => instance);
   useImperativeHandle(formItemRef, (): FormItemInstance => instance);
@@ -510,11 +513,11 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
             if (React.isValidElement(child)) {
               if (child.type === FormItem) {
                 return React.cloneElement(child, {
-                  // @ts-ignore
+                  // @ts-expect-error React.cloneElement ref type issue
                   ref: (el) => {
                     if (!el) return;
                     innerFormItemsRef.current[index] = el;
-                  },
+                  }
                 });
               }
               if (typeof child.type === "object") {
@@ -533,7 +536,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
                 onBlur: (value: any, ...args: any[]) => {
                   handleItemBlur();
                   childProps?.onBlur?.call?.(null, value, ...args);
-                },
+                }
               });
             }
             return child;

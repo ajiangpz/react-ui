@@ -19,9 +19,9 @@ function noopImport(options) {
 
       return {
         code: body,
-        map: null,
+        map: null
       };
-    },
+    }
   };
 }
 

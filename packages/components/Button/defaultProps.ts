@@ -9,5 +9,5 @@ export const buttonDefaultProps: TdButtonProps = {
   shape: "rectangle",
   size: "medium",
   type: "button",
-  variant: "base",
+  variant: "base"
 };

@@ -5,7 +5,7 @@ import React from "react";
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
   component: Button,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -15,8 +15,8 @@ type Story = StoryObj<typeof Button>;
 export const Default: Story = {
   args: {
     children: "按钮",
-    loading: false,
-  },
+    loading: false
+  }
 };
 const IconBackwardinCmp = <IconBackward></IconBackward>;
 const IconFastFowardCmp = <IconFastFoward></IconFastFoward>;
@@ -28,5 +28,5 @@ export const ButtonWithIcon: Story = {
       <Button icon={IconPlayCmp}></Button>
       <Button icon={IconFastFowardCmp}></Button>
     </div>
-  ),
+  )
 };

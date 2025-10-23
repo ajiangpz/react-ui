@@ -8,7 +8,7 @@ import {
   type Options as PopperOptions,
   type VirtualElement,
   type State as PopperState,
-  type Instance as PopperInstance,
+  type Instance as PopperInstance
 } from "@popperjs/core";
 
 import isEqual from "react-fast-compare";
@@ -70,7 +70,7 @@ const usePopper = (
     onFirstUpdate: options.onFirstUpdate,
     placement: options.placement || "bottom",
     strategy: options.strategy || "absolute",
-    modifiers: options.modifiers || EMPTY_MODIFIERS,
+    modifiers: options.modifiers || EMPTY_MODIFIERS
   };
 
   const [state, setState] = useState<State>({
@@ -78,13 +78,13 @@ const usePopper = (
       popper: {
         position: optionsWithDefaults.strategy,
         left: "0",
-        top: "0",
+        top: "0"
       },
       arrow: {
-        position: "absolute",
-      },
+        position: "absolute"
+      }
     },
-    attributes: {},
+    attributes: {}
   });
 
   const updateStateModifier = useMemo(
@@ -98,11 +98,11 @@ const usePopper = (
         flushSync(() => {
           setState({
             styles: fromEntries(elements.map((element) => [element, state.styles[element] || {}])),
-            attributes: fromEntries(elements.map((element) => [element, state.attributes[element]])),
+            attributes: fromEntries(elements.map((element) => [element, state.attributes[element]]))
           });
         });
       },
-      requires: ["computeStyles"],
+      requires: ["computeStyles"]
     }),
     []
   );
@@ -118,22 +118,25 @@ const usePopper = (
         {
           name: "applyStyles",
           enabled: false,
-          phase: "write" as ModifierPhases,
-        },
-      ],
+          phase: "write" as ModifierPhases
+        }
+      ]
     };
 
-    if (isEqual(prevOptions.current, newOptions)) {
-      return prevOptions.current || newOptions;
-    }
-    prevOptions.current = newOptions;
+    // 使用 setTimeout 避免在渲染期间访问 ref
+    setTimeout(() => {
+      if (!isEqual(prevOptions.current, newOptions)) {
+        prevOptions.current = newOptions;
+      }
+    }, 0);
+
     return newOptions;
   }, [
     optionsWithDefaults.onFirstUpdate,
     optionsWithDefaults.placement,
     optionsWithDefaults.strategy,
     optionsWithDefaults.modifiers,
-    updateStateModifier,
+    updateStateModifier
   ]);
 
   const popperInstanceRef = useRef<PopperInstance | null>(null);
@@ -160,12 +163,23 @@ const usePopper = (
     };
   }, [referenceElement, popperElement, options.createPopper]);
 
+  const getPopperInstance = () => popperInstanceRef.current;
+
   return {
-    state: popperInstanceRef.current ? popperInstanceRef.current.state : undefined,
+    get state() {
+      const instance = getPopperInstance();
+      return instance ? instance.state : undefined;
+    },
     styles: state.styles,
     attributes: state.attributes,
-    update: popperInstanceRef.current ? popperInstanceRef.current.update : null,
-    forceUpdate: popperInstanceRef.current ? popperInstanceRef.current.forceUpdate : null,
+    get update() {
+      const instance = getPopperInstance();
+      return instance ? instance.update : null;
+    },
+    get forceUpdate() {
+      const instance = getPopperInstance();
+      return instance ? instance.forceUpdate : null;
+    }
   };
 };
 

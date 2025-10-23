@@ -54,7 +54,7 @@ const useMouseEvent = (elementRef: React.RefObject<HTMLElement | null>, options:
     const top = clientY - rect.top;
     return {
       x: Math.min(Math.max(0, left), rect.width),
-      y: Math.min(Math.max(0, top), rect.height),
+      y: Math.min(Math.max(0, top), rect.height)
     };
   };
 
@@ -111,8 +111,12 @@ const useMouseEvent = (elementRef: React.RefObject<HTMLElement | null>, options:
     el.addEventListener("mousemove", handleMouseMove);
     el.addEventListener("mouseup", handleMouseUp);
     // 下面这两个一般是为了处理 hover 状态，可选性监听
-    options.onEnter && el.addEventListener("mouseenter", handleMouseEnter);
-    options.onLeave && el.addEventListener("mouseleave", handleMouseLeave);
+    if (options.onEnter) {
+      el.addEventListener("mouseenter", handleMouseEnter);
+    }
+    if (options.onLeave) {
+      el.addEventListener("mouseleave", handleMouseLeave);
+    }
 
     if (!enableTouch) return;
     el.addEventListener("touchstart", handleMouseDown, { passive: false });
@@ -131,7 +135,7 @@ const useMouseEvent = (elementRef: React.RefObject<HTMLElement | null>, options:
   }, [elementRef.current, options, enabled]);
 
   return {
-    isMoving: isMovingRef.current,
+    isMoving: isMovingRef.current
   };
 };
 

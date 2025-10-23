@@ -43,14 +43,14 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
 
   const { classPrefix } = useConfig();
   const { CloseIcon } = useGlobalIcon({
-    CloseIcon: IconClose,
+    CloseIcon: IconClose
   });
 
   const tagClassPrefix = `${classPrefix}-tag`;
 
   const sizeMap = {
     large: `${classPrefix}-size-l`,
-    small: `${classPrefix}-size-s`,
+    small: `${classPrefix}-size-s`
   };
 
   const tagClassNames = classNames(
@@ -60,7 +60,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     {
       [`${tagClassPrefix}--${shape}`]: shape !== "square",
       [`${tagClassPrefix}--ellipsis`]: !!maxWidth,
-      [`${tagClassPrefix}--disabled`]: disabled,
+      [`${tagClassPrefix}--disabled`]: disabled
     },
     sizeMap[size],
     className
@@ -114,7 +114,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     if (!maxWidth) return {};
 
     return {
-      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`,
+      maxWidth: isNaN(Number(maxWidth)) ? String(maxWidth) : `${maxWidth}px`
     };
   }, [maxWidth]);
 

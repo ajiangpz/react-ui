@@ -61,7 +61,7 @@ const Check = forwardRef<HTMLLabelElement, CheckProps>((_props, ref) => {
   const labelClassName = classNames(`${classPrefix}-${type}`, className, {
     [`${classPrefix}-is-checked`]: internalChecked,
     [`${classPrefix}-is-disabled`]: disabled,
-    [`${classPrefix}-is-indeterminate`]: indeterminate,
+    [`${classPrefix}-is-indeterminate`]: indeterminate
   });
 
   const isDisabled = disabled || readonly;

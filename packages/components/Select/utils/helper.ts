@@ -21,7 +21,7 @@ function setValueToOptionFormOptionDom(dom: ReactElement, valueToOption: ValueTo
   valueToOption[value] = {
     ...dom.props,
     [keys?.value || "value"]: value,
-    [keys?.label || "label"]: label || children || value,
+    [keys?.label || "label"]: label || children || value
   };
 }
 
@@ -41,14 +41,14 @@ export const getValueToOption = (
           valueToOption[get(child, keys?.value || "value")] = {
             ...child,
             value: get(child, keys?.value || "value"),
-            label: get(child, keys?.label || "label"),
+            label: get(child, keys?.label || "label")
           };
         });
       } else {
         valueToOption[get(option, keys?.value || "value")] = {
           ...(option as object),
           value: get(option, keys?.value || "value"),
-          label: get(option, keys?.label || "label"),
+          label: get(option, keys?.label || "label")
         } as never;
       }
     });
@@ -175,7 +175,7 @@ export const getLabel = (
 export const getMultipleTags = (values: SelectValue[], keys: SelectKeysType) => {
   const tags = values.map((item) => ({
     label: get(item, keys?.label || "label") || item.toString(),
-    value: get(item, keys?.value || "value") || item,
+    value: get(item, keys?.value || "value") || item
   }));
   return tags;
 };

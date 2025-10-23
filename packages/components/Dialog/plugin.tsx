@@ -59,7 +59,7 @@ const createDialog: DialogPluginType = (props: DialogOptions): DialogInstance =>
       requestAnimationFrame(() => {
         dialogRef.current?.destroy();
       });
-    },
+    }
   };
   return dialogNode;
 };

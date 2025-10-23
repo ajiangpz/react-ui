@@ -7,7 +7,7 @@ import { useState } from "react";
 const meta = {
   title: "Components/Dialog",
   component: Dialog,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 } satisfies Meta<typeof Dialog>;
 
 export default meta;
@@ -65,7 +65,7 @@ const Base = () => {
 
 export const Default: Story = {
   args: {},
-  render: () => <Base></Base>,
+  render: () => <Base></Base>
 };
 
 const Plugin = () => {
@@ -85,13 +85,13 @@ const Plugin = () => {
       },
       onCloseBtnClick: ({ e }) => {
         console.log("close btn: ", e);
-      },
+      }
     });
   };
   const handleDN = () => {
     const dialogNode = DialogPlugin({
       header: "Dialog-Plugin",
-      body: "Hi, darling! Do you want to be my lover?",
+      body: "Hi, darling! Do you want to be my lover?"
     });
     dialogNode.update({
       header: "Updated-Dialog-Plugin",
@@ -106,7 +106,7 @@ const Plugin = () => {
         console.log("e: ", e);
         console.log("trigger: ", trigger);
         dialogNode.hide();
-      },
+      }
     });
   };
   const onConfirm = () => {
@@ -124,7 +124,7 @@ const Plugin = () => {
         console.log("e: ", e);
         console.log("trigger: ", trigger);
         confirmDia.hide();
-      },
+      }
     });
   };
   const onAlert = () => {
@@ -134,7 +134,7 @@ const Plugin = () => {
       confirmBtn: {
         content: "Got it!",
         variant: "base",
-        theme: "danger",
+        theme: "danger"
       },
       onConfirm: ({ e }) => {
         console.log("confirm e: ", e);
@@ -144,7 +144,7 @@ const Plugin = () => {
         console.log("close e: ", e);
         console.log("trigger: ", trigger);
         alertDia.hide();
-      },
+      }
     });
   };
   const onDialogPluginConfirm = () => {
@@ -162,7 +162,7 @@ const Plugin = () => {
         console.log("e: ", e);
         console.log("trigger: ", trigger);
         confirmDia.hide();
-      },
+      }
     });
   };
   return (
@@ -193,5 +193,5 @@ const Plugin = () => {
 
 export const PluginExample: Story = {
   args: {},
-  render: () => <Plugin></Plugin>,
+  render: () => <Plugin></Plugin>
 };

@@ -40,12 +40,12 @@ const BaseExample = ({ ...args }) => {
 const meta: Meta<typeof TagInput> = {
   title: "Components/TagInput",
   component: TagInput,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
 
 export const Default: StoryObj = {
   args: {},
-  render: (args) => <BaseExample {...args}></BaseExample>,
+  render: (args) => <BaseExample {...args}></BaseExample>
 };

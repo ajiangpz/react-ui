@@ -11,14 +11,14 @@ import {
   ValueType,
   AllValidateResult,
   ValidateResultType,
-  CustomValidateResolveType,
+  CustomValidateResolveType
 } from "./type";
 
 // `{} / [] / '' / undefined / null` 等内容被认为是空； 0 和 false 被认为是正常数据，部分数据的值就是 0 或者 false
 export function isValueEmpty(val: ValueType): boolean {
   const type: string = Object.prototype.toString.call(val);
   const typeMap: Record<string, any> = {
-    Date: "[object Date]",
+    Date: "[object Date]"
   };
   if (type === typeMap.Date) {
     return false;
@@ -50,7 +50,7 @@ const VALIDATE_MAP = {
   telnumber: (val: ValueType): boolean => /^1[3-9]\d{9}$/.test(val),
   pattern: (val: ValueType, regexp: RegExp): boolean => regexp.test(val),
   // 自定义校验规则，可能是异步校验
-  validator: (val: ValueType, validate: CustomValidator): ReturnType<CustomValidator> => validate(val),
+  validator: (val: ValueType, validate: CustomValidator): ReturnType<CustomValidator> => validate(val)
 };
 
 export type ValidateFuncType = (typeof VALIDATE_MAP)[keyof typeof VALIDATE_MAP];
@@ -63,7 +63,7 @@ export type ValidateFuncType = (typeof VALIDATE_MAP)[keyof typeof VALIDATE_MAP];
  */
 export async function validateOneRule(value: ValueType, rule: FormRule): Promise<AllValidateResult> {
   let validateResult: CustomValidateResolveType | ValidateResultType = {
-    result: true,
+    result: true
   };
   const keys = Object.keys(rule);
   let vOptions;

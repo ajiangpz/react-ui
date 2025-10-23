@@ -21,15 +21,15 @@ const meta: Meta<typeof Input> = {
         "time",
         "datetime-local",
         "month",
-        "week",
+        "week"
       ],
-      defaultValue: "text",
+      defaultValue: "text"
     },
     disabled: {
       control: "boolean",
-      defaultValue: false,
-    },
-  },
+      defaultValue: false
+    }
+  }
 };
 
 export default meta;
@@ -41,8 +41,8 @@ export const Default: Story = {
     type: "text",
     placeholder: "请输入内容",
     disabled: false,
-    name: "input",
-  },
+    name: "input"
+  }
 };
 
 // 新增 InputGroup 的 story
@@ -53,5 +53,5 @@ export const Group: StoryObj<typeof InputGroup> = {
       <Input type="password" placeholder="密码" />
     </InputGroup>
   ),
-  name: "InputGroup 示例",
+  name: "InputGroup 示例"
 };

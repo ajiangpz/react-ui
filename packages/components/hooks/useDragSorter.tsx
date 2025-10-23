@@ -39,7 +39,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
   const [startInfo, setStartInfo] = useState({
     nodeX: 0,
     nodeWidth: 0,
-    mouseX: 0,
+    mouseX: 0
   });
   const onDragSortEvent = useEventCallback(onDragSort as any);
 
@@ -73,7 +73,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
         currentIndex: draggingIndex,
         current: dragStartData,
         target: record,
-        targetIndex: index,
+        targetIndex: index
       });
       setDraggingIndex(index);
     },
@@ -85,7 +85,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
       startInfo.nodeWidth,
       startInfo.mouseX,
       startInfo.nodeX,
-      onDragSortEvent,
+      onDragSortEvent
     ]
   );
 
@@ -101,7 +101,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
       setStartInfo({
         nodeX: x,
         nodeWidth: width,
-        mouseX: e.clientX || 0,
+        mouseX: e.clientX || 0
       });
     }
   }
@@ -132,7 +132,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
         },
         onDragEnd: () => {
           onDragEnd();
-        },
+        }
       };
     }
     return {};
@@ -144,7 +144,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
     onDrop,
     onDragEnd,
     getDragProps,
-    dragging: draggingIndex !== -1,
+    dragging: draggingIndex !== -1
   };
 }
 

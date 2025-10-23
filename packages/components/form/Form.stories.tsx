@@ -16,9 +16,9 @@ export const BaseForm = () => {
   console.log("name", name);
   console.log("gender", gender);
   const { success } = useNotification();
-  const onSubmit: FormProps["onSubmit"] = (e) => {
-    console.log(e);
-    if (e.validateResult === true) {
+  const onSubmit: FormProps["onSubmit"] = (_e) => {
+    console.log(_e);
+    if (_e.validateResult === true) {
       success({ title: "成功提示", message: "提交成功" });
     }
   };
@@ -32,7 +32,7 @@ export const BaseForm = () => {
     console.log(form);
     form.setFields([
       { name: "name", status: "error", validateMessage: { type: "error", message: "输入有误" } },
-      { name: "birthday", status: "warning", validateMessage: { type: "warning", message: "时间有误" } },
+      { name: "birthday", status: "warning", validateMessage: { type: "warning", message: "时间有误" } }
     ]);
   };
 
@@ -88,27 +88,27 @@ const meta: Meta = {
       >
         <Story />
       </NotificationProvider>
-    ),
-  ],
+    )
+  ]
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof Form> = {
   args: {},
-  render: () => <BaseForm></BaseForm>,
+  render: () => <BaseForm></BaseForm>
 };
 
 const cityOptions = [
   { label: "北京", value: "bj" },
   { label: "上海", value: "sh" },
   { label: "广州", value: "gz" },
-  { label: "深圳", value: "sz" },
+  { label: "深圳", value: "sz" }
 ];
 const FormListExample = () => {
   const [form] = Form.useForm();
 
-  const onSubmit: FormProps["onSubmit"] = (e) => {
+  const onSubmit: FormProps["onSubmit"] = (_e) => {
     const allFields = form.getFieldsValue(true);
     console.log("allFields", allFields);
   };
@@ -122,12 +122,12 @@ const FormListExample = () => {
       initialData={{
         address: [
           { city: "bj", area: "海淀" },
-          { city: "sh", area: "浦东" },
-        ],
+          { city: "sh", area: "浦东" }
+        ]
       }}
     >
       <FormList name="address">
-        {(fields, { add, remove }) => (
+        {(fields, { add }) => (
           <>
             {fields.map(({ key, name, ...resetField }) => (
               <FormItem key={key}>
@@ -156,5 +156,5 @@ const FormListExample = () => {
 
 export const FormListDemo: StoryObj<typeof Form> = {
   args: {},
-  render: () => <FormListExample></FormListExample>,
+  render: () => <FormListExample></FormListExample>
 };

@@ -1,4 +1,4 @@
-import React, { ReactNode, Ref, CSSProperties, DetailedHTMLProps, ComponentType } from "react";
+import React, { ReactNode, CSSProperties, DetailedHTMLProps, ComponentType } from "react";
 import { BASE_CLASS_PREFIX } from "../env";
 import cls from "classnames";
 import "../styles/icons.scss";
@@ -35,7 +35,7 @@ const Icon = React.forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
       [`${prefixCls}-icon-large`]: size === "large", // 20x20
       [`${prefixCls}-icon-extra-large`]: size === "extra-large", // 24x24
       [`${prefixCls}-icon-spinning`]: spin === true,
-      [`${prefixCls}-icon-${type}`]: Boolean(type),
+      [`${prefixCls}-icon-${type}`]: Boolean(type)
     },
     className
   );
@@ -51,7 +51,9 @@ const Icon = React.forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
   );
 });
 
-// @ts-ignore used to judge whether it is a semi-icon in semi-ui
+Icon.displayName = "Icon";
+
+// @ts-expect-error Custom property for icon type detection
 // custom icon case
 Icon.elementType = "Icon";
 
@@ -59,7 +61,8 @@ const convertIcon = (Svg: ComponentType, iconType: string) => {
   const InnerIcon = React.forwardRef<HTMLSpanElement, Omit<IconProps, "svg" | "type">>((props, ref) => (
     <Icon svg={React.createElement(Svg)} type={iconType} ref={ref as any} {...props} />
   ));
-  // @ts-ignore used to judge whether it is a semi-icon in semi-ui
+  InnerIcon.displayName = `Icon(${iconType})`;
+  // @ts-expect-error Custom property for icon type detection
   // builtin icon case
   InnerIcon.elementType = "Icon";
   return InnerIcon;

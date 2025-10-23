@@ -13,7 +13,10 @@ export const supportRef = (nodeOrComponent: any): boolean => {
 
   // React 19 no need `forwardRef` anymore. So just pass if is a React element.
 
-  if (isReactElement(nodeOrComponent) && (nodeOrComponent as any).props.propertyIsEnumerable("ref")) {
+  if (
+    isReactElement(nodeOrComponent) &&
+    Object.prototype.propertyIsEnumerable.call((nodeOrComponent as any).props, "ref")
+  ) {
     return true;
   }
 
@@ -65,8 +68,8 @@ export const getNodeRef: <T = any>(node: React.ReactNode) => React.Ref<T> | null
 
     // Source from:
     // https://github.com/mui/material-ui/blob/master/packages/mui-utils/src/getReactNodeRef/getReactNodeRef.ts
-    // eslint-disable-next-line no-prototype-builtins
-    return ele.props.propertyIsEnumerable("ref") ? ele.props.ref : ele.ref;
+
+    return Object.prototype.propertyIsEnumerable.call(ele.props, "ref") ? ele.props.ref : ele.ref;
   }
   return null;
 };

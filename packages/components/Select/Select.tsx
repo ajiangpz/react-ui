@@ -8,7 +8,7 @@ import React, {
   Children,
   cloneElement,
   isValidElement,
-  useState,
+  useState
 } from "react";
 
 import classNames from "classnames";
@@ -95,7 +95,7 @@ const Select = forwardRefWithStatics(
       onRemove,
       onSearch,
       onEnter,
-      onPopupVisibleChange,
+      onPopupVisibleChange
     } = props;
 
     const [value, onChange] = useControlled(props, "value", props.onChange);
@@ -127,8 +127,12 @@ const Select = forwardRefWithStatics(
 
     const handleShowPopup = (visible: boolean, ctx: PopupVisibleChangeContext) => {
       if (disabled) return;
-      visible && toggleIsScrolling(false);
-      !visible && onInputChange("", { trigger: "blur" });
+      if (visible) {
+        toggleIsScrolling(false);
+      }
+      if (!visible) {
+        onInputChange("", { trigger: "blur" });
+      }
       setShowPopup(visible, ctx);
     };
 
@@ -159,7 +163,7 @@ const Select = forwardRefWithStatics(
         onChange(values, {
           e,
           trigger,
-          selectedOptions: currentSelectedOptions,
+          selectedOptions: currentSelectedOptions
         });
         return;
       }
@@ -173,16 +177,16 @@ const Select = forwardRefWithStatics(
         onChange(values, {
           e,
           trigger,
-          selectedOptions: currentSelectedOptions,
+          selectedOptions: currentSelectedOptions
         });
         if (isFunction(onRemove)) {
           onRemove({
             value: value[index],
             data: {
               label: item,
-              value: value[index],
+              value: value[index]
             },
-            e,
+            e
           });
         }
       }
@@ -225,7 +229,7 @@ const Select = forwardRefWithStatics(
       onChange?.(checkAllValue, {
         e,
         trigger: !checkAll ? "check" : "uncheck",
-        selectedOptions: currentSelectedOptions,
+        selectedOptions: currentSelectedOptions
       });
     };
 
@@ -242,7 +246,9 @@ const Select = forwardRefWithStatics(
       const selectedValue = multiple ? context.value : value;
 
       if (multiple) {
-        !reserveKeyword && inputValue && onInputChange("", { e: context.e, trigger: "change" });
+        if (!reserveKeyword && inputValue) {
+          onInputChange("", { e: context.e, trigger: "change" });
+        }
       }
       if (creatable && isFunction(onCreate)) {
         if ((options as OptionsType).filter((option) => option.value === selectedValue).length === 0) {
@@ -262,7 +268,7 @@ const Select = forwardRefWithStatics(
         e: context.e,
         trigger: context.trigger,
         selectedOptions: currentSelectedOptions,
-        option: currentOption,
+        option: currentOption
       });
 
       if (multiple && context?.trigger === "uncheck" && isFunction(onRemove)) {
@@ -271,7 +277,7 @@ const Select = forwardRefWithStatics(
         onRemove({
           value,
           data: option,
-          e: context.e,
+          e: context.e
         });
       }
     };
@@ -306,7 +312,7 @@ const Select = forwardRefWithStatics(
                 return true;
               }
               return false;
-            }),
+            })
           });
         } else if (filterMethods(option)) {
           filterLabels.push(option.label);
@@ -397,7 +403,7 @@ const Select = forwardRefWithStatics(
         panelTopContent,
         onCheckAllChange,
         getPopupInstance,
-        scroll,
+        scroll
       };
       return <PopupContent {...popupContentProps}>{childrenWithProps}</PopupContent>;
     };
@@ -435,14 +441,14 @@ const Select = forwardRefWithStatics(
                   onChange(values, {
                     e,
                     selectedOptions: currentSelectedOptions,
-                    trigger: "tag-remove",
+                    trigger: "tag-remove"
                   });
                   tagProps?.onClose?.({ e });
 
                   onRemove?.({
                     value: value[key],
                     data: { label: v, value: value[key] },
-                    e: e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+                    e: e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>
                   });
                 }}
               >
@@ -459,7 +465,7 @@ const Select = forwardRefWithStatics(
       }
       return parseContentTNode(valueDisplay, {
         value: selectedLabel,
-        onClose: noop,
+        onClose: noop
       });
     };
 
@@ -539,12 +545,12 @@ const Select = forwardRefWithStatics(
           inputValue={inputValue}
           tagInputProps={{
             size,
-            ...tagInputProps,
+            ...tagInputProps
           }}
           tagProps={{ size, ...tagProps }}
           inputProps={{
             size,
-            ...inputProps,
+            ...inputProps
           }}
           minCollapsedNum={minCollapsedNum}
           collapsedItems={collapsedItems}
@@ -552,7 +558,7 @@ const Select = forwardRefWithStatics(
           popupProps={{
             overlayClassName: [`${name}__dropdown`, overlayClassName] as TdPopupProps["overlayClassName"],
             onScroll: handleScroll,
-            ...restPopupProps,
+            ...restPopupProps
           }}
           popupVisible={showPopup}
           onPopupVisibleChange={handleShowPopup}
@@ -563,7 +569,7 @@ const Select = forwardRefWithStatics(
           onBlur={(_, context) => {
             onBlur?.({
               value,
-              e: context.e as React.FocusEvent<HTMLDivElement>,
+              e: context.e as React.FocusEvent<HTMLDivElement>
             });
           }}
           onClear={handleClear}

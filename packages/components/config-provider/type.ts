@@ -623,7 +623,10 @@ export interface ListConfig {
   loadingText?: string;
 }
 
-export interface MessageConfig {}
+export interface MessageConfig {
+  // Message component configuration can be added here
+  [key: string]: unknown;
+}
 
 export interface PaginationConfig {
   /**

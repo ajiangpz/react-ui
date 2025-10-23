@@ -18,5 +18,5 @@ export const inputDefaultProps = {
   spellCheck: false,
   status: "default",
   type: "text",
-  defaultValue: "",
+  defaultValue: ""
 };

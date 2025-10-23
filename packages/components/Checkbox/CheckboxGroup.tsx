@@ -47,7 +47,7 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
     style,
     children,
     max,
-    options = [],
+    options = []
   } = useDefaultProps<CheckboxGroupProps<T>>(props, checkboxGroupDefaultProps);
 
   // 去掉所有 checkAll 之后的 options
@@ -96,7 +96,10 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
     if (max < checkedSet.size) {
       console.warn("[TDesign] max should be less than the length of value, change is invalid");
     } else {
-      setLocalMax(max);
+      // Use setTimeout to avoid calling setState synchronously within an effect
+      setTimeout(() => {
+        setLocalMax(max);
+      }, 0);
     }
   }, [max, checkedSet]);
 
@@ -148,11 +151,11 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
             e,
             current: checkProps.checkAll ? undefined : (checkValue as TdCheckboxProps),
             type: checked ? "check" : "uncheck",
-            option: checkProps.checkAll ? undefined : currentOptionChecked,
+            option: checkProps.checkAll ? undefined : currentOptionChecked
           });
-        },
+        }
       };
-    },
+    }
   };
 
   // options 和 children 的抉择,在未明确说明时，暂时以 options 优先

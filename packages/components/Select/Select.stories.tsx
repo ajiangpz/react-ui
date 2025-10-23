@@ -8,7 +8,7 @@ const meta: Meta<typeof Select> = {
   title: "Components/Select",
   component: Select,
   args: {},
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -32,8 +32,8 @@ const SingleSelect = ({ ...args }) => {
         { label: "物联网", value: "4", disabled: true },
         {
           label: "人工智能",
-          value: "5",
-        },
+          value: "5"
+        }
       ]}
       {...args}
     />
@@ -42,7 +42,7 @@ const SingleSelect = ({ ...args }) => {
 type Story = StoryObj<typeof Select>;
 export const Default: Story = {
   args: {},
-  render: ({ ...args }) => <SingleSelect {...args}></SingleSelect>,
+  render: ({ ...args }) => <SingleSelect {...args}></SingleSelect>
 };
 
 const options1 = [
@@ -54,8 +54,8 @@ const options1 = [
   { label: "人工智能", value: "5", content: <span>人工智能（新）</span> },
   {
     label: "计算场景",
-    value: "6",
-  },
+    value: "6"
+  }
 ];
 
 const MultiSelect = () => {
@@ -99,10 +99,10 @@ const TMultiSelect = () => {
 
 export const MultiSelectExample: Story = {
   args: {},
-  render: ({ ...args }) => <MultiSelect {...args}></MultiSelect>,
+  render: ({ ...args }) => <MultiSelect {...args}></MultiSelect>
 };
 
 export const TMultiSelectExample: Story = {
   args: {},
-  render: ({ ...args }) => <TMultiSelect {...args}></TMultiSelect>,
+  render: ({ ...args }) => <TMultiSelect {...args}></TMultiSelect>
 };

@@ -26,7 +26,7 @@ const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputPr
 
   const { tagInputRef, multipleInputValue, renderSelectMultiple } = useMultiple(props);
   const { tOverlayInnerStyle, innerPopupVisible, onInnerPopupVisibleChange } = useOverlayInnerStyle(props, {
-    afterHidePopups: onInnerBlur,
+    afterHidePopups: onInnerBlur
   });
 
   const popupClasses = classNames([
@@ -36,13 +36,13 @@ const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputPr
       [`${prefix}-select-input--borderless`]: borderless,
       [`${prefix}-select-input--multiple`]: multiple,
       [`${prefix}-select-input--popup-visible`]: popupVisible ?? innerPopupVisible,
-      [`${prefix}-select-input--empty`]: value instanceof Array ? !value.length : !value,
-    },
+      [`${prefix}-select-input--empty`]: value instanceof Array ? !value.length : !value
+    }
   ]);
   useImperativeHandle(ref, () => ({
     ...(selectInputRef.current || {}),
     ...(inputRef.current || {}),
-    ...(tagInputRef.current || {}),
+    ...(tagInputRef.current || {})
   }));
 
   // 浮层显示的受控与非受控
@@ -51,7 +51,7 @@ const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputPr
     const inputValue = props.multiple ? multipleInputValue : singleInputValue;
     const params: Parameters<TdSelectInputProps["onBlur"]>[1] = {
       e: ctx.e,
-      inputValue,
+      inputValue
     };
     props.onBlur?.(props.value, params);
   }
@@ -75,7 +75,7 @@ const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputPr
               commonInputProps,
               onInnerClear,
               popupVisible: visibleProps.visible,
-              allowInput: props.allowInput,
+              allowInput: props.allowInput
             })
           : renderSelectSingle(visibleProps.visible)}
       </Popup>

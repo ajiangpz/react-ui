@@ -8,11 +8,12 @@ export default function circleAdapter(circleElem: HTMLElement) {
     return;
   }
 
-  const { color, fontSize } = window?.getComputedStyle?.(circleElem);
+  const computedStyle = window?.getComputedStyle?.(circleElem);
+  const { color, fontSize } = computedStyle || {};
 
   // to fix the browser compat of foreignObject in Safari,
   // https://bugs.webkit.org/show_bug.cgi?id=23113
-  const ua = window?.navigator?.userAgent;
+  const ua = window?.navigator?.userAgent || "";
   const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
   // 判断是否为 iOS 下的微信和企业微信
   const isIosWechat = /(?=.*iPhone)[?=.*MicroMessenger]/.test(ua) && !/Chrome/.test(ua);
@@ -23,7 +24,7 @@ export default function circleAdapter(circleElem: HTMLElement) {
   if (isSafari || isIosWechat || isIpadWechat) {
     basicStyle = {
       transformOrigin: "0px 0px",
-      transform: `scale(${parseInt(fontSize, 10) / 12})`,
+      transform: `scale(${parseInt(fontSize, 10) / 12})`
     };
   }
   // 添加：判断是否为IE浏览器
@@ -32,12 +33,12 @@ export default function circleAdapter(circleElem: HTMLElement) {
     const endColor = matched ? `rgba(${matched[0]}, ${matched[1]}, ${matched[2]}, 0)` : "";
     setStyle(circleElem, {
       ...basicStyle,
-      background: `conic-gradient(from 90deg at 50% 50%,${endColor} 0deg, ${color} 360deg)`,
+      background: `conic-gradient(from 90deg at 50% 50%,${endColor} 0deg, ${color} 360deg)`
     });
   } else {
     setStyle(circleElem, {
       ...basicStyle,
-      background: "",
+      background: ""
     });
   }
 }

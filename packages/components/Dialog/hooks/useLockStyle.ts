@@ -8,7 +8,7 @@ export default function useDialogLockStyle({
   preventScrollThrough,
   visible,
   mode,
-  showInAttachedElement,
+  showInAttachedElement
 }: Partial<TdDialogProps>) {
   const lockStyleRef = useRef<HTMLStyleElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

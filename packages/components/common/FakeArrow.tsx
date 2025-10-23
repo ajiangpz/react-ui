@@ -18,7 +18,7 @@ function FakeArrow(props: {
       className={classNames(
         `${classPrefix}-fake-arrow`,
         {
-          [`${classPrefix}-fake-arrow--active`]: props?.isActive && !props?.disabled,
+          [`${classPrefix}-fake-arrow--active`]: props?.isActive && !props?.disabled
         },
         props?.className
       )}

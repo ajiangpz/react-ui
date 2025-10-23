@@ -8,7 +8,7 @@ function resolveRelativeImports() {
         return path.resolve(path.dirname(importer), source);
       }
       return null;
-    },
+    }
   };
 }
 

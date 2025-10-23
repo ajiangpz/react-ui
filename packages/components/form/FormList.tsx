@@ -15,7 +15,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
     form,
     onFormItemValueChange,
     initialData: initialDataFromForm,
-    resetType: resetTypeFromContext,
+    resetType: resetTypeFromContext
   } = useFormContext();
   const { name, rules, children } = props;
 
@@ -27,7 +27,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       data: { ...data },
       key: (key += 1),
       name: index,
-      isListField: true,
+      isListField: true
     }))
   );
   const formListMapRef = useRef(new Map()); // 收集 formItem 实例
@@ -54,7 +54,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       cloneFields.splice(index, 0, {
         key: (key += 1),
         name: index,
-        isListField: true,
+        isListField: true
       });
       cloneFields.forEach((field, index) => Object.assign(field, { name: index }));
       setFields(cloneFields);
@@ -99,16 +99,16 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       cloneFields[from] = toItem;
       set(form?.store, name, []);
       setFields(cloneFields);
-    },
+    }
   };
 
   // 外部设置 fields 优先级最高，可以更改渲染的节点
-  function setListFields(fieldData: any[], callback: Function, originData) {
+  function setListFields(fieldData: any[], callback: (...args: unknown[]) => unknown, originData: unknown) {
     setFields(
       fieldData.map((_, index) => ({
         key: (key += 1),
         name: index,
-        isListField: true,
+        isListField: true
       }))
     );
     // 添加至队列中 等待下次渲染完成执行对应逻辑
@@ -241,7 +241,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
             data: { ...data },
             key: (key += 1),
             name: index,
-            isListField: true,
+            isListField: true
           }));
           setFields(newFields);
           set(form?.store, flattenDeep([name]), initialData);
@@ -283,7 +283,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
         [...formListMapRef.current.values()].forEach((formItemRef) => {
           formItemRef?.current?.resetValidate?.();
         });
-      },
+      }
     })
   );
 

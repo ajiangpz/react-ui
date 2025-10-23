@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const { spawn } = require("child_process");
-const path = require("path");
 
 function startDev() {
   console.log("🚀 Starting development mode...");
@@ -9,7 +8,7 @@ function startDev() {
   // Start all packages in watch mode
   const devProcess = spawn("pnpm", ["-r", "--parallel", "dev"], {
     stdio: "inherit",
-    shell: true,
+    shell: true
   });
 
   devProcess.on("close", (code) => {

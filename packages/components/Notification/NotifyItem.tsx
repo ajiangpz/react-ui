@@ -85,7 +85,7 @@ const NotificationItem: React.FC<{
           "--offset": offset + "px",
           "--index": heightIndex,
           "--gap": gap + "px",
-          "--z-index": heights.length - heightIndex,
+          "--z-index": heights.length - heightIndex
         } as React.CSSProperties
       }
       data-toast
@@ -111,7 +111,7 @@ const NotificationItem: React.FC<{
         className={`${prefix}-notify__detail`}
         style={{
           opacity: heightIndex === 0 || isExpanded ? 1 : 0,
-          transition: `opacity 400ms`,
+          transition: `opacity 400ms`
         }}
       >
         {message}

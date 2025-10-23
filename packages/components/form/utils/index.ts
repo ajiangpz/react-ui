@@ -59,7 +59,7 @@ export function calcFieldValue(name: NamePath, value: any, isFormList = true) {
 export function travelMapFromObject(
   obj: Record<any, any>,
   formMapRef: React.RefObject<Map<any, any>>,
-  callback: Function
+  callback: (...args: unknown[]) => unknown
 ) {
   for (const [mapName, formItemRef] of formMapRef.current.entries()) {
     if (has(obj, mapName)) {

@@ -51,7 +51,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     restData,
     style,
     className,
-    isVirtual,
+    isVirtual
   } = props;
   let selected: boolean;
   let indeterminate: boolean;
@@ -74,7 +74,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
     if (isVirtual && optionRef) {
       props.onRowMounted?.({
         ref: optionRef,
-        data: props,
+        data: props
       });
     }
     // eslint-disable-next-line
@@ -119,7 +119,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
           className={classNames(`${classPrefix}-checkbox`, {
             [`${classPrefix}-is-indeterminate`]: indeterminate,
             [`${classPrefix}-is-disabled`]: disabled,
-            [`${classPrefix}-is-checked`]: selected,
+            [`${classPrefix}-is-checked`]: selected
           })}
           title={titleContent}
         >
@@ -147,7 +147,7 @@ const Option: React.FC<SelectOptionProps> = (props) => {
         [`${classPrefix}-is-disabled`]: disabled,
         [`${classPrefix}-is-selected`]: selected,
         [`${classPrefix}-size-s`]: size === "small",
-        [`${classPrefix}-size-l`]: size === "large",
+        [`${classPrefix}-size-l`]: size === "large"
       })}
       key={value}
       onClick={handleSelect}

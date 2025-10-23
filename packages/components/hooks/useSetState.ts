@@ -12,10 +12,10 @@ const useSetState = <T extends object>(
 ): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {
   const [state, setState] = useState<T>(initialState);
 
-  const setMergeState = useCallback((patch: Function | object) => {
+  const setMergeState = useCallback((patch: ((prevState: T) => Partial<T>) | Partial<T>) => {
     setState((prevState) => ({
       ...prevState,
-      ...(isFunction(patch) ? patch(prevState) : patch),
+      ...(isFunction(patch) ? patch(prevState) : patch)
     }));
   }, []);
 

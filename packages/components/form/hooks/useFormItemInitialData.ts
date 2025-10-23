@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { get, unset, isEmpty } from "lodash-es";
 
 // 兼容特殊数据结构和受控 key
@@ -30,7 +30,7 @@ export const initialDataMap = new Map();
   // Transfer,
   TagInput,
   // RangeInput,
-  CheckboxGroup,
+  CheckboxGroup
   // DateRangePicker,
   // TimeRangePicker,
 ].forEach((component) => {
@@ -41,24 +41,14 @@ export const initialDataMap = new Map();
 });
 
 export default function useFormItemInitialData(name: FormItemProps["name"]) {
-  let hadReadFloatingFormData = false;
-
   const { floatingFormDataRef, initialData: formContextInitialData } = useFormContext();
 
   const { name: formListName, initialData: formListInitialData } = useFormListContext();
 
-  // 组件渲染后删除对应游离值
-  useEffect(() => {
-    if (hadReadFloatingFormData) {
-      const nameList = formListName ? [formListName, name].flat() : name;
-      unset(floatingFormDataRef.current, nameList);
-    }
-  }, [hadReadFloatingFormData, floatingFormDataRef, formListName, name]);
-
   // 整理初始值 优先级：Form.initialData < FormList.initialData < FormItem.initialData < floatFormData
   function getDefaultInitialData({
     children,
-    initialData,
+    initialData
   }: {
     children: FormItemProps["children"];
     initialData: FormItemProps["initialData"];
@@ -67,7 +57,10 @@ export default function useFormItemInitialData(name: FormItemProps["name"]) {
       const nameList = formListName ? [formListName, name].flat() : name;
       const defaultInitialData = get(floatingFormDataRef.current, nameList);
       if (typeof defaultInitialData !== "undefined") {
-        hadReadFloatingFormData = true;
+        // 使用 setTimeout 来延迟清理，避免在渲染期间修改 ref
+        setTimeout(() => {
+          unset(floatingFormDataRef.current, nameList);
+        }, 0);
         return defaultInitialData;
       }
     }
@@ -90,7 +83,7 @@ export default function useFormItemInitialData(name: FormItemProps["name"]) {
       const childList = React.Children.toArray(children);
       const lastChild = childList[childList.length - 1];
       if (lastChild && React.isValidElement(lastChild)) {
-        // @ts-ignore
+        // @ts-expect-error React element props type inference
         const isMultiple = lastChild?.props?.multiple;
         return isMultiple ? [] : initialDataMap.get(lastChild.type);
       }
@@ -98,6 +91,6 @@ export default function useFormItemInitialData(name: FormItemProps["name"]) {
   }
 
   return {
-    getDefaultInitialData,
+    getDefaultInitialData
   };
 }

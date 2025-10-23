@@ -46,7 +46,9 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
   }, [label, innerChecked, value]);
 
   const handleChange = (e: React.MouseEvent) => {
-    !isControlled && setInnerChecked(!innerChecked);
+    if (!isControlled) {
+      setInnerChecked(!innerChecked);
+    }
     const changedValue = !innerChecked ? activeValue : inactiveValue;
     onChange?.(changedValue, { e });
   };
@@ -75,7 +77,12 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
     if (Array.isArray(customValue) && !customValue.includes(value)) {
       console.error("Switch", `value is not in customValue: ${JSON.stringify(customValue)}`);
     }
-    isControlled && setInnerChecked(value === activeValue);
+    if (isControlled) {
+      // Use setTimeout to avoid calling setState synchronously within an effect
+      setTimeout(() => {
+        setInnerChecked(value === activeValue);
+      }, 0);
+    }
   }, [value, customValue, activeValue, isControlled]);
 
   const { SIZE, STATUS } = useCommonClassName();
@@ -85,7 +92,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>((originalProps, 
     {
       [STATUS.checked]: innerChecked,
       [STATUS.disabled]: disabled,
-      [STATUS.loading]: loading,
+      [STATUS.loading]: loading
     },
     SIZE[size]
   );

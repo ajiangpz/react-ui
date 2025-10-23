@@ -8,8 +8,8 @@ const DEFAULT_OPTIONS = {
     attributes: true,
     childList: true,
     characterData: true,
-    subtree: true,
-  } as MutationObserverInit,
+    subtree: true
+  } as MutationObserverInit
 };
 
 type Options = typeof DEFAULT_OPTIONS;

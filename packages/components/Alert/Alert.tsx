@@ -4,7 +4,7 @@ import {
   IconClose as TdCloseIcon,
   IconInfoCircle as TdInfoCircleFilledIcon,
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
-  IconAlertTriangle as TdErrorCircleFilledIcon,
+  IconAlertTriangle as TdErrorCircleFilledIcon
 } from "tendaui-react-icons";
 
 import { CSSTransition } from "react-transition-group";
@@ -30,7 +30,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
     CheckCircleFilledIcon: TdCheckCircleFilledIcon,
-    ErrorCircleFilledIcon: TdErrorCircleFilledIcon,
+    ErrorCircleFilledIcon: TdErrorCircleFilledIcon
   });
 
   const {
@@ -55,7 +55,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
     success: CheckCircleFilledIcon,
     info: InfoCircleFilledIcon,
     error: ErrorCircleFilledIcon,
-    warning: ErrorCircleFilledIcon,
+    warning: ErrorCircleFilledIcon
   };
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,7 +99,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
 
   // close 属性变更为 closeBtn，close废弃后可删除。（需兼容标签上直接写close和closeBtn的场景）
   const isUsingClose = Reflect.has(props, "close");
-  const closeNode = isUsingClose ? close : closeBtn;
+  const closeNode = isUsingClose ? (props as any).close : closeBtn;
   if (isUsingClose) {
     console.warn("TAlert", "prop `close` is going to be deprecated, please use `closeBtn` instead.");
   }
@@ -117,7 +117,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
       in={!closed}
       unmountOnExit
       classNames={{
-        exitActive: `${classPrefix}-alert--closing`,
+        exitActive: `${classPrefix}-alert--closing`
       }}
       nodeRef={nodeRef}
       timeout={transitionTime}

@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, KeyboardEvent, ReactNode, Fragment } from "react";
+import React, { MouseEvent, KeyboardEvent, ReactNode, Fragment } from "react";
 import { isFunction } from "lodash-es";
 import { TagInputChangeContext, TagInputValue, TdTagInputProps } from "./type";
 import { InputValue } from "../input";
@@ -18,7 +18,6 @@ export default function useTagList(props: TagInputProps) {
   const { onRemove, max, minCollapsedNum, size, disabled, readonly, tagProps, tag, collapsedItems, getDragProps } =
     props;
   const [tagValue, setTagValue] = useControlled(props, "value", props.onChange);
-  const [oldInputValue, setOldInputValue] = useState<InputValue>();
 
   const onClose = (p: { e?: MouseEvent<SVGSVGElement>; index: number }) => {
     const arr = [...tagValue];
@@ -42,15 +41,14 @@ export default function useTagList(props: TagInputProps) {
         trigger: "enter",
         index: newValue.length - 1,
         item: valueStr,
-        e: context.e,
+        e: context.e
       });
     }
     props?.onEnter?.(newValue, { ...context, inputValue: value });
   };
 
-  const onInputBackspaceKeyUp = (value: InputValue) => {
+  const onInputBackspaceKeyUp = () => {
     if (!tagValue || !tagValue.length) return;
-    setOldInputValue(value);
   };
 
   // 按下回退键，删除标签
@@ -106,7 +104,7 @@ export default function useTagList(props: TagInputProps) {
         count: tagValue.length - minCollapsedNum,
         collapsedTags: tagValue.slice(minCollapsedNum, tagValue.length),
         collapsedSelectedItems: options.slice(minCollapsedNum, tagValue.length),
-        onClose,
+        onClose
       };
       const more = isFunction(collapsedItems) ? collapsedItems(params) : collapsedItems;
       list.push(
@@ -128,6 +126,6 @@ export default function useTagList(props: TagInputProps) {
     onInnerEnter,
     onInputBackspaceKeyDown,
     onInputBackspaceKeyUp,
-    renderLabel,
+    renderLabel
   };
 }

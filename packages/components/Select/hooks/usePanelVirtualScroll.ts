@@ -23,7 +23,7 @@ const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: Panel
     const heightMap = {
       small: 20,
       medium: 28,
-      large: 36,
+      large: 36
     };
     const rowHeight = heightMap[size] || 28;
     return {
@@ -31,7 +31,7 @@ const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: Panel
       isFixedRowHeight: scroll?.isFixedRowHeight || false,
       rowHeight: scroll?.rowHeight || rowHeight,
       bufferSize: scroll?.bufferSize || 20,
-      threshold: scrollThreshold,
+      threshold: scrollThreshold
     };
   }, [scroll, scrollThreshold, size]);
 
@@ -40,10 +40,10 @@ const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: Panel
     handleScroll: handleVirtualScroll = null,
     scrollHeight = null,
     translateY = null,
-    handleRowMounted = null,
+    handleRowMounted = null
   } = useVirtualScroll(popupContentRef, {
     data: options || [],
-    scroll: scrollParams,
+    scroll: scrollParams
   });
 
   let lastScrollY = -1;
@@ -87,14 +87,14 @@ const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: Panel
     transform: `translate(0, ${scrollHeight}px)`,
     MsTransform: `translate(0, ${scrollHeight}px)`,
     MozTransform: `translate(0, ${scrollHeight}px)`,
-    WebkitTransform: `translate(0, ${scrollHeight}px)`,
+    WebkitTransform: `translate(0, ${scrollHeight}px)`
   } as CSSProperties;
 
   const panelStyle = {
     transform: `translate(0, ${translateY}px)`,
     MsTransform: `translate(0, ${translateY}px)`,
     MozTransform: `translate(0, ${translateY}px)`,
-    WebkitTransform: `translate(0, ${translateY}px)`,
+    WebkitTransform: `translate(0, ${translateY}px)`
   } as CSSProperties;
 
   return {
@@ -104,7 +104,7 @@ const usePanelVirtualScroll = ({ popupContentRef, scroll, options, size }: Panel
     handleRowMounted,
     isVirtual,
     cursorStyle,
-    panelStyle,
+    panelStyle
   };
 };
 

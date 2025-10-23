@@ -24,7 +24,7 @@ const useDialogDrag = (props: DialogDragProps) => {
       style.cursor = "move";
       dragOffset.current = {
         x: e.clientX - offsetLeft,
-        y: e.clientY - offsetTop,
+        y: e.clientY - offsetTop
       };
     },
     onMove: (e) => {
@@ -43,7 +43,7 @@ const useDialogDrag = (props: DialogDragProps) => {
     },
     onUp: () => {
       if (dialogCardRef.current) dialogCardRef.current.style.cursor = "default";
-    },
+    }
   });
 };
 

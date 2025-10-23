@@ -9,7 +9,7 @@ const NotificationContainer = ({
   onHoverStart,
   onHoverEnd,
   maxStack,
-  position,
+  position
 }: {
   notifications: any[];
   onRemove: (id: string) => void;
@@ -43,7 +43,7 @@ const NotificationContainer = ({
           height: isHovering ? `${notifications.length * 100 + 16}px` : "auto",
           minHeight: "80px",
           "--front-toast-height": (heights[0]?.height || 0) + "px",
-          "--toast-width": TOAST_WIDTH + "px",
+          "--toast-width": TOAST_WIDTH + "px"
         } as React.CSSProperties
       }
       data-toaster
@@ -55,7 +55,7 @@ const NotificationContainer = ({
       <div
         className={`${prefix}-notify__container`}
         style={{
-          pointerEvents: "all",
+          pointerEvents: "all"
         }}
       >
         {latestNotifications.map((notification) => {

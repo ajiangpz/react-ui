@@ -182,7 +182,10 @@ export interface TdDialogCardProps
     | "onCloseBtnClick"
     | "onConfirm"
     | "confirmLoading"
-  > {}
+  > {
+  // Additional properties specific to DialogCard can be added here
+  [key: string]: unknown;
+}
 
 export interface DialogOptions extends Omit<TdDialogProps, "attach"> {
   /**

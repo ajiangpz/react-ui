@@ -7,7 +7,7 @@ const meta: Meta = {
   argTypes: {
     trigger: {
       control: { type: "select" },
-      options: ["click", "hover", "focus", "mousedown", "context-menu", "touch"],
+      options: ["click", "hover", "focus", "mousedown", "context-menu", "touch"]
     },
     placement: {
       control: { type: "select" },
@@ -23,10 +23,10 @@ const meta: Meta = {
         "right-end",
         "bottom",
         "bottom-start",
-        "bottom-end",
-      ],
-    },
-  },
+        "bottom-end"
+      ]
+    }
+  }
 };
 export default meta;
 
@@ -37,7 +37,7 @@ export const Default: Story = {
     trigger: "click",
     placement: "top",
     content: <div style={{ fontSize: "20px" }}>content content content</div>,
-    showArrow: true,
+    showArrow: true
   },
   render: (args) => (
     <div className="my-4 flex justify-center">
@@ -45,5 +45,5 @@ export const Default: Story = {
         <Button>点击显示Popup</Button>
       </Popup>
     </div>
-  ),
+  )
 };

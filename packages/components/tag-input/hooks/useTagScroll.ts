@@ -100,6 +100,6 @@ export default function useTagScroll(props: TdTagInputProps) {
     updateScrollDistance,
     onWheel,
     scrollToRightOnEnter,
-    scrollToLeftOnLeave,
+    scrollToLeftOnLeave
   };
 }

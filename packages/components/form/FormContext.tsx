@@ -40,7 +40,7 @@ const FormContext = React.createContext<{
   statusIcon: undefined,
   onFormItemValueChange: undefined,
   formMapRef: undefined,
-  floatingFormDataRef: undefined,
+  floatingFormDataRef: undefined
 });
 
 export const useFormContext = () => React.useContext(FormContext);
@@ -58,7 +58,7 @@ export const FormListContext = React.createContext<{
   rules: undefined,
   formListMapRef: undefined,
   initialData: [],
-  form: undefined,
+  form: undefined
 });
 
 export const useFormListContext = () => React.useContext(FormListContext);

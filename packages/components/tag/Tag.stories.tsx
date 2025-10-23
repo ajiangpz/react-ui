@@ -5,7 +5,7 @@ import { Tag } from "tendaui-react/es";
 const meta: Meta<typeof Tag> = {
   title: "Components/Tag",
   component: Tag,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -28,39 +28,29 @@ export const Default: Story = {
         标签四
       </Tag>
     </div>
-  ),
+  )
 };
 
 const ClosableTagExample = () => {
-  const [inputVisible, toggleInputVisible] = useState(false);
   const [tagList, setTagList] = useState([
     {
       name: "可删除标签1",
-      showClose: true,
+      showClose: true
     },
     {
       name: "可删除标签2",
-      showClose: true,
+      showClose: true
     },
     {
       name: "可删除标签3",
-      showClose: true,
-    },
+      showClose: true
+    }
   ]);
 
   const deleteTag = (i: number) => {
     const newtagList = [...tagList];
     newtagList.splice(i, 1);
     setTagList(newtagList);
-  };
-
-  const handleClickAdd = () => {
-    toggleInputVisible(true);
-  };
-
-  const handleInputEnter = (value: string) => {
-    toggleInputVisible(false);
-    if (value) setTagList((currentList) => currentList.concat([{ name: value, showClose: true }]));
   };
 
   return tagList.map((tag, i) => (
@@ -80,5 +70,5 @@ const ClosableTagExample = () => {
 
 export const DeleteTag: Story = {
   args: {},
-  render: () => <ClosableTagExample></ClosableTagExample>,
+  render: () => <ClosableTagExample></ClosableTagExample>
 };

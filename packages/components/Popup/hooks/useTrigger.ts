@@ -24,13 +24,20 @@ export default function useTrigger({
   visible,
   onVisibleChange,
   triggerRef,
-  delay,
+  delay
 }: UseTriggerProps) {
   const hasPopupMouseDown = useRef(false);
   const mouseDownTimer = useRef(0);
   const visibleTimer = useRef(null);
-  const triggerDataKey = useRef(`t-popup--${Math.random().toFixed(10)}`);
+  const triggerDataKey = useRef<string>("");
   const leaveFlag = useRef(false); // 防止多次触发显隐
+
+  // 在 effect 中初始化 triggerDataKey，避免在渲染期间调用不纯函数
+  useEffect(() => {
+    if (!triggerDataKey.current) {
+      triggerDataKey.current = `t-popup--${Math.random().toFixed(10)}`;
+    }
+  }, []);
 
   // 禁用和无内容时不展示
   const shouldToggle = useMemo(() => {
@@ -44,7 +51,7 @@ export default function useTrigger({
     return [delay, delay];
   }, [delay]);
 
-  function callFuncWithDelay({ delay, callback }: { delay?: number; callback: Function }) {
+  function callFuncWithDelay({ delay, callback }: { delay?: number; callback: () => void }) {
     if (delay) {
       clearTimeout(visibleTimer.current as any);
       (visibleTimer as any).current = setTimeout(callback, delay);
@@ -61,7 +68,9 @@ export default function useTrigger({
       if (getRefDom(triggerRef as any)?.contains?.(e.target) || hasPopupMouseDown.current) {
         return;
       }
-      visible && onVisibleChange(false, { e, trigger: "document" });
+      if (visible) {
+        onVisibleChange(false, { e, trigger: "document" });
+      }
     };
     on(document, "mousedown", handleDocumentClick);
     on(document, "touchend", handleDocumentClick);
@@ -118,7 +127,7 @@ export default function useTrigger({
         mouseDownTimer.current = window.setTimeout(() => {
           hasPopupMouseDown.current = false;
         });
-      },
+      }
     };
   }
 
@@ -135,8 +144,8 @@ export default function useTrigger({
             callback: () =>
               onVisibleChange(!visible, {
                 e,
-                trigger: "trigger-element-mousedown",
-              }),
+                trigger: "trigger-element-mousedown"
+              })
           });
         }
         triggerNode.props.onMouseDown?.(e);
@@ -149,8 +158,8 @@ export default function useTrigger({
             callback: () =>
               onVisibleChange(!visible, {
                 e,
-                trigger: "trigger-element-click",
-              }),
+                trigger: "trigger-element-click"
+              })
           });
         }
         triggerNode.props.onClick?.(e);
@@ -161,7 +170,7 @@ export default function useTrigger({
           leaveFlag.current = false;
           callFuncWithDelay({
             delay: appearDelay,
-            callback: () => onVisibleChange(true, { e, trigger: "trigger-element-hover" }),
+            callback: () => onVisibleChange(true, { e, trigger: "trigger-element-hover" })
           });
         }
         triggerNode.props.onTouchStart?.(e);
@@ -171,7 +180,7 @@ export default function useTrigger({
           leaveFlag.current = false;
           callFuncWithDelay({
             delay: appearDelay,
-            callback: () => onVisibleChange(true, { e, trigger: "trigger-element-hover" }),
+            callback: () => onVisibleChange(true, { e, trigger: "trigger-element-hover" })
           });
         }
         triggerNode.props.onMouseEnter?.(e);
@@ -181,7 +190,7 @@ export default function useTrigger({
           leaveFlag.current = false;
           callFuncWithDelay({
             delay: exitDelay,
-            callback: () => onVisibleChange(false, { e, trigger: "trigger-element-hover" }),
+            callback: () => onVisibleChange(false, { e, trigger: "trigger-element-hover" })
           });
         }
         triggerNode.props.onMouseLeave?.(e);
@@ -190,7 +199,7 @@ export default function useTrigger({
         if (trigger === "focus") {
           callFuncWithDelay({
             delay: appearDelay,
-            callback: () => onVisibleChange(true, { trigger: "trigger-element-focus" }),
+            callback: () => onVisibleChange(true, { trigger: "trigger-element-focus" })
           });
         }
         triggerNode.props.onFocus?.(...args);
@@ -199,7 +208,7 @@ export default function useTrigger({
         if (trigger === "focus") {
           callFuncWithDelay({
             delay: appearDelay,
-            callback: () => onVisibleChange(false, { trigger: "trigger-element-blur" }),
+            callback: () => onVisibleChange(false, { trigger: "trigger-element-blur" })
           });
         }
         triggerNode.props.onBlur?.(...args);
@@ -209,7 +218,7 @@ export default function useTrigger({
           e.preventDefault();
           callFuncWithDelay({
             delay: appearDelay,
-            callback: () => onVisibleChange(true, { e, trigger: "context-menu" }),
+            callback: () => onVisibleChange(true, { e, trigger: "context-menu" })
           });
         }
         triggerNode.props.onContextMenu?.(e);
@@ -218,11 +227,11 @@ export default function useTrigger({
         if (e?.key === ESC_KEY) {
           callFuncWithDelay({
             delay: exitDelay,
-            callback: () => onVisibleChange(false, { e, trigger: "keydown-esc" }),
+            callback: () => onVisibleChange(false, { e, trigger: "keydown-esc" })
           });
         }
         triggerNode.props.onKeyDown?.(e);
-      },
+      }
     };
     // 如果支持 ref 透传，composeRefs 返回一个函数，当组件挂载时，执行函数，triggerRef 和 tiggerNode 指向触发元素的dom
     if (supportRef(triggerNode)) {
@@ -238,7 +247,7 @@ export default function useTrigger({
   // 整理 trigger 元素
   function getTriggerNode(children: React.ReactNode) {
     const triggerNode =
-      isValidElement(children) && !isFragment(children) ? children : React.createElement("span", { children });
+      isValidElement(children) && !isFragment(children) ? children : React.createElement("span", {}, children);
 
     return React.cloneElement(triggerNode, getTriggerProps(triggerNode));
   }
@@ -252,6 +261,6 @@ export default function useTrigger({
   return {
     getTriggerNode,
     getPopupProps,
-    getTriggerDom,
+    getTriggerDom
   };
 }

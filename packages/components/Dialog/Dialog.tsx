@@ -77,7 +77,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
   useDialogPosition(visible, dialogCardRef);
   useDialogDrag({
     dialogCardRef,
-    canDraggable: draggable && mode === "modeless",
+    canDraggable: draggable && mode === "modeless"
   });
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
     },
     update(newOptions) {
       setState((prevState) => ({ ...prevState, ...newOptions }));
-    },
+    }
   }));
 
   const onMaskClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -139,7 +139,9 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
     } else if (e.key === "Enter" || e.key === "NumpadEnter") {
       // 回车键触发点击确认事件
       e.stopPropagation();
-      confirmOnEnter && onConfirm?.({ e });
+      if (confirmOnEnter) {
+        onConfirm?.({ e });
+      }
     }
   };
 
@@ -201,7 +203,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
           ref={wrapRef}
           className={classNames(className, `${componentCls}__ctx`, `${componentCls}__${mode}`, {
             [`${componentCls}__ctx--fixed`]: !showInAttachedElement,
-            [`${componentCls}__ctx--absolute`]: showInAttachedElement,
+            [`${componentCls}__ctx--absolute`]: showInAttachedElement
           })}
           style={{ zIndex, display: "none" }}
           onKeyDown={handleKeyDown}
@@ -213,7 +215,7 @@ const Dialog = forwardRef<DialogInstance, DialogProps>((originalProps, ref) => {
               ref={dialogPosition}
               className={classNames(`${componentCls}__position`, {
                 [`${componentCls}--top`]: !!props.top || props.placement === "top",
-                [`${componentCls}--center`]: props.placement === "center" && !props.top,
+                [`${componentCls}--center`]: props.placement === "center" && !props.top
               })}
               style={{ paddingTop: parseValueToPx(props.top) }}
               onClick={onMaskClick}

@@ -47,7 +47,7 @@ export default function useOverlayInnerStyle(
     }
     return {
       width: `${Math.min(width, MAX_POPUP_WIDTH)}px`,
-      ...otherOverlayInnerStyle,
+      ...otherOverlayInnerStyle
     };
   };
 
@@ -79,6 +79,6 @@ export default function useOverlayInnerStyle(
   return {
     tOverlayInnerStyle,
     innerPopupVisible,
-    onInnerPopupVisibleChange,
+    onInnerPopupVisibleChange
   };
 }

@@ -16,12 +16,12 @@ export const selectDefaultProps: TdSelectProps = {
   showArrow: true,
   size: "medium",
   status: "default",
-  valueType: "value",
+  valueType: "value"
 };
 
 export const optionDefaultProps: TdOptionProps = {
   checkAll: false,
-  disabled: false,
+  disabled: false
 };
 
 export const optionGroupDefaultProps: TdOptionGroupProps = { divider: true };

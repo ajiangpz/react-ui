@@ -8,7 +8,7 @@ export default function useDialogPosition(visible: boolean | undefined, dialogCa
     if (mousePosRef) {
       mousePosRef.current = {
         x: e.clientX,
-        y: e.clientY,
+        y: e.clientY
       };
       setTimeout(() => {
         mousePosRef.current = null;

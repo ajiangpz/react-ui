@@ -4,7 +4,7 @@ import { isString, isObject, isFunction } from "lodash-es";
 import {
   IconClose as TdCloseIcon,
   IconInfoCircle as TdInfoCircleFilledIcon,
-  IconCheckCircleStroked as TdCheckCircleFilledIcon,
+  IconCheckCircleStroked as TdCheckCircleFilledIcon
 } from "tendaui-react-icons";
 import Button, { ButtonProps } from "../button";
 import { TdDialogCardProps } from "./type";
@@ -28,9 +28,9 @@ const renderDialogButton = (btn: DialogCardProps["cancelBtn"], defaultProps: But
   } else if (isValidElement(btn)) {
     result = btn;
   } else if (isObject(btn)) {
-    result = <Button {...defaultProps} {...(btn as {})} />;
+    result = <Button {...defaultProps} {...(btn as Record<string, unknown>)} />;
   } else if (isFunction(btn)) {
-    result = (btn as Function)();
+    result = (btn as () => React.ReactNode)();
   }
 
   return result;
@@ -42,7 +42,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
   const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon } = useGlobalIcon({
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
-    CheckCircleFilledIcon: TdCheckCircleFilledIcon,
+    CheckCircleFilledIcon: TdCheckCircleFilledIcon
   });
   // const [local, t] = useLocaleReceiver('dialog');
   // const confirmText = t(local.confirm);
@@ -73,7 +73,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       // error is going to deprecated
       error: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
       danger: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
-      success: <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />,
+      success: <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />
     };
 
     return (
@@ -95,7 +95,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       <span
         className={`${componentCls}__close`}
         style={{
-          marginLeft: "auto",
+          marginLeft: "auto"
         }}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => onCloseBtnClick?.({ e })}
       >
@@ -116,13 +116,13 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       const renderCancelBtn = renderDialogButton(cancelBtn, {
         variant: "outline",
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onCancel?.({ e }),
-        className: classNames(`${componentCls}__cancel`, (cancelBtn as any)?.props?.className),
+        className: classNames(`${componentCls}__cancel`, (cancelBtn as any)?.props?.className)
       });
       const renderConfirmBtn = renderDialogButton(confirmBtn, {
         theme: "primary",
         loading: confirmLoading,
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onConfirm?.({ e }),
-        className: classNames(`${componentCls}__confirm`, (confirmBtn as any)?.className),
+        className: classNames(`${componentCls}__confirm`, (confirmBtn as any)?.className)
       });
 
       return (

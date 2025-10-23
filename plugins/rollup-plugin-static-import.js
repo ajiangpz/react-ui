@@ -19,7 +19,7 @@ const staticImport = (options) => {
       include: [],
       exclude: [],
       projectRoot: process.cwd(),
-      baseDir: "src",
+      baseDir: "src"
     },
     options
   );
@@ -49,7 +49,7 @@ const staticImport = (options) => {
           this.emitFile({
             type: "asset",
             source: fs.readFileSync(id),
-            fileName: path.relative(baseDir, id),
+            fileName: path.relative(baseDir, id)
           });
           this.addWatchFile(id);
         });
@@ -62,9 +62,9 @@ const staticImport = (options) => {
       this.emitFile({
         type: "asset",
         source: fs.readFileSync(id),
-        fileName: path.relative(baseDir, id),
+        fileName: path.relative(baseDir, id)
       });
-    },
+    }
   };
 
   return self;

@@ -11,7 +11,7 @@ module.exports = {
   jsxSingleQuote: false, // JSX 中使用双引号
 
   // 尾随逗号
-  trailingComma: "es5", // 在 ES5 中有效的位置添加尾随逗号
+  trailingComma: "none", // 在 ES5 中有效的位置添加尾随逗号
 
   // 括号空格
   bracketSpacing: true, // 对象字面量的括号之间打印空格
@@ -37,14 +37,14 @@ module.exports = {
     {
       files: "*.json",
       options: {
-        printWidth: 80,
-      },
+        printWidth: 80
+      }
     },
     {
       files: "*.md",
       options: {
-        proseWrap: "always",
-      },
-    },
-  ],
+        proseWrap: "always"
+      }
+    }
+  ]
 };

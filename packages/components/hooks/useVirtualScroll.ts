@@ -41,7 +41,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
       rowHeight: scroll.rowHeight || 47,
       threshold: scroll.threshold || 100,
       type: scroll.type,
-      fixedRows: scroll.fixedRows ?? [0, 0],
+      fixedRows: scroll.fixedRows ?? [0, 0]
     };
   }, [scroll]);
 
@@ -108,9 +108,9 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
   const handleRowMounted = (rowData: any) => {
     if (!isVirtualScroll || !rowData || tScroll.isFixedRowHeight || !container?.current) return;
     const trHeight = rowData.ref.offsetHeight;
-    // eslint-disable-next-line
+
     const rowIndex = rowData.data.__VIRTUAL_SCROLL_INDEX;
-    const newTrHeightList = trHeightList;
+    const newTrHeightList = [...trHeightList];
     if (newTrHeightList[rowIndex] !== trHeight) {
       newTrHeightList[rowIndex] = trHeight;
       setTrHeightList(newTrHeightList);
@@ -139,7 +139,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
     const scrollTop = trScrollTopHeightList.current[index] - top;
     container.current?.scrollTo({
       top: scrollTop,
-      behavior: behavior || "auto",
+      behavior: behavior || "auto"
     });
   };
 
@@ -227,7 +227,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
       }, 1);
     },
     // eslint-disable-next-line
-    [container, data, tScroll, isVirtualScroll, startAndEndIndex, trHeightList],
+    [container, data, tScroll, isVirtualScroll, startAndEndIndex, trHeightList]
   );
 
   return {
@@ -237,7 +237,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
     isVirtualScroll,
     handleScroll,
     handleRowMounted,
-    scrollToElement,
+    scrollToElement
   };
 };
 

@@ -13,7 +13,7 @@ export default function useCommonClassName() {
         medium: `${classPrefix}-size-m`,
         large: `${classPrefix}-size-l`,
         xl: `${classPrefix}-size-xl`,
-        block: `${classPrefix}-size-full-width`,
+        block: `${classPrefix}-size-full-width`
       },
       STATUS: {
         loading: `${classPrefix}-is-loading`,
@@ -29,15 +29,15 @@ export default function useCommonClassName() {
         hidden: `${classPrefix}-is-hidden`,
         visible: `${classPrefix}-is-visible`,
         expanded: `${classPrefix}-is-expanded`,
-        indeterminate: `${classPrefix}-is-indeterminate`,
-      },
+        indeterminate: `${classPrefix}-is-indeterminate`
+      }
     };
     return {
       SIZE: names.SIZE,
       STATUS: names.STATUS,
       sizeClassNames: names.SIZE,
       statusClassNames: names.STATUS,
-      classPrefix,
+      classPrefix
     };
   }, [classPrefix]);
 }

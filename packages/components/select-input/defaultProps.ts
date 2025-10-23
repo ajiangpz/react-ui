@@ -11,5 +11,5 @@ export const selectInputDefaultProps: TdSelectInputProps = {
   multiple: false,
   readonly: false,
   reserveKeyword: false,
-  status: "default",
+  status: "default"
 };

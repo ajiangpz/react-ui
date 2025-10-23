@@ -8,7 +8,7 @@ import {
   TdOptionProps,
   SelectValueChangeTrigger,
   SelectOption,
-  SelectOptionGroup,
+  SelectOptionGroup
 } from "./type";
 import useConfig from "../hooks/useConfig";
 import usePanelVirtualScroll from "./hooks/usePanelVirtualScroll";
@@ -75,7 +75,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
     onCheckAllChange,
     getPopupInstance,
     options: propsOptions,
-    scroll: propsScroll,
+    scroll: propsScroll
   } = props;
 
   // 国际化文本初始化
@@ -89,7 +89,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
     popupContentRef,
     scroll: propsScroll,
     options: propsOptions,
-    size,
+    size
   });
 
   // 全部可选选项
@@ -130,7 +130,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
     if (!Object.keys(objVal).length) {
       Object.assign(objVal, {
         [keys?.label || "label"]: label,
-        [keys?.value || "value"]: selectedValue,
+        [keys?.value || "value"]: selectedValue
       });
     }
 
@@ -141,7 +141,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
         label,
         value: selectedValue,
         e: event,
-        trigger: selected ? "uncheck" : "check",
+        trigger: selected ? "uncheck" : "check"
       });
     } else {
       // calc single select value
@@ -152,7 +152,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
           label,
           value: selectVal,
           e: event,
-          trigger: "check",
+          trigger: "check"
         });
       }
       setShowPopup(!showPopup);
@@ -166,7 +166,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
         max,
         multiple,
         selectedValue: value,
-        onSelect,
+        onSelect
       };
       return cloneElement(child, { ...addedProps });
     }
@@ -211,7 +211,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
                   ? {
                       isVirtual,
                       bufferSize: propsScroll?.bufferSize,
-                      scrollType: propsScroll?.type,
+                      scrollType: propsScroll?.type
                     }
                   : {})}
                 {...restData}
@@ -235,7 +235,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
       className={classNames(`${classPrefix}-select__dropdown-inner`, {
         [`${classPrefix}-select__dropdown-inner--size-s`]: size === "small",
         [`${classPrefix}-select__dropdown-inner--size-l`]: size === "large",
-        [`${classPrefix}-select__dropdown-inner--size-m`]: size === "medium",
+        [`${classPrefix}-select__dropdown-inner--size-m`]: size === "medium"
       })}
       style={extraStyle}
     >
@@ -265,5 +265,7 @@ const PopupContent = React.forwardRef<HTMLDivElement, SelectPopupProps>((props, 
     </>
   );
 });
+
+PopupContent.displayName = "PopupContent";
 
 export default PopupContent;

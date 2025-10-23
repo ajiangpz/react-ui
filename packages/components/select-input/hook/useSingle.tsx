@@ -3,7 +3,7 @@ import { isObject, pick } from "lodash-es";
 import classNames from "classnames";
 import { SelectInputCommonProperties } from "../interface";
 import { TdSelectInputProps } from "../type";
-import Input, { InputProps, InputRef, TdInputProps } from "../../input";
+import Input, { InputRef, TdInputProps } from "../../input";
 import useControlled from "../../hooks/useControlled";
 
 export interface RenderSelectSingleInputParams {
@@ -25,12 +25,12 @@ const COMMON_PROPERTIES = [
   "onMouseenter",
   "onMouseleave",
   "size",
-  "prefixIcon",
+  "prefixIcon"
 ];
 
 const DEFAULT_KEYS: TdSelectInputProps["keys"] = {
   label: "label",
-  value: "value",
+  value: "value"
 };
 
 function getInputValue(value: TdSelectInputProps["value"], keys: TdSelectInputProps["keys"]) {
@@ -44,7 +44,7 @@ export default function useSingle(props: TdSelectInputProps) {
   const [inputValue, setInputValue] = useControlled(props, "inputValue", props.onInputChange);
   const commonInputProps: SelectInputCommonProperties = {
     ...pick(props, COMMON_PROPERTIES),
-    suffixIcon: props.suffixIcon,
+    suffixIcon: props.suffixIcon
   };
 
   const onInnerClear = (context: { e: MouseEvent<SVGSVGElement> }) => {
@@ -97,7 +97,7 @@ export default function useSingle(props: TdSelectInputProps) {
         {...props.inputProps}
         inputClass={classNames(props.inputProps?.className, {
           [`t-input--focused`]: popupVisible,
-          [`t-is-focused`]: popupVisible,
+          [`t-is-focused`]: popupVisible
         })}
       ></Input>
     );
@@ -107,6 +107,6 @@ export default function useSingle(props: TdSelectInputProps) {
     commonInputProps,
     singleInputValue: inputValue,
     onInnerClear,
-    renderSelectSingle,
+    renderSelectSingle
   };
 }

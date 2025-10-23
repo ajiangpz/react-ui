@@ -57,7 +57,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     onScrollToBottom,
     delay,
     hideEmptyPopup,
-    updateScrollTop,
+    updateScrollTop
   } = props;
 
   // 全局配置
@@ -101,16 +101,18 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     trigger,
     visible,
     delay,
-    onVisibleChange,
+    onVisibleChange
   });
   // 传入popperjs 配置选项
   const popperOptions = props.popperOptions as Options;
   const { placement: _ignored, ...restPopperOptions } = popperOptions || {};
+  // Suppress unused variable warning
+  void _ignored;
 
   // popperRef 表示 popper 实例
   popperRef.current = usePopper(getRefDom(triggerRef), popupElement as any, {
     placement: popperPlacement as Placement,
-    ...restPopperOptions,
+    ...restPopperOptions
   });
 
   // arrow modifier 用于显示箭头
@@ -149,10 +151,14 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   }, [visible, updateScrollTop, getTriggerDom]);
 
   function handleExited() {
-    !destroyOnClose && popupElement && ((popupElement as HTMLElement).style.display = "none");
+    if (!destroyOnClose && popupElement) {
+      (popupElement as HTMLElement).style.display = "none";
+    }
   }
   function handleEnter() {
-    !destroyOnClose && popupElement && ((popupElement as HTMLElement).style.display = "block");
+    if (!destroyOnClose && popupElement) {
+      (popupElement as HTMLElement).style.display = "block";
+    }
   }
 
   function handleScroll(e: React.WheelEvent<HTMLDivElement>) {
@@ -200,7 +206,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
             style={{
               ...(styles as any).popper,
               zIndex,
-              ...getOverlayStyle(overlayStyle),
+              ...getOverlayStyle(overlayStyle)
             }}
             className={classNames(`${classPrefix}-popup`, overlayClassName, "")}
             {...attributes.popper}
@@ -211,7 +217,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
               className={classNames(
                 `${classPrefix}-popup__content`,
                 {
-                  [`${classPrefix}-popup__content--arrow`]: showArrow,
+                  [`${classPrefix}-popup__content--arrow`]: showArrow
                 },
                 overlayInnerClassName
               )}
@@ -241,7 +247,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     getPopupElement: () => popupRef.current as any,
     getPortalElement: () => portalRef.current as any,
     getPopupContentElement: () => contentRef.current as any,
-    setVisible: (visible: boolean) => onVisibleChange(visible, { trigger: "document" }),
+    setVisible: (visible: boolean) => onVisibleChange(visible, { trigger: "document" })
   }));
   // 这里使用 React.Fragment 包裹 triggerNode 和 overlay，确保返回一个单一的父节点
   // 这样可以避免在渲染时出现多个根节点的错误

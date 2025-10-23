@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const meta: Meta<typeof Loading> = {
   title: "Components/Loading",
   component: Loading,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -18,7 +18,7 @@ export const Default: Story = {
     <>
       <Loading {...args}></Loading>
     </>
-  ),
+  )
 };
 
 const LoadingFullscreen = ({ ...args }) => {
@@ -46,7 +46,7 @@ const LoadingFullscreen = ({ ...args }) => {
 };
 
 export const Fullscreen: Story = {
-  render: (args) => <LoadingFullscreen {...args}></LoadingFullscreen>,
+  render: (args) => <LoadingFullscreen {...args}></LoadingFullscreen>
 };
 
 const LoadingDelay = ({ ...args }) => {
@@ -64,7 +64,10 @@ const LoadingDelay = ({ ...args }) => {
   };
 
   useEffect(() => {
-    loadingData();
+    // Use setTimeout to avoid calling setState synchronously within an effect
+    setTimeout(() => {
+      loadingData();
+    }, 0);
   }, []);
 
   return (
@@ -93,5 +96,5 @@ const LoadingDelay = ({ ...args }) => {
 };
 
 export const Delay: Story = {
-  render: (args) => <LoadingDelay {...args}></LoadingDelay>,
+  render: (args) => <LoadingDelay {...args}></LoadingDelay>
 };

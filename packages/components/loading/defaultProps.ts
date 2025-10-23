@@ -8,5 +8,5 @@ export const loadingDefaultProps: TdLoadingProps = {
   loading: true,
   preventScrollThrough: true,
   showOverlay: true,
-  size: "medium",
+  size: "medium"
 };

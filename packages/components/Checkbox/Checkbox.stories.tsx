@@ -6,7 +6,7 @@ import { useState } from "react";
 const meta: Meta<CheckProps> = {
   title: "Components/Checkbox",
   component: Checkbox,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -36,5 +36,5 @@ const CheckboxExample = ({ ...args }) => {
 
 // 基础示例
 export const Default: Story = {
-  render: ({ ...args }) => <CheckboxExample {...args}></CheckboxExample>,
+  render: ({ ...args }) => <CheckboxExample {...args}></CheckboxExample>
 };

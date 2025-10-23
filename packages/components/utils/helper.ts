@@ -2,7 +2,7 @@ import { camelCase, isNumber } from "lodash-es";
 
 export function omit(obj: object, fields: string[]): object {
   const shallowCopy = {
-    ...obj,
+    ...obj
   };
   for (let i = 0; i < fields.length; i++) {
     const key = fields[i];
@@ -118,15 +118,16 @@ export function getIEVersion() {
  * @param maxCharacter 规定最大字符串长度
  * @returns 当没有传入maxCharacter时返回字符串字符长度，当传入maxCharacter时返回截取之后的字符串和长度。
  */
-export function getCharacterLength(str: string): number;
-export function getCharacterLength(str: string, maxCharacter?: number): { length: number; characters: string };
-export function getCharacterLength(str: string, maxCharacter?: number) {
+export function getCharacterLength(
+  str: string,
+  maxCharacter?: number
+): number | { length: number; characters: string } {
   const hasMaxCharacter = isNumber(maxCharacter);
   if (!str || str.length === 0) {
     if (hasMaxCharacter) {
       return {
         length: 0,
-        characters: str,
+        characters: str
       };
     }
     return 0;
@@ -142,7 +143,7 @@ export function getCharacterLength(str: string, maxCharacter?: number) {
     if (hasMaxCharacter && len + currentStringLength > maxCharacter) {
       return {
         length: len,
-        characters: str.slice(0, i),
+        characters: str.slice(0, i)
       };
     }
     len += currentStringLength;
@@ -150,7 +151,7 @@ export function getCharacterLength(str: string, maxCharacter?: number) {
   if (hasMaxCharacter) {
     return {
       length: len,
-      characters: str,
+      characters: str
     };
   }
   return len;

@@ -5,7 +5,7 @@ import { IconProps } from "./components/Icon";
 
 const meta: Meta = {
   title: "ICON",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -13,7 +13,7 @@ export default meta;
 const iconList = Object.entries(Icons) as [string, React.ComponentType<Omit<IconProps, "svg">>][];
 
 export const Default = {
-  render: () => {
+  render: function DefaultRender() {
     const [copied, setCopied] = useState(false);
     const [currentCopyName, setCurrentCopyName] = useState("");
 
@@ -52,5 +52,5 @@ export const Default = {
         ))}
       </div>
     );
-  },
+  }
 };

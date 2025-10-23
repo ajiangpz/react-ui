@@ -15,7 +15,7 @@ export function notification(message: string, type: NotificationType = "default"
     id,
     message,
     type,
-    title,
+    title
   });
 }
 

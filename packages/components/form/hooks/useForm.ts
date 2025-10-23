@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import type { NamePath } from "../type";
 import type { WatchCallBack, InternalHooks, InternalFormInstance, Store } from "./interface";
 
@@ -15,7 +15,7 @@ class FormStore {
     this.forceRootUpdate = forceReRender;
   }
 
-  public taskQueue: any[] = [];
+  public taskQueue: unknown[] = [];
 
   public flashQueue = () => {
     this.taskQueue.forEach((task) => {
@@ -52,7 +52,7 @@ class FormStore {
     getFieldsValue: null,
     _init: true,
     store: this.store,
-    getInternalHooks: this.getInternalHooks,
+    getInternalHooks: this.getInternalHooks
   });
 
   private getInternalHooks = (key: string): InternalHooks | null => {
@@ -69,7 +69,7 @@ class FormStore {
         getPrevStore: () => this.prevStore,
         setPrevStore: (store: object) => {
           this.prevStore = store;
-        },
+        }
       };
     }
 
@@ -90,7 +90,7 @@ class FormStore {
   private notifyWatch = (namePath: NamePath = []) => {
     // No need to cost perf when nothing need to watch
     if (this.watchList.length) {
-      // @ts-ignore
+      // @ts-expect-error Internal API access
       const values = this.getFieldsValue?.([namePath]);
 
       this.watchList.forEach((callback) => {
@@ -101,26 +101,22 @@ class FormStore {
 }
 
 export default function useForm(form?: InternalFormInstance) {
-  const formRef = useRef<InternalFormInstance>(Object.create({}));
-  const [, forceUpdate] = useState({});
-
-  // eslint-disable-next-line
-  if (!formRef.current._init) {
+  const [formInstance, setFormInstance] = useState<InternalFormInstance>(() => {
     if (form) {
-      formRef.current = form;
-      // Reset store when reopening
-      formRef.current.store = {};
-    } else {
-      // Create a new FormStore if not provided
-      const forceReRender = () => {
-        forceUpdate({});
-      };
-
-      const formStore: FormStore = new FormStore(forceReRender);
-
-      formRef.current = formStore.getForm();
+      return form;
     }
+    // Create a new FormStore if not provided
+    const forceReRender = () => {
+      // This will trigger a re-render
+    };
+    const formStore: FormStore = new FormStore(forceReRender);
+    return formStore.getForm();
+  });
+
+  // Update form instance when form prop changes
+  if (form && formInstance !== form) {
+    setFormInstance(form);
   }
 
-  return [formRef.current];
+  return [formInstance];
 }

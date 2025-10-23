@@ -8,7 +8,7 @@ export const dialogCardDefaultProps: TdDialogCardProps = {
   closeBtn: true,
   footer: true,
   header: true,
-  theme: "default",
+  theme: "default"
 };
 
 export const dialogDefaultProps: TdDialogProps = {
@@ -21,5 +21,5 @@ export const dialogDefaultProps: TdDialogProps = {
   preventScrollThrough: true,
   showInAttachedElement: false,
   showOverlay: true,
-  lazy: true,
+  lazy: true
 };

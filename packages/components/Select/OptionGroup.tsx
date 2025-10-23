@@ -18,14 +18,13 @@ const OptionGroup: React.FC<SelectGOptionGroupProps> = (props) => {
   return (
     <li
       className={classNames(`${classPrefix}-select-option-group`, {
-        [`${classPrefix}-select-option-group__divider`]: divider,
+        [`${classPrefix}-select-option-group__divider`]: divider
       })}
     >
       {(label ?? false) && <div className={`${classPrefix}-select-option-group__header`}>{label}</div>}
       {children}
     </li>
   );
-  return;
 };
 
 export default OptionGroup;

@@ -28,7 +28,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
     inheritColor,
     zIndex,
     className,
-    style,
+    style
   } = useDefaultProps<LoadingProps>(props, loadingDefaultProps);
 
   const [showLoading, setShowLoading] = useState(() => (delay ? false : loading));
@@ -53,7 +53,10 @@ const Loading: React.FC<LoadingProps> = (props) => {
         setShowLoading(loading);
       }, delay);
     } else {
-      setShowLoading(loading);
+      // Use setTimeout to avoid calling setState synchronously within an effect
+      setTimeout(() => {
+        setShowLoading(loading);
+      }, 0);
     }
     return () => {
       clearTimeout(timer);
@@ -77,14 +80,14 @@ const Loading: React.FC<LoadingProps> = (props) => {
   const sizeMap = {
     large: `${classPrefix}-size-l`,
     small: `${classPrefix}-size-s`,
-    medium: `${classPrefix}-size-m`,
+    medium: `${classPrefix}-size-m`
   };
 
   const baseClasses = classnames(
     centerClass,
     sizeMap[size],
     {
-      [inheritColorClass]: inheritColor,
+      [inheritColorClass]: inheritColor
     },
     className
   );
@@ -127,7 +130,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
         {showLoading ? (
           <div
             className={classnames(name, baseClasses, fullClass, {
-              [overlayClass]: showOverlay,
+              [overlayClass]: showOverlay
             })}
             style={calcStyles}
           >
@@ -143,7 +146,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
         {loading ? (
           <div
             className={classnames(name, baseClasses, fullClass, {
-              [overlayClass]: showOverlay,
+              [overlayClass]: showOverlay
             })}
             style={{ ...calcStyles, ...style }}
           >

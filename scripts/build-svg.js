@@ -30,26 +30,26 @@ async function build(entryDir, outDir, prefix, suffix, svgoPlugins = [], svgrOpt
       try {
         const svgFileName = basename(file, ".svg");
         const componentName = `${prefix}${camelCase(svgFileName, {
-          pascalCase: true,
+          pascalCase: true
         })}${suffix}`;
         const reactFileName = `${componentName}.tsx`;
         const svgContent = fs.readFileSync(resolve(entryDir, file), "utf-8");
         const svgProps = {
           focusable: "{false}",
-          "aria-hidden": true,
+          "aria-hidden": true
         };
         const result = optimize(svgContent, {
-          plugins: svgoPlugins,
+          plugins: svgoPlugins
         });
         const jsxCode = await svgr(result.data, {
           plugins: ["@svgr/plugin-jsx"],
           svgProps,
           iconType: svgFileName,
-          ...svgrOptions,
+          ...svgrOptions
         });
         const formattedCode = await prettier.format(jsxCode, {
           ...prettierConfig,
-          parser: "typescript",
+          parser: "typescript"
         });
         fs.writeFileSync(resolve(outDir, reactFileName), formattedCode, "utf-8");
         return { fileName: reactFileName, componentName };

@@ -10,13 +10,13 @@ export default function useWatch(name: NamePath, form: InternalFormInstance) {
   const valueStr = useMemo(() => JSON.stringify(value), [value]);
   const valueStrRef = useRef(valueStr);
 
-  // eslint-disable-next-line
   const isValidForm = form && form._init;
 
   useEffect(() => {
     if (!isValidForm) return;
 
-    const { registerWatch = noop } = form.getInternalHooks?.(HOOK_MARK);
+    const internalHooks = form.getInternalHooks?.(HOOK_MARK);
+    const { registerWatch = noop } = internalHooks || {};
 
     const cancelRegister = registerWatch(() => {
       const allFieldsValue = form.getFieldsValue?.(true);

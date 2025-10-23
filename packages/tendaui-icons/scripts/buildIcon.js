@@ -9,7 +9,7 @@ const build = require("../../../scripts/build-svg.js");
 const entryDir = resolve(__dirname, "../src/svgs");
 const outDir = resolve(__dirname, "../src/icons");
 
-const customTemplate = ({ template }, opts, { imports, interfaces, componentName, props, jsx, exports }) => {
+const customTemplate = ({ template }, opts, { imports, interfaces, componentName, props, jsx }) => {
   const plugins = ["jsx"];
   if (opts.typescript) {
     plugins.push("typescript");
@@ -32,30 +32,30 @@ export default IconComponent;
 const svgoPlugins = [
   {
     name: "convertColors",
-    params: { currentColor: /^(?!url|none)./ },
+    params: { currentColor: /^(?!url|none)./ }
   },
   {
     name: "convertPathData",
     params: {
-      floatPrecision: 2,
-    },
+      floatPrecision: 2
+    }
   },
   {
     name: "cleanupListOfValues",
-    active: true,
+    active: true
   },
   {
     name: "removeStyleElement",
-    active: true,
+    active: true
   },
   {
     name: "removeViewBox",
-    active: false,
+    active: false
   },
   {
     name: "removeDimensions",
-    active: true,
-  },
+    active: true
+  }
 ];
 
 // Semi icon library decolor

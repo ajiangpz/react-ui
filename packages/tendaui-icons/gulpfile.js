@@ -1,5 +1,4 @@
 const path = require("path");
-const { Buffer } = require("buffer");
 const through2 = require("through2");
 const gulp = require("gulp");
 const merge2 = require("merge2");
@@ -20,7 +19,7 @@ function compileTSX(isESM) {
   const tsStream = gulp.src(["src/**/*.tsx", "src/**/*.ts", "!src/**/*.stories.tsx"]).pipe(
     gulpTS({
       ...tsConfig.compilerOptions,
-      rootDir: path.join(__dirname, ".."),
+      rootDir: path.join(__dirname, "..")
     })
   );
   const jsStream = tsStream.js

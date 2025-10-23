@@ -6,5 +6,5 @@ export const badgeDefaultProps: TdBadgeProps = {
   maxCount: 99,
   shape: "circle",
   showZero: false,
-  size: "medium",
+  size: "medium"
 };

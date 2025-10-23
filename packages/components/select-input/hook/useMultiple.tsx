@@ -19,7 +19,7 @@ export interface RenderSelectMultipleParams {
 const DEFAULT_KEYS = {
   label: "label",
   key: "key",
-  children: "children",
+  children: "children"
 };
 
 export interface SelectInputProps extends TdSelectInputProps, StyledProps {
@@ -84,8 +84,8 @@ export default function useMultiple(props: SelectInputProps) {
         readonly: !props.allowInput || props.readonly,
         inputClass: classNames(props.tagInputProps?.className, {
           [`${classPrefix}-input--focused`]: p.popupVisible,
-          [`${classPrefix}-is-focused`]: p.popupVisible,
-        }),
+          [`${classPrefix}-is-focused`]: p.popupVisible
+        })
       }}
     />
   );
@@ -95,6 +95,6 @@ export default function useMultiple(props: SelectInputProps) {
     tPlaceholder,
     tagInputRef,
     multipleInputValue: tInputValue,
-    renderSelectMultiple,
+    renderSelectMultiple
   };
 }

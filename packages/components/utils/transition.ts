@@ -22,7 +22,7 @@ export const getTransitionParams = ({ classPrefix, expandAnimation, fadeAnimatio
       enterDone: `${popupAnimationClassPrefix}-enter-active ${popupAnimationClassPrefix}-enter-to`,
       exit: `${popupAnimationClassPrefix}-leave ${popupAnimationClassPrefix}-leave-active`,
       exitActive: `${popupAnimationClassPrefix}-leave-active`,
-      exitDone: `${popupAnimationClassPrefix}-leave-active ${popupAnimationClassPrefix}-leave-to`,
-    },
+      exitDone: `${popupAnimationClassPrefix}-leave-active ${popupAnimationClassPrefix}-leave-to`
+    }
   };
 };

@@ -44,11 +44,11 @@ const Form = forwardRefWithStatics(
       children,
       id,
       onReset,
-      onValuesChange = noop,
+      onValuesChange = noop
     } = props;
 
     const formClass = classNames(`${classPrefix}-form`, className, {
-      [`${classPrefix}-form-inline`]: layout === "inline",
+      [`${classPrefix}-form-inline`]: layout === "inline"
     });
 
     const [form] = useForm(props.form); // 内部与外部共享 form 实例，外部不传则内部创建
@@ -109,7 +109,7 @@ const Form = forwardRefWithStatics(
           disabled,
           formMapRef,
           floatingFormDataRef,
-          onFormItemValueChange,
+          onFormItemValueChange
         }}
       >
         <form

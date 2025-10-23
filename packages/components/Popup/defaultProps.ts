@@ -9,5 +9,5 @@ export const popupDefaultProps: TdPopupProps = {
   hideEmptyPopup: false,
   placement: "top",
   showArrow: false,
-  trigger: "hover",
+  trigger: "hover"
 };

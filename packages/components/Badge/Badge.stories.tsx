@@ -4,7 +4,7 @@ import { Badge, Button } from "tendaui-react/es/index";
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",
   component: Badge,
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -26,9 +26,9 @@ export const Default: Story = {
   args: {
     children: <Button size="large">aa</Button>,
     dot: true,
-    count: 2,
+    count: 2
   },
-  render: () => <BadgeExample></BadgeExample>,
+  render: () => <BadgeExample></BadgeExample>
 };
 
 function CustomExample() {
@@ -37,7 +37,7 @@ function CustomExample() {
     height: "40px",
     background: "#EEEEEE",
     border: "1px solid #DCDCDC",
-    borderRadius: "3px",
+    borderRadius: "3px"
   };
 
   return (
@@ -60,5 +60,5 @@ function CustomExample() {
 
 // 基础示例
 export const Custom: Story = {
-  render: () => <CustomExample></CustomExample>,
+  render: () => <CustomExample></CustomExample>
 };
