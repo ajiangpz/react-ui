@@ -4,7 +4,7 @@ import { isFunction } from "lodash-es";
 import classnames from "classnames";
 import useConfig from "../hooks/useConfig";
 import TInput, { InputValue, InputRef } from "../input";
-import { TdTagInputProps } from "./type";
+import { InputValueChangeContext, TdTagInputProps } from "./type";
 import useTagList from "./hooks/useTagList";
 import useTagScroll from "./hooks/useTagScroll";
 import useHover from "./hooks/useHover";
@@ -16,7 +16,7 @@ import useGlobalIcon from "../hooks/useGlobalIcon";
 import useDragSorter from "../hooks/useDragSorter";
 
 export interface TagInputProps extends TdTagInputProps, StyledProps {
-  options?: any[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
+  options?: unknown[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
 }
 
 const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
@@ -104,19 +104,22 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   const onInnerClick = (context: { e: MouseEvent<HTMLDivElement> }) => {
     if (!props.disabled && !props.readonly) {
-      (tagInputRef.current as any)?.inputElement?.focus?.();
+      tagInputRef.current?.currentElement?.focus?.();
     }
     onClick?.(context);
   };
 
-  const onClearClick = (e: MouseEvent<SVGSVGElement>) => {
+  const onClearClick = (e: React.MouseEvent<SVGSVGElement>) => {
     clearAll({ e });
     setTInputValue("", { e, trigger: "clear" });
     props.onClear?.({ e });
   };
 
   const suffixIconNode = showClearIcon ? (
-    <CloseCircleFilledIcon className={CLEAR_CLASS} onClick={onClearClick} />
+    <CloseCircleFilledIcon
+      className={CLEAR_CLASS}
+      onClick={onClearClick as unknown as React.MouseEventHandler<HTMLSpanElement>}
+    />
   ) : (
     suffixIcon
   );
@@ -153,10 +156,10 @@ const TagInput = forwardRef<InputRef, TagInputProps>((originalProps, ref) => {
 
   return (
     <TInput
-      ref={tagInputRef as any}
+      ref={tagInputRef as unknown as React.Ref<HTMLInputElement>}
       value={tInputValue}
       onChange={(val, context) => {
-        setTInputValue(val, { ...context, trigger: "input" });
+        setTInputValue(val, { ...context, trigger: "input" } as InputValueChangeContext);
       }}
       autoWidth={true} // 控制input_inner的宽度 设置为true让内部input不会提前换行
       onWheel={onWheel}

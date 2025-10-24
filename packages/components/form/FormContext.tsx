@@ -19,8 +19,8 @@ const FormContext = React.createContext<{
   disabled: TdFormProps["disabled"];
   rules: TdFormProps["rules"];
   errorMessage: TdFormProps["errorMessage"];
-  formMapRef: React.RefObject<Map<any, React.RefObject<FormItemInstance>>>;
-  floatingFormDataRef: React.RefObject<Record<any, any>>;
+  formMapRef: React.RefObject<Map<NamePath, React.RefObject<FormItemInstance>>>;
+  floatingFormDataRef: React.RefObject<Record<string, unknown>>;
   onFormItemValueChange: (changedValue: Record<string, unknown>) => void;
 }>({
   form: undefined,
@@ -50,7 +50,7 @@ export default FormContext;
 export const FormListContext = React.createContext<{
   name: NamePath;
   rules: TdFormListProps["rules"];
-  formListMapRef: React.RefObject<Map<any, React.RefObject<FormItemInstance>>>;
+  formListMapRef: React.RefObject<Map<NamePath, React.RefObject<FormItemInstance>>>;
   initialData: TdFormListProps["initialData"];
   form?: InternalFormInstance;
 }>({

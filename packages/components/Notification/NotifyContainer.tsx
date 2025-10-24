@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { TdNotificationProps } from "./type";
 import NotificationItem from "./NotifyItem";
 import useConfig from "../hooks/useConfig";
 export const GAP = 14;
@@ -11,7 +12,7 @@ const NotificationContainer = ({
   maxStack,
   position
 }: {
-  notifications: any[];
+  notifications: TdNotificationProps[];
   onRemove: (id: string) => void;
   onHoverStart: () => void;
   onHoverEnd: () => void;

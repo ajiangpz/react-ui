@@ -1,5 +1,5 @@
 export const inputDefaultProps = {
-  align: "left",
+  align: "left" as "left" | "center" | "right",
   allowInputOverMax: false,
   autoWidth: false,
   autocomplete: undefined,

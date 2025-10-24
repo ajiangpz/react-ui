@@ -59,7 +59,7 @@ Icon.elementType = "Icon";
 
 const convertIcon = (Svg: ComponentType, iconType: string) => {
   const InnerIcon = React.forwardRef<HTMLSpanElement, Omit<IconProps, "svg" | "type">>((props, ref) => (
-    <Icon svg={React.createElement(Svg)} type={iconType} ref={ref as any} {...props} />
+    <Icon svg={React.createElement(Svg)} type={iconType} ref={ref as React.Ref<HTMLSpanElement>} {...props} />
   ));
   InnerIcon.displayName = `Icon(${iconType})`;
   // @ts-expect-error Custom property for icon type detection

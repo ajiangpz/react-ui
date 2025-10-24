@@ -34,7 +34,7 @@ export interface FormItemProps extends TdFormItemProps, StyledProps {
 export interface FormItemInstance {
   name?: NamePath;
   isUpdated?: boolean;
-  value?: any;
+  value?: ValueType;
   getValue?: (...args: unknown[]) => unknown;
   setValue?: (...args: unknown[]) => unknown;
   setField?: (...args: unknown[]) => unknown;
@@ -50,7 +50,7 @@ export interface FormItemInstance {
 const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref) => {
   // const [locale, t] = useLocaleReceiver('form');
   const { classPrefix, form: globalFormConfig } = useConfig();
-  const { CheckCircleFilledIcon, CloseCircleFilledIcon, ErrorCircleFilledIcon } = useGlobalIcon({
+  useGlobalIcon({
     CheckCircleFilledIcon: TdCheckCircleFilledIcon,
     CloseCircleFilledIcon: TdCloseCircleFilledIcon,
     ErrorCircleFilledIcon: TdErrorCircleFilledIcon
@@ -162,7 +162,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     });
 
   // 更新 form 表单字段
-  const updateFormValue = (newVal: any, validate = true, shouldEmitChange = false) => {
+  const updateFormValue = (newVal: ValueType, validate = true, shouldEmitChange = false) => {
     const { setPrevStore } = form?.getInternalHooks?.(HOOK_MARK) || {};
     setPrevStore?.(form?.getFieldsValue?.(true));
     shouldEmitChangeRef.current = shouldEmitChange;
@@ -200,9 +200,9 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
 
     const getDefaultIcon = () => {
       const iconMap = {
-        success: <CheckCircleFilledIcon size="25px" />,
-        error: <CloseCircleFilledIcon size="25px" />,
-        warning: <ErrorCircleFilledIcon size="25px" />
+        success: <TdCheckCircleFilledIcon size="large" />,
+        error: <TdCloseCircleFilledIcon size="large" />,
+        warning: <TdErrorCircleFilledIcon size="large" />
       };
       if (verifyStatus === ValidateStatus.SUCCESS) {
         return resultIcon(iconMap[verifyStatus]);
@@ -481,7 +481,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
     value: formValue,
     isUpdated: isUpdatedRef.current,
     getValue: () => valueRef.current,
-    setValue: (newVal: any) => updateFormValue(newVal, true, true),
+    setValue: (newVal: ValueType) => updateFormValue(newVal, true, true),
     setField,
     validate,
     validateOnly,
@@ -513,7 +513,6 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
             if (React.isValidElement(child)) {
               if (child.type === FormItem) {
                 return React.cloneElement(child, {
-                  // @ts-expect-error React.cloneElement ref type issue
                   ref: (el) => {
                     if (!el) return;
                     innerFormItemsRef.current[index] = el;
@@ -523,17 +522,17 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
               if (typeof child.type === "object") {
                 ctrlKey = ctrlKeyMap.get(child.type) || "value";
               }
-              const childProps = child.props as any;
+              const childProps = child.props as TdFormItemProps & React.HTMLAttributes<HTMLDivElement>;
               return React.cloneElement(child, {
                 disabled: disabledFromContext,
                 ...childProps,
                 [ctrlKey]: formValue,
-                onChange: (value: any, ...args: any[]) => {
+                onChange: (value: ValueType, ...args: unknown[]) => {
                   const newValue = valueFormat ? valueFormat(value) : value;
                   updateFormValue(newValue, true, true);
                   childProps?.onChange?.call?.(null, value, ...args);
                 },
-                onBlur: (value: any, ...args: any[]) => {
+                onBlur: (value: ValueType, ...args: unknown[]) => {
                   handleItemBlur();
                   childProps?.onBlur?.call?.(null, value, ...args);
                 }

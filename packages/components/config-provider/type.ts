@@ -1,5 +1,6 @@
 import { TNode, TElement, SizeEnum, AttachNode } from "../common";
 import { ButtonProps } from "../button";
+import Icon from "tendaui-react-icons";
 export interface TdConfigProviderProps {
   /**
    * 全局配置
@@ -83,7 +84,7 @@ export interface GlobalConfigProvider {
   /**
    * 图标全局配置
    */
-  icon?: any;
+  icon?: Record<string, typeof Icon>;
   /**
    * 图片全局配置
    */
@@ -210,7 +211,7 @@ export interface CalendarConfig {
   /**
    * 日历右上角控制器按钮配置
    */
-  controllerConfig?: any;
+  controllerConfig?: Record<string, unknown>;
   /**
    * 当日期数字小于 10 时，是否使用 '0' 填充
    * @default true
@@ -520,7 +521,7 @@ export interface FormConfig {
   /**
    * 表单错误信息配置，示例：`{ idcard: '请输入正确的身份证号码', max: '字符长度不能超过 ${max}' }`
    */
-  errorMessage?: any;
+  errorMessage?: Record<string, unknown>;
   /**
    * 是否显示必填符号（*），默认显示
    * @default true
@@ -566,7 +567,7 @@ export interface ImageConfig {
   /**
    * 统一替换图片 `src` 地址，参数为组件的全部属性，返回值为新的图片地址
    */
-  replaceImageSrc?: (params: any) => string;
+  replaceImageSrc?: (params: Record<string, unknown>) => string;
 }
 
 export interface ImageViewerConfig {
@@ -1058,4 +1059,4 @@ export interface UploadTriggerUploadText {
   delete?: string;
 }
 
-export type IconConfig = any;
+export type IconConfig = Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>>;

@@ -145,7 +145,7 @@ export interface TdInputProps {
   onChange?: (
     value: InputValue,
     context?: {
-      e?: FormEvent<HTMLInputElement> | MouseEvent<any> | CompositionEvent<HTMLDivElement>;
+      e?: FormEvent<HTMLInputElement> | MouseEvent<Element> | CompositionEvent<HTMLDivElement>;
       trigger: "input" | "initial" | "clear";
     }
   ) => void;

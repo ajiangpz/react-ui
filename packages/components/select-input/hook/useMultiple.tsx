@@ -23,7 +23,7 @@ const DEFAULT_KEYS = {
 };
 
 export interface SelectInputProps extends TdSelectInputProps, StyledProps {
-  options?: any[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
+  options?: unknown[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
 }
 
 export default function useMultiple(props: SelectInputProps) {
@@ -35,7 +35,7 @@ export default function useMultiple(props: SelectInputProps) {
 
   const getTags = () => {
     if (!(value instanceof Array)) {
-      if (["", null, undefined].includes(value as any)) return [];
+      if (["", null, undefined].includes(String(value))) return [];
       return isObject(value) ? [value[iKeys.label]] : [value];
     }
     return value.map((item: SelectInputValue) => (isObject(item) ? item[iKeys.label] : item));

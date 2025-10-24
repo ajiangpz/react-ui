@@ -1,21 +1,19 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
-
+import { TdNotificationProps, HeightItem } from "./type";
 import { IconClose, IconInfoCircle, IconCheckCircleStroked, IconAlertTriangle } from "tendaui-react-icons";
 import useConfig from "../hooks/useConfig";
 
-const NotificationItem: React.FC<{
-  id: string;
-  message: string;
-  type: string;
-  heights: { toastId: string; height: number }[];
-  gap: number;
-  setHeights: React.Dispatch<
-    React.SetStateAction<{ toastId: string; height: number; message: string; type: string }[]>
-  >;
-  isRemoved: boolean;
-  isExpanded: boolean;
-  title: string;
-}> = ({ message, type, heights, setHeights, id, gap, isExpanded, isRemoved, title }) => {
+const NotificationItem: React.FC<TdNotificationProps> = ({
+  message,
+  type,
+  heights,
+  setHeights,
+  id,
+  gap,
+  isExpanded,
+  isRemoved,
+  title
+}) => {
   const [initialHeight, setInitialHeight] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const nofityItem = useRef<HTMLDivElement>(null);
@@ -29,15 +27,15 @@ const NotificationItem: React.FC<{
     if (notifyNode) {
       const height = notifyNode.getBoundingClientRect().height;
       setInitialHeight(height);
-      setHeights((h) => {
+      setHeights((h: HeightItem[]) => {
         // 如果不存在，则添加
         return [{ toastId: id, height, message, type }, ...h];
       });
       return () => {
-        setHeights((h) => h.filter((h) => h.toastId !== id));
+        setHeights((h: HeightItem[]) => h.filter((h) => h.toastId !== id));
       };
     }
-  }, [setHeights, id]);
+  }, [setHeights, id, message, type]);
 
   useLayoutEffect(() => {
     if (!isMounted) return;
@@ -69,9 +67,9 @@ const NotificationItem: React.FC<{
       }
       return acc;
     }, 0);
-  }, [initialHeight, heightIndex, heights]);
+  }, [heightIndex, heights]);
 
-  const offset = React.useMemo(() => heightIndex * gap + toastHeightBefore, [toastHeightBefore, heightIndex]);
+  const offset = React.useMemo(() => heightIndex * gap + toastHeightBefore, [toastHeightBefore, heightIndex, gap]);
 
   return (
     <div

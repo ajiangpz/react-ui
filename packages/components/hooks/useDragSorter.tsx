@@ -10,18 +10,18 @@ interface DragSortProps<T> {
   };
 }
 
-type DragFnType = (e?: React.DragEvent<HTMLTableRowElement>, index?: number, record?: any) => void;
-interface DragSortInnerData {
+type DragFnType<T = unknown> = (e?: React.DragEvent<HTMLTableRowElement>, index?: number, record?: T) => void;
+interface DragSortInnerData<T = unknown> {
   dragging?: boolean;
   draggable?: boolean;
-  onDragStart?: DragFnType;
-  onDragOver?: DragFnType;
-  onDrop?: DragFnType;
-  onDragEnd?: DragFnType;
+  onDragStart?: DragFnType<T>;
+  onDragOver?: DragFnType<T>;
+  onDrop?: DragFnType<T>;
+  onDragEnd?: DragFnType<T>;
 }
 
-export interface DragSortInnerProps extends DragSortInnerData {
-  getDragProps?: (index?: number, record?: any) => DragSortInnerData;
+export interface DragSortInnerProps<T = unknown> extends DragSortInnerData<T> {
+  getDragProps?: (index?: number, record?: T) => DragSortInnerData<T>;
 }
 
 export interface DragSortContext<T> {
@@ -31,7 +31,7 @@ export interface DragSortContext<T> {
   target: T;
 }
 
-function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
+function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps<T> {
   const { sortOnDraggable, onDragSort, onDragOverCheck } = props;
   const [draggingIndex, setDraggingIndex] = useState(-1);
   const [dragStartData, setDragStartData] = useState(null);
@@ -41,7 +41,7 @@ function useDragSorter<T>(props: DragSortProps<T>): DragSortInnerProps {
     nodeWidth: 0,
     mouseX: 0
   });
-  const onDragSortEvent = useEventCallback(onDragSort as any);
+  const onDragSortEvent = useEventCallback(onDragSort as (context: DragSortContext<T>) => void);
 
   const onDragOver = useCallback(
     (e, index, record: T) => {

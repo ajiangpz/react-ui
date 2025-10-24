@@ -29,17 +29,17 @@ function useEventCallbackShouldNotBeInvokedBeforeMount() {
  */
 export default function useEventCallback<TCallback extends AnyFunction>(callback: TCallback): TCallback {
   // Keep track of the latest callback:
-  const latestRef = React.useRef<TCallback>(useEventCallbackShouldNotBeInvokedBeforeMount as any);
+  const latestRef = React.useRef<TCallback>(useEventCallbackShouldNotBeInvokedBeforeMount as TCallback);
   useInsertionEffect(() => {
     latestRef.current = callback;
   }, [callback]);
 
   // Create a stable callback that always calls the latest callback:
   // using useRef instead of useCallback avoids creating and empty array on every render
-  const stableRef = React.useRef<TCallback>(null as any);
+  const stableRef = React.useRef<TCallback>(null);
   if (!stableRef.current) {
-    stableRef.current = function (this: unknown, ...args: unknown[]) {
-      return latestRef.current.apply(this, args);
+    stableRef.current = function (...args: Parameters<TCallback>) {
+      return latestRef.current(...args);
     } as TCallback;
   }
 

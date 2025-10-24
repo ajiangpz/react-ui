@@ -34,7 +34,7 @@ const renderIcon = (classPrefix: string, type: "prefix" | "suffix", icon: TNode 
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
-  const props = useDefaultProps<InputProps>(originalProps, inputDefaultProps);
+  const props = useDefaultProps<InputProps>(originalProps, inputDefaultProps as Partial<InputProps>);
   const { classPrefix } = useConfig();
 
   const {
@@ -145,7 +145,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
 
   // 当元素默认为 display: none 状态，无法提前准确计算宽度，因此需要监听元素宽度变化。比如：Tabs 场景切换。
   useEffect(() => {
-    let resizeObserver: ResizeObserver = null as any;
+    let resizeObserver: ResizeObserver | null = null;
     // IE 11 以下使用设置 minWidth 兼容；IE 11 以上使用 ResizeObserver
     if (typeof window.ResizeObserver === "undefined" || !inputRef.current) return;
     resizeObserver = new window.ResizeObserver(() => {
@@ -155,7 +155,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     return () => {
       // resizeObserver.unobserve?.(inputRef.current);
       resizeObserver.disconnect?.();
-      resizeObserver = null as any;
+      resizeObserver = null;
     };
     // eslint-disable-next-line
   }, [inputRef]);
@@ -272,7 +272,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
 
   function handleClear(e: React.MouseEvent<HTMLSpanElement>) {
     onChange?.("", { e, trigger: "clear" });
-    onClear?.({ e: e as any });
+    onClear?.({ e: e as unknown as React.MouseEvent<SVGElement> });
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

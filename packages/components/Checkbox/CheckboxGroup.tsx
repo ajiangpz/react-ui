@@ -57,7 +57,10 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
       : React.Children.map(
           children,
           (child: ReactElement<CheckboxProps>) =>
-            (child?.type as any)?.displayName === Checkbox.displayName && child.props
+            typeof child.type === "function" &&
+            "displayName" in child.type &&
+            child.type.displayName === "Checkbox" &&
+            child.props
         ) || [];
 
   const optionsWithoutCheckAll = intervalOptions.filter((t) => typeof t !== "object" || !t.checkAll);
@@ -165,7 +168,7 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
     <div className={classNames(`${classPrefix}-checkbox-group`, className)} style={style}>
       <CheckContext.Provider value={context}>
         {useOptions
-          ? options.map((v: any, index) => {
+          ? options.map((v: CheckboxOption, index) => {
               switch (typeof v) {
                 case "string":
                   return (

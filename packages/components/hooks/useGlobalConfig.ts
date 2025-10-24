@@ -1,7 +1,7 @@
 import useConfig from "./useConfig";
 
 // 从 globalConfig 获取 icon 配置用于覆盖组件内置 icon
-export default function useGlobalIcon(tdIcon: any) {
+export default function useGlobalIcon(tdIcon: Record<string, unknown>) {
   const { icon: globalIcon } = useConfig();
 
   const resultIcon = {};

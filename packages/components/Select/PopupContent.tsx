@@ -37,7 +37,7 @@ interface SelectPopupProps
     context?: {
       label?: string | number;
       value?: SelectValue;
-      restData?: Record<string, any>;
+      restData?: Record<string, unknown>;
       e: React.MouseEvent<HTMLLIElement>;
       trigger: SelectValueChangeTrigger;
     }

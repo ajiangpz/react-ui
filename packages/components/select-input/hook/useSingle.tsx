@@ -2,7 +2,7 @@ import React, { useRef, MouseEvent } from "react";
 import { isObject, pick } from "lodash-es";
 import classNames from "classnames";
 import { SelectInputCommonProperties } from "../interface";
-import { TdSelectInputProps } from "../type";
+import { TdSelectInputProps, SelectInputValueChangeContext } from "../type";
 import Input, { InputRef, TdInputProps } from "../../input";
 import useControlled from "../../hooks/useControlled";
 
@@ -55,7 +55,7 @@ export default function useSingle(props: TdSelectInputProps) {
 
   const onInnerInputChange: TdInputProps["onChange"] = (value, context) => {
     if (props.allowInput) {
-      setInputValue(value, { ...context, trigger: "input" });
+      setInputValue(value, { ...context, trigger: "input" } as SelectInputValueChangeContext);
     }
   };
 
@@ -68,8 +68,8 @@ export default function useSingle(props: TdSelectInputProps) {
     const displayedValue = popupVisible && props.allowInput ? inputValue : getInputValue(value, keys);
     return (
       <Input
-        ref={inputRef as any}
-        {...(commonInputProps as any)}
+        ref={inputRef as unknown as React.Ref<HTMLInputElement>}
+        {...commonInputProps}
         autoWidth={props.autoWidth}
         placeholder={props.placeholder}
         value={singleValueDisplay ? " " : displayedValue}

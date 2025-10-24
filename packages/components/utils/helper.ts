@@ -23,9 +23,12 @@ export function removeEmptyAttrs<T>(obj: T): Partial<T> {
   return newObj;
 }
 
-export function getTabElementByValue(tabs: [] = [], value: string): object {
+export function getTabElementByValue(
+  tabs: Array<{ id: string; [key: string]: unknown }> = [],
+  value: string
+): { id: string; [key: string]: unknown } | null {
   const [result] = tabs.filter((item) => {
-    const { id } = item as any;
+    const { id } = item;
     return id === value;
   });
   return result || null;
@@ -52,7 +55,7 @@ export function getBackgroundColor(color: string | string[] | LinearGradient): s
   let keys = Object.keys(rest);
   if (keys.length) {
     keys = keys.sort((a, b) => parseFloat(a.substr(0, a.length - 1)) - parseFloat(b.substr(0, b.length - 1)));
-    const tempArr = keys.map((key: any) => `${rest[key]} ${key}`);
+    const tempArr = keys.map((key: string) => `${rest[key]} ${key}`);
     return `linear-gradient(${direction}, ${tempArr.join(",")})`;
   }
   return `linear-gradient(${direction}, ${from}, ${to})`;

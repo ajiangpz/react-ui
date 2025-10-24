@@ -7,7 +7,7 @@ import type { ScrollToElementParams, TScroll } from "../common";
 
 export type UseVirtualScrollParams = {
   /** 列数据 */
-  data: { [key: string]: any }[];
+  data: { [key: string]: unknown }[];
   scroll: TScroll & {
     fixedRows?: Array<number>;
   };
@@ -21,7 +21,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
   const dataRef = useRef(data);
 
   /** 注意测试：数据长度为空；数据长度小于表格高度等情况。即期望只有数据量达到一定程度才允许开启虚拟滚动 */
-  const [visibleData, setVisibleData] = useState<any[]>([]);
+  const [visibleData, setVisibleData] = useState<unknown[]>([]);
   // 滚动过程中表格顶部占位距离
   const [translateY, setTranslateY] = useState(() => (data?.length || 0) * (scroll?.rowHeight || 50));
   // 滚动高度，用于显示滚动条
@@ -105,7 +105,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
   };
 
   // 仅非固定高度场景需要
-  const handleRowMounted = (rowData: any) => {
+  const handleRowMounted = (rowData: { ref: HTMLElement; data: { __VIRTUAL_SCROLL_INDEX: number } }) => {
     if (!isVirtualScroll || !rowData || tScroll.isFixedRowHeight || !container?.current) return;
     const trHeight = rowData.ref.offsetHeight;
 
@@ -129,7 +129,7 @@ const useVirtualScroll = (container: MutableRefObject<HTMLElement>, params: UseV
     updateVisibleData(trScrollTopHeightList.current, container.current.scrollTop);
   };
 
-  const addIndexToData = (data: any[]) => {
+  const addIndexToData = (data: { [key: string]: unknown }[]) => {
     data.forEach((item, index) => {
       Reflect.set(item, "__VIRTUAL_SCROLL_INDEX", index);
     });

@@ -299,7 +299,7 @@ const Select = forwardRefWithStatics(
           return filter(value, option);
         }
         const upperValue = value.toUpperCase();
-        return (option?.label || "").toUpperCase().includes(upperValue);
+        return (String(option?.label) || "").toUpperCase().includes(upperValue);
       };
 
       tmpPropOptions?.forEach((option) => {
@@ -371,7 +371,7 @@ const Select = forwardRefWithStatics(
       return showArrow && <FakeArrow className={`${name}__right-icon`} isActive={showPopup} disabled={disabled} />;
     };
 
-    const getPopupInstance = useCallback(() => (selectInputRef as any).current?.getPopupContentElement(), []);
+    const getPopupInstance = useCallback(() => selectInputRef.current?.getPopupContentElement(), []);
 
     const childrenWithProps = Children.map(children, (child) => {
       if (isValidElement(child)) {

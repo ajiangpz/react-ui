@@ -13,7 +13,7 @@ import { InputRef } from "../input";
 
 export interface SelectInputProps extends TdSelectInputProps, StyledProps {
   updateScrollTop?: (content: HTMLDivElement) => void;
-  options?: any[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
+  options?: unknown[]; // 参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
 }
 
 const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputProps>((originalProps, ref) => {
@@ -86,7 +86,7 @@ const SelectInput = React.forwardRef<Partial<PopupRef & InputRef>, SelectInputPr
   }
 
   return (
-    <div ref={selectInputWrapRef as any} className={`t-select-input__wrap`}>
+    <div ref={selectInputWrapRef as React.Ref<HTMLDivElement>} className={`t-select-input__wrap`}>
       {mainContent}
       {props.tips && <div className={`t-input__tips t-input__tips--${props.status || "normal"}`}>{props.tips}</div>}
     </div>

@@ -7,7 +7,7 @@ export default function composeRefs<T>(...refs: Ref<T>[]) {
       if (typeof ref === "function") {
         ref(instance);
       } else if (ref) {
-        (ref as any).current = instance;
+        (ref as { current: T }).current = instance;
       }
     }
   };

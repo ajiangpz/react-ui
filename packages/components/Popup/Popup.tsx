@@ -62,7 +62,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 全局配置
   const { height: windowHeight, width: windowWidth } = useWindowSize();
-  const [visible, onVisibleChange] = useControlled(props, "visible", props.onVisibleChange as any);
+  const [visible, onVisibleChange] = useControlled(props, "visible", props.onVisibleChange);
   // 记录 popup 元素
   // 如果内容为 null 或 undefined，且 hideEmptyPopup 为 true，则不展示 popup
   const [popupElement, setPopupElement] = useState(null);
@@ -110,7 +110,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   void _ignored;
 
   // popperRef 表示 popper 实例
-  popperRef.current = usePopper(getRefDom(triggerRef), popupElement as any, {
+  popperRef.current = usePopper(getRefDom(triggerRef), popupElement, {
     placement: popperPlacement as Placement,
     ...restPopperOptions
   });
@@ -128,12 +128,12 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   useMutationObserver(getRefDom(triggerRef), () => {
     const isDisplayNone = getCssVarsValue("display", getRefDom(triggerRef)) === "none";
     if (visible && !isDisplayNone) {
-      clearTimeout(updateTimeRef.current as any);
-      updateTimeRef.current = setTimeout(() => popperRef.current?.update?.(), 0) as any;
+      clearTimeout(updateTimeRef.current);
+      updateTimeRef.current = setTimeout(() => popperRef.current?.update?.(), 0);
     }
   });
   // 清理定时器
-  useEffect(() => () => clearTimeout(updateTimeRef.current as any), []);
+  useEffect(() => () => clearTimeout(updateTimeRef.current), []);
 
   // 窗口尺寸变化时调整位置
   useEffect(() => {
@@ -144,9 +144,9 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 下拉展开时更新内部滚动条
   useEffect(() => {
-    if (!triggerRef.current) triggerRef.current = getTriggerDom() as any;
+    if (!triggerRef.current) triggerRef.current = getTriggerDom();
     if (visible) {
-      updateScrollTop?.(contentRef.current as any);
+      updateScrollTop?.(contentRef.current);
     }
   }, [visible, updateScrollTop, getTriggerDom]);
 
@@ -157,7 +157,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   }
   function handleEnter() {
     if (!destroyOnClose && popupElement) {
-      (popupElement as HTMLElement).style.display = "block";
+      popupElement.style.display = "block";
     }
   }
 
@@ -199,12 +199,12 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
           <div
             ref={(node) => {
               if (node) {
-                popupRef.current = node as any;
-                setPopupElement(node as any);
+                popupRef.current = node;
+                setPopupElement(node);
               }
             }}
             style={{
-              ...(styles as any).popper,
+              ...styles.popper,
               zIndex,
               ...getOverlayStyle(overlayStyle)
             }}
@@ -224,10 +224,10 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
               style={getOverlayStyle(overlayInnerStyle)}
               onScroll={handleScroll}
             >
-              {content as any}
+              {content}
               {showArrow && (
                 <div
-                  style={(styles as any).arrow}
+                  style={styles.arrow}
                   className={`${classPrefix}-popup__arrow`}
                   {...(hasArrowModifier && { "data-popper-arrow": "" })}
                 />
@@ -243,10 +243,10 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   // portal 元素和内容区域元素
   // 以及设置 popup 的显示隐藏状态
   useImperativeHandle(ref, () => ({
-    getPopper: () => popperRef.current as any,
-    getPopupElement: () => popupRef.current as any,
-    getPortalElement: () => portalRef.current as any,
-    getPopupContentElement: () => contentRef.current as any,
+    getPopper: () => popperRef.current,
+    getPopupElement: () => popupRef.current,
+    getPortalElement: () => portalRef.current,
+    getPopupContentElement: () => contentRef.current,
     setVisible: (visible: boolean) => onVisibleChange(visible, { trigger: "document" })
   }));
   // 这里使用 React.Fragment 包裹 triggerNode 和 overlay，确保返回一个单一的父节点

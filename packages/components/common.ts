@@ -68,7 +68,7 @@ export interface ScrollToElementParams {
 /**
  * 通用全局类型
  * */
-export type PlainObject = { [key: string]: any };
+export type PlainObject = { [key: string]: unknown };
 
 /**
  * @deprecated use TScroll instead

@@ -20,11 +20,11 @@ export interface SelectOptionProps
       label?: string;
       selected?: boolean;
       event: React.MouseEvent<HTMLLIElement>;
-      restData?: Record<string, any>;
+      restData?: Record<string, unknown>;
     }
   ) => void;
   onCheckAllChange?: (checkAll: boolean, e: React.MouseEvent<HTMLLIElement>) => void;
-  restData?: Record<string, any>;
+  restData?: Record<string, unknown>;
   keys?: SelectKeysType;
   optionLength?: number;
   isVirtual?: boolean;

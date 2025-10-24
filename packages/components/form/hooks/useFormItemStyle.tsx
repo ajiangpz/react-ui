@@ -34,7 +34,8 @@ export default function useFormItemStyle(props) {
   const helpNode = help && <div className={`${classPrefix}-input__help`}>{parseTNode(help)}</div>;
 
   // 判断是否有星号
-  const needRequiredMark = requiredMark || (requiredMark ?? innerRules.filter((rule: any) => rule.required).length > 0);
+  const needRequiredMark =
+    requiredMark || (requiredMark ?? innerRules.filter((rule: { required?: boolean }) => rule.required).length > 0);
 
   // 提示文本
   const extraNode = useMemo(() => {

@@ -39,7 +39,7 @@ const renderDialogButton = (btn: DialogCardProps["cancelBtn"], defaultProps: But
 const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
   const { classPrefix } = useConfig();
   const componentCls = `${classPrefix}-dialog`;
-  const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon } = useGlobalIcon({
+  useGlobalIcon({
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
     CheckCircleFilledIcon: TdCheckCircleFilledIcon
@@ -68,12 +68,12 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
 
   const renderHeaderContent = () => {
     const iconMap = {
-      info: <InfoCircleFilledIcon className={`${classPrefix}-is-info`} />,
-      warning: <InfoCircleFilledIcon className={`${classPrefix}-is-warning`} />,
+      info: <TdInfoCircleFilledIcon className={`${classPrefix}-is-info`} />,
+      warning: <TdInfoCircleFilledIcon className={`${classPrefix}-is-warning`} />,
       // error is going to deprecated
-      error: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
-      danger: <InfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
-      success: <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />
+      error: <TdInfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
+      danger: <TdInfoCircleFilledIcon className={`${classPrefix}-is-error`} />,
+      success: <TdCheckCircleFilledIcon className={`${classPrefix}-is-success`} />
     };
 
     return (
@@ -89,7 +89,7 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       return null;
     }
 
-    const closeIcon = () => (closeBtn === true ? <CloseIcon /> : closeBtn);
+    const closeIcon = () => (closeBtn === true ? <TdCloseIcon /> : closeBtn);
 
     return (
       <span
@@ -116,13 +116,16 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
       const renderCancelBtn = renderDialogButton(cancelBtn, {
         variant: "outline",
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onCancel?.({ e }),
-        className: classNames(`${componentCls}__cancel`, (cancelBtn as any)?.props?.className)
+        className: classNames(
+          `${componentCls}__cancel`,
+          (cancelBtn as { props?: { className?: string } })?.props?.className
+        )
       });
       const renderConfirmBtn = renderDialogButton(confirmBtn, {
         theme: "primary",
         loading: confirmLoading,
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => onConfirm?.({ e }),
-        className: classNames(`${componentCls}__confirm`, (confirmBtn as any)?.className)
+        className: classNames(`${componentCls}__confirm`, (confirmBtn as { className?: string })?.className)
       });
 
       return (

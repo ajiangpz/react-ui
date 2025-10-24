@@ -6,7 +6,7 @@ import { ForwardRef, isMemo } from "react-is";
 import isFragment from "./isFragment";
 
 // 判断是否支持 ref 透传
-export const supportRef = (nodeOrComponent: any): boolean => {
+export const supportRef = (nodeOrComponent: unknown): boolean => {
   if (!nodeOrComponent) {
     return false;
   }
@@ -14,24 +14,30 @@ export const supportRef = (nodeOrComponent: any): boolean => {
   // React 19 no need `forwardRef` anymore. So just pass if is a React element.
 
   if (
-    isReactElement(nodeOrComponent) &&
-    Object.prototype.propertyIsEnumerable.call((nodeOrComponent as any).props, "ref")
+    isReactElement(nodeOrComponent as React.ReactNode) &&
+    Object.prototype.propertyIsEnumerable.call((nodeOrComponent as React.ReactElement).props, "ref")
   ) {
     return true;
   }
 
-  const type = isMemo(nodeOrComponent) ? nodeOrComponent.type.type : nodeOrComponent.type;
+  const type = isMemo(nodeOrComponent)
+    ? (nodeOrComponent as { type: { type: unknown } }).type.type
+    : (nodeOrComponent as { type: unknown }).type;
 
   // Function component node
-  if (typeof type === "function" && !type.prototype?.render && type.$$typeof !== ForwardRef) {
+  if (
+    typeof type === "function" &&
+    !(type as { prototype?: { render?: unknown } }).prototype?.render &&
+    (type as { $$typeof?: symbol }).$$typeof !== ForwardRef
+  ) {
     return false;
   }
 
   // Class component
   if (
     typeof nodeOrComponent === "function" &&
-    !nodeOrComponent.prototype?.render &&
-    nodeOrComponent.$$typeof !== ForwardRef
+    !(nodeOrComponent as { prototype?: { render?: unknown } }).prototype?.render &&
+    (nodeOrComponent as { $$typeof?: symbol }).$$typeof !== ForwardRef
   ) {
     return false;
   }
@@ -39,9 +45,9 @@ export const supportRef = (nodeOrComponent: any): boolean => {
 };
 
 // 获取 ref 中的 dom 元素
-export function getRefDom(domRef: React.RefObject<any>) {
+export function getRefDom<T = HTMLElement>(domRef: React.RefObject<T>) {
   if (domRef.current && typeof domRef.current === "object" && "currentElement" in domRef.current) {
-    return domRef.current.currentElement;
+    return (domRef.current as { currentElement: HTMLElement }).currentElement;
   }
   return domRef.current;
 }
@@ -54,7 +60,7 @@ function isReactElement(node: React.ReactNode) {
   return isValidElement(node) && !isFragment(node);
 }
 
-export const supportNodeRef = <T = any>(node: React.ReactNode): node is React.ReactElement & RefAttributes<T> =>
+export const supportNodeRef = <T = HTMLElement>(node: React.ReactNode): node is React.ReactElement & RefAttributes<T> =>
   isReactElement(node) && supportRef(node);
 
 /**
@@ -62,9 +68,9 @@ export const supportNodeRef = <T = any>(node: React.ReactNode): node is React.Re
  * But a property from `props.ref`.
  * To check if `props.ref` exist or fallback to `ref`.
  */
-export const getNodeRef: <T = any>(node: React.ReactNode) => React.Ref<T> | null = (node) => {
+export const getNodeRef = <T = HTMLElement>(node: React.ReactNode): React.Ref<T> | null => {
   if (node && isReactElement(node)) {
-    const ele = node as any;
+    const ele = node as React.ReactElement & { ref?: React.Ref<T> };
 
     // Source from:
     // https://github.com/mui/material-ui/blob/master/packages/mui-utils/src/getReactNodeRef/getReactNodeRef.ts

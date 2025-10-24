@@ -12,7 +12,9 @@ export const getWindowSize = (): { width: number; height: number } => {
   };
 };
 
-export const getAttach = (node: any): HTMLElement | null => {
+export const getAttach = (
+  node: string | HTMLElement | (() => string | HTMLElement) | null | undefined
+): HTMLElement | null => {
   const attachNode = typeof node === "function" ? node() : node;
   if (!attachNode) {
     return document.body;

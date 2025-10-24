@@ -3,9 +3,9 @@ import { isFunction } from "lodash-es";
 import { TNode } from "../common";
 
 // 解析 TNode 数据结构
-export default function parseTNode(
-  renderNode: TNode | TNode<any> | undefined,
-  renderParams?: any,
+export default function parseTNode<T = unknown>(
+  renderNode: TNode | TNode<T> | undefined,
+  renderParams?: T,
   defaultNode?: ReactNode
 ): ReactNode {
   let node: ReactNode = null;

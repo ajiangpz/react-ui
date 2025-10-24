@@ -48,7 +48,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
   );
 
   const operation: FormListFieldOperation = {
-    add(defaultValue?: any, insertIndex?: number) {
+    add(defaultValue?: unknown, insertIndex?: number) {
       const cloneFields = [...fields];
       const index = insertIndex ?? cloneFields.length;
       cloneFields.splice(index, 0, {
@@ -103,7 +103,7 @@ const FormList: React.FC<TdFormListProps> = (props) => {
   };
 
   // 外部设置 fields 优先级最高，可以更改渲染的节点
-  function setListFields(fieldData: any[], callback: (...args: unknown[]) => unknown, originData: unknown) {
+  function setListFields(fieldData: unknown[], callback: (...args: unknown[]) => unknown, originData: unknown) {
     setFields(
       fieldData.map((_, index) => ({
         key: (key += 1),
@@ -212,21 +212,21 @@ const FormList: React.FC<TdFormListProps> = (props) => {
         });
       },
       // TODO 支持局部更新数据
-      setValue: (fieldData: any[], originData) => {
+      setValue: (fieldData: unknown[], originData) => {
         setListFields(
           fieldData,
           (formItemRef, data) => {
-            formItemRef?.current?.setValue?.(data);
+            (formItemRef as React.RefObject<FormItemInstance>)?.current?.setValue?.(data);
           },
           originData
         );
       },
-      setField: (fieldData: { value?: any[]; status?: string }, originData) => {
+      setField: (fieldData: { value?: unknown[]; status?: string }, originData) => {
         const { value, status } = fieldData;
         setListFields(
           value,
           (formItemRef, data) => {
-            formItemRef?.current?.setField?.({ value: data, status });
+            (formItemRef as React.RefObject<FormItemInstance>)?.current?.setField?.({ value: data, status });
           },
           originData
         );

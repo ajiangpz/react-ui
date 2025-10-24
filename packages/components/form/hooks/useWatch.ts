@@ -6,7 +6,7 @@ import { HOOK_MARK } from "./useForm";
 import noop from "../../utils/noop";
 
 export default function useWatch(name: NamePath, form: InternalFormInstance) {
-  const [value, setValue] = useState<any>();
+  const [value, setValue] = useState<string>();
   const valueStr = useMemo(() => JSON.stringify(value), [value]);
   const valueStrRef = useRef(valueStr);
 

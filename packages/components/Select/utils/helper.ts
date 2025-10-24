@@ -3,11 +3,11 @@ import { isPlainObject, get } from "lodash-es";
 import OptionGroup from "../OptionGroup";
 import Option from "../Option";
 
-import { SelectValue, TdOptionProps, SelectKeysType, TdSelectProps, SelectOption } from "../type";
+import { SelectValue, TdOptionProps, SelectKeysType, TdSelectProps, SelectOption, SelectOptionGroup } from "../type";
 
 type SelectLabeledValue = Required<Omit<TdOptionProps, "disabled">>;
 
-export function isSelectOptionGroup(option: SelectOption): option is any {
+export function isSelectOptionGroup(option: SelectOption): option is SelectOptionGroup {
   return !!option && "group" in option && "children" in option;
 }
 

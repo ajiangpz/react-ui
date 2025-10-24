@@ -44,19 +44,19 @@ const EMPTY_MODIFIERS: Modifier[] = [];
 
 type UsePopperResult = {
   state?: PopperState;
-  styles: Styles;
+  styles: Record<string, Styles>;
   attributes: Attributes;
   update: PopperInstance["update"] | null;
   forceUpdate: PopperInstance["forceUpdate"] | null;
 };
 
-const fromEntries = (entries: Array<[string, any]>): { [key: string]: any } =>
+const fromEntries = <T>(entries: Array<[string, T]>): Record<string, T> =>
   entries.reduce(
     (acc, [key, value]) => {
       acc[key] = value;
       return acc;
     },
-    {} as { [key: string]: any }
+    {} as Record<string, T>
   );
 
 const usePopper = (
@@ -97,8 +97,11 @@ const usePopper = (
 
         flushSync(() => {
           setState({
-            styles: fromEntries(elements.map((element) => [element, state.styles[element] || {}])),
-            attributes: fromEntries(elements.map((element) => [element, state.attributes[element]]))
+            styles: fromEntries(elements.map((element) => [element, state.styles[element] || {}])) as Record<
+              string,
+              Styles
+            >,
+            attributes: fromEntries(elements.map((element) => [element, state.attributes[element]])) as Attributes
           });
         });
       },

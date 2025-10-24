@@ -17,7 +17,7 @@ import {
 // `{} / [] / '' / undefined / null` 等内容被认为是空； 0 和 false 被认为是正常数据，部分数据的值就是 0 或者 false
 export function isValueEmpty(val: ValueType): boolean {
   const type: string = Object.prototype.toString.call(val);
-  const typeMap: Record<string, any> = {
+  const typeMap: Record<string, string> = {
     Date: "[object Date]"
   };
   if (type === typeMap.Date) {
@@ -28,10 +28,11 @@ export function isValueEmpty(val: ValueType): boolean {
 
 // 比较值大小
 const compareValue: (val: ValueType, num: number, isMax: boolean) => boolean = (val, num, isMax) => {
-  const compare: (a: number | any, b: number) => boolean = (a, b) => (isMax ? a <= b : a >= b);
+  const compare: (a: number, b: number) => boolean = (a, b) => (isMax ? a <= b : a >= b);
   if (isNumber(val)) return compare(val, num);
   if (Array.isArray(val)) return compare(val.length, num);
-  return compare(getCharacterLength(val), num);
+  const charLength = getCharacterLength(val);
+  return compare(typeof charLength === "number" ? charLength : charLength.length, num);
 };
 
 const VALIDATE_MAP = {

@@ -8,6 +8,7 @@ import type {
   AllValidateResult,
   NamePath
 } from "../type";
+import type { FormItemInstance } from "../FormItem";
 import useConfig from "../../hooks/useConfig";
 import { getMapValue, objectToArray, travelMapFromObject, calcFieldValue } from "../utils";
 
@@ -41,8 +42,8 @@ function formatValidateResult(validateResultList) {
 export default function useInstance(
   props: TdFormProps,
   formRef,
-  formMapRef: React.MutableRefObject<Map<any, any>>,
-  floatingFormDataRef: React.RefObject<Record<any, any>>
+  formMapRef: React.MutableRefObject<Map<NamePath, React.RefObject<FormItemInstance>>>,
+  floatingFormDataRef: React.RefObject<Record<string, unknown>>
 ) {
   const { classPrefix } = useConfig();
 
@@ -81,27 +82,28 @@ export default function useInstance(
   }
 
   // 对外方法，该方法会触发全部表单组件错误信息显示
-  async function validate(param?: Record<string, any>): Promise<FormValidateResult<FormData>> {
+  async function validate(param?: Record<string, unknown>): Promise<FormValidateResult<FormData>> {
     const { fields, trigger = "all", showErrorMessage } = param || {};
     const list = [...formMapRef.current.values()]
       .filter(
-        (formItemRef) => isFunction(formItemRef?.current?.validate) && needValidate(formItemRef?.current?.name, fields)
+        (formItemRef) =>
+          isFunction(formItemRef?.current?.validate) && needValidate(formItemRef?.current?.name, fields as string[])
       )
-      .map((formItemRef) => formItemRef?.current.validate(trigger, showErrorMessage));
+      .map((formItemRef) => formItemRef?.current?.validate?.(trigger as string, showErrorMessage as boolean));
 
     const validateList = await Promise.all(list);
     return formatValidateResult(validateList);
   }
 
   // 对外方法，该方法只会校验不会触发信息提示
-  async function validateOnly(param?: Record<string, any>): Promise<FormValidateResult<FormData>> {
+  async function validateOnly(param?: Record<string, unknown>): Promise<FormValidateResult<FormData>> {
     const { fields, trigger = "all" } = param || {};
     const list = [...formMapRef.current.values()]
       .filter(
         (formItemRef) =>
-          isFunction(formItemRef?.current?.validateOnly) && needValidate(formItemRef?.current?.name, fields)
+          isFunction(formItemRef?.current?.validateOnly) && needValidate(formItemRef?.current?.name, fields as string[])
       )
-      .map((formItemRef) => formItemRef?.current.validateOnly?.(trigger));
+      .map((formItemRef) => formItemRef?.current?.validateOnly?.(trigger as string));
 
     const validateList = await Promise.all(list);
     return formatValidateResult(validateList);
@@ -123,10 +125,10 @@ export default function useInstance(
       // 嵌套数组子节点先添加导致外层数据覆盖因而需要倒序遍历
       for (const [name, formItemRef] of [...formMapRef.current.entries()].reverse()) {
         let fieldValue = null;
-        if (formItemRef?.current.isFormList) {
-          fieldValue = calcFieldValue(name, formItemRef?.current.getValue?.());
+        if (formItemRef?.current?.isFormList) {
+          fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.());
         } else {
-          fieldValue = calcFieldValue(name, formItemRef?.current.getValue?.(), !props.supportNumberKey);
+          fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.(), !props.supportNumberKey);
         }
         merge(fieldsValue, fieldValue);
       }
@@ -192,7 +194,7 @@ export default function useInstance(
     // reset all
     if (typeof params === "undefined") {
       [...formMapRef.current.values()].forEach((formItemRef) => {
-        formItemRef?.current?.resetField();
+        formItemRef?.current?.resetField?.();
       });
     } else {
       const { type = "initial", fields = [] } = params;
@@ -225,7 +227,7 @@ export default function useInstance(
   // 对外方法，设置 formItem 的错误信息
   function setValidateMessage(message: FormValidateMessage<FormData>) {
     travelMapFromObject(message, formMapRef, (formItemRef, fieldValue) => {
-      formItemRef?.current?.setValidateMessage?.(fieldValue);
+      (formItemRef as React.RefObject<FormItemInstance>)?.current?.setValidateMessage?.(fieldValue);
     });
   }
 
@@ -237,7 +239,7 @@ export default function useInstance(
       [...formMapRef.current.values()].forEach((formItemRef) => {
         const item = formItemRef?.current?.getValidateMessage?.();
         if (isEmpty(item)) return;
-        message[formItemRef?.current?.name] = item;
+        message[String(formItemRef?.current?.name)] = item;
       });
     } else {
       if (!Array.isArray(fields)) throw new Error("getValidateMessage 参数需要 Array 类型");

@@ -74,7 +74,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       }, duration);
       timersRef.current.set(notification.id, timer);
     },
-    [displayDuration]
+    [displayDuration, clearNotificationTimer]
   );
 
   // 6. 核心通知函数
@@ -130,7 +130,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       pausedAtRef.current.set(notification.id, now);
       clearNotificationTimer(notification.id);
     });
-  }, [notifications]);
+  }, [notifications, clearNotificationTimer]);
 
   const restartAllTimers = useCallback(() => {
     notifications.forEach((notification) => {

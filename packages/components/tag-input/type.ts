@@ -133,7 +133,7 @@ export interface TdTagInputProps {
     | string
     | TNode<{
         value: TagInputValue;
-        onClose: (index: number, item?: any) => void;
+        onClose: (index: number, item?: string | number) => void;
       }>;
   /**
    * 失去焦点时触发
