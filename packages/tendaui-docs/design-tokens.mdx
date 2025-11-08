@@ -1,0 +1,390 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="文档/设计规范" />
+
+# 设计规范（Design Tokens）
+
+TendaUI 的设计系统基于一套完整的设计规范（Design Tokens），包括颜色、字体、间距、圆角、阴影等。
+
+## 🎨 颜色系统
+
+### 品牌色
+
+品牌色是体现产品特性和传播理念最直观的视觉元素之一。
+
+```css
+/* 主色调 */
+--td-brand-color: #0052d9;
+--td-brand-color-1: #e6f0ff;
+--td-brand-color-2: #b3d4ff;
+--td-brand-color-3: #80b3ff;
+--td-brand-color-4: #4d8cff;
+--td-brand-color-5: #2670e8;
+--td-brand-color-6: #0052d9; /* 主色 */
+--td-brand-color-7: #003cab;
+--td-brand-color-8: #002a7d;
+--td-brand-color-9: #001a4f;
+--td-brand-color-10: #000a21;
+```
+
+<div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+    <div
+      key={i}
+      style={{
+        width: "60px",
+        height: "60px",
+        background: `var(--td-brand-color-${i}, #0052d9)`,
+        borderRadius: "4px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: i > 5 ? "white" : "#333",
+        fontSize: "12px"
+      }}
+    >
+      {i}
+    </div>
+  ))}
+</div>
+
+### 功能色
+
+功能色代表明确的信息以及状态，比如成功、警告、失败。
+
+#### 成功色（Success）
+
+```css
+--td-success-color: #00a870;
+--td-success-color-hover: #00bf7d;
+--td-success-color-active: #008858;
+```
+
+<div style={{ display: "flex", gap: "16px", marginTop: "16px" }}>
+  <div style={{ textAlign: "center" }}>
+    <div style={{ width: "80px", height: "80px", background: "#00a870", borderRadius: "8px" }}></div>
+    <div style={{ marginTop: "8px", fontSize: "12px" }}>主色</div>
+  </div>
+  <div style={{ textAlign: "center" }}>
+    <div style={{ width: "80px", height: "80px", background: "#00bf7d", borderRadius: "8px" }}></div>
+    <div style={{ marginTop: "8px", fontSize: "12px" }}>悬停</div>
+  </div>
+  <div style={{ textAlign: "center" }}>
+    <div style={{ width: "80px", height: "80px", background: "#008858", borderRadius: "8px" }}></div>
+    <div style={{ marginTop: "8px", fontSize: "12px" }}>激活</div>
+  </div>
+</div>
+
+#### 警告色（Warning）
+
+```css
+--td-warning-color: #ff9800;
+--td-warning-color-hover: #ffab33;
+--td-warning-color-active: #e68900;
+```
+
+#### 错误色（Error）
+
+```css
+--td-error-color: #f44336;
+--td-error-color-hover: #f6685d;
+--td-error-color-active: #db3a2f;
+```
+
+### 中性色
+
+中性色用于文本、背景、边框、分割线等，需要选择不同明度的颜色，来表达层次结构。
+
+```css
+/* 文本色 */
+--td-text-color-primary: rgba(0, 0, 0, 0.9);
+--td-text-color-secondary: rgba(0, 0, 0, 0.6);
+--td-text-color-placeholder: rgba(0, 0, 0, 0.4);
+--td-text-color-disabled: rgba(0, 0, 0, 0.26);
+
+/* 背景色 */
+--td-bg-color-page: #f5f5f5;
+--td-bg-color-container: #ffffff;
+--td-bg-color-component: #f5f5f5;
+--td-bg-color-hover: rgba(0, 0, 0, 0.05);
+--td-bg-color-active: rgba(0, 0, 0, 0.1);
+
+/* 边框色 */
+--td-border-color: #dcdcdc;
+--td-border-color-hover: #b3b3b3;
+```
+
+## 📝 字体系统
+
+### 字体家族
+
+```css
+--td-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+--td-font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+```
+
+### 字体大小
+
+TendaUI 定义了一套字体大小规范，适用于不同层级的文字。
+
+| Token                 | 大小 | 行高 | 使用场景       |
+| --------------------- | ---- | ---- | -------------- |
+| `--td-font-size-base` | 14px | 22px | 正文、表单     |
+| `--td-font-size-s`    | 12px | 20px | 辅助文字、说明 |
+| `--td-font-size-l`    | 16px | 24px | 小标题         |
+| `--td-font-size-xl`   | 18px | 26px | 标题           |
+| `--td-font-size-xxl`  | 20px | 28px | 大标题         |
+
+```css
+--td-font-size-base: 14px;
+--td-font-size-s: 12px;
+--td-font-size-l: 16px;
+--td-font-size-xl: 18px;
+--td-font-size-xxl: 20px;
+
+--td-line-height-base: 1.5715;
+--td-line-height-small: 1.5;
+--td-line-height-large: 1.5;
+```
+
+### 字体粗细
+
+```css
+--td-font-weight-regular: 400;
+--td-font-weight-medium: 500;
+--td-font-weight-semibold: 600;
+--td-font-weight-bold: 700;
+```
+
+## 📏 间距系统
+
+TendaUI 使用 8px 基准的间距系统，提供了一套统一的间距规范。
+
+| Token             | 值   | 使用场景 |
+| ----------------- | ---- | -------- |
+| `--td-spacing-1`  | 4px  | 最小间距 |
+| `--td-spacing-2`  | 8px  | 小间距   |
+| `--td-spacing-3`  | 12px | 常规间距 |
+| `--td-spacing-4`  | 16px | 中等间距 |
+| `--td-spacing-5`  | 20px | 大间距   |
+| `--td-spacing-6`  | 24px | 较大间距 |
+| `--td-spacing-8`  | 32px | 特大间距 |
+| `--td-spacing-10` | 40px | 超大间距 |
+
+<div style={{ marginTop: "24px" }}>
+  {[1, 2, 3, 4, 5, 6, 8, 10].map((s) => (
+    <div key={s} style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+      <div style={{ width: "120px", fontSize: "14px", color: "#666" }}>spacing-{s}</div>
+      <div
+        style={{
+          width: `${s * (s <= 6 ? 4 : s === 8 ? 32 : 40)}px`,
+          height: "24px",
+          background: "#0052d9",
+          borderRadius: "2px"
+        }}
+      ></div>
+      <div style={{ marginLeft: "12px", fontSize: "12px", color: "#999" }}>{s <= 6 ? s * 4 : s === 8 ? 32 : 40}px</div>
+    </div>
+  ))}
+</div>
+
+## 🔲 圆角系统
+
+```css
+--td-border-radius-small: 2px;
+--td-border-radius-default: 4px;
+--td-border-radius-medium: 6px;
+--td-border-radius-large: 8px;
+--td-border-radius-circle: 50%;
+```
+
+<div style={{ display: "flex", gap: "24px", marginTop: "24px" }}>
+  {[
+    { name: "small", value: "2px" },
+    { name: "default", value: "4px" },
+    { name: "medium", value: "6px" },
+    { name: "large", value: "8px" }
+  ].map((r) => (
+    <div key={r.name} style={{ textAlign: "center" }}>
+      <div
+        style={{
+          width: "80px",
+          height: "80px",
+          background: "#0052d9",
+          borderRadius: r.value
+        }}
+      ></div>
+      <div style={{ marginTop: "8px", fontSize: "12px" }}>{r.name}</div>
+      <div style={{ fontSize: "12px", color: "#999" }}>{r.value}</div>
+    </div>
+  ))}
+</div>
+
+## 🌑 阴影系统
+
+```css
+--td-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+--td-shadow-2: 0 2px 4px rgba(0, 0, 0, 0.08);
+--td-shadow-3: 0 4px 8px rgba(0, 0, 0, 0.12);
+--td-shadow-4: 0 8px 16px rgba(0, 0, 0, 0.16);
+--td-shadow-5: 0 16px 32px rgba(0, 0, 0, 0.2);
+```
+
+<div style={{ display: "flex", gap: "24px", marginTop: "24px", flexWrap: "wrap" }}>
+  {[1, 2, 3, 4, 5].map((s) => (
+    <div key={s} style={{ textAlign: "center" }}>
+      <div
+        style={{
+          width: "100px",
+          height: "100px",
+          background: "white",
+          borderRadius: "8px",
+          boxShadow: `var(--td-shadow-${s})`
+        }}
+      ></div>
+      <div style={{ marginTop: "12px", fontSize: "12px" }}>shadow-{s}</div>
+    </div>
+  ))}
+</div>
+
+## 📐 尺寸系统
+
+### 组件高度
+
+| 尺寸   | 高度 | 使用场景   |
+| ------ | ---- | ---------- |
+| Small  | 28px | 紧凑型布局 |
+| Medium | 32px | 默认尺寸   |
+| Large  | 40px | 宽松型布局 |
+
+```css
+--td-comp-height-small: 28px;
+--td-comp-height-medium: 32px;
+--td-comp-height-large: 40px;
+```
+
+## ⚡ 动画系统
+
+### 动画时长
+
+```css
+--td-duration-fast: 150ms;
+--td-duration-base: 200ms;
+--td-duration-slow: 300ms;
+```
+
+### 缓动函数
+
+```css
+--td-ease-in: cubic-bezier(0.4, 0, 1, 1);
+--td-ease-out: cubic-bezier(0, 0, 0.2, 1);
+--td-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+```
+
+## 🎯 使用方式
+
+### 在 CSS 中使用
+
+```css
+.my-component {
+  color: var(--td-brand-color);
+  font-size: var(--td-font-size-base);
+  padding: var(--td-spacing-4);
+  border-radius: var(--td-border-radius-default);
+  box-shadow: var(--td-shadow-2);
+  transition: all var(--td-duration-base) var(--td-ease-in-out);
+}
+```
+
+### 在 JavaScript/TypeScript 中使用
+
+```tsx
+import React from "react";
+
+function MyComponent() {
+  return (
+    <div
+      style={{
+        color: "var(--td-brand-color)",
+        fontSize: "var(--td-font-size-base)",
+        padding: "var(--td-spacing-4)"
+      }}
+    >
+      内容
+    </div>
+  );
+}
+```
+
+### 自定义主题
+
+你可以通过覆盖 CSS 变量来自定义主题：
+
+```css
+/* custom-theme.css */
+:root {
+  --td-brand-color: #1890ff;
+  --td-success-color: #52c41a;
+  --td-warning-color: #faad14;
+  --td-error-color: #ff4d4f;
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --td-text-color-primary: rgba(255, 255, 255, 0.9);
+  --td-text-color-secondary: rgba(255, 255, 255, 0.6);
+  --td-bg-color-container: #1f1f1f;
+  --td-border-color: #434343;
+}
+```
+
+## 💡 最佳实践
+
+### 1. 保持一致性
+
+在整个应用中使用统一的设计规范，不要随意使用自定义值。
+
+```tsx
+// ✅ 推荐
+<div style={{ padding: 'var(--td-spacing-4)' }}>
+
+// ❌ 不推荐
+<div style={{ padding: '15px' }}>
+```
+
+### 2. 使用语义化命名
+
+使用有意义的变量名，而不是具体的值。
+
+```css
+/* ✅ 推荐 */
+.success-message {
+  color: var(--td-success-color);
+}
+
+/* ❌ 不推荐 */
+.success-message {
+  color: #00a870;
+}
+```
+
+### 3. 响应式设计
+
+根据不同的屏幕尺寸调整设计规范。
+
+```css
+@media (max-width: 768px) {
+  :root {
+    --td-spacing-4: 12px;
+    --td-font-size-base: 13px;
+  }
+}
+```
+
+## 📚 参考资源
+
+- [Material Design Color System](https://material.io/design/color/the-color-system.html)
+- [Ant Design Design Values](https://ant.design/docs/spec/values)
+- [Design Tokens W3C Community Group](https://www.w3.org/community/design-tokens/)

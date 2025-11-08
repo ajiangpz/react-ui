@@ -1,0 +1,678 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="文档/最佳实践" />
+
+# 最佳实践
+
+本文档总结了使用 TendaUI 的最佳实践和常见模式。
+
+## 📦 项目结构
+
+### 推荐的目录结构
+
+```
+src/
+├── components/          # 业务组件
+│   ├── Header/
+│   │   ├── index.tsx
+│   │   ├── Header.tsx
+│   │   └── Header.module.scss
+│   └── Footer/
+├── pages/              # 页面组件
+│   ├── Home/
+│   └── About/
+├── hooks/              # 自定义 Hooks
+├── utils/              # 工具函数
+├── services/           # API 服务
+├── store/              # 状态管理
+├── styles/             # 全局样式
+│   ├── variables.scss  # 变量
+│   ├── mixins.scss     # Mixins
+│   └── global.scss     # 全局样式
+├── App.tsx
+└── main.tsx
+```
+
+## 🎨 主题定制
+
+### 使用 CSS 变量
+
+在项目根目录创建主题文件：
+
+```css
+/* styles/theme.css */
+:root {
+  /* 主色调 */
+  --td-brand-color: #1890ff;
+  --td-brand-color-hover: #40a9ff;
+  --td-brand-color-active: #096dd9;
+
+  /* 功能色 */
+  --td-success-color: #52c41a;
+  --td-warning-color: #faad14;
+  --td-error-color: #ff4d4f;
+
+  /* 尺寸 */
+  --td-font-size-base: 14px;
+  --td-spacing-base: 16px;
+  --td-border-radius-default: 4px;
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --td-text-color-primary: rgba(255, 255, 255, 0.9);
+  --td-text-color-secondary: rgba(255, 255, 255, 0.6);
+  --td-bg-color-container: #1f1f1f;
+  --td-bg-color-page: #141414;
+  --td-border-color: #434343;
+}
+```
+
+### 实现主题切换
+
+```tsx
+import React, { useState, useEffect } from "react";
+import { ConfigProvider, Button, Space } from "tendaui-react";
+
+export default function App() {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <ConfigProvider theme={{ mode: theme }}>
+      <div className="app">
+        <Space>
+          <Button onClick={toggleTheme}>切换到{theme === "light" ? "暗色" : "亮色"}主题</Button>
+        </Space>
+        {/* 你的应用内容 */}
+      </div>
+    </ConfigProvider>
+  );
+}
+```
+
+## 🔧 性能优化
+
+### 1. 按需引入
+
+使用 ES Module 的 tree-shaking 特性：
+
+```tsx
+// ✅ 推荐：从主包引入，现代打包工具会自动 tree-shake
+import { Button, Input, Form } from "tendaui-react";
+
+// ✅ 也可以：明确的路径引入
+import Button from "tendaui-react/es/button";
+import Input from "tendaui-react/es/input";
+
+// ❌ 不推荐：引入整个包
+import * as TendaUI from "tendaui-react";
+```
+
+### 2. 懒加载组件
+
+对于大型组件或不常用的组件，使用懒加载：
+
+```tsx
+import React, { lazy, Suspense } from "react";
+import { Loading } from "tendaui-react";
+
+// 懒加载组件
+const HeavyComponent = lazy(() => import("./HeavyComponent"));
+
+function App() {
+  return (
+    <Suspense fallback={<Loading loading />}>
+      <HeavyComponent />
+    </Suspense>
+  );
+}
+```
+
+### 3. 使用 useMemo 和 useCallback
+
+对于复杂的计算和回调函数，使用 React Hooks 优化：
+
+```tsx
+import React, { useMemo, useCallback } from "react";
+import { Button, Table } from "tendaui-react";
+
+function DataTable({ data }) {
+  // 缓存计算结果
+  const processedData = useMemo(() => {
+    return data.map((item) => ({
+      ...item,
+      fullName: `${item.firstName} ${item.lastName}`
+    }));
+  }, [data]);
+
+  // 缓存回调函数
+  const handleClick = useCallback((record) => {
+    console.log("Clicked:", record);
+  }, []);
+
+  return <Table data={processedData} onRowClick={handleClick} />;
+}
+```
+
+### 4. 虚拟滚动
+
+对于长列表，使用虚拟滚动：
+
+```tsx
+import React from "react";
+import { VirtualList } from "tendaui-react";
+
+function LongList({ items }) {
+  return (
+    <VirtualList
+      data={items}
+      height={400}
+      itemHeight={50}
+      renderItem={(item, index) => <div key={index}>{item.name}</div>}
+    />
+  );
+}
+```
+
+## 📝 表单处理
+
+### 表单最佳实践
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, Button, message } from "tendaui-react";
+
+function LoginForm() {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = async (e) => {
+    const { validateResult, fields } = e;
+
+    if (validateResult !== true) {
+      message.error("请检查表单填写");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await loginAPI(fields);
+      message.success("登录成功");
+      // 处理登录成功逻辑
+    } catch (error) {
+      message.error(error.message || "登录失败");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Form form={form} onSubmit={handleSubmit} labelWidth="80px">
+      <FormItem
+        label="用户名"
+        name="username"
+        rules={[
+          { required: true, message: "请输入用户名" },
+          { min: 3, message: "用户名至少3个字符" }
+        ]}
+      >
+        <Input placeholder="请输入用户名" autoComplete="username" />
+      </FormItem>
+
+      <FormItem
+        label="密码"
+        name="password"
+        rules={[
+          { required: true, message: "请输入密码" },
+          { min: 6, message: "密码至少6个字符" }
+        ]}
+      >
+        <Input type="password" placeholder="请输入密码" autoComplete="current-password" />
+      </FormItem>
+
+      <FormItem>
+        <Button type="submit" variant="base" theme="primary" loading={loading} block>
+          登录
+        </Button>
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+### 表单字段联动
+
+```tsx
+import React from "react";
+import { Form, FormItem, Select, Input, Option } from "tendaui-react";
+
+function DynamicForm() {
+  const [form] = Form.useForm();
+  const [userType, setUserType] = React.useState("personal");
+
+  return (
+    <Form form={form}>
+      <FormItem label="用户类型" name="userType">
+        <Select value={userType} onChange={(value) => setUserType(value)}>
+          <Option value="personal">个人用户</Option>
+          <Option value="enterprise">企业用户</Option>
+        </Select>
+      </FormItem>
+
+      {userType === "personal" ? (
+        <FormItem label="姓名" name="name">
+          <Input placeholder="请输入姓名" />
+        </FormItem>
+      ) : (
+        <>
+          <FormItem label="企业名称" name="companyName">
+            <Input placeholder="请输入企业名称" />
+          </FormItem>
+          <FormItem label="统一社会信用代码" name="creditCode">
+            <Input placeholder="请输入统一社会信用代码" />
+          </FormItem>
+        </>
+      )}
+    </Form>
+  );
+}
+```
+
+## 🔐 TypeScript 最佳实践
+
+### 定义组件 Props 类型
+
+```tsx
+import React from "react";
+import { Button, ButtonProps } from "tendaui-react";
+
+// 扩展组件 Props
+interface CustomButtonProps extends ButtonProps {
+  analyticsId?: string;
+  onAnalyticsClick?: () => void;
+}
+
+const CustomButton: React.FC<CustomButtonProps> = ({ analyticsId, onAnalyticsClick, onClick, ...rest }) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    // 自定义逻辑
+    if (analyticsId && onAnalyticsClick) {
+      onAnalyticsClick();
+    }
+    onClick?.(e);
+  };
+
+  return <Button onClick={handleClick} {...rest} />;
+};
+```
+
+### 类型安全的表单
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, FormInstance } from "tendaui-react";
+
+// 定义表单数据类型
+interface LoginFormData {
+  username: string;
+  password: string;
+  remember?: boolean;
+}
+
+function TypedForm() {
+  const [form] = Form.useForm<LoginFormData>();
+
+  const handleSubmit = (e) => {
+    const { fields } = e;
+    // fields 现在有完整的类型提示
+    console.log(fields.username, fields.password);
+  };
+
+  return (
+    <Form<LoginFormData> form={form} onSubmit={handleSubmit}>
+      <FormItem<LoginFormData> label="用户名" name="username">
+        <Input />
+      </FormItem>
+
+      <FormItem<LoginFormData> label="密码" name="password">
+        <Input type="password" />
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+## 🎯 状态管理
+
+### 使用 Context 进行状态管理
+
+```tsx
+import React, { createContext, useContext, useState } from "react";
+
+interface AppState {
+  user: User | null;
+  theme: "light" | "dark";
+}
+
+interface AppContextType {
+  state: AppState;
+  setUser: (user: User | null) => void;
+  setTheme: (theme: "light" | "dark") => void;
+}
+
+const AppContext = createContext<AppContextType | undefined>(undefined);
+
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [state, setState] = useState<AppState>({
+    user: null,
+    theme: "light"
+  });
+
+  const setUser = (user: User | null) => {
+    setState((prev) => ({ ...prev, user }));
+  };
+
+  const setTheme = (theme: "light" | "dark") => {
+    setState((prev) => ({ ...prev, theme }));
+  };
+
+  return <AppContext.Provider value={{ state, setUser, setTheme }}>{children}</AppContext.Provider>;
+};
+
+export const useApp = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("useApp must be used within AppProvider");
+  }
+  return context;
+};
+```
+
+## 🔄 数据获取
+
+### 使用自定义 Hook 封装数据请求
+
+```tsx
+import { useState, useEffect } from "react";
+
+interface UseApiOptions {
+  immediate?: boolean;
+}
+
+function useApi<T>(apiFn: () => Promise<T>, options: UseApiOptions = {}) {
+  const { immediate = true } = options;
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const execute = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await apiFn();
+      setData(result);
+      return result;
+    } catch (err) {
+      setError(err as Error);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (immediate) {
+      execute();
+    }
+  }, []);
+
+  return { data, loading, error, execute };
+}
+
+// 使用示例
+function UserList() {
+  const { data, loading, error } = useApi(() => fetchUsers());
+
+  if (loading) return <Loading loading />;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return null;
+
+  return (
+    <div>
+      {data.map((user) => (
+        <div key={user.id}>{user.name}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+## 🎨 样式管理
+
+### 使用 CSS Modules
+
+```tsx
+// UserCard.module.scss
+.card {
+  padding: var(--td-spacing-4);
+  border: 1px solid var(--td-border-color);
+  border-radius: var(--td-border-radius-default);
+
+  &:hover {
+    box-shadow: var(--td-shadow-2);
+  }
+}
+
+.title {
+  font-size: var(--td-font-size-l);
+  font-weight: var(--td-font-weight-semibold);
+  color: var(--td-text-color-primary);
+}
+
+// UserCard.tsx
+import React from 'react';
+import styles from './UserCard.module.scss';
+
+function UserCard({ user }) {
+  return (
+    <div className={styles.card}>
+      <h3 className={styles.title}>{user.name}</h3>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+```
+
+### 使用 classnames 库
+
+```tsx
+import React from "react";
+import classNames from "classnames";
+import styles from "./Button.module.scss";
+
+interface CustomButtonProps {
+  variant?: "primary" | "secondary";
+  size?: "small" | "medium" | "large";
+  active?: boolean;
+}
+
+function CustomButton({ variant = "primary", size = "medium", active }: CustomButtonProps) {
+  return (
+    <button
+      className={classNames(styles.button, styles[`button--${variant}`], styles[`button--${size}`], {
+        [styles["button--active"]]: active
+      })}
+    >
+      Click me
+    </button>
+  );
+}
+```
+
+## 🧪 测试
+
+### 组件测试
+
+```tsx
+import { render, fireEvent, waitFor } from "@testing-library/react";
+import { Form, FormItem, Input, Button } from "tendaui-react";
+
+describe("LoginForm", () => {
+  it("submits form with valid data", async () => {
+    const onSubmit = jest.fn();
+    const { getByLabelText, getByRole } = render(
+      <Form onSubmit={onSubmit}>
+        <FormItem label="Username" name="username">
+          <Input />
+        </FormItem>
+        <FormItem label="Password" name="password">
+          <Input type="password" />
+        </FormItem>
+        <Button type="submit">Submit</Button>
+      </Form>
+    );
+
+    fireEvent.change(getByLabelText("Username"), {
+      target: { value: "testuser" }
+    });
+    fireEvent.change(getByLabelText("Password"), {
+      target: { value: "password123" }
+    });
+    fireEvent.click(getByRole("button", { name: "Submit" }));
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fields: {
+            username: "testuser",
+            password: "password123"
+          }
+        })
+      );
+    });
+  });
+});
+```
+
+## 📱 响应式设计
+
+### 使用媒体查询
+
+```scss
+// responsive.scss
+.container {
+  padding: var(--td-spacing-4);
+
+  @media (max-width: 768px) {
+    padding: var(--td-spacing-2);
+  }
+
+  @media (min-width: 1200px) {
+    padding: var(--td-spacing-6);
+  }
+}
+```
+
+### 响应式组件
+
+```tsx
+import React from "react";
+import { useWindowSize } from "tendaui-react/hooks";
+
+function ResponsiveComponent() {
+  const { width } = useWindowSize();
+  const isMobile = width < 768;
+
+  return <div>{isMobile ? <MobileLayout /> : <DesktopLayout />}</div>;
+}
+```
+
+## 🌍 国际化
+
+### 使用 i18n
+
+```tsx
+import React from "react";
+import { ConfigProvider } from "tendaui-react";
+import zhCN from "tendaui-react/es/locale/zh_CN";
+import enUS from "tendaui-react/es/locale/en_US";
+
+function App() {
+  const [locale, setLocale] = React.useState("zh-CN");
+
+  const localeMap = {
+    "zh-CN": zhCN,
+    "en-US": enUS
+  };
+
+  return <ConfigProvider locale={localeMap[locale]}>{/* 你的应用 */}</ConfigProvider>;
+}
+```
+
+## ⚡ 性能监控
+
+### 使用 React DevTools Profiler
+
+```tsx
+import React, { Profiler } from "react";
+
+function onRenderCallback(id: string, phase: "mount" | "update", actualDuration: number) {
+  console.log(`${id}'s ${phase} phase took ${actualDuration}ms`);
+}
+
+function App() {
+  return (
+    <Profiler id="App" onRender={onRenderCallback}>
+      {/* 你的应用 */}
+    </Profiler>
+  );
+}
+```
+
+## 🔒 安全最佳实践
+
+### 防止 XSS 攻击
+
+```tsx
+import React from "react";
+
+// ❌ 不推荐：直接渲染 HTML
+function UnsafeComponent({ html }) {
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+// ✅ 推荐：使用文本内容
+function SafeComponent({ text }) {
+  return <div>{text}</div>;
+}
+
+// ✅ 如果必须渲染 HTML，先进行清理
+import DOMPurify from "dompurify";
+
+function SaferComponent({ html }) {
+  const cleanHtml = DOMPurify.sanitize(html);
+  return <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />;
+}
+```
+
+---
+
+<div
+  style={{
+    padding: "24px",
+    background: "#f0f9ff",
+    border: "1px solid #91caff",
+    borderRadius: "8px",
+    marginTop: "48px"
+  }}
+>
+  <h3 style={{ marginTop: 0 }}>💡 持续改进</h3>
+  <p>这些最佳实践会随着项目的发展而不断更新。如果你有更好的建议，欢迎贡献！</p>
+</div>

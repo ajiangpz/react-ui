@@ -1,0 +1,825 @@
+---
+title: 场景面试题
+date: "2025-10-29"
+tags: ["situation"]
+---
+
+## 🧠 一、JavaScript 实战与场景题（15题）
+
+### 你在项目中遇到“点击按钮连续触发接口”的问题，如何防止重复请求？21
+我通常会根据场景采取不同策略：
+
+保存类请求：点击后禁用按钮 + loading 提示
+
+搜索类请求：用防抖函数只执行最后一次输入
+
+滚动加载类：使用节流函数限制频率
+
+关键接口：使用请求锁或请求 ID，防止并发重复调用
+
+另外，我认为防重是前后端协作的事，前端控制用户行为，后端做幂等性校验，这样整体系统更稳健。
+
+### 项目中如何实现一个 debounce 和 throttle 函数？
+具体可以参考underscore和lodash的实现
+```ts
+function debounce<T extends unknown[], R>(func: (...args: T) => R, wait: number, immediate: boolean = false) {
+  let timeId: ReturnType<typeof setTimeout> | undefined = undefined;
+  let result: R | undefined = undefined;
+  function debounced(...args: T) {
+    const callNow = immediate && timeId === undefined;
+    if (timeId !== undefined) {
+      clearTimeout(timeId);
+    }
+    if (callNow) {
+      result = func.apply(this, args);
+    }
+    timeId = setTimeout(() => {
+      if (!immediate) {
+        result = func.apply(this, args);
+      }
+      timeId = undefined;
+    }, wait);
+    return result;
+  }
+  return debounced;
+}
+
+export default debounce;
+```
+
+```ts
+export function throttle<T extends unknown[], R>(func: (...args: T) => R, wait: number) {
+  let lastCallTime = 0;
+  function throttled(...args: T) {
+    const now = Date.now();
+    if (now - lastCallTime >= wait) {
+      lastCallTime = now;
+      return func.apply(this, args);
+    }
+  }
+  return throttled;
+}
+```
+
+
+### 如果要统计一个页面中所有按钮的点击次数，你会怎么做？
+
+“如果我要统计页面中所有按钮的点击次数，
+我会使用 事件委托 的方式，在 document 上绑定一次点击事件。
+然后通过 event.target.closest('button') 判断是否点击到按钮，
+并以按钮的标识或文字作为 key 去统计次数。
+
+在实际项目中，我不会直接用 innerText，而是会给每个按钮配置一个 data-track-id，
+这样方便上报埋点数据，也能支持动态组件和后续分析。
+
+如果项目有埋点系统，我还会封装一个统一的 trackClick 方法，
+在里面处理节流、防抖、上报频率等逻辑，
+这样统计既高效又方便维护。”
+
+### Array.prototype.map、forEach、reduce、filter 在性能和语义上有何不同？
+“这几个方法的主要区别在语义和返回值上：
+
+forEach 只是遍历执行副作用，不返回新数组；
+
+map 是映射关系，返回一个长度相同的新数组；
+
+filter 是筛选操作，返回符合条件的子集；
+
+reduce 是归并操作，可以把数组归并成任意类型。
+
+性能上 for 循环最快，因为没有函数调用开销；
+map/filter/reduce 会创建新数组或调用回调，略慢一些。
+
+不过在真实开发中，我们更注重代码语义和可读性，
+一般优先选择语义最合适的方法。”
+“在大数据量的情况下，如果性能真的成为瓶颈，
+我会考虑：
+
+改用普通 for 循环或 for...of
+
+减少中间数组创建（比如 map().filter() 合并为一次 reduce）
+
+在必要时用 Web Worker 做并行计算。”
+
+### 如何实现一个深拷贝函数？考虑循环引用。
+```ts
+function deepClone<T>(target: T, map = new WeakMap()): T {
+  // 基础类型直接返回
+  if (target === null || typeof target !== 'object') return target;
+
+  // 如果缓存中有，直接返回
+  if (map.has(target)) return map.get(target);
+
+  let result: any;
+
+  // 处理特殊对象类型
+  if (target instanceof Date) {
+    result = new Date(target);
+  } else if (target instanceof RegExp) {
+    result = new RegExp(target.source, target.flags);
+  } else if (target instanceof Map) {
+    result = new Map();
+    map.set(target, result);
+    target.forEach((v, k) => {
+      result.set(deepClone(k, map), deepClone(v, map));
+    });
+  } else if (target instanceof Set) {
+    result = new Set();
+    map.set(target, result);
+    target.forEach(v => {
+      result.add(deepClone(v, map));
+    });
+  } else if (Array.isArray(target)) {
+    result = [];
+    map.set(target, result);
+    target.forEach((item, index) => {
+      result[index] = deepClone(item, map);
+    });
+  } else {
+    // 普通对象，保留原型
+    result = Object.create(Object.getPrototypeOf(target));
+    map.set(target, result);
+
+    Reflect.ownKeys(target).forEach(key => {
+      result[key] = deepClone((target as any)[key], map);
+    });
+  }
+
+  return result;
+}
+
+```
+
+### 如何实现一个事件总线（EventBus）？
+```ts
+class EventBus {
+  constructor() {
+    this.events = {};
+  }
+
+  // 注册事件监听
+  on(event, callback) {
+    if (!this.events[event]) this.events[event] = [];
+    this.events[event].push(callback);
+  }
+
+  // 触发事件
+  emit(event, ...args) {
+    if (!this.events[event]) return;
+    this.events[event].forEach(cb => cb(...args));
+  }
+
+  // 移除监听
+  off(event, callback) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter(cb => cb !== callback);
+  }
+}
+
+```
+增强版
+```ts
+class EventBus {
+  constructor() {
+    this.events = {};
+  }
+
+  on(event, callback) {
+    if (!this.events[event]) this.events[event] = [];
+    this.events[event].push(callback);
+  }
+
+  once(event, callback) {
+    const wrapper = (...args) => {
+      callback(...args);
+      this.off(event, wrapper);
+    };
+    this.on(event, wrapper);
+  }
+
+  emit(event, ...args) {
+    if (!this.events[event]) return;
+    this.events[event].forEach(cb => cb(...args));
+  }
+
+  off(event, callback) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter(cb => cb !== callback);
+  }
+}
+
+```
+
+### 如何在不刷新页面的情况下修改浏览器 URL？
+“在不刷新页面的情况下修改 URL，可以通过 HTML5 的 History API 实现：
+使用 history.pushState() 或 history.replaceState() 可以修改地址栏而不触发页面刷新。
+前者会新增历史记录，后者会替换当前记录。
+如果项目使用的是老式的 Hash 路由，也可以直接修改 location.hash，同样不会刷新页面。
+现代框架如 Vue Router 和 React Router 内部就是基于这两种机制封装的。”
+
+“在单页应用中，前端使用 pushState 控制 URL，
+然后监听 popstate 事件实现浏览器前进/后退的页面状态同步。
+与之相对的 Hash 模式使用 hashchange 事件。
+Vue Router 就提供了两种模式：history 和 hash。”
+
+### 如果要监听对象中某个属性的变化，有哪些方式？
+
+“监听对象属性变化的方法主要有几种：
+
+Object.defineProperty：通过 getter / setter 劫持属性访问和修改，适合监听已有属性，Vue 2 响应式就是基于它实现的；
+
+Proxy：ES6+ 特性，可以监听任意属性和新增属性，同时支持数组操作，Vue 3 响应式就是基于 Proxy；
+
+轮询：通过定时器检查属性变化，不推荐。
+
+综合来看，现代项目使用 Proxy 或框架自带响应式是最常用的方式，它既简洁又高效。”
+
+### 项目中遇到时间格式显示不统一，怎么封装时间格式化工具？
+把输入的时间字符串或者时间戳转化为Date对象
+通过 Date API 获取年月日时分秒
+通过正则表达式 替换 fmt 中的占位符
+比如：YYYY-MM-DD HH:mm:ss、YYYY-MM-DD、HH:mm:ss 等
+
+```ts
+function formatDate(
+  time: string | number | Date,
+  fmt: string = 'yyyy-MM-dd HH:mm:ss'
+): string {
+  const date = time instanceof Date ? time : new Date(time)
+  if (isNaN(date.getTime())) return ''
+
+  const pad = (n: number) => (n < 10 ? '0' + n : n)
+
+  const map: Record<string, string> = {
+    'yyyy': date.getFullYear().toString(),
+    'MM': pad(date.getMonth() + 1),
+    'dd': pad(date.getDate()),
+    'HH': pad(date.getHours()),
+    'mm': pad(date.getMinutes()),
+    'ss': pad(date.getSeconds()),
+  }
+
+  return fmt.replace(/yyyy|MM|dd|HH|mm|ss/g, matched => map[matched])
+}
+
+// 使用示例
+formatDate(1698988800000)                  // "2023-11-03 00:00:00"
+formatDate('2025/11/03 14:20', 'yyyy/MM/dd HH:mm')  // "2025/11/03 14:20"
+formatDate(new Date(), 'yyyy-MM-dd')       // "2025-11-03"
+
+```
+
+### 如何封装一个通用的 localStorage 工具支持过期时间？
+
+#### 思路
+在 set 时 传入 expire 时间戳
+在 get 时 判断 expire 时间戳是否过期
+如果过期 则删除 并返回 null
+如果未过期 则返回 value
+#### 代码
+```ts
+interface StorageData<T> {
+  value: T
+  expire: number | null // 时间戳（ms）
+}
+
+export const storage = {
+  /**
+   * 设置 localStorage
+   * @param key 键名
+   * @param value 值
+   * @param expire 过期时间（单位：秒），不传则永不过期
+   */
+  set<T>(key: string, value: T, expire?: number): void {
+    const data: StorageData<T> = {
+      value,
+      expire: expire ? Date.now() + expire * 1000 : null
+    }
+    localStorage.setItem(key, JSON.stringify(data))
+  },
+
+  /**
+   * 获取 localStorage
+   */
+  get<T>(key: string): T | null {
+    const raw = localStorage.getItem(key)
+    if (!raw) return null
+
+    try {
+      const data: StorageData<T> = JSON.parse(raw)
+      if (data.expire && Date.now() > data.expire) {
+        localStorage.removeItem(key)
+        return null
+      }
+      return data.value
+    } catch {
+      // 防止解析异常
+      return null
+    }
+  },
+
+  /**
+   * 删除某个 key
+   */
+  remove(key: string): void {
+    localStorage.removeItem(key)
+  },
+
+  /**
+   * 清空全部 localStorage
+   */
+  clear(): void {
+    localStorage.clear()
+  }
+}
+
+```
+
+### 如果一个接口要并发 10 次请求后汇总结果，你会怎么实现？
+
+#### 思路
+1. 使用promise.all 但是promise.all 只要有一个失败就返回失败
+2. 使用promise.allSettled , 无论哪个promise失败，最终都会返回成功
+3. 使用 p-limit限制并发数，每次最多并发10次请求
+```ts
+async function limitConcurrency(tasks: (() => Promise<any>)[], limit: number) {
+  const results: any[] = []
+  const executing: Promise<any>[] = []
+
+  for (const task of tasks) {
+    const p = task().then(res => {
+      executing.splice(executing.indexOf(p), 1)
+      return res
+    })
+    results.push(p)
+    executing.push(p)
+    if (executing.length >= limit) {
+      await Promise.race(executing) // 等最先完成的一个
+    }
+  }
+
+  return Promise.all(results)
+}
+
+// 使用示例
+const tasks = ids.map(id => () => fetchData(id))
+limitConcurrency(tasks, 3).then(all => console.log('汇总:', all))
+
+```
+
+### 如何优雅地处理 Promise 并发与错误？
+
+```ts
+/**
+ * 通用请求池工具
+ * @param tasks   请求任务列表，每个任务是一个函数，返回 Promise
+ * @param limit   并发上限
+ * @param retry   每个任务的最大重试次数
+ * @returns Promise<{ success: any[], fail: any[] }>
+ */
+export async function createRequestPool<T>(
+  tasks: (() => Promise<T>)[],
+  limit: number = 5,
+  retry: number = 2
+): Promise<{ success: T[]; fail: any[] }> {
+  const results: { success: T[]; fail: any[] } = { success: [], fail: [] }
+  const executing: Promise<void>[] = []
+
+  // 定义执行单个任务的函数（含重试逻辑）
+  const runTask = async (task: () => Promise<T>) => {
+    for (let i = 0; i <= retry; i++) {
+      try {
+        const res = await task()
+        results.success.push(res)
+        return
+      } catch (err) {
+        if (i === retry) {
+          results.fail.push(err)
+          console.warn(`任务最终失败：`, err)
+        } else {
+          console.warn(`任务失败，第 ${i + 1} 次重试...`)
+        }
+      }
+    }
+  }
+
+  // 控制并发执行
+  for (const task of tasks) {
+    const p = runTask(task).finally(() => {
+      executing.splice(executing.indexOf(p), 1)
+    })
+    executing.push(p)
+
+    // 并发已达上限，等待任意一个完成
+    if (executing.length >= limit) {
+      await Promise.race(executing)
+    }
+  }
+
+  // 等待所有任务完成
+  await Promise.all(executing)
+  return results
+}
+
+```
+
+### 如何检测页面是否处于前台或后台？
+
+页面前后台检测我一般使用 Page Visibility API。
+我会监听 visibilitychange 事件，通过判断 document.visibilityState 是否为 'visible' 来确定页面是否在前台。
+这种方式比 focus / blur 更准确，因为切换标签页、最小化或锁屏时也能触发。
+在项目里我通常会用它来 暂停轮询、停止动画或节省后台性能开销。
+```ts
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') stopPolling();
+  else startPolling();
+});
+
+```
+
+### 前端如何获取用户网络状态变化（如断网、恢复）？
+前端可以通过 navigator.onLine 判断网络是否连接，并监听 online 和 offline 事件来检测网络状态变化。
+```ts
+window.addEventListener('online', () => console.log('网络已连接'))
+window.addEventListener('offline', () => console.log('网络已断开'))
+
+```
+我们可以在断网时提示用户、暂停接口请求，恢复时自动重试。
+此外，在支持的浏览器中，还可以使用 navigator.connection 获取更详细的信息，比如网速、网络类型，用来做性能优化或数据上报。
+
+### 写一个函数，将对象中值为 null 或 undefined 的字段删除。
+考察对象遍历
+```ts
+function cleanObjectDeep(obj: any): any {
+  if (obj === null || obj === undefined) return undefined
+  if (Array.isArray(obj)) {
+    return obj
+      .map(cleanObjectDeep)
+      .filter(item => item !== undefined)
+  }
+  if (typeof obj === 'object') {
+    // 处理特殊对象类型（Date、RegExp、Error等），直接返回而不是递归处理
+    if (obj instanceof Date || obj instanceof RegExp || obj instanceof Error) {
+      return obj
+    }
+    const res: Record<string, any> = {}
+    // 使用 Object.keys 避免遍历原型链上的属性
+    // 或者使用: for (const key in obj) { if (obj.hasOwnProperty(key)) { ... } }
+    for (const key of Object.keys(obj)) {
+      const value = cleanObjectDeep(obj[key])
+      if (value !== undefined) {
+        res[key] = value
+      }
+    }
+    return res
+  }
+  return obj
+}
+
+// 使用示例
+const obj2 = { 
+  a: 1, 
+  b: null, 
+  c: undefined, 
+  d: { e: null, f: 2, g: { h: undefined, i: 3 } }, 
+  j: [1, null, undefined, 2] 
+}
+
+console.log(cleanObjectDeep(obj2))
+```
+
+## ⚙️ 二、Vue 3 / Nuxt 场景题（15题）
+
+### Vue 3 中 ref 和 reactive 有何区别？什么时候用 shallowRef？
+ref 作用于原始值和对象，reactive 只作用于对象
+ref 需要通过.value访问，reactive 直接访问
+shallowRef是指浅层响应式，适用于大数据量
+
+
+### 如何封装一个支持 v-model 的自定义组件？
+
+### watch 和 watchEffect 有什么区别？
+
+### 父组件如何调用子组件中的方法？
+
+### Vue 组件中频繁渲染性能变差，如何排查和优化？
+
+### 如果你需要动态加载组件，如何实现懒加载？
+
+### 在 Vue 中如何处理多个 API 并发请求并合并显示？
+
+### 如何封装一个全局消息提示（toast）组件？
+#### 一分钟版本（面试直答）
+- **目标**: 全局可调用的轻量 `toast`，支持类型、自动关闭、更新、手动/批量关闭、位置、并发上限、SSR 与可访问性。
+- **架构**: 根部挂 `ToastProvider` 承载渲染；模块级单例 `toast` API（发布事件）→ Provider 订阅并维护队列；`portal` 渲染到 `body`。
+- **关键点**: 定时器与悬停暂停、`loading → success/error` 更新、`aria-live="polite"`、`z-index/pointer-events`、队列淘汰策略、SSR 安全挂载与清理。
+
+#### 三分钟版本（展开要点）
+- **API 设计**
+  - `toast('msg', opts)`、`toast.success/error/info/loading`、`toast.update(id, opts)`、`toast.dismiss(id?)`、`toast.clear()`
+  - `opts`: `duration`、`position`、`action`、`onClose`、`icon`
+- **状态管理**
+  - 事件总线（发布/订阅）避免到处传 Context；Provider 内用 `useState` 维护列表与并发上限；按 `position` 分栈。
+- **渲染与交互**
+  - `createPortal` 到 `body`；定时器自动关闭；悬停暂停：进入时清 `timeout`、记录剩余时间，离开重设。
+- **性能与稳定性**
+  - O(1) 增删改；Map 管理定时器；SSR：`typeof window !== 'undefined'` 后再挂载；卸载清理 `listeners` 与 `timeout`。
+- **可访问性**
+  - 容器 `role="status"`/`aria-live="polite"`；可键盘关闭；颜色对比达标。
+- **测试点**
+  - 单测事件流与计时；E2E 验证显示/隐藏、悬停暂停、更新流程；快照/axe 无障碍。
+
+#### 关键代码骨架（极简示例）
+```tsx
+// toast.tsx
+import { createPortal } from 'react-dom';
+import React, { useEffect, useRef, useState } from 'react';
+
+type ToastType = 'info'|'success'|'error'|'loading'|'default';
+type Position = 'top-right'|'top-left'|'bottom-right'|'bottom-left';
+type Toast = { id: string; title: React.ReactNode; type: ToastType; duration: number; position: Position };
+
+type Action =
+  | { type: 'ADD'; toast: Toast }
+  | { type: 'UPDATE'; id: string; partial: Partial<Toast> }
+  | { type: 'DISMISS'; id?: string }
+  | { type: 'CLEAR' };
+
+const listeners = new Set<(a: Action) => void>();
+const emit = (a: Action) => listeners.forEach(l => l(a));
+let seed = 0; const id = () => `t_${Date.now()}_${++seed}`;
+
+export const toast = Object.assign(
+  (message: React.ReactNode, opt: Partial<Omit<Toast,'id'|'title'>> = {}) => {
+    const t: Toast = { id: id(), title: message, type: opt.type ?? 'default', duration: opt.duration ?? 3000, position: opt.position ?? 'top-right' };
+    emit({ type: 'ADD', toast: t }); return t.id;
+  },
+  {
+    success: (m: React.ReactNode, opt = {}) => toast(m, { ...opt, type: 'success' }),
+    error:   (m: React.ReactNode, opt = {}) => toast(m, { ...opt, type: 'error' }),
+    info:    (m: React.ReactNode, opt = {}) => toast(m, { ...opt, type: 'info' }),
+    loading: (m: React.ReactNode, opt = {}) => toast(m, { ...opt, type: 'loading', duration: Infinity }),
+    update:  (tid: string, partial: Partial<Toast>) => emit({ type: 'UPDATE', id: tid, partial }),
+    dismiss: (tid?: string) => emit({ type: 'DISMISS', id: tid }),
+    clear:   () => emit({ type: 'CLEAR' }),
+  }
+);
+
+export function ToastProvider({ children, max = 5, offset = 16, gutter = 8 }: { children?: React.ReactNode; max?: number; offset?: number; gutter?: number }) {
+  const [list, setList] = useState<Toast[]>([]);
+  const timers = useRef(new Map<string, any>());
+  const [target, setTarget] = useState<HTMLElement | null>(null);
+
+  useEffect(() => { if (typeof window !== 'undefined') setTarget(document.body); }, []);
+  useEffect(() => {
+    const on = (a: Action) => {
+      setList(prev => {
+        if (a.type === 'ADD') {
+          const next = [...prev, a.toast];
+          return next.length > max ? next.slice(next.length - max) : next;
+        }
+        if (a.type === 'UPDATE') return prev.map(t => t.id === a.id ? { ...t, ...a.partial } : t);
+        if (a.type === 'DISMISS') return a.id ? prev.filter(t => t.id !== a.id) : [];
+        if (a.type === 'CLEAR') return [];
+        return prev;
+      });
+    };
+    listeners.add(on); return () => { listeners.delete(on); timers.current.forEach(clearTimeout); };
+  }, [max]);
+
+  useEffect(() => {
+    list.forEach(t => {
+      if (t.duration === Infinity || timers.current.has(t.id)) return;
+      const h = setTimeout(() => emit({ type: 'DISMISS', id: t.id }), t.duration);
+      timers.current.set(t.id, h);
+    });
+  }, [list]);
+
+  const pos = 'top-right';
+  return (
+    <>
+      {children}
+      {target && createPortal(
+        <div role="status" aria-live="polite" style={{ position:'fixed', top: pos.startsWith('top') ? offset : undefined, bottom: pos.startsWith('bottom') ? offset : undefined, right: pos.endsWith('right') ? offset : undefined, left: pos.endsWith('left') ? offset : undefined, zIndex:9999, pointerEvents:'none' }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:gutter }}>
+            {list.map(t => (
+              <div key={t.id} style={{ pointerEvents:'auto', minWidth:240, maxWidth:420, padding:'10px 12px', borderRadius:8, background:'#1f1f1f', color:'#fff' }}>
+                <strong>{t.title}</strong>
+                <button onClick={() => emit({ type: 'DISMISS', id: t.id })} style={{ marginLeft:8 }}>×</button>
+              </div>
+            ))}
+          </div>
+        </div>, target)}
+    </>
+  );
+}
+```
+
+#### 常见追问与简答
+- **为何不用全局 Context 分发调用？** 事件总线让任意模块零依赖调用，不受组件树限制；Provider 只负责渲染。
+- **如何暂停计时？** 悬停时清 `timeout` 并记录剩余时间，离开后用剩余时间重启。
+- **并发上限怎么处理？** 新增后按时间排序，超限淘汰最旧的非 loading。
+- **SSR 安全？** 首次渲染不触达 DOM，`useEffect` 后再创建 portal 目标。
+- **可访问性？** 容器 `role="status"`/`aria-live="polite"`，按钮可聚焦，语义化文本。
+- **与三方库对比？** 原理一致，按需可替换 UI/动画，减少依赖与体积。
+
+#### 简短用法示例（面试可口述）
+```tsx
+toast.success('保存成功');
+const id = toast.loading('提交中...');
+fetch('/api').then(() => toast.update(id, { type: 'success', duration: 1500 }));
+```
+
+- 若面试官追问扩展：支持 `toast.promise(p, { loading, success, error })`；主题化与动画（`framer-motion`）；批量关闭与过滤分区显示。
+
+- 本回答涵盖设计、可访问性、SSR、性能与测试要点，能在 1–3 分钟内完整表达，必要时用上面“骨架代码”点到为止。
+
+### 解释一下 nextTick 的原理和使用场景。
+
+### 如何监听路由变化并执行逻辑？
+
+### 如何在 Vue 中实现一个树形控件（单选/多选）？
+
+### Vue 项目中使用外部 JS 库（非模块）时怎么加载？
+
+### Vue SSR（Nuxt）中如何区分客户端和服务端环境？
+
+### 如何在 Vue 中封装一个指令（directive）实现点击外部关闭功能？
+
+### Vue 组件更新后保留滚动条位置，怎么实现？
+
+## ⚛️ 三、React 场景题（15题）
+
+### useEffect 与 useLayoutEffect 区别是什么？举例说明使用场景。
+
+### 如何避免 useEffect 死循环？
+
+### 如何在 React 中实现组件间通信？
+
+### 解释 React 的合成事件机制。
+
+### 如何封装一个受控 + 非受控兼容的 Input 组件？
+
+### React 中如何实现防抖或节流的输入框？
+
+### React 渲染性能优化有哪些手段？
+
+### 为什么 React 需要 key？key 的错误使用会有什么后果？
+
+### 如何在 React 中实现路由懒加载？
+
+### 如何封装一个弹窗（Modal）组件？
+
+### useRef 和 forwardRef 的区别与场景？
+
+### React 项目中如何做全局状态管理？
+
+### 如何在 React 中优雅地处理异步请求？
+
+### React 如何实现一个虚拟滚动列表？
+
+### React Suspense 和 lazy 是如何工作的？
+
+## 🧩 四、性能优化场景题（10题）
+
+### 页面首屏渲染过慢，你会从哪些方面排查？
+
+### 如何优化图片加载性能？
+
+### 如何减少打包体积？
+
+### 如何实现组件级懒加载？
+
+### Webpack/Vite 构建过慢的原因和优化手段？
+
+### 如何优化长列表渲染？
+
+### 如何使用缓存（HTTP 缓存、前端缓存）优化性能？
+
+### 如果页面卡顿，你会怎么定位问题？
+
+### 哪些前端操作会导致 Reflow / Repaint？
+
+### 如何减少 React/Vue 中的无效渲染？
+
+## 🌐 五、网络与请求场景题（10题）
+
+### 如何封装一个通用的请求模块（支持拦截器和取消请求）？
+
+### 说说浏览器缓存机制（强缓存 / 协商缓存）。
+
+### CORS 跨域原理是什么？如何解决？
+
+### 项目中使用过哪些防止重复请求的手段？
+
+### 如何实现断点续传或大文件上传？
+
+### 如何处理多个接口依赖关系（接口 B 依赖接口 A）？
+
+### 前端如何监控接口耗时？
+
+### 解释 HTTP1.1、HTTP2、HTTP3 的区别。
+
+### Token 过期后如何自动刷新？
+
+### WebSocket 与 SSE 的区别与适用场景。
+
+## 🔐 六、安全场景题（10题）
+
+### 你如何防止 XSS 攻击？
+
+### 你如何防止 CSRF 攻击？
+
+### 如何防止输入框注入恶意 HTML？
+
+### HTTPS 加密流程是怎样的？
+
+### Cookie、localStorage、sessionStorage 的区别和使用场景？
+
+### 如何在前端隐藏敏感信息？
+
+### 登录信息保存在 localStorage 有风险吗？
+
+### 如何防止接口被伪造请求？
+
+### 什么是 CSP（内容安全策略）？
+
+### 什么是同源策略？如何绕过（合法方式）？
+
+## 🧱 七、CSS 与布局场景题（10题）
+
+### 如何实现一个固定宽高比的容器（如 16:9）？
+
+### 如何实现水平垂直居中？
+
+### 如何让文字超出显示省略号？
+
+### 如何实现响应式布局？
+
+### 如何实现一个两栏布局，右侧自适应？
+
+### 如何实现粘性布局（sticky header）？
+
+### 如何实现骨架屏？
+
+### 如何在不改变 DOM 的前提下隐藏元素但保留空间？
+
+### CSS 动画性能优化的要点？
+
+### 如何解决不同设备上字体模糊或偏大问题？
+
+## 🧩 八、浏览器机制与调试场景题（10题）
+
+### 浏览器从输入 URL 到页面渲染的完整过程？
+
+### 浏览器渲染流程中的关键阶段有哪些？
+
+### 如何查看并分析内存泄漏？
+
+### Event Loop 是如何工作的？
+
+### 微任务与宏任务的区别？
+
+### requestAnimationFrame 和 setTimeout 区别？
+
+### 如何用 Performance 工具分析页面性能？
+
+### 浏览器如何决定何时进行垃圾回收？
+
+### 解释一下重排（Reflow）与重绘（Repaint）。
+
+### 单线程的 JavaScript 如何实现异步？
+
+## 🧰 九、工程化与构建场景题（10题）
+
+### 项目构建体积太大如何分析？
+
+### Webpack 与 Vite 的区别？
+
+### 如何配置 Webpack 的 Tree Shaking？
+
+### 如何在 CI/CD 中做构建优化？
+
+### Monorepo 架构中如何管理多个包的依赖？
+
+### 如何在打包时自动生成版本号和打包时间？
+
+### 如何实现多环境配置（dev / staging / prod）？
+
+### 如何在前端项目中添加 ESLint + Prettier + Husky？
+
+### 如何配置别名路径（@/components）？
+
+### 如何在构建时动态注入环境变量？
+
+## 🧮 十、综合项目场景题（5题）
+
+### 如何设计一个可配置化的前端表单编辑器？
+
+### 如何封装一个支持国际化的组件库？
+
+### 如何在前端实现页面埋点与上报系统？
+
+### 前端如何处理长时间任务（如图片压缩、大量计算）？
+
+### 设计一个前端异常监控 SDK 的整体思路。

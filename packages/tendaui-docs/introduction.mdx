@@ -1,0 +1,179 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="文档/组件库介绍" />
+
+# TendaUI React 组件库
+
+<div
+  style={{
+    padding: "24px",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    borderRadius: "12px",
+    color: "white",
+    marginBottom: "32px"
+  }}
+>
+  <h2 style={{ color: "white", marginTop: 0 }}>企业级 React UI 组件库</h2>
+  <p style={{ fontSize: "18px", opacity: 0.9 }}>基于 React 18 构建，提供高质量的组件和优秀的用户体验</p>
+</div>
+
+## ✨ 特性
+
+- 🎨 **精美设计**：现代化的 UI 设计，支持主题定制
+- 📦 **开箱即用**：高质量的 React 组件，满足企业级应用需求
+- 🔧 **TypeScript**：完整的类型定义，提供良好的开发体验
+- 🎭 **主题定制**：灵活的主题系统，支持深色模式
+- 📱 **响应式**：支持移动端，适配各种屏幕尺寸
+- ♿ **无障碍**：遵循 WAI-ARIA 标准，支持键盘导航
+- 🌲 **Tree Shaking**：支持按需加载，优化打包体积
+- 🔨 **Hooks**：提供丰富的自定义 Hooks
+
+## 📦 安装
+
+### 使用 npm
+
+```bash
+npm install tendaui-react
+```
+
+### 使用 pnpm
+
+```bash
+pnpm add tendaui-react
+```
+
+### 使用 yarn
+
+```bash
+yarn add tendaui-react
+```
+
+## 🔨 使用
+
+### 全局引入
+
+```tsx
+import React from "react";
+import { Button, Input, Form } from "tendaui-react";
+import "tendaui-react/es/style/index.css";
+
+function App() {
+  return (
+    <div>
+      <Button type="primary">主要按钮</Button>
+      <Input placeholder="请输入内容" />
+    </div>
+  );
+}
+```
+
+### 按需引入
+
+```tsx
+import Button from "tendaui-react/es/button";
+import "tendaui-react/es/button/style";
+
+function App() {
+  return <Button type="primary">按钮</Button>;
+}
+```
+
+## 🎨 主题定制
+
+TendaUI 支持灵活的主题定制，你可以通过 CSS 变量或 ConfigProvider 来自定义主题。
+
+### 使用 CSS 变量
+
+```css
+:root {
+  --td-brand-color: #0052d9;
+  --td-warning-color: #ff9800;
+  --td-error-color: #f44336;
+  --td-success-color: #4caf50;
+}
+```
+
+### 使用 ConfigProvider
+
+```tsx
+import { ConfigProvider } from "tendaui-react";
+
+function App() {
+  return (
+    <ConfigProvider
+      theme={{
+        primaryColor: "#1890ff"
+      }}
+    >
+      {/* 你的应用 */}
+    </ConfigProvider>
+  );
+}
+```
+
+## 📚 组件总览
+
+### 基础组件
+
+- **Button** - 按钮
+- **Icon** - 图标
+
+### 数据录入
+
+- **Input** - 输入框
+- **Checkbox** - 复选框
+- **Switch** - 开关
+- **Select** - 选择器
+- **Form** - 表单
+- **TagInput** - 标签输入
+
+### 数据展示
+
+- **Badge** - 徽标
+- **Tag** - 标签
+- **Loading** - 加载
+
+### 反馈
+
+- **Alert** - 警告提示
+- **Dialog** - 对话框
+- **Notification** - 通知
+
+### 其他
+
+- **Popup** - 弹出层
+- **Portal** - 传送门
+- **ConfigProvider** - 全局配置
+
+## 🔗 链接
+
+- [GitHub 仓库](https://github.com/your-repo/tendaui)
+- [更新日志](https://github.com/your-repo/tendaui/releases)
+- [问题反馈](https://github.com/your-repo/tendaui/issues)
+
+## 🤝 贡献
+
+我们欢迎所有的贡献。你可以通过以下方式参与贡献：
+
+1. 提交 [Issue](https://github.com/your-repo/tendaui/issues)
+2. 提交 [Pull Request](https://github.com/your-repo/tendaui/pulls)
+3. 完善文档
+4. 分享你的使用经验
+
+## 📄 许可证
+
+本项目采用 [MIT](https://opensource.org/licenses/MIT) 许可证。
+
+---
+
+<div
+  style={{
+    textAlign: "center",
+    padding: "32px",
+    background: "#f5f5f5",
+    borderRadius: "8px",
+    marginTop: "48px"
+  }}
+>
+  <p style={{ fontSize: "16px", color: "#666" }}>Made with ❤️ by TendaUI Team</p>
+</div>

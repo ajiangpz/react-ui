@@ -1,0 +1,393 @@
+# Input 输入框
+
+通过鼠标或键盘输入字符
+
+## 何时使用
+
+- 需要用户输入表单域内容时
+- 提供组合型输入框，可以在输入框前后添加元素
+- 可以添加前缀、后缀图标
+
+## 代码演示
+
+### 基础用法
+
+基本使用方法，通过 `value` 和 `onChange` 实现受控组件。
+
+```tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  return <Input placeholder="请输入内容" value={value} onChange={(e) => setValue(e.target.value)} />;
+};
+```
+
+### 禁用状态
+
+通过 `disabled` 属性禁用输入框。
+
+```tsx
+import React from "react";
+import { Input, Space } from "tendaui-react";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Input placeholder="禁用状态" disabled />
+    <Input placeholder="禁用状态" value="已有内容" disabled />
+  </Space>
+);
+```
+
+### 不同尺寸
+
+提供三种尺寸的输入框。
+
+```tsx
+import React from "react";
+import { Input, Space } from "tendaui-react";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Input size="large" placeholder="大尺寸" />
+    <Input size="medium" placeholder="中等尺寸" />
+    <Input size="small" placeholder="小尺寸" />
+  </Space>
+);
+```
+
+### 带清除按钮
+
+可以配置清除按钮。
+
+```tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  return (
+    <Input
+      placeholder="输入内容后显示清除按钮"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      clearable
+      onClear={() => setValue("")}
+    />
+  );
+};
+```
+
+### 带图标
+
+可以在输入框前后添加图标。
+
+```tsx
+import React from "react";
+import { Input, Space } from "tendaui-react";
+import { IconSearch, IconUser, IconLock } from "tendaui-react-icons";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Input placeholder="搜索" prefixIcon={<IconSearch />} />
+    <Input placeholder="用户名" prefixIcon={<IconUser />} />
+    <Input type="password" placeholder="密码" prefixIcon={<IconLock />} />
+  </Space>
+);
+```
+
+### 密码输入框
+
+使用 `type="password"` 创建密码输入框。
+
+```tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+import { IconLock } from "tendaui-react-icons";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  return (
+    <Input
+      type="password"
+      placeholder="请输入密码"
+      prefixIcon={<IconLock />}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
+```
+
+### 带字数限制
+
+通过 `maxLength` 限制输入长度，配合 `showCount` 显示字数统计。
+
+```tsx
+import React, { useState } from "react";
+import { Input, Space } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  return (
+    <Space direction="vertical" style={{ width: "100%" }}>
+      <Input
+        placeholder="最多输入10个字符"
+        maxLength={10}
+        showCount
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <Input placeholder="带提示文本" maxLength={20} showCount tips="请输入不超过20个字符" />
+    </Space>
+  );
+};
+```
+
+### 输入框状态
+
+输入框有三种状态：默认、成功、错误。
+
+```tsx
+import React from "react";
+import { Input, Space } from "tendaui-react";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Input placeholder="默认状态" />
+    <Input placeholder="成功状态" status="success" />
+    <Input placeholder="错误状态" status="error" tips="用户名格式错误" />
+    <Input placeholder="警告状态" status="warning" tips="用户名已存在" />
+  </Space>
+);
+```
+
+### 前置/后置标签
+
+可以在输入框前后添加文本或元素。
+
+```tsx
+import React from "react";
+import { Input, Space } from "tendaui-react";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Input placeholder="输入域名" prefix="https://" suffix=".com" />
+    <Input placeholder="输入金额" prefix="¥" suffix="元" />
+  </Space>
+);
+```
+
+### 输入框组合
+
+使用 `InputGroup` 组合多个输入框。
+
+```tsx
+import React from "react";
+import { Input, InputGroup, Button } from "tendaui-react";
+import { IconSearch } from "tendaui-react-icons";
+
+export default () => (
+  <InputGroup>
+    <Input placeholder="请输入搜索内容" style={{ width: "300px" }} />
+    <Button variant="base" theme="primary" icon={<IconSearch />}>
+      搜索
+    </Button>
+  </InputGroup>
+);
+```
+
+### 输入框自适应
+
+使用 `autoSize` 实现自适应高度的文本域。
+
+```tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  return (
+    <Input
+      type="textarea"
+      placeholder="自适应高度"
+      autoSize={{ minRows: 3, maxRows: 6 }}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
+```
+
+## API
+
+### Input Props
+
+| 属性         | 说明                      | 类型                                              | 默认值    | 版本 |
+| ------------ | ------------------------- | ------------------------------------------------- | --------- | ---- |
+| value        | 输入框的值（受控）        | string \| number                                  | -         | -    |
+| defaultValue | 输入框的默认值（非受控）  | string \| number                                  | -         | -    |
+| placeholder  | 占位符                    | string                                            | -         | -    |
+| type         | 输入框类型                | `text` \| `password` \| `number` \| `textarea`    | `text`    | -    |
+| size         | 输入框尺寸                | `small` \| `medium` \| `large`                    | `medium`  | -    |
+| disabled     | 是否禁用                  | boolean                                           | false     | -    |
+| readOnly     | 是否只读                  | boolean                                           | false     | -    |
+| clearable    | 是否显示清除按钮          | boolean                                           | false     | -    |
+| showCount    | 是否显示字数统计          | boolean                                           | false     | -    |
+| maxLength    | 最大输入长度              | number                                            | -         | -    |
+| status       | 输入框状态                | `default` \| `success` \| `warning` \| `error`    | `default` | -    |
+| tips         | 提示信息                  | string \| ReactNode                               | -         | -    |
+| prefix       | 前置标签                  | string \| ReactNode                               | -         | -    |
+| suffix       | 后置标签                  | string \| ReactNode                               | -         | -    |
+| prefixIcon   | 前置图标                  | ReactNode                                         | -         | -    |
+| suffixIcon   | 后置图标                  | ReactNode                                         | -         | -    |
+| autoSize     | 自适应高度（仅 textarea） | boolean \| { minRows?: number, maxRows?: number } | false     | -    |
+| rows         | textarea 的行数           | number                                            | 3         | -    |
+| onChange     | 输入框内容变化时的回调    | (e: ChangeEvent) => void                          | -         | -    |
+| onFocus      | 获取焦点时的回调          | (e: FocusEvent) => void                           | -         | -    |
+| onBlur       | 失去焦点时的回调          | (e: FocusEvent) => void                           | -         | -    |
+| onClear      | 点击清除按钮时的回调      | () => void                                        | -         | -    |
+| onPressEnter | 按下回车键时的回调        | (e: KeyboardEvent) => void                        | -         | -    |
+
+### InputGroup Props
+
+| 属性     | 说明             | 类型      | 默认值 | 版本 |
+| -------- | ---------------- | --------- | ------ | ---- |
+| children | 输入框组合的内容 | ReactNode | -      | -    |
+| compact  | 是否紧凑排列     | boolean   | true   | -    |
+
+## 设计指南
+
+### 输入框尺寸
+
+- **小输入框（small）**：高度 28px，适用于空间有限的场景
+- **中等输入框（medium）**：高度 32px，最常用的尺寸
+- **大输入框（large）**：高度 40px，适用于需要强调的场景
+
+### 占位符文案
+
+- 使用简短的提示文字，如"请输入用户名"
+- 不要在占位符中放置重要信息
+- 使用友好的语气
+
+### 错误提示
+
+- 在输入框下方显示清晰的错误信息
+- 使用红色标识错误状态
+- 提供解决方案而不是仅仅指出错误
+
+### 无障碍
+
+- 为输入框提供明确的 `label`
+- 使用 `aria-label` 或 `aria-labelledby` 关联标签
+- 错误信息使用 `aria-describedby` 关联
+
+```tsx
+<div>
+  <label id="username-label" htmlFor="username">
+    用户名
+  </label>
+  <Input id="username" aria-labelledby="username-label" aria-describedby="username-error" status="error" />
+  <div id="username-error" role="alert">
+    用户名格式错误
+  </div>
+</div>
+```
+
+## 常见问题
+
+### 如何实现输入框防抖？
+
+```tsx
+import { useState, useEffect } from "react";
+import { Input } from "tendaui-react";
+
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+export default () => {
+  const [value, setValue] = useState("");
+  const debouncedValue = useDebounce(value, 500);
+
+  useEffect(() => {
+    // 使用防抖后的值进行搜索等操作
+    console.log("Search:", debouncedValue);
+  }, [debouncedValue]);
+
+  return <Input placeholder="输入搜索内容" value={value} onChange={(e) => setValue(e.target.value)} />;
+};
+```
+
+### 如何实现输入框格式化？
+
+```tsx
+import { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    // 只允许输入数字和小数点
+    const formatted = val.replace(/[^\d.]/g, "");
+    setValue(formatted);
+  };
+
+  return <Input placeholder="只能输入数字" value={value} onChange={handleChange} />;
+};
+```
+
+### 如何实现密码强度提示？
+
+```tsx
+import { useState } from "react";
+import { Input } from "tendaui-react";
+
+function checkPasswordStrength(password: string) {
+  if (password.length < 6) return "weak";
+  if (password.length < 10) return "medium";
+  return "strong";
+}
+
+export default () => {
+  const [password, setPassword] = useState("");
+  const strength = checkPasswordStrength(password);
+
+  const strengthConfig = {
+    weak: { text: "弱", color: "#ff4d4f" },
+    medium: { text: "中", color: "#faad14" },
+    strong: { text: "强", color: "#52c41a" }
+  };
+
+  return (
+    <div>
+      <Input type="password" placeholder="请输入密码" value={password} onChange={(e) => setPassword(e.target.value)} />
+      {password && (
+        <div style={{ marginTop: "8px", color: strengthConfig[strength].color }}>
+          密码强度：{strengthConfig[strength].text}
+        </div>
+      )}
+    </div>
+  );
+};
+```

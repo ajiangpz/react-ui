@@ -1,0 +1,582 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="组件/Form 表单" />
+
+# Form 表单
+
+表单用于收集、校验和提交用户输入的数据。
+
+## 何时使用
+
+- 用于创建实体或收集信息
+- 需要对输入的数据类型进行校验时
+- 需要分步骤或分区域收集信息时
+
+## 代码演示
+
+### 基础用法
+
+基本的表单数据收集、校验和提交。
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, Button, Space } from "tendaui-react";
+
+export default () => {
+  const [form] = Form.useForm();
+
+  const handleSubmit = (e) => {
+    const { validateResult, firstError, fields } = e;
+    console.log("表单数据:", fields);
+    console.log("校验结果:", validateResult);
+    console.log("第一个错误:", firstError);
+  };
+
+  return (
+    <Form form={form} onSubmit={handleSubmit} labelWidth="100px">
+      <FormItem label="用户名" name="username">
+        <Input placeholder="请输入用户名" />
+      </FormItem>
+
+      <FormItem label="密码" name="password">
+        <Input type="password" placeholder="请输入密码" />
+      </FormItem>
+
+      <FormItem>
+        <Space>
+          <Button type="submit" variant="base" theme="primary">
+            提交
+          </Button>
+          <Button onClick={() => form.reset()}>重置</Button>
+        </Space>
+      </FormItem>
+    </Form>
+  );
+};
+```
+
+### 表单校验
+
+使用 `rules` 配置校验规则。
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, Button } from "tendaui-react";
+
+export default () => {
+  const [form] = Form.useForm();
+
+  const handleSubmit = (e) => {
+    const { validateResult, fields } = e;
+    if (validateResult === true) {
+      console.log("校验通过，提交数据:", fields);
+    } else {
+      console.log("校验失败:", validateResult);
+    }
+  };
+
+  return (
+    <Form form={form} onSubmit={handleSubmit} labelWidth="100px">
+      <FormItem
+        label="用户名"
+        name="username"
+        rules={[
+          { required: true, message: "请输入用户名" },
+          { min: 3, message: "用户名至少3个字符" },
+          { max: 20, message: "用户名最多20个字符" }
+        ]}
+      >
+        <Input placeholder="请输入用户名" />
+      </FormItem>
+
+      <FormItem
+        label="邮箱"
+        name="email"
+        rules={[
+          { required: true, message: "请输入邮箱" },
+          { email: true, message: "请输入正确的邮箱格式" }
+        ]}
+      >
+        <Input placeholder="请输入邮箱" />
+      </FormItem>
+
+      <FormItem
+        label="手机号"
+        name="phone"
+        rules={[
+          { required: true, message: "请输入手机号" },
+          {
+            pattern: /^1[3-9]\d{9}$/,
+            message: "请输入正确的手机号"
+          }
+        ]}
+      >
+        <Input placeholder="请输入手机号" />
+      </FormItem>
+
+      <FormItem>
+        <Button type="submit" variant="base" theme="primary">
+          提交
+        </Button>
+      </FormItem>
+    </Form>
+  );
+};
+```
+
+### 自定义校验
+
+使用 `validator` 实现自定义校验逻辑。
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, Button } from "tendaui-react";
+
+export default () => {
+  const [form] = Form.useForm();
+
+  // 自定义密码强度校验
+  const validatePassword = (value: string) => {
+    if (!value) {
+      return { result: false, message: "请输入密码", type: "error" };
+    }
+    if (value.length < 8) {
+      return { result: false, message: "密码至少8个字符", type: "error" };
+    }
+    // 检查是否包含数字和字母
+    const hasNumber = /\d/.test(value);
+    const hasLetter = /[a-zA-Z]/.test(value);
+    if (!hasNumber || !hasLetter) {
+      return {
+        result: false,
+        message: "密码必须包含数字和字母",
+        type: "error"
+      };
+    }
+    return { result: true };
+  };
+
+  // 确认密码校验
+  const validateConfirmPassword = (value: string) => {
+    const password = form.getFieldValue("password");
+    if (value !== password) {
+      return { result: false, message: "两次密码输入不一致", type: "error" };
+    }
+    return { result: true };
+  };
+
+  return (
+    <Form form={form} labelWidth="120px">
+      <FormItem label="密码" name="password" rules={[{ validator: validatePassword, trigger: "change" }]}>
+        <Input type="password" placeholder="请输入密码" />
+      </FormItem>
+
+      <FormItem
+        label="确认密码"
+        name="confirmPassword"
+        rules={[
+          { required: true, message: "请确认密码" },
+          { validator: validateConfirmPassword, trigger: "change" }
+        ]}
+      >
+        <Input type="password" placeholder="请再次输入密码" />
+      </FormItem>
+
+      <FormItem>
+        <Button type="submit" variant="base" theme="primary">
+          提交
+        </Button>
+      </FormItem>
+    </Form>
+  );
+};
+```
+
+### 表单布局
+
+支持水平、垂直、内联三种布局方式。
+
+```tsx
+import React from "react";
+import { Form, FormItem, Input, Button, Space } from "tendaui-react";
+
+// 水平布局（默认）
+export const HorizontalLayout = () => (
+  <Form layout="horizontal" labelWidth="100px">
+    <FormItem label="用户名" name="username">
+      <Input placeholder="请输入用户名" />
+    </FormItem>
+    <FormItem label="密码" name="password">
+      <Input type="password" placeholder="请输入密码" />
+    </FormItem>
+    <FormItem>
+      <Button type="submit" variant="base" theme="primary">
+        提交
+      </Button>
+    </FormItem>
+  </Form>
+);
+
+// 垂直布局
+export const VerticalLayout = () => (
+  <Form layout="vertical">
+    <FormItem label="用户名" name="username">
+      <Input placeholder="请输入用户名" />
+    </FormItem>
+    <FormItem label="密码" name="password">
+      <Input type="password" placeholder="请输入密码" />
+    </FormItem>
+    <FormItem>
+      <Button type="submit" variant="base" theme="primary">
+        提交
+      </Button>
+    </FormItem>
+  </Form>
+);
+
+// 内联布局
+export const InlineLayout = () => (
+  <Form layout="inline">
+    <FormItem label="用户名" name="username">
+      <Input placeholder="用户名" />
+    </FormItem>
+    <FormItem label="密码" name="password">
+      <Input type="password" placeholder="密码" />
+    </FormItem>
+    <FormItem>
+      <Button type="submit" variant="base" theme="primary">
+        登录
+      </Button>
+    </FormItem>
+  </Form>
+);
+```
+
+### 表单联动
+
+通过表单实例实现字段间的联动。
+
+```tsx
+import React, { useState } from "react";
+import { Form, FormItem, Input, Select, Option } from "tendaui-react";
+
+export default () => {
+  const [form] = Form.useForm();
+  const [addressType, setAddressType] = useState("domestic");
+
+  const handleAddressTypeChange = (value: string) => {
+    setAddressType(value);
+    // 切换地址类型时清空相关字段
+    form.setFieldsValue({
+      province: undefined,
+      city: undefined,
+      country: undefined
+    });
+  };
+
+  return (
+    <Form form={form} labelWidth="100px">
+      <FormItem label="地址类型" name="addressType">
+        <Select value={addressType} onChange={handleAddressTypeChange}>
+          <Option value="domestic">国内地址</Option>
+          <Option value="international">国际地址</Option>
+        </Select>
+      </FormItem>
+
+      {addressType === "domestic" ? (
+        <>
+          <FormItem label="省份" name="province">
+            <Input placeholder="请输入省份" />
+          </FormItem>
+          <FormItem label="城市" name="city">
+            <Input placeholder="请输入城市" />
+          </FormItem>
+        </>
+      ) : (
+        <FormItem label="国家" name="country">
+          <Input placeholder="请输入国家" />
+        </FormItem>
+      )}
+
+      <FormItem label="详细地址" name="address">
+        <Input placeholder="请输入详细地址" />
+      </FormItem>
+    </Form>
+  );
+};
+```
+
+### 动态表单项
+
+使用 `FormList` 实现动态增减表单项。
+
+```tsx
+import React from "react";
+import { Form, FormItem, FormList, Input, Button, Space } from "tendaui-react";
+import { IconAdd, IconDelete } from "tendaui-react-icons";
+
+export default () => {
+  const [form] = Form.useForm();
+
+  return (
+    <Form form={form} labelWidth="100px">
+      <FormList name="contacts">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field, index) => (
+              <Space key={field.key} align="start">
+                <FormItem
+                  label={`联系人 ${index + 1}`}
+                  name={[field.name, "name"]}
+                  rules={[{ required: true, message: "请输入姓名" }]}
+                >
+                  <Input placeholder="姓名" />
+                </FormItem>
+
+                <FormItem label="电话" name={[field.name, "phone"]} rules={[{ required: true, message: "请输入电话" }]}>
+                  <Input placeholder="电话" />
+                </FormItem>
+
+                <Button variant="text" theme="danger" icon={<IconDelete />} onClick={() => remove(field.name)}>
+                  删除
+                </Button>
+              </Space>
+            ))}
+
+            <FormItem>
+              <Button variant="dashed" icon={<IconAdd />} onClick={() => add()} block>
+                添加联系人
+              </Button>
+            </FormItem>
+          </>
+        )}
+      </FormList>
+
+      <FormItem>
+        <Button type="submit" variant="base" theme="primary">
+          提交
+        </Button>
+      </FormItem>
+    </Form>
+  );
+};
+```
+
+## API
+
+### Form Props
+
+| 属性                 | 说明                               | 类型                                   | 默认值       | 版本 |
+| -------------------- | ---------------------------------- | -------------------------------------- | ------------ | ---- |
+| form                 | 表单实例，由 `Form.useForm()` 创建 | FormInstance                           | -            | -    |
+| layout               | 表单布局                           | `horizontal` \| `vertical` \| `inline` | `horizontal` | -    |
+| labelWidth           | 标签宽度                           | string \| number                       | -            | -    |
+| labelAlign           | 标签对齐方式                       | `left` \| `right`                      | `right`      | -    |
+| colon                | 是否显示标签后的冒号               | boolean                                | true         | -    |
+| disabled             | 是否禁用表单中的所有组件           | boolean                                | false        | -    |
+| initialValues        | 表单初始值                         | object                                 | -            | -    |
+| preventSubmitDefault | 是否阻止表单默认提交行为           | boolean                                | true         | -    |
+| onSubmit             | 表单提交时的回调                   | (e: FormSubmitEvent) => void           | -            | -    |
+| onValuesChange       | 字段值更新时的回调                 | (changedValues, allValues) => void     | -            | -    |
+
+### FormItem Props
+
+| 属性            | 说明               | 类型                                              | 默认值   | 版本 |
+| --------------- | ------------------ | ------------------------------------------------- | -------- | ---- |
+| label           | 标签文本           | string \| ReactNode                               | -        | -    |
+| name            | 字段名，支持数组   | string \| string[]                                | -        | -    |
+| rules           | 校验规则           | FormRule[]                                        | -        | -    |
+| required        | 是否必填           | boolean                                           | false    | -    |
+| help            | 提示信息           | string \| ReactNode                               | -        | -    |
+| extra           | 额外的提示信息     | string \| ReactNode                               | -        | -    |
+| validateTrigger | 校验触发时机       | `change` \| `blur` \| `submit`                    | `change` | -    |
+| validateStatus  | 校验状态           | `success` \| `warning` \| `error` \| `validating` | -        | -    |
+| children        | 子元素（表单控件） | ReactNode                                         | -        | -    |
+
+### FormRule
+
+| 属性      | 说明               | 类型                           |
+| --------- | ------------------ | ------------------------------ |
+| required  | 是否必填           | boolean                        |
+| message   | 校验失败的提示信息 | string                         |
+| min       | 最小长度           | number                         |
+| max       | 最大长度           | number                         |
+| len       | 精确长度           | number                         |
+| pattern   | 正则表达式校验     | RegExp                         |
+| email     | 邮箱格式校验       | boolean                        |
+| url       | URL 格式校验       | boolean                        |
+| validator | 自定义校验函数     | (value) => ValidateResult      |
+| trigger   | 触发校验的时机     | `change` \| `blur` \| `submit` |
+
+### Form Methods
+
+通过 `form` 实例可以调用以下方法：
+
+| 方法名         | 说明             | 参数                               | 返回值     |
+| -------------- | ---------------- | ---------------------------------- | ---------- |
+| getFieldValue  | 获取指定字段的值 | (name: string) => any              | 字段值     |
+| getFieldsValue | 获取所有字段的值 | () => object                       | 所有字段值 |
+| setFieldValue  | 设置指定字段的值 | (name: string, value: any) => void | -          |
+| setFieldsValue | 设置多个字段的值 | (values: object) => void           | -          |
+| validate       | 触发表单校验     | (names?: string[]) => Promise      | 校验结果   |
+| reset          | 重置表单         | () => void                         | -          |
+| submit         | 提交表单         | () => void                         | -          |
+
+## 校验规则说明
+
+### 内置校验规则
+
+#### 1. 必填校验
+
+```tsx
+rules={[{ required: true, message: '此项为必填项' }]}
+```
+
+#### 2. 长度校验
+
+```tsx
+// 最小长度
+rules={[{ min: 3, message: '最少3个字符' }]}
+
+// 最大长度
+rules={[{ max: 20, message: '最多20个字符' }]}
+
+// 精确长度
+rules={[{ len: 11, message: '必须是11个字符' }]}
+```
+
+#### 3. 格式校验
+
+```tsx
+// 邮箱
+rules={[{ email: true, message: '请输入正确的邮箱格式' }]}
+
+// URL
+rules={[{ url: true, message: '请输入正确的URL格式' }]}
+
+// 正则表达式
+rules={[{
+  pattern: /^1[3-9]\d{9}$/,
+  message: '请输入正确的手机号'
+}]}
+```
+
+### 自定义校验
+
+```tsx
+const customValidator = (value: any) => {
+  if (!value) {
+    return { result: false, message: '请输入内容', type: 'error' };
+  }
+  if (someCondition) {
+    return { result: false, message: '校验失败', type: 'error' };
+  }
+  return { result: true };
+};
+
+rules={[{ validator: customValidator }]}
+```
+
+### 异步校验
+
+```tsx
+const asyncValidator = async (value: any) => {
+  // 模拟异步校验（如后端接口校验）
+  const isValid = await checkUsername(value);
+  if (!isValid) {
+    return { result: false, message: '用户名已存在', type: 'error' };
+  }
+  return { result: true };
+};
+
+rules={[{ validator: asyncValidator }]}
+```
+
+## 设计指南
+
+### 表单布局原则
+
+1. **标签对齐**：通常使用右对齐，可以缩短用户眼睛移动距离
+2. **标签宽度**：保持一致，建议 80-120px
+3. **字段间距**：保持适当的间距，提升可读性
+4. **按钮位置**：主要操作按钮应该靠左，与表单字段左对齐
+
+### 校验提示
+
+- **实时校验**：对于格式类校验，建议在用户输入时实时反馈
+- **失焦校验**：对于复杂校验，建议在失焦时触发
+- **提交校验**：所有校验都应在提交时再次触发
+
+### 错误提示
+
+- 使用清晰、友好的提示语言
+- 指出问题所在，并给出解决建议
+- 避免使用技术术语
+
+## 常见问题
+
+### 如何动态设置表单值？
+
+```tsx
+const [form] = Form.useForm();
+
+// 设置单个字段
+form.setFieldValue("username", "admin");
+
+// 设置多个字段
+form.setFieldsValue({
+  username: "admin",
+  email: "admin@example.com"
+});
+```
+
+### 如何手动触发校验？
+
+```tsx
+const [form] = Form.useForm();
+
+// 校验所有字段
+const result = await form.validate();
+
+// 校验指定字段
+const result = await form.validate(["username", "email"]);
+```
+
+### 如何实现表单重置？
+
+```tsx
+const [form] = Form.useForm();
+
+// 重置为初始值
+form.reset();
+
+// 重置并设置新值
+form.reset();
+form.setFieldsValue({ username: "newValue" });
+```
+
+### 如何获取表单数据？
+
+```tsx
+const [form] = Form.useForm();
+
+// 获取所有字段值
+const values = form.getFieldsValue();
+
+// 获取指定字段值
+const username = form.getFieldValue("username");
+```
+
+### 如何处理嵌套数据？
+
+```tsx
+<FormItem label="用户信息" name={["user", "profile", "name"]}>
+  <Input />
+</FormItem>;
+
+// 获取值
+const name = form.getFieldValue(["user", "profile", "name"]);
+
+// 设置值
+form.setFieldValue(["user", "profile", "name"], "John");
+```

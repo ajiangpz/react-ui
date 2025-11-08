@@ -1,0 +1,305 @@
+## useInstance：表单实例的“大脑”
+
+`useInstance` 是整个表单体系的核心 Hook，它把 `Form` 对外暴露的全部实例方法（`submit`、`validate`、`getFieldsValue` 等）集中实现，并协调 `FormItem` 之间的数据、校验与状态同步。你可以把它理解成 **Form 组件的大脑**：负责决策、调度、整合各种子组件的信息。
+
+---
+
+### 1. 入口与依赖
+
+```ts
+export default function useInstance(
+  props: TdFormProps,
+  formRef,
+  formMapRef: React.MutableRefObject<Map<NamePath, React.RefObject<FormItemInstance>>>,
+  floatingFormDataRef: React.RefObject<Record<string, unknown>>
+)
+```
+
+- `formRef`：`<form />` 的 DOM 引用，用于滚动定位等。
+- `formMapRef`：收集所有带 `name` 的 `FormItem`，建立 `NamePath → FormItemInstance` 的索引表。
+- `floatingFormDataRef`：游离值缓冲区（字段还没挂载就设置值时的临时存储）。
+- `props`：`Form` 的所有配置（滚动行为、submit/reset 回调、默认校验策略等）。
+
+返回值是一个对象，里面封装了 `Form` 对外公开的全部方法：
+
+```ts
+return {
+  submit,
+  reset,
+  validate,
+  validateOnly,
+  clearValidate,
+  setFields,
+  setFieldsValue,
+  setValidateMessage,
+  getValidateMessage,
+  getFieldValue,
+  getFieldsValue,
+  getCurrentElement: () => formRef.current
+};
+```
+
+这些方法最终会被挂到 `form` 实例上：
+
+```ts
+const formInstance = useInstance(...);
+Object.assign(form, { ...formInstance });
+```
+
+---
+
+### 2. 任务清单（方法说明）
+
+
+| 方法 | 作用 | 内部依赖 |
+|------|------|----------|
+| `submit` | 手动提交表单（触发校验、回调） | `validate`、`getFieldsValue` |
+| `validate` | 校验所有或指定字段，并展示错误 | `formMapRef`、`validate` |
+| `validateOnly` | 校验但不展示错误 | `formMapRef`、`validateOnly` |
+| `getFieldValue` | 获取某个字段当前值 | `formMapRef`、`FormItemInstance.getValue` |
+| `getFieldsValue` | 获取多个或全部字段的值 | `formMapRef`、`calcFieldValue` |
+| `setFieldsValue` | 设置多个字段的值 | `formMapRef`、`floatingFormDataRef` |
+| `setFields` | 直接设置字段的 meta 信息 | `formMapRef` |
+| `reset` | 重置部分或全部字段 | `formMapRef` |
+| `clearValidate` | 清除校验状态 | `formMapRef` |
+| `setValidateMessage` | 手动设置校验信息 | `formMapRef`、`travelMapFromObject` |
+| `getValidateMessage` | 获取校验信息 | `formMapRef` |
+| `getCurrentElement` | 返回 `<form>` DOM | `formRef` |
+
+
+---
+
+### 3. 方法细节拆解
+
+#### 3.1 `submit`
+```ts:71:82:packages/components/form/hooks/useInstance.tsx
+function submit(e?: React.FormEvent<HTMLFormElement>) {
+  if (preventSubmitDefault) {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+  }
+  validate().then((r) => {
+    const firstError = getFirstError(r);
+    const fields = getFieldsValue(true);  // 收集所有最新值
+    onSubmit?.({ validateResult: r, firstError, e, fields });
+  });
+}
+```
+- 默认阻止原生提交（可配置）。
+- 调用 `validate()` 校验所有字段。
+- 收集表单当前数据（`getFieldsValue(true)`）。
+- 调用 `props.onSubmit`，携带校验结果、首个错误信息、表单数据。
+
+#### 3.2 `validate` / `validateOnly`
+```ts:84:110:packages/components/form/hooks/useInstance.tsx
+async function validate(param?: Record<string, unknown>): Promise<FormValidateResult<FormData>> {
+  const { fields, trigger = "all", showErrorMessage } = param || {};
+  const list = [...formMapRef.current.values()]
+    .filter((formItemRef) =>
+      isFunction(formItemRef?.current?.validate) &&
+      needValidate(formItemRef?.current?.name, fields as string[])
+    )
+    .map((formItemRef) =>
+      formItemRef?.current?.validate?.(trigger as string, showErrorMessage as boolean)
+    );
+
+  const validateList = await Promise.all(list);
+  return formatValidateResult(validateList);
+}
+```
+- 遍历 `formMapRef` 中的所有 `FormItem` 实例。
+- 筛选需要校验的字段（`fields` 参数控制）。
+- 调用每个 FormItem 的 `validate` 方法，收集结果。
+- `formatValidateResult` 将所有子结果整理为统一格式：`true` 或 `Record<NamePath, Error[]>`。
+
+`validateOnly` 同理，只是调 `validateOnly` 方法且不显示错误提示。
+
+#### 3.3 `getFieldsValue`
+```ts:120:150:packages/components/form/hooks/useInstance.tsx
+function getFieldsValue(nameList: string[] | boolean) {
+  const fieldsValue = {};
+
+  if (nameList === true) {
+    // 取全部数据 → 倒序，避免嵌套覆盖
+    for (const [name, formItemRef] of [...formMapRef.current.entries()].reverse()) {
+      let fieldValue = null;
+      if (formItemRef?.current?.isFormList) {
+        fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.());
+      } else {
+        fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.(), !props.supportNumberKey);
+      }
+      merge(fieldsValue, fieldValue);
+    }
+  } else {
+    // 取部分字段
+    if (!Array.isArray(nameList)) {
+      console.error("Form", "`getFieldsValue` 参数需要 Array 类型");
+      return {};
+    }
+
+    nameList.forEach((name) => {
+      const formItemRef = getMapValue(name, formMapRef);
+      if (!formItemRef) return;
+
+      const fieldValue = calcFieldValue(name, formItemRef?.current.getValue?.());
+      merge(fieldsValue, fieldValue);
+    });
+  }
+  return fieldsValue;
+}
+```
+
+- `formMapRef` 存储的是 `Map<NamePath, FormItemRef>`。
+- `calcFieldValue` 用于把 `name`（可能是数组路径）+ `值` 组合成嵌套对象。
+- `merge` 用于递归合并多个字段的值。
+- 遍历顺序逆序是为了避免嵌套结构覆盖（比如先保存 `user.address.city`，再保存 `user.address`）。
+
+#### 3.4 `setFieldsValue`
+```ts:152:178:packages/components/form/hooks/useInstance.tsx
+function setFieldsValue(fields = {}) {
+  const nameLists = objectToArray(fields);
+
+  nameLists.forEach((nameList) => {
+    const fieldValue = get(fields, nameList);
+
+    let formItemRef;
+    if (nameList.length > 1) {
+      // 名称是数组路径，手动查找 map（因为 map 的 key 也是数组，需要深比较）
+      for (const [mapNameList, _formItemRef] of formMapRef.current.entries()) {
+        if (isEqual(nameList, mapNameList)) {
+          formItemRef = _formItemRef;
+          break;
+        }
+      }
+    } else {
+      formItemRef = formMapRef.current.get(nameList[0]);
+    }
+
+    if (formItemRef?.current) {
+      formItemRef?.current?.setValue?.(fieldValue, fields);
+    } else {
+      set(floatingFormDataRef.current, nameList, fieldValue); // FormItem 还没挂载 → 存游离值
+    }
+  });
+}
+```
+- `objectToArray` 将 `{ user: { name: 'A' } }` 展平成 `[ ['user','name'] ]`。
+- 按路径查找对应的 `FormItem` 引用：
+  - 单层 key 可直接 `Map.get`。
+  - 嵌套路径需要深度对比（`isEqual`）。
+- 有实例 → 直接调用 FormItem 的 `setValue`。
+- 没实例（FormItem 未挂载）→ 缓存到 `floatingFormDataRef`，等待 FormItem 渲染时读取。
+
+#### 3.5 `setFields`
+```ts:180:188:packages/components/form/hooks/useInstance.tsx
+function setFields(fields = []) {
+  if (!Array.isArray(fields)) throw new Error("setFields 参数需要 Array 类型");
+
+  fields.forEach((field) => {
+    const { name, ...restFields } = field;
+    const formItemRef = getMapValue(name, formMapRef);
+
+    formItemRef?.current?.setField?.(restFields, field);
+  });
+}
+```
+- 用于设置更多 meta 信息，比如 `errors`、`touched`。
+- 语义类似 Ant Design 的 `form.setFields()`。
+
+#### 3.6 `reset`
+```ts:192:207:packages/components/form/hooks/useInstance.tsx
+function reset(params: FormResetParams<FormData>) {
+  if (typeof params === "undefined") {
+    // 重置全部
+    [...formMapRef.current.values()].forEach((formItemRef) => {
+      formItemRef?.current?.resetField?.();
+    });
+  } else {
+    const { type = "initial", fields = [] } = params;
+
+    fields.forEach((name) => {
+      const formItemRef = getMapValue(name, formMapRef);
+      formItemRef?.current?.resetField(type);
+    });
+  }
+  onReset?.({});
+}
+```
+- 支持重置全部或指定字段。
+- `type` 控制重置策略（`empty`/`initial`）——内部交由 FormItem 处理。
+
+#### 3.7 `clearValidate`
+```ts:210:223:packages/components/form/hooks/useInstance.tsx
+function clearValidate(fields?: Array<keyof FormData>) {
+  if (typeof fields === "undefined") {
+    // 全部清除
+    [...formMapRef.current.values()].forEach((formItemRef) => {
+      formItemRef?.current?.resetValidate();
+    });
+  } else {
+    if (!Array.isArray(fields)) throw new Error("clearValidate 参数需要 Array 类型");
+
+    fields.forEach((name) => {
+      const formItemRef = getMapValue(name, formMapRef);
+      formItemRef?.current?.resetValidate();
+    });
+  }
+}
+```
+
+#### 3.8 校验信息的设置与获取
+
+```ts:227:233:packages/components/form/hooks/useInstance.tsx
+function setValidateMessage(message: FormValidateMessage<FormData>) {
+  travelMapFromObject(message, formMapRef, (formItemRef, fieldValue) => {
+    formItemRef?.current?.setValidateMessage?.(fieldValue);
+  });
+}
+```
+- 遍历 `message` 对象（结构与表单数据一致），对每个有值的字段调用对应 FormItem 的 `setValidateMessage`。
+- `travelMapFromObject` 是工具函数，负责匹配路径与 `FormItemInstance`。
+
+```ts:234:258:packages/components/form/hooks/useInstance.tsx
+function getValidateMessage(fields?: Array<keyof FormData>) {
+  const message = {};
+
+  if (typeof fields === "undefined") {
+    [...formMapRef.current.values()].forEach((formItemRef) => {
+      const item = formItemRef?.current?.getValidateMessage?.();
+      if (isEmpty(item)) return;
+      message[String(formItemRef?.current?.name)] = item;
+    });
+  } else {
+    if (!Array.isArray(fields)) throw new Error("getValidateMessage 参数需要 Array 类型");
+
+    fields.forEach((name) => {
+      const formItemRef = getMapValue(name, formMapRef);
+      const item = formItemRef?.current?.getValidateMessage?.();
+      if (isEmpty(item)) return;
+      message[formItemRef?.current?.name] = item;
+    });
+  }
+
+  if (isEmpty(message)) return;
+
+  return message;
+}
+```
+
+---
+
+### 4. 小结：`useInstance` 的角色
+
+- **集中调度**：它持有 `formMapRef` 和 `floatingFormDataRef`，知道所有 `FormItem` 的引用、状态与临时数据。
+- **对外接口**：将一组统一的表单操作方法暴露给 `Form`，用户通过 `form` 实例调用。
+- **对内协作**：通过 `FormItemInstance` 提供的接口（`setValue`、`validate` 等）与各个字段交互。
+- **数据整合**：负责将散布各处的字段数据整合成完整对象（`getFieldsValue`），并能处理嵌套结构。
+- **校验管理**：批量触发校验、收集结果、滚动定位错误。
+- **生命周期协调**：支持字段未挂载时先缓存数据（游离值），确保设值时序不出错。
+
+如果把整个表单系统想象成一个微型架构：
+
+- `FormItem`：具体的输入组件，提供标准接口 `getValue`、`setValue` 等。
+- `Form`：容器和上下文提供者。
+- `useInstance`：协调者/控制中心，维护全局状态和操作。
+

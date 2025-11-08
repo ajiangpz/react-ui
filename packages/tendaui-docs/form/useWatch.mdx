@@ -1,0 +1,693 @@
+## `useWatch` 的作用
+
+这是一个**响应式监听 Hook**，用于订阅表单字段的变化，类似于 Vue 的 `watch` 或 React Query 的订阅机制。
+
+---
+
+## 一、核心问题：为什么需要 useWatch？
+
+### 场景：字段联动
+
+```tsx
+// ❌ 不使用 useWatch - 需要手动管理状态
+function MyForm() {
+  const [form] = Form.useForm();
+  const [country, setCountry] = useState('');
+  
+  return (
+    <Form form={form}>
+      <FormItem name="country">
+        <Select onChange={value => {
+          setCountry(value);  // 手动同步状态
+          form.setFieldsValue({ city: '' });  // 清空城市
+        }}>
+          <Option value="CN">中国</Option>
+          <Option value="US">美国</Option>
+        </Select>
+      </FormItem>
+      
+      <FormItem name="city">
+        {/* 根据 country 显示不同城市 */}
+        {country === 'CN' ? <CNCity /> : <USCity />}
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+```tsx
+// ✅ 使用 useWatch - 自动响应
+function MyForm() {
+  const [form] = Form.useForm();
+  const country = Form.useWatch('country', form);  // 自动监听
+  
+  return (
+    <Form form={form}>
+      <FormItem name="country">
+        <Select>
+          <Option value="CN">中国</Option>
+          <Option value="US">美国</Option>
+        </Select>
+      </FormItem>
+      
+      <FormItem name="city">
+        {/* country 变化时自动更新 */}
+        {country === 'CN' ? <CNCity /> : <USCity />}
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+---
+
+## 二、完整代码解析
+
+```ts:8:42:packages/components/form/hooks/useWatch.ts
+export default function useWatch(name: NamePath, form: InternalFormInstance) {
+  const [value, setValue] = useState<string>();
+  const valueStr = useMemo(() => JSON.stringify(value), [value]);
+  const valueStrRef = useRef(valueStr);
+
+  const isValidForm = form && form._init;
+
+  useEffect(() => {
+    if (!isValidForm) return;
+
+    const internalHooks = form.getInternalHooks?.(HOOK_MARK);
+    const { registerWatch = noop } = internalHooks || {};
+
+    const cancelRegister = registerWatch(() => {
+      const allFieldsValue = form.getFieldsValue?.(true);
+      const newValue = get(allFieldsValue, name);
+      const nextValueStr = JSON.stringify(newValue);
+
+      // Compare stringify in case it's nest object
+      if (valueStrRef.current !== nextValueStr) {
+        valueStrRef.current = nextValueStr;
+        setValue(nextValueStr);
+      }
+    });
+
+    const allFieldsValue = form.getFieldsValue?.(true);
+    const initialValue = get(allFieldsValue, name);
+    setValue(JSON.stringify(initialValue));
+
+    return cancelRegister;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return isUndefined(value) ? value : JSON.parse(value);
+}
+```
+
+---
+
+## 三、逐步拆解
+
+### 1. 参数与状态
+
+```ts:8:11:packages/components/form/hooks/useWatch.ts
+export default function useWatch(name: NamePath, form: InternalFormInstance) {
+  const [value, setValue] = useState<string>();
+  const valueStr = useMemo(() => JSON.stringify(value), [value]);
+  const valueStrRef = useRef(valueStr);
+```
+
+**参数**：
+- `name`: 要监听的字段名（支持嵌套路径，如 `'user.name'` 或 `['user', 'name']`）
+- `form`: 表单实例
+
+**状态**：
+- `value`: 存储字段值的**字符串形式**（为什么是字符串？见后文）
+- `valueStr`: `value` 的 memo 版本
+- `valueStrRef`: 用于对比的引用（避免闭包陷阱）
+
+---
+
+### 2. 表单有效性检查
+
+```ts:13:13:packages/components/form/hooks/useWatch.ts
+const isValidForm = form && form._init;
+```
+
+**检查**：
+- `form` 存在
+- `form._init` 为 `true`（表单已初始化）
+
+**为什么需要**？
+- `useWatch` 可能在 `Form` 组件挂载前调用
+- 需要等待表单实例完全初始化
+
+---
+
+### 3. 注册监听器（核心逻辑）
+
+```ts:15:31:packages/components/form/hooks/useWatch.ts
+useEffect(() => {
+  if (!isValidForm) return;
+
+  const internalHooks = form.getInternalHooks?.(HOOK_MARK);
+  const { registerWatch = noop } = internalHooks || {};
+
+  const cancelRegister = registerWatch(() => {
+    const allFieldsValue = form.getFieldsValue?.(true);
+    const newValue = get(allFieldsValue, name);
+    const nextValueStr = JSON.stringify(newValue);
+
+    // Compare stringify in case it's nest object
+    if (valueStrRef.current !== nextValueStr) {
+      valueStrRef.current = nextValueStr;
+      setValue(nextValueStr);
+    }
+  });
+
+  const allFieldsValue = form.getFieldsValue?.(true);
+  const initialValue = get(allFieldsValue, name);
+  setValue(JSON.stringify(initialValue));
+
+  return cancelRegister;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+```
+
+#### 步骤 A：获取内部钩子
+
+```ts
+const internalHooks = form.getInternalHooks?.(HOOK_MARK);
+const { registerWatch = noop } = internalHooks || {};
+```
+
+**回顾 `registerWatch`**（在 `useForm.ts` 中定义）：
+
+```ts
+// useForm.ts
+private watchList: WatchCallBack[] = [];
+
+private registerWatch = (callback) => {
+  this.watchList.push(callback);  // 添加到订阅列表
+  
+  return () => {
+    this.watchList = this.watchList.filter(fn => fn !== callback);  // 返回取消订阅函数
+  };
+};
+```
+
+---
+
+#### 步骤 B：注册回调函数
+
+```ts:21:31:packages/components/form/hooks/useWatch.ts
+const cancelRegister = registerWatch(() => {
+  const allFieldsValue = form.getFieldsValue?.(true);
+  const newValue = get(allFieldsValue, name);
+  const nextValueStr = JSON.stringify(newValue);
+
+  // Compare stringify in case it's nest object
+  if (valueStrRef.current !== nextValueStr) {
+    valueStrRef.current = nextValueStr;
+    setValue(nextValueStr);
+  }
+});
+```
+
+**回调逻辑**：
+1. 获取所有表单值 `form.getFieldsValue(true)`
+2. 从中提取目标字段 `get(allFieldsValue, name)`
+3. 序列化为字符串 `JSON.stringify(newValue)`
+4. 对比是否变化（用字符串对比，支持对象/数组）
+5. 如果变化，更新状态 `setValue(nextValueStr)`
+
+---
+
+#### 步骤 C：设置初始值
+
+```ts:33:35:packages/components/form/hooks/useWatch.ts
+const allFieldsValue = form.getFieldsValue?.(true);
+const initialValue = get(allFieldsValue, name);
+setValue(JSON.stringify(initialValue));
+```
+
+**为什么需要**？
+- 注册监听器后，立即获取当前值
+- 避免第一次渲染时 `value` 为 `undefined`
+
+---
+
+#### 步骤 D：清理订阅
+
+```ts:37:37:packages/components/form/hooks/useWatch.ts
+return cancelRegister;
+```
+
+**组件卸载时**：
+- 调用 `cancelRegister()`
+- 从 `watchList` 中移除回调
+- 避免内存泄漏
+
+---
+
+### 4. 返回解析后的值
+
+```ts:41:41:packages/components/form/hooks/useWatch.ts
+return isUndefined(value) ? value : JSON.parse(value);
+```
+
+**为什么要 JSON.parse**？
+- 内部存储的是字符串（`setValue(nextValueStr)`）
+- 返回时需要还原成原始类型
+
+**为什么内部用字符串存储**？
+- 方便对比对象/数组是否变化
+- 避免引用相等的问题
+
+---
+
+## 四、完整数据流
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  1. useWatch('country', form) 调用                      │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  2. useEffect 执行                                       │
+│     - 获取 form.getInternalHooks(HOOK_MARK)             │
+│     - 调用 registerWatch(callback)                      │
+│     - callback 被添加到 form.watchList                  │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  3. 获取初始值                                           │
+│     - form.getFieldsValue(true)                         │
+│     - get(allValues, 'country')                         │
+│     - setValue(JSON.stringify('CN'))                    │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  4. 返回解析后的值                                       │
+│     - JSON.parse(value) → 'CN'                          │
+│     - 组件使用 country === 'CN' 进行判断                │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  5. 用户修改 country 字段                                │
+│     - FormItem 调用 form.notifyWatch()                  │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  6. notifyWatch 触发所有订阅者                           │
+│     - watchList.forEach(callback => callback())         │
+│     - useWatch 注册的 callback 被调用                   │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  7. callback 内部逻辑                                    │
+│     - 获取最新值 form.getFieldsValue(true)              │
+│     - 提取 country 字段 → 'US'                          │
+│     - 对比 valueStrRef.current !== '"US"'               │
+│     - 更新状态 setValue('"US"')                         │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  8. 组件重新渲染                                         │
+│     - useWatch 返回 JSON.parse('"US"') → 'US'           │
+│     - 组件根据新值更新 UI                                │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 五、为什么用字符串存储值？
+
+### 问题：对象引用相等
+
+```tsx
+const obj1 = { name: 'John' };
+const obj2 = { name: 'John' };
+
+obj1 === obj2  // false（引用不同）
+JSON.stringify(obj1) === JSON.stringify(obj2)  // true（内容相同）
+```
+
+### 场景
+
+```tsx
+// 监听嵌套对象
+const user = Form.useWatch('user', form);
+
+// user 的值可能是：
+// { name: 'John', age: 18 }
+
+// 如果直接存储对象
+const [value, setValue] = useState(user);
+
+// 每次 notifyWatch 都会创建新对象
+const newUser = form.getFieldsValue(true).user;  // 新对象
+if (value !== newUser) {  // 总是 true（引用不同）
+  setValue(newUser);  // 总是触发更新（即使内容相同）
+}
+```
+
+### 解决方案：序列化对比
+
+```ts:24:30:packages/components/form/hooks/useWatch.ts
+const nextValueStr = JSON.stringify(newValue);
+
+// Compare stringify in case it's nest object
+if (valueStrRef.current !== nextValueStr) {
+  valueStrRef.current = nextValueStr;
+  setValue(nextValueStr);
+}
+```
+
+**好处**：
+- 对比内容而非引用
+- 避免不必要的重渲染
+- 支持对象、数组、基本类型
+
+---
+
+## 六、典型使用场景
+
+### 场景 1：字段联动
+
+```tsx
+function AddressForm() {
+  const [form] = Form.useForm();
+  const country = Form.useWatch('country', form);
+  
+  return (
+    <Form form={form}>
+      <FormItem name="country" label="国家">
+        <Select>
+          <Option value="CN">中国</Option>
+          <Option value="US">美国</Option>
+        </Select>
+      </FormItem>
+      
+      <FormItem name="province" label="省份">
+        {country === 'CN' ? (
+          <Select>
+            <Option value="BJ">北京</Option>
+            <Option value="SH">上海</Option>
+          </Select>
+        ) : (
+          <Select>
+            <Option value="CA">California</Option>
+            <Option value="NY">New York</Option>
+          </Select>
+        )}
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+---
+
+### 场景 2：条件显示
+
+```tsx
+function PaymentForm() {
+  const [form] = Form.useForm();
+  const paymentMethod = Form.useWatch('paymentMethod', form);
+  
+  return (
+    <Form form={form}>
+      <FormItem name="paymentMethod" label="支付方式">
+        <Radio.Group>
+          <Radio value="card">信用卡</Radio>
+          <Radio value="alipay">支付宝</Radio>
+        </Radio.Group>
+      </FormItem>
+      
+      {paymentMethod === 'card' && (
+        <>
+          <FormItem name="cardNumber" label="卡号">
+            <Input />
+          </FormItem>
+          <FormItem name="cvv" label="CVV">
+            <Input />
+          </FormItem>
+        </>
+      )}
+      
+      {paymentMethod === 'alipay' && (
+        <FormItem name="alipayAccount" label="支付宝账号">
+          <Input />
+        </FormItem>
+      )}
+    </Form>
+  );
+}
+```
+
+---
+
+### 场景 3：实时计算
+
+```tsx
+function PriceCalculator() {
+  const [form] = Form.useForm();
+  const quantity = Form.useWatch('quantity', form) || 0;
+  const price = Form.useWatch('price', form) || 0;
+  
+  const total = quantity * price;
+  
+  return (
+    <Form form={form}>
+      <FormItem name="quantity" label="数量">
+        <InputNumber />
+      </FormItem>
+      
+      <FormItem name="price" label="单价">
+        <InputNumber />
+      </FormItem>
+      
+      <div>总价：¥{total.toFixed(2)}</div>
+    </Form>
+  );
+}
+```
+
+---
+
+### 场景 4：监听嵌套字段
+
+```tsx
+function UserForm() {
+  const [form] = Form.useForm();
+  
+  // 监听嵌套路径
+  const userName = Form.useWatch(['user', 'name'], form);
+  const userAge = Form.useWatch(['user', 'age'], form);
+  
+  return (
+    <Form form={form}>
+      <FormItem name={['user', 'name']}>
+        <Input />
+      </FormItem>
+      
+      <FormItem name={['user', 'age']}>
+        <InputNumber />
+      </FormItem>
+      
+      <div>
+        用户信息：{userName}，{userAge}岁
+      </div>
+    </Form>
+  );
+}
+```
+
+---
+
+## 七、与手动监听的对比
+
+### 方式 1：手动监听（不推荐）
+
+```tsx
+function MyForm() {
+  const [form] = Form.useForm();
+  const [country, setCountry] = useState('');
+  
+  return (
+    <Form form={form} onValuesChange={(changed, all) => {
+      if ('country' in changed) {
+        setCountry(changed.country);
+      }
+    }}>
+      <FormItem name="country">
+        <Select />
+      </FormItem>
+      
+      {country === 'CN' && <CNFields />}
+    </Form>
+  );
+}
+```
+
+**缺点**：
+- 需要手动管理状态
+- 需要在 `onValuesChange` 中同步
+- 代码冗长
+- 容易遗漏更新
+
+---
+
+### 方式 2：useWatch（推荐）
+
+```tsx
+function MyForm() {
+  const [form] = Form.useForm();
+  const country = Form.useWatch('country', form);
+  
+  return (
+    <Form form={form}>
+      <FormItem name="country">
+        <Select />
+      </FormItem>
+      
+      {country === 'CN' && <CNFields />}
+    </Form>
+  );
+}
+```
+
+**优点**：
+- 自动响应
+- 代码简洁
+- 类型安全
+- 不会遗漏
+
+---
+
+## 八、性能优化
+
+### 问题：为什么用 `valueStrRef`？
+
+```ts:11:11:packages/components/form/hooks/useWatch.ts
+const valueStrRef = useRef(valueStr);
+```
+
+```ts:27:30:packages/components/form/hooks/useWatch.ts
+if (valueStrRef.current !== nextValueStr) {
+  valueStrRef.current = nextValueStr;
+  setValue(nextValueStr);
+}
+```
+
+**避免闭包陷阱**：
+因为在 React 函数组件里，**每次渲染都会重新执行组件函数，生成一份全新的“作用域快照”**。当你在某次渲染中注册回调时（比如放在 `useEffect(() => { ... }, [])` 里的事件处理器），这个回调就会把当次渲染产生的所有局部变量、状态值都“封存”在它的闭包里。
+
+后续无论组件渲染了多少次，**这个回调依旧引用的是它创建当时那一份作用域**。所以当它被触发时，读到的变量就是“第一份快照”里的旧值。除非你重新注册新的回调（即依赖发生变化、effect 再执行），否则闭包里的数据就不会更新。
+
+这一现象就是所谓的“闭包陷阱”或“stale closure”。要解决，可以：
+- 让 effect 依赖最新的值，确保回调会随依赖变化重新注册；
+- 或者把最新值存进 `ref` 之类的可变容器里，让稳定的回调在使用时总能访问到最新数据。
+
+```tsx
+// ❌ 不用 ref，会有闭包问题
+const [value, setValue] = useState('');
+
+registerWatch(() => {
+  const newValue = getFieldValue();
+  if (value !== newValue) {  // ⚠️ value 是旧的闭包值
+    setValue(newValue);
+  }
+});
+
+// ✅ 用 ref，总是最新值
+const valueRef = useRef('');
+
+registerWatch(() => {
+  const newValue = getFieldValue();
+  if (valueRef.current !== newValue) {  // ✅ 总是最新值
+    valueRef.current = newValue;
+    setValue(newValue);
+  }
+});
+```
+
+---
+
+### 问题：为什么 `useEffect` 依赖为空数组？
+
+```ts:38:39:packages/components/form/hooks/useWatch.ts
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+```
+
+**原因**：
+- 只需要注册一次监听器
+- 后续更新通过回调函数处理
+- 避免重复注册/取消订阅
+
+---
+
+## 九、类比理解
+
+### 类比 1：订阅报纸
+
+```
+useWatch = 订阅报纸
+  ↓
+registerWatch = 登记订阅信息
+  ↓
+notifyWatch = 报社发布新报纸
+  ↓
+callback = 你收到报纸并阅读
+  ↓
+setValue = 更新你的知识
+```
+
+---
+
+### 类比 2：微信公众号
+
+```
+useWatch('country', form) = 关注"国家"公众号
+  ↓
+registerWatch = 添加到粉丝列表
+  ↓
+country 字段变化 = 公众号发布新文章
+  ↓
+notifyWatch = 推送给所有粉丝
+  ↓
+callback = 你收到推送并查看
+  ↓
+setValue = 更新你的状态
+```
+
+---
+
+## 十、总结
+
+### 核心作用
+`useWatch` 是一个**响应式监听 Hook**，用于：
+1. 订阅表单字段变化
+2. 自动更新组件状态
+3. 支持字段联动、条件渲染、实时计算
+
+### 设计亮点
+- **观察者模式**：通过 `registerWatch` 订阅，`notifyWatch` 通知
+- **字符串对比**：支持对象/数组的深度对比
+- **Ref 优化**：避免闭包陷阱
+- **自动清理**：组件卸载时取消订阅
+
+### 工作流程
+1. 注册监听器到 `form.watchList`
+2. 获取初始值并设置状态
+3. 字段变化时触发 `notifyWatch`
+4. 回调函数获取最新值并对比
+5. 值变化时更新状态，触发重渲染
+
+### 记忆口诀
+> **"useWatch 是订阅服务，字段变化自动推送，字符串对比避免误报"**
+
+### 适用场景
+- ✅ 字段联动（国家→省份）
+- ✅ 条件显示（支付方式→表单项）
+- ✅ 实时计算（数量×单价=总价）
+- ✅ 监听嵌套字段

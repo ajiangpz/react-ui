@@ -1,0 +1,436 @@
+
+
+## `useFormItemInitialData` 的作用
+
+这个 Hook 的核心作用是：**为 FormItem 确定初始值，并处理多层级初始值的优先级**。
+
+---
+
+## 一、核心问题：初始值从哪来？
+
+### 场景：一个表单项的初始值可能来自多个地方
+
+```tsx
+// 1. Form 级别的初始值
+<Form initialData={{ name: 'John', age: 18 }}>
+  
+  // 2. FormList 级别的初始值
+  <FormList name="users" initialData={[{ name: 'Alice' }]}>
+    
+    // 3. FormItem 级别的初始值
+    <FormItem name="name" initialData="Bob">
+      <Input />
+    </FormItem>
+    
+  </FormList>
+</Form>
+
+// 4. 还有一个隐藏的"游离值"（floatingFormData）
+// 用于处理动态添加/删除的表单项
+```
+
+**问题**：这么多初始值，应该用哪个？
+
+---
+
+## 二、优先级策略（从高到低）
+
+```ts:48:90:packages/components/form/hooks/useFormItemInitialData.ts
+// 整理初始值 优先级：Form.initialData < FormList.initialData < FormItem.initialData < floatFormData
+function getDefaultInitialData({
+  children,
+  initialData
+}: {
+  children: FormItemProps["children"];
+  initialData: FormItemProps["initialData"];
+}) {
+  // 优先级 1（最高）：游离值（floatingFormData）
+  if (name && floatingFormDataRef?.current && !isEmpty(floatingFormDataRef.current)) {
+    const nameList = formListName ? [formListName, name].flat() : name;
+    const defaultInitialData = get(floatingFormDataRef.current, nameList);
+    if (typeof defaultInitialData !== "undefined") {
+      // 使用 setTimeout 来延迟清理，避免在渲染期间修改 ref
+      setTimeout(() => {
+        unset(floatingFormDataRef.current, nameList);
+      }, 0);
+      return defaultInitialData;
+    }
+  }
+
+  // 优先级 2：FormItem.initialData
+  if (typeof initialData !== "undefined") {
+    return initialData;
+  }
+
+  // 优先级 3：FormList.initialData
+  if (name && formListInitialData.length) {
+    const defaultInitialData = get(formListInitialData, name);
+    if (typeof defaultInitialData !== "undefined") return defaultInitialData;
+  }
+
+  // 优先级 4：Form.initialData
+  if (name && formContextInitialData) {
+    const defaultInitialData = get(formContextInitialData, name);
+    if (typeof defaultInitialData !== "undefined") return defaultInitialData;
+  }
+
+  // 优先级 5（最低）：根据组件类型推断默认值
+  if (typeof children !== "function") {
+    const childList = React.Children.toArray(children);
+    const lastChild = childList[childList.length - 1];
+    if (lastChild && React.isValidElement(lastChild)) {
+      // @ts-expect-error React element props type inference
+      const isMultiple = lastChild?.props?.multiple;
+      return isMultiple ? [] : initialDataMap.get(lastChild.type);
+    }
+  }
+}
+```
+
+---
+
+## 三、逐层解析
+
+### 优先级 1：游离值（floatingFormData）⭐ 最特殊
+
+```ts:56:66:packages/components/form/hooks/useFormItemInitialData.ts
+if (name && floatingFormDataRef?.current && !isEmpty(floatingFormDataRef.current)) {
+  const nameList = formListName ? [formListName, name].flat() : name;
+  const defaultInitialData = get(floatingFormDataRef.current, nameList);
+  if (typeof defaultInitialData !== "undefined") {
+    // 使用 setTimeout 来延迟清理，避免在渲染期间修改 ref
+    setTimeout(() => {
+      unset(floatingFormDataRef.current, nameList);
+    }, 0);
+    return defaultInitialData;
+  }
+}
+```
+
+**什么是游离值？**
+
+当你动态操作表单时，某些值可能"游离"在正常数据流之外：
+
+```tsx
+// 场景：动态表单
+<FormList name="users">
+  {(fields, { add, remove }) => (
+    <>
+      {fields.map((field, index) => (
+        <FormItem name={[index, 'name']}>
+          <Input />
+        </FormItem>
+      ))}
+      <Button onClick={() => add({ name: 'New User' })}>添加</Button>
+      {/* ↑ 这个 { name: 'New User' } 就是游离值 */}
+    </>
+  )}
+</FormList>
+```
+
+**为什么要清理？**
+- 游离值是一次性的（用完即删）
+- 避免影响后续的表单项
+- 用 `setTimeout` 延迟清理，避免在渲染期间修改 ref（React 规则）
+
+---
+
+### 优先级 2：FormItem.initialData
+
+```ts:68:70:packages/components/form/hooks/useFormItemInitialData.ts
+if (typeof initialData !== "undefined") {
+  return initialData;
+}
+```
+
+**最直接的初始值**：
+
+```tsx
+<FormItem name="age" initialData={18}>
+  <Input />
+</FormItem>
+```
+
+---
+
+### 优先级 3：FormList.initialData
+
+```ts:72:75:packages/components/form/hooks/useFormItemInitialData.ts
+if (name && formListInitialData.length) {
+  const defaultInitialData = get(formListInitialData, name);
+  if (typeof defaultInitialData !== "undefined") return defaultInitialData;
+}
+```
+
+**动态列表的初始值**：
+
+```tsx
+<FormList name="users" initialData={[
+  { name: 'Alice', age: 20 },
+  { name: 'Bob', age: 25 }
+]}>
+  {(fields) => fields.map((field, index) => (
+    <FormItem name={[index, 'name']}>
+      {/* 会从 initialData[index].name 取值 */}
+      <Input />
+    </FormItem>
+  ))}
+</FormList>
+```
+
+---
+
+### 优先级 4：Form.initialData
+
+```ts:77:80:packages/components/form/hooks/useFormItemInitialData.ts
+if (name && formContextInitialData) {
+  const defaultInitialData = get(formContextInitialData, name);
+  if (typeof defaultInitialData !== "undefined") return defaultInitialData;
+}
+```
+
+**全局初始值**：
+
+```tsx
+<Form initialData={{ name: 'John', age: 18 }}>
+  <FormItem name="name">
+    <Input />  {/* 初始值为 'John' */}
+  </FormItem>
+</Form>
+```
+
+---
+
+### 优先级 5：根据组件类型推断默认值
+
+```ts:82:90:packages/components/form/hooks/useFormItemInitialData.ts
+if (typeof children !== "function") {
+  const childList = React.Children.toArray(children);
+  const lastChild = childList[childList.length - 1];
+  if (lastChild && React.isValidElement(lastChild)) {
+    // @ts-expect-error React element props type inference
+    const isMultiple = lastChild?.props?.multiple;
+    return isMultiple ? [] : initialDataMap.get(lastChild.type);
+  }
+}
+```
+
+**智能推断**：
+
+```tsx
+// 没有任何 initialData 时，根据组件类型推断
+<FormItem name="tags">
+  <TagInput />  {/* 推断为 [] */}
+</FormItem>
+
+<FormItem name="agree">
+  <Checkbox />  {/* 推断为 false */}
+</FormItem>
+
+<FormItem name="files">
+  <Upload multiple />  {/* 推断为 [] */}
+</FormItem>
+```
+
+**推断规则**：
+
+```ts:25:41:packages/components/form/hooks/useFormItemInitialData.ts
+// FormItem 默认数据类型
+export const initialDataMap = new Map();
+[
+  // Tree,
+  // Upload,
+  // Transfer,
+  TagInput,
+  // RangeInput,
+  CheckboxGroup
+  // DateRangePicker,
+  // TimeRangePicker,
+].forEach((component) => {
+  initialDataMap.set(component, []);
+});
+[Checkbox].forEach((component) => {
+  initialDataMap.set(component, false);
+});
+```
+
+---
+
+## 四、特殊处理：受控 key 映射
+
+```ts:19:23:packages/components/form/hooks/useFormItemInitialData.ts
+// FormItem 子组件受控 key
+export const ctrlKeyMap = new Map();
+ctrlKeyMap.set(Checkbox, "checked");
+// ctrlKeyMap.set(CheckTag, 'checked');
+// ctrlKeyMap.set(Upload, 'files');
+```
+
+**为什么需要？**
+
+不同组件的受控属性名不同：
+
+```tsx
+// 大多数组件用 value
+<Input value={value} onChange={onChange} />
+
+// Checkbox 用 checked
+<Checkbox checked={checked} onChange={onChange} />
+
+// Upload 用 files
+<Upload files={files} onChange={onChange} />
+```
+
+`ctrlKeyMap` 帮助 FormItem 知道应该传递哪个 prop。
+
+---
+
+## 五、实际使用场景
+
+### 场景 1：表单编辑（回填数据）
+
+```tsx
+// 编辑用户信息
+const [form] = Form.useForm();
+
+useEffect(() => {
+  // 从 API 获取数据
+  fetchUser(id).then(user => {
+    form.setFieldsValue(user);  // 回填到 Form.store
+  });
+}, [id]);
+
+return (
+  <Form form={form}>
+    <FormItem name="name">
+      <Input />  {/* 从 form.store 取值 */}
+    </FormItem>
+  </Form>
+);
+```
+
+---
+
+### 场景 2：动态表单（添加/删除）
+
+```tsx
+<FormList name="contacts">
+  {(fields, { add, remove }) => (
+    <>
+      {fields.map((field, index) => (
+        <FormItem name={[index, 'phone']}>
+          <Input />
+        </FormItem>
+      ))}
+      <Button onClick={() => add({ phone: '123' })}>
+        {/* ↑ { phone: '123' } 存入 floatingFormData */}
+        添加联系人
+      </Button>
+    </>
+  )}
+</FormList>
+```
+
+---
+
+### 场景 3：重置表单
+
+```tsx
+// FormItem.tsx 中的 resetField 方法
+function getResetValue(resetType: string): ValueType {
+  if (resetType === "initial") {
+    return getDefaultInitialData({
+      children,
+      initialData
+    });
+  }
+  // ...
+}
+```
+
+**两种重置模式**：
+- `resetType="empty"`: 重置为空值
+- `resetType="initial"`: 重置为初始值（调用 `getDefaultInitialData`）
+
+---
+
+## 六、完整流程图
+
+```
+用户渲染 <FormItem name="age">
+          ↓
+调用 useFormItemInitialData(name)
+          ↓
+返回 getDefaultInitialData 函数
+          ↓
+FormItem 内部调用 getDefaultInitialData({ children, initialData })
+          ↓
+按优先级查找初始值：
+          ↓
+┌─────────────────────────────────────────┐
+│ 1. floatingFormData 有值？              │ → 有 → 返回并清理
+│    (动态添加的临时数据)                  │
+└─────────────────────────────────────────┘
+          ↓ 无
+┌─────────────────────────────────────────┐
+│ 2. FormItem.initialData 有值？          │ → 有 → 返回
+└─────────────────────────────────────────┘
+          ↓ 无
+┌─────────────────────────────────────────┐
+│ 3. FormList.initialData[index] 有值？   │ → 有 → 返回
+└─────────────────────────────────────────┘
+          ↓ 无
+┌─────────────────────────────────────────┐
+│ 4. Form.initialData.age 有值？          │ → 有 → 返回
+└─────────────────────────────────────────┘
+          ↓ 无
+┌─────────────────────────────────────────┐
+│ 5. 根据子组件类型推断                    │ → 返回默认值
+│    (Checkbox → false, TagInput → [])    │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 七、类比理解
+
+### 类比：找房子的优先级
+
+```
+你要租房，按优先级找：
+
+1. 朋友临时借给你的房子（floatingFormData）
+   → 最优先，但用完要还
+
+2. 你自己买的房子（FormItem.initialData）
+   → 专属于你
+
+3. 家族共享的房子（FormList.initialData）
+   → 家族成员都能用
+
+4. 公司提供的宿舍（Form.initialData）
+   → 所有员工都能用
+
+5. 政府保障房（根据类型推断）
+   → 兜底方案，保证有地方住
+```
+
+---
+
+## 八、总结
+
+### 核心作用
+`useFormItemInitialData` 是一个**初始值解析器**，负责：
+1. 统一管理多层级初始值
+2. 按优先级返回最合适的初始值
+3. 处理动态表单的临时数据
+4. 智能推断组件默认值
+
+### 设计亮点
+- **优先级清晰**：越具体的配置优先级越高
+- **游离值机制**：优雅处理动态表单
+- **类型推断**：减少样板代码
+- **延迟清理**：遵守 React 渲染规则
+
+### 记忆口诀
+> **"游离最优先，自己次之，家族第三，全局第四，推断兜底"**

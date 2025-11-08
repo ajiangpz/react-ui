@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react-vite";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 export const globalTypes = {
   theme: {
@@ -46,6 +46,37 @@ const preview: Preview = {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i
+      }
+    },
+    docs: {
+      toc: true, // 显示目录
+      source: {
+        language: "tsx",
+        type: "auto"
+      }
+    },
+    options: {
+      storySort: {
+        order: ["文档", ["组件库介绍", "快速开始", "设计规范", "贡献指南"], "组件", "Components"]
+      }
+    },
+    viewport: {
+      viewports: {
+        mobile: {
+          name: "Mobile",
+          styles: { width: "375px", height: "667px" },
+          type: "mobile"
+        },
+        tablet: {
+          name: "Tablet",
+          styles: { width: "768px", height: "1024px" },
+          type: "tablet"
+        },
+        desktop: {
+          name: "Desktop",
+          styles: { width: "1440px", height: "900px" },
+          type: "desktop"
+        }
       }
     }
   }

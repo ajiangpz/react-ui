@@ -1,0 +1,78 @@
+### 防抖函数
+1. 支持立即执行
+2. 支持取消
+3. 支持返回值
+4. 性能优化 使用时间戳判断是否需要执行
+
+```ts
+export const debounce = <T extends unknown[], R>(
+  fn: (...args: T) => R,
+  wait: number,
+  options = { leading: false, trailing: true }
+) => {
+  let lastArgs: T | undefined,
+    lastThis: undefined | ReturnType<typeof fn>,
+    result: undefined | R,
+    timeId: undefined | ReturnType<typeof setTimeout>;
+  let lastCallTime = 0;
+
+  function shouldInvoke(time: number) {
+    return wait - (time - lastCallTime) <= 0;
+  }
+
+  function invokeLeading() {
+    timeId = setTimeout(timeExpired, wait);
+    if (options.leading) {
+      return invokeFunc();
+    }
+    return result;
+  }
+
+  function invokeFunc() {
+    result = fn.apply(lastThis, lastArgs);
+    lastArgs = lastThis = undefined;
+    lastCallTime = 0;
+    return result;
+  }
+  function timeExpired() {
+    const now = Date.now();
+    if (shouldInvoke(now)) {
+      return invokeTrailing();
+    }
+    timeId = setTimeout(timeExpired, remainWaiting(now));
+  }
+
+  function invokeTrailing() {
+    timeId = undefined;
+    if (options.trailing && lastArgs) {
+      invokeFunc();
+    }
+    lastArgs = lastThis = undefined;
+  }
+
+  function remainWaiting(now: number) {
+    return wait - (now - lastCallTime);
+  }
+  function debounced(...args: T) {
+    const now = Date.now();
+    lastArgs = args;
+    lastThis = this as ReturnType<typeof debounced>;
+    const isInvoking = shouldInvoke(now);
+    lastCallTime = now;
+    if (isInvoking && timeId === undefined) {
+      return invokeLeading();
+    }
+  }
+  function cancel() {
+    if (timeId !== undefined) {
+      clearTimeout(timeId);
+    }
+    lastArgs = lastThis = timeId = undefined;
+    lastCallTime = 0;
+  }
+  debounced.cancel = cancel;
+
+  return debounced;
+};
+
+```

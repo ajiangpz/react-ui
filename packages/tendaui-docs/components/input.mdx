@@ -1,0 +1,121 @@
+import React, { useState } from "react";
+import Input from "../../components/input/Input";
+
+export const meta = {
+  title: "组件/Input 输入框"
+};
+
+# Input 输入框
+
+通过鼠标或键盘输入字符
+
+## 何时使用
+
+- 需要用户输入表单域内容时
+- 提供组合型输入框，可以在输入框前后添加元素
+- 可以添加前缀、后缀图标
+
+## 代码演示
+
+### 基础用法
+
+基本使用方法，通过 `value` 和 `onChange` 实现受控组件。
+
+<div style={{ padding: "20px", border: "1px solid #e8e8e8", borderRadius: "8px", marginBottom: "16px" }}>
+  {(() => {
+    const [value, setValue] = useState("");
+    return <Input placeholder="请输入内容" value={value} onChange={(e) => setValue(e.target.value)} />;
+  })()}
+</div>
+
+````tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+  return <Input placeholder="请输入内容" value={value} onChange={(e) => s      e(e.        alue)}                  ## 禁用状态
+
+--------bled` --禁用输-------<di-------={{------------0px-- bo-der: "1px s   d   8e8e8", b rderRadi      p          Bot      16px" }}>
+  <div style      splay: "       f         ion     lumn", gap: "12    }}>
+     Input pla       r        disable  />
+    <        aceholde  "禁用状态" value="已有内容" disabled />
+  </div>
+</div
+```tsx
+import Re       m       ";
+     t { Input } from "tendaui-react";
+
+export default () => (
+  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+    <Input placeholder="禁用状态" disabled />
+    <Input placeholder="禁用状态" value="已有内容" disabled />
+  </div>
+);
+````
+
+### 不同尺寸
+
+提供三种尺寸的输入框。
+
+<div style={{ padding: "20px", border: "1px solid #e8e8e8", borderRadius: "8px", marginBottom: "16px" }}>
+  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+    <Input size="large" placeholder="大尺寸输入框" />
+    <Input size="medium" placeholder="中等尺寸输入框（默认）" />
+    <Input size="small" placeholder="小尺寸输入框" />
+  </div>
+</div>
+
+```tsx
+import React from "react";
+import { Input } from "tendaui-react";
+
+export default () => (
+  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+    <Input size="large" placeholder="大尺寸输入框" />
+    <Input size="medium" placeholder="中等尺寸输入框（默认）" />
+    <Input size="small" placeholder="小尺寸输入框" />
+  </div>
+);
+```
+
+### 带清除按钮
+
+可以配置清除按钮。
+
+<div style={{ padding: "20px", border: "1px solid #e8e8e8", borderRadius: "8px", marginBottom: "16px" }}>
+  {(() => {
+    const [value, setValue] = useState("可以清除的内容");
+    return (
+      <Input
+        placeholder="输入内容后显示清除按钮"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        clearable
+        onClear={() => setValue("")}
+      />
+    );
+  })()}
+</div>
+
+```tsx
+import React, { useState } from "react";
+import { Input } from "tendaui-react";
+
+export default () => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      placeholder="输入内容后显示清除按钮"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      clearable
+      onClear={() => setValue("")}
+    />
+  );
+};
+```
+
+## API
+
+### Input Props

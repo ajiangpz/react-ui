@@ -1,0 +1,372 @@
+import { Meta, Canvas, Story, Controls, ArgTypes } from "@storybook/blocks";
+import * as ButtonStories from "../../components/button/Button.stories.tsx";
+
+<Meta of={ButtonStories} />
+
+# Button 按钮
+
+按钮用于触发一个操作，如提交表单、打开对话框、取消操作等。
+
+## 何时使用
+
+- 标记操作命令，响应用户点击行为，触发相应的业务逻辑
+- 在表单中提交、重置表单
+- 在对话框中确认、取消操作
+- 作为页面导航的触发器
+
+## 代码演示
+
+### 基础用法
+
+最简单的按钮用法。
+
+<Canvas of={ButtonStories.Default} />
+
+### 按钮类型
+
+按钮有五种类型：主按钮、默认按钮、虚线按钮、文本按钮和链接按钮。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <Space>
+    <Button variant="base" theme="primary">
+      主要按钮
+    </Button>
+    <Button variant="base" theme="default">
+      默认按钮
+    </Button>
+    <Button variant="dashed">虚线按钮</Button>
+    <Button variant="text">文本按钮</Button>
+    <Button variant="outline">线框按钮</Button>
+  </Space>
+);
+```
+
+### 按钮尺寸
+
+按钮有大、中、小三种尺寸。通过设置 `size` 为 `large`、`medium`（默认）、`small` 分别把按钮设为大、中、小尺寸。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <Space>
+    <Button size="large">大按钮</Button>
+    <Button size="medium">中等按钮</Button>
+    <Button size="small">小按钮</Button>
+  </Space>
+);
+```
+
+### 按钮形状
+
+按钮有多种形状：长方形（默认）、正方形、圆角长方形、圆形。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+import { IconPlay } from "tendaui-react-icons";
+
+export default () => (
+  <Space>
+    <Button shape="rectangle">长方形</Button>
+    <Button shape="square" icon={<IconPlay />} />
+    <Button shape="round">圆角按钮</Button>
+    <Button shape="circle" icon={<IconPlay />} />
+  </Space>
+);
+```
+
+### 带图标的按钮
+
+按钮内可以嵌套图标。通过设置 `icon` 属性来添加图标。
+
+<Canvas of={ButtonStories.ButtonWithIcon} />
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+import { IconBackward, IconPlay, IconFastFoward } from "tendaui-react-icons";
+
+export default () => (
+  <Space>
+    <Button icon={<IconBackward />} />
+    <Button icon={<IconPlay />}>播放</Button>
+    <Button icon={<IconFastFoward />} />
+  </Space>
+);
+```
+
+### 加载中状态
+
+通过设置 `loading` 属性可以让按钮处于加载中状态。处于加载状态的按钮不会触发点击事件。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  return (
+    <Space>
+      <Button loading>加载中</Button>
+      <Button loading={loading} onClick={handleClick}>
+        点击加载
+      </Button>
+    </Space>
+  );
+};
+```
+
+### 禁用状态
+
+通过设置 `disabled` 属性可以禁用按钮。禁用状态的按钮不会触发点击事件。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <Space>
+    <Button disabled>禁用按钮</Button>
+    <Button variant="base" theme="primary" disabled>
+      主要按钮
+    </Button>
+    <Button variant="text" disabled>
+      文本按钮
+    </Button>
+  </Space>
+);
+```
+
+### 块级按钮
+
+通过设置 `block` 属性可以将按钮宽度调整为父元素宽度。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Button block variant="base" theme="primary">
+      主要按钮
+    </Button>
+    <Button block>默认按钮</Button>
+    <Button block variant="dashed">
+      虚线按钮
+    </Button>
+  </Space>
+);
+```
+
+### 幽灵按钮
+
+幽灵按钮将按钮的内容反色，背景变为透明，常用在有色背景上。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <div style={{ padding: "24px", background: "#1890ff" }}>
+    <Space>
+      <Button ghost>默认按钮</Button>
+      <Button variant="base" theme="primary" ghost>
+        主要按钮
+      </Button>
+      <Button variant="base" theme="danger" ghost>
+        危险按钮
+      </Button>
+    </Space>
+  </div>
+);
+```
+
+### 不同主题
+
+按钮支持多种主题色：default、primary、success、warning、danger。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+
+export default () => (
+  <Space>
+    <Button theme="default">默认</Button>
+    <Button theme="primary">主要</Button>
+    <Button theme="success">成功</Button>
+    <Button theme="warning">警告</Button>
+    <Button theme="danger">危险</Button>
+  </Space>
+);
+```
+
+### 按钮组合
+
+可以将多个按钮组合在一起使用。
+
+```tsx
+import React from "react";
+import { Button, Space } from "tendaui-react";
+import { IconBackward, IconPlay, IconFastFoward } from "tendaui-react-icons";
+
+export default () => (
+  <Space>
+    <Button icon={<IconBackward />}>上一首</Button>
+    <Button icon={<IconPlay />} variant="base" theme="primary">
+      播放
+    </Button>
+    <Button icon={<IconFastFoward />}>下一首</Button>
+  </Space>
+);
+```
+
+## API
+
+### Button Props
+
+<ArgTypes of={ButtonStories} />
+
+### 详细属性说明
+
+| 属性     | 说明                                                    | 类型                                                         | 默认值      | 版本 |
+| -------- | ------------------------------------------------------- | ------------------------------------------------------------ | ----------- | ---- |
+| block    | 将按钮宽度调整为父元素宽度                              | boolean                                                      | false       | -    |
+| children | 按钮内容，同 content                                    | ReactNode                                                    | -           | -    |
+| content  | 按钮内容                                                | ReactNode                                                    | -           | -    |
+| disabled | 禁用状态                                                | boolean                                                      | false       | -    |
+| form     | 原生 form 属性，用于触发对应 form 的提交/重置           | string                                                       | -           | -    |
+| ghost    | 幽灵按钮，使按钮背景透明                                | boolean                                                      | false       | -    |
+| href     | 点击跳转的地址，指定此属性后 button 的行为和 a 链接一致 | string                                                       | -           | -    |
+| icon     | 按钮图标                                                | ReactNode                                                    | -           | -    |
+| loading  | 加载中状态                                              | boolean                                                      | false       | -    |
+| shape    | 按钮形状                                                | `rectangle` \| `square` \| `round` \| `circle`               | `rectangle` | -    |
+| size     | 按钮尺寸                                                | `small` \| `medium` \| `large`                               | `medium`    | -    |
+| suffix   | 右侧内容，可用于定义右侧图标                            | ReactNode                                                    | -           | -    |
+| tag      | 按钮的 HTML 标签                                        | `button` \| `a` \| `div`                                     | `button`    | -    |
+| theme    | 按钮主题                                                | `default` \| `primary` \| `success` \| `warning` \| `danger` | `default`   | -    |
+| type     | 按钮的 HTML type 属性                                   | `button` \| `submit` \| `reset`                              | `button`    | -    |
+| variant  | 按钮变体                                                | `base` \| `outline` \| `dashed` \| `text`                    | `base`      | -    |
+| onClick  | 点击按钮时的回调                                        | (e: MouseEvent) => void                                      | -           | -    |
+
+## 设计指南
+
+### 按钮尺寸
+
+- **小按钮（small）**：高度 28px，适用于空间有限的场景
+- **中等按钮（medium）**：高度 32px，最常用的尺寸
+- **大按钮（large）**：高度 40px，适用于主要操作
+
+### 按钮类型选择
+
+- **主要按钮（primary）**：用于主要操作，一个页面只能有一个主要按钮
+- **默认按钮（default）**：用于次要操作
+- **文本按钮（text）**：用于最次要的操作，如取消、返回
+- **危险按钮（danger）**：用于危险操作，如删除、移除
+
+### 使用建议
+
+1. **一个页面只有一个主要按钮**：主要按钮应该用于最重要的操作
+2. **按钮文案清晰**：使用动词，明确告知用户点击后会发生什么
+3. **合理使用加载状态**：异步操作时应显示加载状态
+4. **谨慎使用禁用状态**：如果可以，用提示信息代替禁用
+
+### 无障碍
+
+- 按钮支持键盘导航（Tab 键聚焦，Enter/Space 键触发）
+- 禁用状态下不可聚焦
+- 建议为纯图标按钮添加 `aria-label` 属性
+
+```tsx
+<Button icon={<IconPlay />} shape="circle" aria-label="播放" />
+```
+
+## 常见问题
+
+### 如何自定义按钮样式？
+
+可以通过 `className` 或 `style` 属性自定义样式：
+
+```tsx
+<Button className="my-custom-button" style={{ borderRadius: "20px" }}>
+  自定义按钮
+</Button>
+```
+
+### 按钮如何实现防抖？
+
+可以使用自定义 Hook：
+
+```tsx
+import { useState } from "react";
+import { Button } from "tendaui-react";
+
+function useDebounce(fn: Function, delay: number) {
+  const [loading, setLoading] = useState(false);
+
+  const debouncedFn = () => {
+    setLoading(true);
+    fn();
+    setTimeout(() => setLoading(false), delay);
+  };
+
+  return [debouncedFn, loading] as const;
+}
+
+export default () => {
+  const handleClick = () => {
+    console.log("clicked");
+  };
+
+  const [debouncedClick, loading] = useDebounce(handleClick, 1000);
+
+  return (
+    <Button loading={loading} onClick={debouncedClick}>
+      防抖按钮
+    </Button>
+  );
+};
+```
+
+### 如何实现带确认的删除按钮？
+
+可以配合 Dialog 或 Popup 组件使用：
+
+```tsx
+import { Button, Dialog } from "tendaui-react";
+
+export default () => {
+  const [visible, setVisible] = React.useState(false);
+
+  const handleDelete = () => {
+    // 执行删除操作
+    console.log("deleted");
+    setVisible(false);
+  };
+
+  return (
+    <>
+      <Button theme="danger" onClick={() => setVisible(true)}>
+        删除
+      </Button>
+
+      <Dialog visible={visible} onClose={() => setVisible(false)} onConfirm={handleDelete}>
+        确定要删除吗？此操作不可恢复。
+      </Dialog>
+    </>
+  );
+};
+```

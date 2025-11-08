@@ -1,0 +1,472 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="文档/贡献指南" />
+
+# 贡献指南
+
+感谢你有兴趣为 TendaUI 做出贡献！本指南将帮助你了解如何参与项目开发。
+
+## 🌟 参与方式
+
+你可以通过以下方式为 TendaUI 做出贡献：
+
+- 🐛 **报告 Bug**：发现问题？请提交 Issue
+- 💡 **提出新功能**：有好的想法？我们很乐意听取
+- 📝 **改进文档**：帮助我们完善文档
+- 💻 **提交代码**：修复 Bug 或实现新功能
+- 🌍 **国际化**：帮助翻译文档
+- ⭐ **推广项目**：Star 项目，分享给更多人
+
+## 🚀 开发流程
+
+### 1. 环境准备
+
+确保你的开发环境满足以下要求：
+
+- Node.js >= 18.0.0
+- pnpm >= 8.0.0
+
+### 2. Fork 并克隆仓库
+
+```bash
+# Fork 仓库到你的账号
+
+# 克隆你 fork 的仓库
+git clone https://github.com/YOUR_USERNAME/tendaui.git
+cd tendaui
+
+# 添加上游仓库
+git remote add upstream https://github.com/tendaui/tendaui.git
+```
+
+### 3. 安装依赖
+
+```bash
+pnpm install
+```
+
+### 4. 启动开发服务器
+
+```bash
+# 启动 Storybook 开发服务器
+pnpm dev:storybook
+
+# 启动组件开发
+pnpm dev
+```
+
+### 5. 创建分支
+
+从 `main` 分支创建新的功能分支：
+
+```bash
+git checkout -b feature/your-feature-name
+# 或
+git checkout -b fix/your-bug-fix
+```
+
+分支命名规范：
+
+- `feature/xxx`：新功能
+- `fix/xxx`：Bug 修复
+- `docs/xxx`：文档更新
+- `refactor/xxx`：代码重构
+- `test/xxx`：测试相关
+- `chore/xxx`：构建/工具相关
+
+### 6. 开发
+
+在你的分支上进行开发，遵循以下规范：
+
+#### 代码规范
+
+- 使用 TypeScript
+- 遵循 ESLint 配置
+- 使用 Prettier 格式化代码
+- 编写清晰的注释
+
+#### 提交规范
+
+使用 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
+
+```bash
+# 功能
+git commit -m "feat: 添加新组件 Dropdown"
+
+# 修复
+git commit -m "fix: 修复 Button 组件在 Safari 中的样式问题"
+
+# 文档
+git commit -m "docs: 更新 Input 组件文档"
+
+# 样式
+git commit -m "style: 统一代码格式"
+
+# 重构
+git commit -m "refactor: 重构 Form 组件逻辑"
+
+# 测试
+git commit -m "test: 添加 Checkbox 组件测试"
+
+# 构建
+git commit -m "chore: 更新构建配置"
+```
+
+提交类型：
+
+- `feat`: 新功能
+- `fix`: Bug 修复
+- `docs`: 文档更新
+- `style`: 代码格式（不影响代码运行）
+- `refactor`: 重构
+- `perf`: 性能优化
+- `test`: 测试相关
+- `chore`: 构建/工具相关
+- `revert`: 回滚
+
+### 7. 测试
+
+在提交代码前，请确保：
+
+```bash
+# 运行 ESLint 检查
+pnpm lint
+
+# 修复 ESLint 问题
+pnpm lint:fix
+
+# 运行类型检查
+pnpm type-check
+
+# 运行测试
+pnpm test
+
+# 构建项目
+pnpm build
+```
+
+### 8. 提交 Pull Request
+
+```bash
+# 推送到你的远程仓库
+git push origin feature/your-feature-name
+```
+
+然后在 GitHub 上创建 Pull Request：
+
+1. 访问你 fork 的仓库
+2. 点击 "New Pull Request"
+3. 选择你的分支
+4. 填写 PR 标题和描述
+5. 提交 PR
+
+#### PR 描述模板
+
+```markdown
+## 描述
+
+简要描述这个 PR 做了什么
+
+## 类型
+
+- [ ] Bug 修复
+- [ ] 新功能
+- [ ] 文档更新
+- [ ] 代码重构
+- [ ] 性能优化
+- [ ] 测试
+
+## 变更内容
+
+- 变更点 1
+- 变更点 2
+
+## 相关 Issue
+
+Fixes #issue_number
+
+## 测试
+
+描述如何测试这些变更
+
+## 截图（如适用）
+
+添加截图说明变更效果
+
+## 检查清单
+
+- [ ] 代码遵循项目的代码规范
+- [ ] 已添加/更新测试
+- [ ] 已更新文档
+- [ ] 所有测试通过
+- [ ] 无 TypeScript 错误
+```
+
+## 📦 组件开发指南
+
+### 创建新组件
+
+```bash
+packages/components/
+└── your-component/
+    ├── YourComponent.tsx        # 组件实现
+    ├── YourComponent.stories.tsx # Storybook 故事
+    ├── type.ts                   # 类型定义
+    ├── defaultProps.ts          # 默认属性
+    ├── index.ts                 # 导出
+    ├── style/                   # 样式
+    │   ├── index.js
+    │   └── css.js
+    └── README.md                # 组件文档（可选）
+```
+
+### 组件模板
+
+```tsx
+// YourComponent.tsx
+import React, { forwardRef } from "react";
+import classNames from "classnames";
+import useConfig from "../hooks/useConfig";
+import useDefaultProps from "../hooks/useDefaultProps";
+import { TdYourComponentProps } from "./type";
+import { yourComponentDefaultProps } from "./defaultProps";
+
+export interface YourComponentProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "content">,
+    TdYourComponentProps {}
+
+const YourComponent = forwardRef<HTMLDivElement, YourComponentProps>((originProps, ref) => {
+  const props = useDefaultProps(originProps, yourComponentDefaultProps);
+  const { className, children, ...otherProps } = props;
+  const { classPrefix } = useConfig();
+
+  return (
+    <div ref={ref} className={classNames(`${classPrefix}-your-component`, className)} {...otherProps}>
+      {children}
+    </div>
+  );
+});
+
+YourComponent.displayName = "YourComponent";
+
+export default YourComponent;
+```
+
+```tsx
+// type.ts
+import { TNode } from "../common";
+
+export interface TdYourComponentProps {
+  /**
+   * 组件内容
+   */
+  children?: TNode;
+  /**
+   * 自定义类名
+   */
+  className?: string;
+  /**
+   * 其他属性...
+   * @default value
+   */
+  propName?: string;
+}
+```
+
+```tsx
+// defaultProps.ts
+import { TdYourComponentProps } from "./type";
+
+export const yourComponentDefaultProps: TdYourComponentProps = {
+  propName: "defaultValue"
+};
+```
+
+```tsx
+// YourComponent.stories.tsx
+import { Meta, StoryObj } from "@storybook/react-vite";
+import YourComponent from "./YourComponent";
+
+const meta: Meta<typeof YourComponent> = {
+  title: "Components/YourComponent",
+  component: YourComponent,
+  tags: ["autodocs"]
+};
+
+export default meta;
+
+type Story = StoryObj<typeof YourComponent>;
+
+export const Default: Story = {
+  args: {
+    children: "YourComponent Content"
+  }
+};
+```
+
+### 组件开发规范
+
+#### 1. TypeScript 类型
+
+- 所有组件必须有完整的类型定义
+- 使用 `interface` 定义 Props
+- 为每个 prop 添加 JSDoc 注释
+
+```tsx
+export interface TdButtonProps {
+  /**
+   * 按钮内容
+   */
+  children?: React.ReactNode;
+  /**
+   * 按钮类型
+   * @default 'button'
+   */
+  type?: "button" | "submit" | "reset";
+}
+```
+
+#### 2. 样式
+
+- 使用 SCSS 编写样式
+- 遵循 BEM 命名规范
+- 使用设计规范中的 CSS 变量
+
+```scss
+// button.scss
+.#{$prefix}-button {
+  padding: var(--td-spacing-2) var(--td-spacing-4);
+  font-size: var(--td-font-size-base);
+  border-radius: var(--td-border-radius-default);
+
+  &--theme-primary {
+    background: var(--td-brand-color);
+    color: white;
+  }
+
+  &__icon {
+    margin-right: var(--td-spacing-1);
+  }
+}
+```
+
+#### 3. 无障碍
+
+- 添加适当的 ARIA 属性
+- 支持键盘导航
+- 提供必要的语义化标签
+
+```tsx
+<button aria-label="关闭" aria-disabled={disabled} role="button" tabIndex={0}>
+  关闭
+</button>
+```
+
+#### 4. 测试
+
+- 为组件编写单元测试
+- 测试各种 props 组合
+- 测试用户交互
+
+```tsx
+import { render, fireEvent } from "@testing-library/react";
+import Button from "./Button";
+
+describe("Button", () => {
+  it("renders correctly", () => {
+    const { getByText } = render(<Button>Click me</Button>);
+    expect(getByText("Click me")).toBeInTheDocument();
+  });
+
+  it("handles click event", () => {
+    const handleClick = jest.fn();
+    const { getByText } = render(<Button onClick={handleClick}>Click me</Button>);
+    fireEvent.click(getByText("Click me"));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+## 📝 文档贡献
+
+### 文档结构
+
+```
+packages/tendaui-docs/
+├── introduction.mdx         # 组件库介绍
+├── getting-started.mdx      # 快速开始
+├── design-tokens.mdx        # 设计规范
+├── contributing.mdx         # 贡献指南
+└── components/              # 组件文档
+    ├── button.mdx
+    ├── input.mdx
+    └── ...
+```
+
+### 文档编写规范
+
+参考 [文档编写规范](./README.md)。
+
+## 🐛 报告 Bug
+
+提交 Bug 时，请包含以下信息：
+
+1. **Bug 描述**：清晰描述遇到的问题
+2. **复现步骤**：详细的复现步骤
+3. **期望行为**：你期望发生什么
+4. **实际行为**：实际发生了什么
+5. **环境信息**：
+   - TendaUI 版本
+   - React 版本
+   - 浏览器和版本
+   - 操作系统
+6. **代码示例**：提供最小复现代码
+7. **截图/录屏**：如果适用
+
+## 💡 提出新功能
+
+提出新功能时，请说明：
+
+1. **功能描述**：详细描述新功能
+2. **使用场景**：为什么需要这个功能
+3. **API 设计**：建议的 API 设计
+4. **替代方案**：是否有其他解决方案
+5. **示例代码**：期望的使用方式
+
+## 📋 代码审查
+
+PR 提交后，维护者会进行代码审查。请：
+
+- 及时回应审查意见
+- 保持礼貌和开放的态度
+- 根据反馈修改代码
+
+## ⚖️ 行为准则
+
+- 尊重所有贡献者
+- 接受建设性批评
+- 关注对社区最有利的事情
+- 对其他社区成员表示同理心
+
+## 🙋 需要帮助？
+
+如果你在贡献过程中遇到问题：
+
+- 查看[文档](https://your-docs-site.com)
+- 在 [GitHub Discussions](https://github.com/tendaui/tendaui/discussions) 提问
+- 加入我们的[社区群](https://your-community-link.com)
+
+---
+
+<div
+  style={{
+    padding: "24px",
+    background: "#f0f9ff",
+    border: "1px solid #91caff",
+    borderRadius: "8px",
+    marginTop: "48px"
+  }}
+>
+  <h3 style={{ marginTop: 0 }}>感谢你的贡献！</h3>
+  <p>每一个贡献都让 TendaUI 变得更好。我们期待你的 Pull Request！</p>
+</div>

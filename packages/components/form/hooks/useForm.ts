@@ -15,7 +15,7 @@ class FormStore {
     this.forceRootUpdate = forceReRender;
   }
 
-  public taskQueue: unknown[] = [];
+  public taskQueue: { name: string; args: unknown[] }[] = [];
 
   public flashQueue = () => {
     this.taskQueue.forEach((task) => {
@@ -67,7 +67,7 @@ class FormStore {
         notifyWatch: this.notifyWatch,
         registerWatch: this.registerWatch,
         getPrevStore: () => this.prevStore,
-        setPrevStore: (store: object) => {
+        setPrevStore: (store: Store) => {
           this.prevStore = store;
         }
       };
