@@ -1,0 +1,70 @@
+`FormList` 负责管理“数组型字段”，也就是动态增删的表单分组。它做的事情可以拆成几块：
+
+---
+
+### 1. 读取上下文，初始化内部状态
+- 拿 `form`、`formMapRef`、`onFormItemValueChange` 等；
+- 计算初始值：优先用 `props.initialData` → 再看父级 Form 的 `initialData[name]` → 默认为空数组；
+- 维护两份状态：
+  - `fields`: 用于渲染时描述每一个列表项（包含 key、索引 name、标识 isListField）；
+  - `formListValue`: 实际的数据数组（和 `form.store[name]` 同步）。
+
+---
+
+### 2. 提供操作 API（add/remove/move）
+`operation` 对象暴露给 `children` 回调：
+
+- `add(defaultValue, index)`：
+  1. 在 fields 中插入一个新项；
+  2. 若给了默认值则填进 `formListValue` 对应位置；
+  3. `set(form.store, ['listName', index], nextFormListValue)` 同步到全局 store；
+  4. `calcFieldValue` 组合成 `{ listName: [...] }`，再通过 `onFormItemValueChange` 通知 Form（触发 `onValuesChange`）；
+
+- `remove(index)`：
+  1. 从 fields / formListValue 中删除；
+  2. `unset(form.store, ['listName', index])`；
+  3. 将新的列表值上报给 Form；
+
+- `move(from, to)`：
+  1. 交换 fields 的位置；
+  2. 清空当前 store 对应值（稍后会重新渲染并填充），留待子项 `setValue` 补齐。
+
+这些操作都触发重新渲染，同时在 requestAnimationFrame 或 Promise microtask 中通知 Form，避免同步阶段拿到不完整数据。
+
+---
+
+### 3. 注册到 Form 体系
+- `formMapRef.set(name, formListRef)` 把自己当作一个特殊的 FormItem；
+- 卸载时 `formMapRef.delete(name)`。
+
+此外，它还维护 `formListMapRef`（只含列表内部的 FormItem 实例），供后续 `validate`、`reset` 等递归调用。
+
+---
+
+### 4. 同步数据与回填
+- 当 `formListValue` 变化（比如外部 `setFieldsValue`），会遍历 `formListMapRef`，通过 `FormItemInstance.setField` 把值回填给子项；
+- 如果外部调用 `formInstance.setFields` / `setValidateMessage` 等，会用 `setListFields` 将 fields 重建，并顺序调用每个子 FormItem 的方法；
+- 支持 `FormList` 嵌套 `FormList`：遍历全局 `formMapRef` 找其他 list 的实例，逐一置值。
+
+---
+
+### 5. 对外暴露 ref 能力
+通过 `useImperativeHandle` 把列表当作一个“FormItem”看待，提供：
+
+- `getValue()`：收集所有子 FormItem 的值，合成列表；
+- `validate(trigger)`：逐个子项校验，汇总错误；
+- `setValue(fieldData, originData)`：把一整组数据写入列表；
+- `setField`、`setValidateMessage`、`resetField`、`resetValidate` 等：递归调用子项，实现局部更新或重置。
+
+这保证了 FormList 也能被 `Form` 的一系列 API 覆盖（`form.resetFields([listName])`、`form.validateFields()` 等）。
+
+---
+
+### 6. 渲染与 Context 分发
+- `FormList` 自身不渲染具体内容，`children` 必须是函数 `(fields, operation) => ReactNode`；
+- 它通过 `FormListContext.Provider` 向内部 FormItem 提供 `name`、`rules`、`formListMapRef`、`initialData` 等，使子项能拼出完整路径、注册引用。
+
+---
+
+### 总结一句话
+`FormList` 是数组字段的“运维中心”，负责维护列表结构、与 Form 的 `store` 同步、向 FormItem 提供上下文，以及对外暴露 add/remove/move 等操作。子 FormItem 则像普通表单项一样运作，只是多了一个列表维度的路径拼接与批量管理。

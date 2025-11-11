@@ -152,7 +152,6 @@ const FormList: React.FC<TdFormListProps> = (props) => {
       // fix multiple formlist stuck
       const currentQueue = fieldsTaskQueueRef.current.pop();
       const { fieldData, callback, originData } = currentQueue;
-
       [...formListMapRef.current.values()].forEach((formItemRef) => {
         if (!formItemRef.current) return;
 

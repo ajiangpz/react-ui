@@ -1,0 +1,186 @@
+下面按“从外到内、从生命周期到 API”的顺序，梳理这一套 `Form` 体系的全流程，涵盖初始化、数据流、校验、提交、联动、嵌套等核心场景。
+
+---
+
+## 1. 初始化阶段
+
+### 1.1 组件树搭建
+1. **`<Form>`** 渲染时调用 `useForm(props.form)`：
+   - 若传入外部 `form`，直接复用；
+   - 否则创建新的 `FormStore`，返回占位实例（方法都只是排队，不立即执行）。
+2. **`useInstance`** 生成表单实例的“真身”方法（`submit`、`validate`、`getFieldsValue` 等）。
+3. `Object.assign(form, formInstance)`：把真实方法覆盖到原先的占位实例上。
+4. `form.getInternalHooks(HOOK_MARK).setForm(formInstance)`：
+   - 把真实方法注入 `FormStore`；
+   - 完成内部与外部实例的桥接。
+5. `FormContext.Provider` 提供全局配置、`formMapRef`、`floatingFormDataRef` 等给子组件。
+
+### 1.2 子组件挂载
+- **`<FormItem>`**：
+  - 读取 `FormContext`，拿到 `form`、`formMapRef`、`onFormItemValueChange` 等；
+  - 计算初始值：`form.store[name]` → FormList 初始值 → Form 的 `initialData` → `initialDataMap`（控件默认值）；
+  - 维护本地 `formValue` 状态，注册到 `formMapRef`；
+  - 暴露实例方法 `validate`、`resetField`、`setValue` 等，供 `Form` 调用。
+- **`<FormList>`**：
+  - 维护 `fields`（渲染结构）和 `formListValue`（数据）；
+  - 挂载时注册到 `formMapRef`，并向下提供 `FormListContext` 使子项拼出完整路径；
+  - 暴露 `add/remove/move` 等操作，能在任意位置新增/删除子表单项。
+
+### 1.3 队列补偿
+- `useEffect` 中调用 `form.getInternalHooks().flashQueue()`：
+  - 把在 `Form` 建立前排队的调用（如 `form.setFieldsValue`）依次执行；
+  - 确保“先调用、后挂载”的场景不丢失操作。
+
+---
+
+## 2. 数据流与联动
+
+### 2.1 值更新（FormItem 核心逻辑）
+- `FormItem` 内部的 `updateFormValue(newValue, validate=true, shouldEmitChange=false)` 做了三件事：
+  1. 调 `setPrevStore` 记录旧快照，供后续 diff；
+  2. 更新 `form.store` 对应字段的值；
+  3. 本地 `setFormValue(newValue)` 触发渲染。
+
+### 2.2 回调链路
+当 `formValue` 改变时：
+1. `form.getInternalHooks().notifyWatch(name)` → 所有使用 `Form.useWatch`、`useWatch(name, form)` 的订阅方都会收到新值；
+2. 如 `shouldEmitChange` 为 true，会构造 `{ namePath: value }` 传给 `onFormItemValueChange` → 再触发 `Form` 的 `onValuesChange(changedValue, allValues)`；
+3. 若字段规则里含 `trigger: "change"`，立刻执行 `validate("change")`。
+
+### 2.3 FormList 额外处理
+- 调 `add/remove` 时：
+  1. 更新本地 `fields`、`formListValue`；
+  2. 同步 `form.store` → 例如 `set(form.store, ['contacts', index], value)`；
+  3. 将默认值加入 `fieldsTaskQueue`，待子 `FormItem` 渲染完成后 `setValue` 回填；
+  4. 调 `onValuesChange` 传播变化。
+
+- 外部 `form.setFieldsValue()` / `form.setFields()`：
+  - 会将待设置值塞入 `floatingFormDataRef` 或 `fieldsTaskQueueRef`；
+  - 等 `FormItem` / `FormList` 挂载后自动读取并通过 `setValue` 应用；
+  - 保证接口回填、动态表单新增等场景同步无误。
+
+---
+
+## 3. 校验体系
+
+### 3.1 FormItem 校验流程
+- `validate(trigger = "all", showErrorMessage?)`：
+  1. 如果有嵌套 FormItem，优先递归调用子项；
+  2. 调 `analysisValidateResult(trigger)` 根据规则（过滤 trigger）执行校验；
+  3. 整理 `errorList` / `successList` / `verifyStatus`；
+  4. 缓存不同 trigger 下的错误信息（`errorListMapRef`）；
+  5. 若重置过程中需要清空校验（`needResetField`），配合 `resetHandler` 处理。
+
+- `validateOnly`：同上，只是不更新 UI 状态。
+
+### 3.2 FormList 校验
+- `FormList` 通过 ref 提供 `validate(trigger)`：
+  1. 遍历 `formListMapRef`，调用每个子 FormItem 的 `validate`；
+  2. 汇总所有子项结果，若存在错误则返回 `{ [listName]: resultList }`，否则 `{ [listName]: true }`。
+
+### 3.3 Form 级别校验
+- `form.validate({ fields, trigger, showErrorMessage })`：
+  1. 遍历 `formMapRef`（含 FormItem 与 FormList）；
+  2. 按需调用 `validate` / `validateOnly`；
+  3. `formatValidateResult` 合并结果：成功返回 `true`，否则跨字段的错误对象。
+
+### 3.4 实时校验与触发器
+- `trigger` 支持 `"change"` / `"blur"` / `"all"`；
+- `FormItem` 中在 `handleItemBlur` 中处理 `blur`；
+- `change` 触发在 `formValue` effect 中处理；
+- 可用 `setField` / `setValidateMessage` 手动设置状态，配合异步校验或后台返回错误提示。
+
+---
+
+## 4. 重置 / 提交 / 批量操作
+
+### 4.1 重置
+- `form.reset()` / `reset({ fields, type })`：
+  - 不传参数 → 遍历 `formMapRef` 调 `resetField`；
+  - `FormItem.resetField(type)` 根据 `resetType`（`initial` / `empty`）计算值，调用 `updateFormValue`；
+  - `FormList.resetField(type)`：
+    - `initial`：恢复初始数据，重建 `fields`，写回 `form.store`；
+    - 其他：逐个子项 `resetField`，清空 `formListValue` 和 `fields`，`unset` 对应 store。
+
+- 重置后通知 watch 并清空校验状态。
+
+### 4.2 提交
+- `form.submit(e)`：
+  1. 根据 `preventSubmitDefault` 阻止原生提交；
+  2. 调 `validate()`，拿到 `validateResult`；
+  3. `getFirstError` 定位首个错误消息（配合 `scrollToFirstError` 可滚动定位）；
+  4. 汇总 `fields = getFieldsValue(true)`；
+  5. 调用 `props.onSubmit({ validateResult, firstError, e, fields })`。
+
+- `useForm` 返回的占位实例中 `submit` 会先入队，在表单挂载完成后由 `flashQueue` 执行，保障早期调用也能生效。
+
+### 4.3 批量设置 / 自定义信息
+- `form.setFieldsValue(obj)`：按照路径写入 `form.store`，如果 FormItem 尚未挂载将值缓存到 `floatingFormDataRef`。
+- `form.setFields(fieldsArray)`：array 元素含有 `name` 和 `field` 信息，最后交给对应 `FormItem.setField`。
+- `form.setValidateMessage(messageObj)`：遍历对象结构，把每个字段的自定义错误传给 `FormItem.setValidateMessage`。
+- `form.clearValidate(fields?)` / `form.getValidateMessage(fields?)`：批量清除或获取各字段错误信息。
+
+---
+
+## 5. 表单联动
+
+- `onValuesChange(changedValue, allValues)`：由 `Form` 提供，`FormItem` 值变且 `shouldEmitChange` 时触发；
+- `setPrevStore` + `shouldUpdate(prevStore, currentStore)`：
+  - 在 `FormItem` 上设置 `shouldUpdate`（布尔或函数），可以精准控制何时重新渲染该子项；
+  - 常用于级联显示/隐藏、字段依赖控制等联动场景。
+
+---
+
+## 6. 嵌套与动态场景
+
+### 6.1 FormList 嵌套
+- `FormList` 可嵌套 `FormList`，靠 `FormListContext` 和 `formMapRef` 管理；
+- 外层 `FormList` 的 effect 会遍历 `formMapRef`，找到所有 `isFormList` 的子实例，调用其 `setValue` 按路径回写数据；
+- `calcFieldValue` 用于把局部的 `name`/`value` 转换成完整嵌套数据结构。
+
+### 6.2 Form 中渲染 Form
+- 内层 Form 生成自己的 `FormContext`，与外层隔离；
+- 两个 form 可以共享同一个 `form` 实例（通过 props），实现跨层“共享/局部”实例自由组合。
+
+### 6.3 动态增删
+- 通过 FormList 的 `operation` 接口，只增删 `fields` 和 `formListValue`；
+- `fieldsTaskQueueRef` 延迟执行 `setValue`，确保子项挂载后再回填；
+- `floatingFormDataRef` 缓存“游离值”——在 FormItem 挂载前就设置的值。
+
+---
+
+## 7. 对外 ref API 一览
+
+所有这些 API 都聚合在 `formInstance` 中，并暴露给外部：
+```ts
+{
+  submit,
+  reset,
+  validate,
+  validateOnly,
+  clearValidate,
+  setFields,
+  setFieldsValue,
+  setValidateMessage,
+  getValidateMessage,
+  getFieldValue,
+  getFieldsValue,
+  getCurrentElement
+}
+```
+- FormList 也暴露一套与 FormItem 类似的方法，使其成为“可以被遍历的一员”。
+
+---
+
+## 小结：Form 全流程（时间线）
+
+1. **构造阶段**：`useForm` 输出占位实例 → `useInstance` 生成真身 → `setForm` 注入 → `flashQueue` 补偿。
+2. **挂载阶段**：`FormContext` / `FormListContext` 提供上下文 → `FormItem` / `FormList` 注册并初始化。
+3. **数据更新**：`updateFormValue` 处理值 → `form.store` 同步 → `notifyWatch` & `onValuesChange` 联动。
+4. **校验场景**：`validate`（子项 → FormList → Form）层层汇总。
+5. **重置/批量操作**：`resetField`、`setFieldsValue`、`setField` 等统一通过注册的 ref 实例调用，保证所有字段保持最新状态。
+6. **嵌套/动态**：`formListMapRef`、`fieldsTaskQueueRef`、`floatingFormDataRef` 协调数组场景下的值同步和嵌套联动。
+7. **最终输出**：`submit` 时收集 `fields` + `validateResult`，同时支持 `scrollToFirstError`、`getFirstError` 等体验优化。
+
+
+这就是 TendaUI Form 的完整运行流程，从初始化（store 接管）到数据联动（notify + onValuesChange）、校验（trigger 体系）、嵌套（FormList）、动态（任务队列）再到提交/重置的一整套闭环。

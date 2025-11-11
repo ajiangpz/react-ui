@@ -10,14 +10,8 @@ const { FormItem, FormList } = Form;
 
 export const BaseForm = () => {
   const [form] = Form.useForm();
-
-  const name = Form.useWatch("name", form);
-  const gender = Form.useWatch("gender", form);
-  console.log("name", name);
-  console.log("gender", gender);
   const { success } = useNotification();
   const onSubmit: FormProps["onSubmit"] = (_e) => {
-    console.log(_e);
     if (_e.validateResult === true) {
       success({ title: "成功提示", message: "提交成功" });
     }
@@ -29,7 +23,6 @@ export const BaseForm = () => {
   };
 
   const setMessage = () => {
-    console.log(form);
     form.setFields([
       { name: "name", status: "error", validateMessage: { type: "error", message: "输入有误" } },
       { name: "birthday", status: "warning", validateMessage: { type: "warning", message: "时间有误" } }
@@ -76,6 +69,7 @@ export const BaseForm = () => {
 
 const meta: Meta = {
   args: {},
+  title: "Components/Form",
   component: Form,
   tags: ["autodocs"],
   decorators: [
