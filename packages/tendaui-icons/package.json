@@ -8,8 +8,15 @@
   "module": "lib/es/index.js",
   "typings": "lib/es/index.d.ts",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/react-ui.git",
+    "directory": "packages/tendaui-icons"
+  },
+  "homepage": "https://github.com/your-org/react-ui#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "lib",
@@ -22,6 +29,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm run build:icon && pnpm run build:lib",
     "build:icon": "node  ./scripts/buildIcon.js",
     "build:lib": "node ./scripts/compileLib.js"
   },
