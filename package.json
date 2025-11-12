@@ -13,8 +13,8 @@
   "packageManager": "pnpm@8.15.0",
   "scripts": {
     "prebuild": "rimraf packages/tendaui-react/es",
-    "build": "npm run prebuild && rollup -c rollup.config.mjs && npm run build:tsc-es",
-    "build:components": "npm run prebuild && rollup -c rollup.config.mjs && npm run build:tsc-es",
+    "build": "pnpm run prebuild && rollup -c rollup.config.mjs && pnpm run build:tsc-es",
+    "build:components": "pnpm run prebuild && rollup -c rollup.config.mjs",
     "build:tsc-es": "tsc -p tsconfig.build.json --outDir packages/tendaui-react/es",
     "build:icons": "pnpm -w --filter @tendaui/icons build",
     "build:utils": "pnpm -w --filter @tendaui/utils build",
@@ -70,6 +70,7 @@
     "@svgr/plugin-jsx": "^8.1.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/lodash-es": "^4.17.12",
+    "@types/minimatch": "6.0.0",
     "@types/node": "^22.7.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
@@ -81,6 +82,7 @@
     "fast-glob": "^3.3.3",
     "hoist-non-react-statics": "^3.3.2",
     "lucide-react": "^0.544.0",
+    "minimatch": "10.1.1",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.7.0",
     "react": "^18.2.0",
@@ -104,7 +106,8 @@
     "tdesign-react": "^1.15.1",
     "tendaui-react": "^1.0.1",
     "tendaui-react-icons": "1.1.3",
-    "tinycolor2": "^1.6.0"
+    "tinycolor2": "^1.6.0",
+    "vite": "^7.1.7"
   },
   "dependencies": {
     "@babel/runtime": "~7.26.7",
@@ -115,7 +118,6 @@
     "dayjs": "1.11.10",
     "hoist-non-react-statics": "~3.3.2",
     "lodash-es": "^4.17.21",
-    "lucide-react": "^0.544.0",
     "mitt": "^3.0.0",
     "raf": "~3.4.1",
     "react-fast-compare": "^3.2.2",
@@ -123,8 +125,7 @@
     "react-transition-group": "~4.4.1",
     "sortablejs": "^1.15.0",
     "tslib": "~2.3.1",
-    "validator": "~13.15.0",
-    "vite": "^7.1.7"
+    "validator": "~13.15.0"
   },
   "volta": {
     "node": "22.20.0"

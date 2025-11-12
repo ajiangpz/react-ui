@@ -3,7 +3,7 @@ import classNames from "classnames";
 import useConfig from "../hooks/useConfig";
 import noop from "../utils/noop";
 import forwardRefWithStatics from "../utils/forwardRefWithStatics";
-import type { TdFormProps } from "./type";
+import type { FormInstanceFunctions, TdFormProps } from "./type";
 import useInstance from "./hooks/useInstance";
 import useForm, { HOOK_MARK } from "./hooks/useForm";
 import useWatch from "./hooks/useWatch";
@@ -19,7 +19,7 @@ export interface FormProps extends TdFormProps, StyledProps {
   children?: React.ReactNode;
 }
 
-const Form = forwardRefWithStatics(
+const Form = forwardRefWithStatics<FormProps, FormInstanceFunctions>(
   (originalProps: FormProps, ref) => {
     const { classPrefix, form: globalFormConfig } = useConfig();
     const props = useDefaultProps<FormProps>(originalProps, formDefaultProps);
@@ -57,9 +57,11 @@ const Form = forwardRefWithStatics(
     const floatingFormDataRef = useRef({}); // 储存游离值的 formData
     const formInstance = useInstance(props, formRef, formMapRef, floatingFormDataRef);
 
-    useImperativeHandle(ref, () => formInstance);
-    Object.assign(form, { ...formInstance });
-    form?.getInternalHooks?.(HOOK_MARK)?.setForm?.(formInstance);
+    const exposedFormInstance = formInstance as unknown as FormInstanceFunctions;
+
+    useImperativeHandle(ref, () => exposedFormInstance);
+    Object.assign(form, { ...exposedFormInstance });
+    form?.getInternalHooks?.(HOOK_MARK)?.setForm?.(exposedFormInstance);
 
     // form 初始化后清空队列
     React.useEffect(() => {

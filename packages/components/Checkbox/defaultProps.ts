@@ -1,4 +1,4 @@
-import { TdCheckboxProps, TdCheckboxGroupProps } from "./type";
+import { CheckboxGroupValue, TdCheckboxProps, TdCheckboxGroupProps } from "./type";
 
 export const checkboxDefaultProps: TdCheckboxProps = {
   checkAll: false,
@@ -8,4 +8,7 @@ export const checkboxDefaultProps: TdCheckboxProps = {
   readonly: false
 };
 
-export const checkboxGroupDefaultProps: TdCheckboxGroupProps = { max: undefined, defaultValue: [] };
+export const checkboxGroupDefaultProps: Partial<TdCheckboxGroupProps> = {
+  max: undefined,
+  defaultValue: [] as CheckboxGroupValue
+};

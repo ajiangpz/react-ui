@@ -8,20 +8,13 @@
     "outDir": "lib",
     "declaration": true,
     "sourceMap": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "tdesign-react": [
-        "packages/components"
-      ],
-      "tdesign-react/*": [
-        "packages/components/*"
-      ]
+      "tdesign-react": ["packages/components"],
+      "tdesign-react/*": ["packages/components/*"]
     },
     "allowJs": true,
     "checkJs": true,
@@ -51,7 +44,8 @@
     "vitest/globals",
     "@testing-library/jest-dom",
     "@testing-library/react-hooks",
-    "@testing-library/react"
+    "@testing-library/react",
+    "minimatch"
   ],
   "compileOnSave": false
 }

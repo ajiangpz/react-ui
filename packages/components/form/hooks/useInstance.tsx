@@ -113,7 +113,7 @@ export default function useInstance(
   function getFieldValue(name: NamePath) {
     if (!name) return null;
 
-    const formItemRef = getMapValue(name, formMapRef);
+    const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
     return formItemRef?.current?.getValue?.();
   }
 
@@ -125,10 +125,11 @@ export default function useInstance(
       // 嵌套数组子节点先添加导致外层数据覆盖因而需要倒序遍历
       for (const [name, formItemRef] of [...formMapRef.current.entries()].reverse()) {
         let fieldValue = null;
-        if (formItemRef?.current?.isFormList) {
-          fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.());
+        const currentRef = formItemRef as React.RefObject<FormItemInstance>;
+        if (currentRef?.current?.isFormList) {
+          fieldValue = calcFieldValue(name, currentRef?.current?.getValue?.());
         } else {
-          fieldValue = calcFieldValue(name, formItemRef?.current?.getValue?.(), !props.supportNumberKey);
+          fieldValue = calcFieldValue(name, currentRef?.current?.getValue?.(), !props.supportNumberKey);
         }
         merge(fieldsValue, fieldValue);
       }
@@ -139,7 +140,7 @@ export default function useInstance(
       }
 
       nameList.forEach((name) => {
-        const formItemRef = getMapValue(name, formMapRef);
+        const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
         if (!formItemRef) return;
 
         const fieldValue = calcFieldValue(name, formItemRef?.current.getValue?.());
@@ -183,7 +184,7 @@ export default function useInstance(
 
     fields.forEach((field) => {
       const { name, ...restFields } = field;
-      const formItemRef = getMapValue(name, formMapRef);
+      const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
 
       formItemRef?.current?.setField(restFields, field);
     });
@@ -200,7 +201,7 @@ export default function useInstance(
       const { type = "initial", fields = [] } = params;
 
       fields.forEach((name) => {
-        const formItemRef = getMapValue(name, formMapRef);
+        const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
         formItemRef?.current?.resetField(type);
       });
     }
@@ -218,7 +219,7 @@ export default function useInstance(
       if (!Array.isArray(fields)) throw new Error("clearValidate 参数需要 Array 类型");
 
       fields.forEach((name) => {
-        const formItemRef = getMapValue(name, formMapRef);
+        const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
         formItemRef?.current?.resetValidate();
       });
     }
@@ -245,10 +246,10 @@ export default function useInstance(
       if (!Array.isArray(fields)) throw new Error("getValidateMessage 参数需要 Array 类型");
 
       fields.forEach((name) => {
-        const formItemRef = getMapValue(name, formMapRef);
+        const formItemRef = getMapValue(name, formMapRef) as React.RefObject<FormItemInstance> | undefined;
         const item = formItemRef?.current?.getValidateMessage?.();
         if (isEmpty(item)) return;
-        message[formItemRef?.current?.name] = item;
+        message[String(formItemRef?.current?.name)] = item;
       });
     }
 

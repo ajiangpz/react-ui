@@ -149,7 +149,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       {children}
       {createPortal(
         <NotifyContainer
-          notifications={notifications}
+          notifications={notifications as unknown as TdNotificationProps[]}
           onRemove={(id) => contextValue.removeNotification(id)}
           onHoverStart={clearAllTimers}
           onHoverEnd={restartAllTimers}

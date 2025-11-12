@@ -1,5 +1,4 @@
 // Implementation reference from: https://github.com/react-component/util/blob/master/src/React/render.ts
-// @ts-expect-error React types are not available in this context
 import type * as React from "react";
 import * as ReactDOM from "react-dom";
 import type { Root } from "react-dom/client";
@@ -16,7 +15,6 @@ const fullClone = {
 
 type CreateRoot = (container: ContainerType) => Root;
 
-// @ts-expect-error ReactDOM internal API access
 const { version, render: reactRender, unmountComponentAtNode } = fullClone;
 
 let legacyCreateRoot: CreateRoot;

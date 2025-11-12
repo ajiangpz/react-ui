@@ -83,7 +83,6 @@ export default function useFormItemInitialData(name: FormItemProps["name"]) {
       const childList = React.Children.toArray(children);
       const lastChild = childList[childList.length - 1];
       if (lastChild && React.isValidElement(lastChild)) {
-        // @ts-expect-error React element props type inference
         const isMultiple = lastChild?.props?.multiple;
         return isMultiple ? [] : initialDataMap.get(lastChild.type);
       }

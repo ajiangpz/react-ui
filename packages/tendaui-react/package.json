@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rimraf packages/tendaui-react/es/* && rimraf packages/tendaui-react/lib/*",
-    "build": "npm run prebuild && rollup -c rollup.config.mjs"
+    "build": "pnpm run prebuild && rollup -c rollup.config.mjs"
   },
   "peerDependencies": {
     "react": ">=16.13.1",

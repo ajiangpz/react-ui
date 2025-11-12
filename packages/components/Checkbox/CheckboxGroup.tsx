@@ -48,7 +48,7 @@ const CheckboxGroup = <T extends CheckboxGroupValue = CheckboxGroupValue>(props:
     children,
     max,
     options = []
-  } = useDefaultProps<CheckboxGroupProps<T>>(props, checkboxGroupDefaultProps);
+  } = useDefaultProps<CheckboxGroupProps<T>>(props, checkboxGroupDefaultProps as Partial<CheckboxGroupProps<T>>);
 
   // 去掉所有 checkAll 之后的 options
   const intervalOptions =
