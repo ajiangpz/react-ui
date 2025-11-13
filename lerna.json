@@ -20,9 +20,7 @@
     },
     "version": {
       "allowBranch": ["main", "master"],
-      "conventionalCommits": true,
-      "createRelease": "github",
-      "retainWorkspaceVersions": true
+      "conventionalCommits": true
     },
     "run": {
       "npmClient": "pnpm"
