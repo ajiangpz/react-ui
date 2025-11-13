@@ -63,5 +63,6 @@
     "terser-webpack-plugin": "^4.2.3",
     "through2": "^4.0.2",
     "ts-loader": "^5.4.5"
-  }
+  },
+  "gitHead": "51b5c6fa56525f5ac2c38fd66de6f53209eb2e40"
 }
