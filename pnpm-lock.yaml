@@ -371,7 +371,7 @@ importers:
         specifier: ^1.15.0
         version: 1.15.6
       tendaui-react-icons:
-        specifier: ^1.2.0
+        specifier: workspace:*
         version: link:../tendaui-icons
       tslib:
         specifier: ~2.3.1

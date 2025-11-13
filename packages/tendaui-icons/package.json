@@ -3,14 +3,14 @@
   "version": "1.2.0",
   "description": "TendaUI React Icons",
   "author": "jiangpz",
-  "homepage": "https://github.com/your-org/react-ui#readme",
+  "homepage": "https://github.com/ajiangpz/react-ui#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "typings": "lib/es/index.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/react-ui.git",
+    "url": "https://github.com/ajiangpz/react-ui.git",
     "directory": "packages/tendaui-icons"
   },
   "publishConfig": {

@@ -15,12 +15,14 @@
         "**/*.spec.tsx",
         "**/*.stories.tsx",
         "**/__tests__/**"
-      ]
+      ],
+      "bump": "from-package"
     },
     "version": {
       "allowBranch": ["main", "master"],
       "conventionalCommits": true,
-      "createRelease": "github"
+      "createRelease": "github",
+      "retainWorkspaceVersions": true
     },
     "run": {
       "npmClient": "pnpm"
