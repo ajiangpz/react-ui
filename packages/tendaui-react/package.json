@@ -1,5 +1,5 @@
 {
-  "name": "@tendaui/react",
+  "name": "tendaui-react",
   "version": "1.0.2",
   "description": "a react ui component library",
   "main": "es/index.js",
@@ -55,5 +55,5 @@
     "tslib": "~2.3.1",
     "validator": "~13.15.0"
   },
-  "gitHead": "6782bbad475b898657cbd7bed7d10d0021ad923f"
+  "gitHead": "f98de262675fb92d114c55275a45f9cb0ff0f97c"
 }
