@@ -16,7 +16,11 @@
       "tdesign-react": ["packages/components"],
       "tdesign-react/*": ["packages/components/*"],
       "@tendaui/components": ["packages/components"],
-      "@tendaui/components/*": ["packages/components/*"]
+      "@tendaui/components/*": ["packages/components/*"],
+      "@tendaui/icons": ["packages/tendaui-icons"],
+      "@tendaui/icons/*": ["packages/tendaui-icons/*"],
+      "@tendaui/react": ["packages/tendaui-react"],
+      "@tendaui/react/*": ["packages/tendaui-react/*"]
     },
     "allowJs": true,
     "checkJs": true,

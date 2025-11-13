@@ -1,38 +1,37 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "node:path";
 
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'framer-motion',
-      '@use-gesture/react',
-      'tailwind-variants',
-    ],
+    include: ["react", "react-dom", "framer-motion", "@use-gesture/react", "tailwind-variants"],
     esbuildOptions: {
       define: {
-        global: 'globalThis',
-      },
-    },
+        global: "globalThis"
+      }
+    }
   },
   resolve: {
     alias: {
-    },
+      "@tendaui/components": path.resolve(__dirname, "../packages/components"),
+      "@tendaui/components/*": path.resolve(__dirname, "../packages/components"),
+      "@tendaui/icons": path.resolve(__dirname, "../packages/tendaui-icons"),
+      "@tendaui/icons/*": path.resolve(__dirname, "../packages/tendaui-icons"),
+      "@tendaui/react": path.resolve(__dirname, "../packages/tendaui-react"),
+      "@tendaui/react/*": path.resolve(__dirname, "../packages/tendaui-react")
+    }
   },
   build: {
     sourcemap: true,
-    rollupOptions: {
-    },
+    rollupOptions: {}
   },
   server: {
     fs: {
-      allow: ['..'],
+      allow: [".."]
     },
     watch: {
-      usePolling: true,
-    },
-  },
-}); 
+      usePolling: true
+    }
+  }
+});
