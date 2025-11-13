@@ -51,8 +51,9 @@
     "react-is": "^18.2.0",
     "react-transition-group": "~4.4.1",
     "sortablejs": "^1.15.0",
-    "tendaui-react-icons": "workspace:*",
+    "tendaui-react-icons": "1.1.3",
     "tslib": "~2.3.1",
     "validator": "~13.15.0"
-  }
+  },
+  "gitHead": "6782bbad475b898657cbd7bed7d10d0021ad923f"
 }
