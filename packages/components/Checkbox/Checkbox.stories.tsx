@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import { CheckProps } from "../common/Check";
-import { Checkbox } from "tendaui-react/es/index";
+import { Checkbox } from "@tendaui/react/es/index";
 import { useState } from "react";
 
 const meta: Meta<CheckProps> = {

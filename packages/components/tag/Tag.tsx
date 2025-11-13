@@ -1,6 +1,6 @@
 import React, { ForwardRefRenderFunction, FocusEvent, forwardRef, useMemo } from "react";
 import classNames from "classnames";
-import { IconClose } from "tendaui-react-icons";
+import { IconClose } from "@tendaui/icons";
 import tinycolor from "tinycolor2";
 import noop from "../utils/noop";
 import useConfig from "../hooks/useConfig";

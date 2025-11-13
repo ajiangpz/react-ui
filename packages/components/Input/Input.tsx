@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import classNames from "classnames";
-import { IconEyeOpened, IconEyeClosed, IconClose } from "tendaui-react-icons";
+import { IconEyeOpened, IconEyeClosed, IconClose } from "@tendaui/icons";
 import { TdInputProps } from "./type";
 import useLayoutEffect from "../hooks/useLayoutEffect";
 import useControlled from "../hooks/useControlled";

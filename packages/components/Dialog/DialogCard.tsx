@@ -5,7 +5,7 @@ import {
   IconClose as TdCloseIcon,
   IconInfoCircle as TdInfoCircleFilledIcon,
   IconCheckCircleStroked as TdCheckCircleFilledIcon
-} from "tendaui-react-icons";
+} from "@tendaui/icons";
 import Button, { ButtonProps } from "../button";
 import { TdDialogCardProps } from "./type";
 import { StyledProps, TNode } from "../common";

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
-import { Tag } from "tendaui-react/es";
+import { Tag } from "@tendaui/react/es";
 
 const meta: Meta<typeof Tag> = {
   title: "Components/Tag",

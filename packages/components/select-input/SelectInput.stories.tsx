@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { SelectInput, SelectInputProps } from "tendaui-react/es";
+import { SelectInput, SelectInputProps } from "@tendaui/react/es";
 import { useState, useEffect } from "react";
 
-import { IconSearch } from "tendaui-react-icons";
+import { IconSearch } from "@tendaui/icons";
 
 const meta: Meta<typeof SelectInput> = {
   title: "Components/SelectInput",

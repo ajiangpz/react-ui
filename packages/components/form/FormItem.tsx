@@ -3,7 +3,7 @@ import {
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
   IconClose as TdCloseCircleFilledIcon,
   IconClose as TdErrorCircleFilledIcon
-} from "tendaui-react-icons";
+} from "@tendaui/icons";
 import { flattenDeep, get, isEqual, isFunction, isObject, isString, merge, set, unset } from "lodash-es";
 import { StyledProps } from "../common";
 import useConfig from "../hooks/useConfig";

@@ -1,0 +1,51 @@
+{
+  "name": "@tendaui/components",
+  "version": "1.0.0",
+  "description": "TendaUI React Components - Source code",
+  "main": "index.ts",
+  "module": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "tendaui",
+    "components"
+  ],
+  "author": "ajiangz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajiangpz/react-ui.git",
+    "directory": "packages/components"
+  },
+  "homepage": "https://github.com/ajiangpz/react-ui#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.scss",
+    "**/*.css",
+    "!**/*.stories.tsx",
+    "!**/*.test.ts",
+    "!**/*.test.tsx",
+    "!**/*.spec.ts",
+    "!**/*.spec.tsx"
+  ],
+  "sideEffects": [
+    "**/*.scss",
+    "**/*.css"
+  ]
+}

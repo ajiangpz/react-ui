@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { GlobalConfigProvider } from "./type";
-import Icon from "tendaui-react-icons";
+import Icon from "@tendaui/icons";
 export const defaultClassPrefix = "t";
 
 export const defaultGlobalConfig: GlobalConfigProvider = {

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { Badge, Button } from "tendaui-react/es/index";
+import { Badge, Button } from "@tendaui/react/es/index";
 
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",

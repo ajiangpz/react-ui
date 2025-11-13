@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react-vite";
-import { Button } from "tendaui-react/es/index";
-import { NotificationProvider } from "tendaui-react/es/notification";
+import { Button } from "@tendaui/react/es/index";
+import { NotificationProvider } from "@tendaui/react/es/notification";
 import React from "react";
 import { useState } from "react";
 import { useCallback } from "react";

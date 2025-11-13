@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { Loading, Switch, Button } from "tendaui-react/es";
+import { Loading, Switch, Button } from "@tendaui/react/es";
 import { useEffect, useState } from "react";
 
 const meta: Meta<typeof Loading> = {

@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { TdNotificationProps, HeightItem } from "./type";
-import { IconClose, IconInfoCircle, IconCheckCircleStroked, IconAlertTriangle } from "tendaui-react-icons";
+import { IconClose, IconInfoCircle, IconCheckCircleStroked, IconAlertTriangle } from "@tendaui/icons";
 import useConfig from "../hooks/useConfig";
 
 const NotificationItem: React.FC<TdNotificationProps> = ({

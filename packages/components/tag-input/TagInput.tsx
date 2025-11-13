@@ -1,5 +1,5 @@
 import React, { CompositionEvent, KeyboardEvent, useRef, useImperativeHandle, forwardRef, MouseEvent } from "react";
-import { IconClear } from "tendaui-react-icons";
+import { IconClear } from "@tendaui/icons";
 import { isFunction } from "lodash-es";
 import classnames from "classnames";
 import useConfig from "../hooks/useConfig";

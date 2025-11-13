@@ -1,6 +1,6 @@
 import { TNode, TElement, SizeEnum, AttachNode } from "../common";
 import { ButtonProps } from "../button";
-import Icon from "tendaui-react-icons";
+import Icon from "@tendaui/icons";
 export interface TdConfigProviderProps {
   /**
    * 全局配置

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Switch } from "tendaui-react/es";
+import { Switch } from "@tendaui/react/es";
 
 const meta = {
   title: "Components/Switch",

@@ -14,7 +14,9 @@
     "baseUrl": "./",
     "paths": {
       "tdesign-react": ["packages/components"],
-      "tdesign-react/*": ["packages/components/*"]
+      "tdesign-react/*": ["packages/components/*"],
+      "@tendaui/components": ["packages/components"],
+      "@tendaui/components/*": ["packages/components/*"]
     },
     "allowJs": true,
     "checkJs": true,

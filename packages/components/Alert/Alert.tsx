@@ -5,7 +5,7 @@ import {
   IconInfoCircle as TdInfoCircleFilledIcon,
   IconCheckCircleStroked as TdCheckCircleFilledIcon,
   IconAlertTriangle as TdErrorCircleFilledIcon
-} from "tendaui-react-icons";
+} from "@tendaui/icons";
 
 import { CSSTransition } from "react-transition-group";
 import parseTNode from "../utils/parseTNode";
