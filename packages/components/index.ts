@@ -31,6 +31,7 @@ export * from "./switch";
 // export * from './anchor';
 // export * from './calendar';
 export * from "./form";
+export * from "./ip-input";
 // export * from './tooltip';
 // export * from './drawer';
 // export * from './progress';

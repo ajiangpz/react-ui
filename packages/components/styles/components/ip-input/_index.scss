@@ -1,0 +1,280 @@
+@import "../../_vars.scss";
+@import "../input/_vars.scss";
+@import "../input/_mixins.scss";
+@import "../../mixins/_reset.scss";
+@import "../../utilities/_tips.scss";
+
+.#{$prefix}-ip-input {
+  @include reset;
+  width: auto;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+
+  &__wrapper {
+    // Windows 风格：左对齐，紧凑布局
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    min-width: fit-content;
+    position: relative;
+  }
+
+  &__segments {
+    // Windows 风格：输入框之间有间距
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__segment {
+    // Windows 风格：固定宽度，独立边框
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    height: $input-height-default;
+    padding: 0 6px;
+    border: 1px solid $input-border-color-default;
+    border-radius: $input-border-radius;
+    background-color: $input-bg-color-default;
+    color: $input-text-color-default;
+    font: $input-font;
+    text-align: center;
+    outline: none;
+    box-sizing: border-box;
+    transition: $input-inner-transition;
+    // 每个输入框都是独立的，有完整的边框
+    margin: 0;
+
+    &:focus {
+      // Windows 风格：聚焦时有明显的边框高亮
+      border-color: $input-border-color-default-focus;
+      box-shadow: 0 0 0 1px $input-border-color-default-focus;
+      z-index: 1;
+      position: relative;
+      outline: none;
+    }
+
+    &--focused {
+      border-color: $input-border-color-default-focus;
+      box-shadow: 0 0 0 1px $input-border-color-default-focus;
+      z-index: 1;
+      position: relative;
+    }
+
+    &--error {
+      border-color: $input-border-color-error;
+
+      // 错误状态下的聚焦样式，优先级高于普通聚焦和 --focused 类
+      &:focus {
+        border-color: $input-border-color-error !important;
+        box-shadow: 0 0 0 1px $input-border-color-error !important;
+      }
+
+      // 当同时有 --error 和 --focused 类时，确保错误样式优先
+      &.#{$prefix}-ip-input__segment--focused {
+        border-color: $input-border-color-error !important;
+        box-shadow: 0 0 0 1px $input-border-color-error !important;
+      }
+    }
+
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    &:disabled {
+      background-color: $input-bg-color-disabled;
+      color: $input-text-color-disabled;
+      cursor: not-allowed;
+    }
+
+    &[readonly] {
+      background-color: $input-bg-color-readonly;
+      color: $input-text-color-readonly;
+      cursor: $input-cursor-readonly;
+    }
+  }
+
+  &__separator {
+    // Windows 风格：点号分隔符，有适当间距
+    padding: 0 4px;
+    margin: 0 2px;
+    color: $text-color-primary;
+    font: $input-font;
+    font-weight: 500;
+    user-select: none;
+    flex-shrink: 0;
+    line-height: $input-height-default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cidr {
+    // Windows 风格：CIDR 掩码输入框也是独立样式
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    height: $input-height-default;
+    padding: 0 6px;
+    border: 1px solid $input-border-color-default;
+    border-radius: $input-border-radius;
+    background-color: $input-bg-color-default;
+    color: $input-text-color-default;
+    font: $input-font;
+    text-align: center;
+    outline: none;
+    box-sizing: border-box;
+    transition: $input-inner-transition;
+    margin-left: 8px;
+
+    &:focus {
+      // Windows 风格：聚焦时有明显的边框高亮
+      border-color: $input-border-color-default-focus;
+      box-shadow: 0 0 0 1px $input-border-color-default-focus;
+      z-index: 1;
+      position: relative;
+      outline: none;
+    }
+
+    &--error {
+      border-color: $input-border-color-error;
+
+      &:focus {
+        border-color: $input-border-color-error;
+        box-shadow: 0 0 0 1px $input-border-color-error;
+      }
+    }
+
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    &:disabled {
+      background-color: $input-bg-color-disabled;
+      color: $input-text-color-disabled;
+      cursor: not-allowed;
+    }
+
+    &[readonly] {
+      background-color: $input-bg-color-readonly;
+      color: $input-text-color-readonly;
+      cursor: $input-cursor-readonly;
+    }
+  }
+
+  &__ipv6-wrapper {
+    display: inline-flex;
+    align-items: center;
+    flex: 1;
+    gap: 0;
+  }
+
+  &__ipv6 {
+    flex: 1;
+    min-width: 0;
+    height: $input-height-default;
+    padding: 0 $comp-paddingLR-s;
+    border: 1px solid $input-border-color-default;
+    border-radius: $input-border-radius;
+    background-color: $input-bg-color-default;
+    color: $input-text-color-default;
+    font: $input-font;
+    outline: none;
+    box-sizing: border-box;
+    transition: $input-inner-transition;
+
+    &:focus {
+      border-color: $input-border-color-default-focus;
+      box-shadow: $input-box-shadow-focus;
+      z-index: 1;
+      position: relative;
+    }
+
+    &--error {
+      border-color: $input-border-color-error;
+
+      &:focus {
+        border-color: $input-border-color-error;
+        box-shadow: 0 0 0 2px $input-box-shadow-color-error-focus;
+      }
+    }
+
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    &:disabled {
+      background-color: $input-bg-color-disabled;
+      color: $input-text-color-disabled;
+      cursor: not-allowed;
+    }
+
+    &[readonly] {
+      background-color: $input-bg-color-readonly;
+      color: $input-text-color-readonly;
+      cursor: $input-cursor-readonly;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: $comp-paddingLR-s;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: $input-inner-suffix-icon-color;
+    transition: all $anim-duration-base linear;
+    z-index: 2;
+
+    &:hover {
+      color: $input-inner-suffix-icon-color-hover;
+    }
+  }
+
+  &__error {
+    margin-top: $comp-margin-xs;
+    font: $input-tips-font;
+    color: $input-text-color-error;
+    min-height: $input-tips-min-height;
+  }
+
+  &__tips {
+    margin-top: $comp-margin-xs;
+    font: $input-tips-font;
+    color: $input-text-color-tips;
+    min-height: $input-tips-min-height;
+  }
+
+  // 状态样式
+  &.#{$prefix}-is-disabled {
+    .#{$prefix}-ip-input__segment,
+    .#{$prefix}-ip-input__cidr,
+    .#{$prefix}-ip-input__ipv6 {
+      background-color: $input-bg-color-disabled;
+      color: $input-text-color-disabled;
+      cursor: not-allowed;
+    }
+  }
+
+  &.#{$prefix}-is-readonly {
+    .#{$prefix}-ip-input__segment,
+    .#{$prefix}-ip-input__cidr,
+    .#{$prefix}-ip-input__ipv6 {
+      background-color: $input-bg-color-readonly;
+      color: $input-text-color-readonly;
+      cursor: $input-cursor-readonly;
+    }
+  }
+
+  &.#{$prefix}-is-focused {
+    .#{$prefix}-ip-input__segment,
+    .#{$prefix}-ip-input__cidr,
+    .#{$prefix}-ip-input__ipv6 {
+      border-color: $input-border-color-default-focus;
+    }
+  }
+
+  // 移除整个组件的 is-error 样式，因为每个段有自己的错误状态
+  // 错误状态通过 __segment--error 等类来控制
+}

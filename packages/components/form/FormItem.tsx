@@ -244,7 +244,7 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
       .filter((item) => item.result !== true)
       .map((item) => {
         Object.keys(item).forEach((key) => {
-          if (!item.message && errorMessages[key]) {
+          if (!item.message && errorMessages && errorMessages[key] && typeof errorMessages[key] === "string") {
             item.message = parseMessage(errorMessages[key], {
               validate: item[key],
               name: isString(label) ? label : String(name)
