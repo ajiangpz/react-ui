@@ -21,7 +21,7 @@ module.exports = {
   arrowParens: "always", // 箭头函数参数始终使用括号
 
   // 换行符
-  endOfLine: "lf", // 使用 LF 换行符
+  endOfLine: "auto", // 使用 LF 换行符
 
   // Markdown 相关
   proseWrap: "preserve", // 保留 markdown 文本的换行

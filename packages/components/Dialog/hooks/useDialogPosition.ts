@@ -27,7 +27,6 @@ export default function useDialogPosition(visible: boolean | undefined, dialogCa
     if (!visible) return;
     // 动画渲染初始位置
     if (mousePosRef.current && dialogCardRef.current) {
-      // eslint-disable-next-line
       dialogCardRef.current.style.transformOrigin = `${mousePosRef.current.x - dialogCardRef.current.offsetLeft}px ${
         mousePosRef.current.y - dialogCardRef.current.offsetTop
       }px`;

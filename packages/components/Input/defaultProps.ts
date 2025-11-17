@@ -1,6 +1,5 @@
 export const inputDefaultProps = {
   align: "left" as "left" | "center" | "right",
-  allowInputOverMax: false,
   autoWidth: false,
   autocomplete: undefined,
   autofocus: false,
@@ -13,7 +12,6 @@ export const inputDefaultProps = {
   // 是否只读，在只读模式下，输入框不能输入，且没有清除按钮，优先级高于 allowInput、clearable
   readonly: false,
   showClearIconOnEmpty: false,
-  showLimitNumber: false,
   size: "medium",
   spellCheck: false,
   status: "default",

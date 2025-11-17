@@ -16,7 +16,6 @@ export interface TdInputProps {
    * 超出 `maxlength` 或 `maxcharacter` 之后是否允许继续输入
    * @default false
    */
-  allowInputOverMax?: boolean;
   /**
    * 宽度随内容自适应
    * @default false
@@ -88,11 +87,7 @@ export interface TdInputProps {
    * @default false
    */
   showClearIconOnEmpty?: boolean;
-  /**
-   * 是否在输入框右侧显示字数统计
-   * @default false
-   */
-  showLimitNumber?: boolean;
+
   /**
    * 输入框尺寸
    * @default medium

@@ -7,7 +7,13 @@ export default defineConfig({
   plugins: [react(), tailwindcss()] as any,
   resolve: {
     alias: {
-      "tendaui-react": path.resolve(_dirname, "./packages/tendaui-react")
+      "tendaui-react": path.resolve(_dirname, "./packages/tendaui-react"),
+      "@tendaui/components": path.resolve(_dirname, "./packages/components"),
+      "@tendaui/components/*": path.resolve(_dirname, "./packages/components"),
+      "@tendaui/icons": path.resolve(_dirname, "./packages/tendaui-icons"),
+      "@tendaui/icons/*": path.resolve(_dirname, "./packages/tendaui-icons"),
+      "@tendaui/react": path.resolve(_dirname, "./packages/tendaui-react"),
+      "@tendaui/react/*": path.resolve(_dirname, "./packages/tendaui-react")
     }
   }
 });

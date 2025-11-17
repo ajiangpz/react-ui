@@ -477,12 +477,12 @@ function cleanObjectDeep(obj: any): any {
 }
 
 // 使用示例
-const obj2 = { 
-  a: 1, 
-  b: null, 
-  c: undefined, 
-  d: { e: null, f: 2, g: { h: undefined, i: 3 } }, 
-  j: [1, null, undefined, 2] 
+const obj2 = {
+  a: 1,
+  b: null,
+  c: undefined,
+  d: { e: null, f: 2, g: { h: undefined, i: 3 } },
+  j: [1, null, undefined, 2]
 }
 
 console.log(cleanObjectDeep(obj2))
@@ -772,15 +772,16 @@ fetch('/api').then(() => toast.update(id, { type: 'success', duration: 1500 }));
 
 ### 浏览器从输入 URL 到页面渲染的完整过程？
 #### 浏览器准备
-合法的URL 
+合法的URL
 相对链接
 协议检查
-#### 解析URL和缓存检查 
-获取协议、域名、端口、路径、查询参数、锚点 URL编码 
+#### 解析URL和缓存检查
+获取协议、域名、端口、路径、查询参数、锚点 URL编码
 encodeURI 不会对特殊字符进行编码
 encodeURIComponent 会对特殊字符进行编码
 #### HTTP缓存
 强缓存和协商缓存
+如果命中强缓存，则不会发起请求；否则，进行下一步
 #### DNS解析
 
 
