@@ -1,0 +1,193 @@
+@import "../../vars.scss";
+@import "../../mixins/_reset.scss";
+@import "./_var.scss";
+
+// 表格基础样式
+.#{$prefix}-table {
+  @include reset;
+
+  width: 100%;
+  font: $table-font;
+  color: $table-text-color;
+  background-color: $table-bg;
+  position: relative;
+
+  &__content {
+    position: relative;
+    overflow: auto;
+  }
+
+  &__table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  // 表头
+  &__header {
+    th {
+      color: $table-head-text-color;
+      font-weight: 500;
+    }
+  }
+
+  // 表体
+  &__body {
+    tr {
+      background-color: $table-bg;
+    }
+  }
+
+  // 单元格基础样式
+  th,
+  td {
+    position: relative;
+    padding: $table-padding-normal;
+    border-bottom: 1px solid $table-border-color;
+    line-height: $table-line-height;
+    font-weight: normal;
+    overflow-wrap: break-word;
+    background-color: inherit;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  // 对齐方式
+  .#{$prefix}-align-left {
+    text-align: left;
+  }
+
+  .#{$prefix}-align-center {
+    text-align: center;
+  }
+
+  .#{$prefix}-align-right {
+    text-align: right;
+  }
+
+  // 文本省略
+  &__ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  // 当单元格启用省略时
+  &__cell--ellipsis {
+    overflow: hidden;
+    position: relative;
+    max-width: 100%;
+
+    // 确保内部内容不会超出
+    & > div {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  // 边框模式
+  &--bordered {
+    td,
+    th {
+      border-left: 1px solid $table-border-color;
+
+      &:first-child {
+        border-left-width: 0;
+      }
+    }
+
+    &__content {
+      border: 1px solid $table-border-color;
+      border-radius: var(--td-border-radius-default, 4px);
+    }
+  }
+
+  // 斑马纹
+  &--stripe {
+    tbody tr:nth-of-type(odd) {
+      background-color: $table-highlight-bg-color;
+    }
+  }
+
+  // 悬浮效果
+  &--hover {
+    tbody tr {
+      transition: background-color 0.2s linear;
+
+      &:hover {
+        background-color: $table-highlight-bg-color-hover;
+      }
+    }
+  }
+
+  // 尺寸
+  &--size-small {
+    th,
+    td {
+      padding: $table-padding-small;
+    }
+  }
+
+  &--size-medium {
+    th,
+    td {
+      padding: $table-padding-normal;
+    }
+  }
+
+  &--size-large {
+    th,
+    td {
+      padding: $table-padding-large;
+    }
+  }
+
+  // 布局方式
+  &--layout-fixed {
+    table-layout: fixed;
+
+    // 固定布局下，省略文本需要特殊处理
+    td.#{$prefix}-table__cell--ellipsis,
+    th.#{$prefix}-table__cell--ellipsis {
+      overflow: hidden;
+      position: relative;
+    }
+  }
+
+  &--layout-auto {
+    table-layout: auto;
+  }
+
+  // 垂直对齐
+  &--vertical-align-top {
+    tbody td {
+      vertical-align: top;
+    }
+  }
+
+  &--vertical-align-bottom {
+    tbody td {
+      vertical-align: bottom;
+    }
+  }
+
+  // 空数据
+  &__empty-row {
+    td {
+      padding: 0;
+      border: 0;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: $table-empty-min-height;
+    color: $table-color-empty;
+  }
+}
