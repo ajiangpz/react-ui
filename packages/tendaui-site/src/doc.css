@@ -1,0 +1,215 @@
+.tdesign-doc {
+  background: #fff;
+  padding: 24px;
+  border-radius: 4px;
+}
+
+.tdesign-doc-header {
+  margin-bottom: 32px;
+}
+
+.tdesign-doc-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tdesign-doc-description {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.tdesign-doc-tabs {
+  display: flex;
+  border-bottom: 1px solid #e7e7e7;
+  margin-bottom: 24px;
+}
+
+.tdesign-doc-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.tdesign-doc-tab:hover {
+  color: #0052d9;
+}
+
+.tdesign-doc-tab.active {
+  color: #0052d9;
+  border-bottom-color: #0052d9;
+}
+
+.tdesign-doc-content {
+  min-height: 400px;
+}
+
+.tdesign-doc-demo h2,
+.tdesign-doc-demo h3,
+.tdesign-doc-demo h4 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tdesign-doc-demo h2 {
+  font-size: 24px;
+}
+
+.tdesign-doc-demo h3 {
+  font-size: 20px;
+}
+
+.tdesign-doc-demo h4 {
+  font-size: 16px;
+}
+
+.tdesign-doc-demo p {
+  margin: 16px 0;
+  line-height: 1.6;
+  color: #666;
+}
+
+.tdesign-doc-api table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.tdesign-doc-api table th,
+.tdesign-doc-api table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.tdesign-doc-api table th {
+  background: #fafafa;
+  font-weight: 600;
+  color: #333;
+}
+
+.tdesign-doc-api table td {
+  color: #666;
+}
+
+.tdesign-doc-api code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 13px;
+  color: #e83e8c;
+}
+
+.tdesign-doc-api pre {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.tdesign-doc-api pre code {
+  background: none;
+  padding: 0;
+  color: #333;
+}
+
+.tdesign-doc-design {
+  line-height: 1.6;
+  color: #333;
+}
+
+.tdesign-doc-design h1,
+.tdesign-doc-design h2,
+.tdesign-doc-design h3,
+.tdesign-doc-design h4 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tdesign-doc-design h1 {
+  font-size: 28px;
+  border-bottom: 2px solid #e7e7e7;
+  padding-bottom: 12px;
+}
+
+.tdesign-doc-design h2 {
+  font-size: 24px;
+  margin-top: 40px;
+}
+
+.tdesign-doc-design h3 {
+  font-size: 20px;
+  margin-top: 32px;
+}
+
+.tdesign-doc-design h4 {
+  font-size: 16px;
+  margin-top: 24px;
+}
+
+.tdesign-doc-design p {
+  margin: 16px 0;
+  line-height: 1.8;
+  color: #666;
+}
+
+.tdesign-doc-design ul,
+.tdesign-doc-design ol {
+  margin: 16px 0;
+  padding-left: 24px;
+  color: #666;
+}
+
+.tdesign-doc-design li {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.tdesign-doc-design code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 13px;
+  color: #e83e8c;
+}
+
+.tdesign-doc-design pre {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.tdesign-doc-design pre code {
+  background: none;
+  padding: 0;
+  color: #333;
+}
+
+.tdesign-doc-design blockquote {
+  border-left: 4px solid #0052d9;
+  padding-left: 16px;
+  margin: 16px 0;
+  color: #666;
+  font-style: italic;
+}
+
+.tdesign-doc-design strong {
+  color: #333;
+  font-weight: 600;
+}

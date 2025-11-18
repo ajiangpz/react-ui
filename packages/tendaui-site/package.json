@@ -1,0 +1,30 @@
+{
+  "name": "@tendaui/site",
+  "version": "1.0.0",
+  "description": "TendaUI Documentation Site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.28.0",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "markdown-it-container": "^3.0.0",
+    "prismjs": "^1.29.0",
+    "@tendaui/react": "workspace:*",
+    "@tendaui/components": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-react": "^7.27.1",
+    "vite": "^7.1.7"
+  }
+}
+
