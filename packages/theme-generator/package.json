@@ -1,0 +1,34 @@
+{
+  "name": "@tendaui/theme-generator",
+  "version": "1.0.0",
+  "description": "TendaUI 主题配置生成器",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tvision-color": "^1.6.0",
+    "cssbeautify": "^0.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/cssbeautify": "^0.3.1",
+    "@vitejs/plugin-react": "^5.0.3",
+    "typescript": "^5.0.0",
+    "vite": "^7.1.7"
+  },
+  "peerDependencies": {
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
+  }
+}

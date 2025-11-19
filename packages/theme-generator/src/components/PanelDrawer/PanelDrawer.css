@@ -1,0 +1,16 @@
+.panel-drawer {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9998;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.panel-drawer__content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px 5px rgba(0, 0, 0, 0.15);
+}
+
