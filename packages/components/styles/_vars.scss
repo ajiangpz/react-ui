@@ -119,47 +119,23 @@ $mask-bg: var(--td-mask-background); // 二维码遮罩
 // 背景色
 $bg-color-page: var(--td-bg-color-page); // 色彩 - page
 $bg-color-container: var(--td-bg-color-container); // 色彩 - 容器
-$bg-color-container-hover: var(
-  --td-bg-color-container-hover
-); // 色彩 - 容器 - hover
-$bg-color-container-active: var(
-  --td-bg-color-container-active
-); // 色彩 - 容器 - active
-$bg-color-container-select: var(
-  --td-bg-color-container-select
-); // 色彩 - 容器 - select
+$bg-color-container-hover: var(--td-bg-color-container-hover); // 色彩 - 容器 - hover
+$bg-color-container-active: var(--td-bg-color-container-active); // 色彩 - 容器 - active
+$bg-color-container-select: var(--td-bg-color-container-select); // 色彩 - 容器 - select
 
-$bg-color-secondarycontainer: var(
-  --td-bg-color-secondarycontainer
-); // 色彩 - 次级容器
-$bg-color-secondarycontainer-hover: var(
-  --td-bg-color-secondarycontainer-hover
-); // 色彩 - 次级容器 - hover
-$bg-color-secondarycontainer-active: var(
-  --td-bg-color-secondarycontainer-active
-); // 色彩 - 次级容器 - active
+$bg-color-secondarycontainer: var(--td-bg-color-secondarycontainer); // 色彩 - 次级容器
+$bg-color-secondarycontainer-hover: var(--td-bg-color-secondarycontainer-hover); // 色彩 - 次级容器 - hover
+$bg-color-secondarycontainer-active: var(--td-bg-color-secondarycontainer-active); // 色彩 - 次级容器 - active
 
 $bg-color-component: var(--td-bg-color-component); // 色彩  - 组件
-$bg-color-component-hover: var(
-  --td-bg-color-component-hover
-); // 色彩 - 组件 - hover
-$bg-color-component-active: var(
-  --td-bg-color-component-active
-); // 色彩 - 组件 - active
+$bg-color-component-hover: var(--td-bg-color-component-hover); // 色彩 - 组件 - hover
+$bg-color-component-active: var(--td-bg-color-component-active); // 色彩 - 组件 - active
 
-$bg-color-secondarycomponent: var(
-  --td-bg-color-secondarycomponent
-); // 色彩 - 次级组件
-$bg-color-secondarycomponent-hover: var(
-  --td-bg-color-secondarycomponent-hover
-); // 色彩 - 次级组件 - hover
-$bg-color-secondarycomponent-active: var(
-  --td-bg-color-secondarycomponent-active
-); // 色彩 - 次级组件 - active
+$bg-color-secondarycomponent: var(--td-bg-color-secondarycomponent); // 色彩 - 次级组件
+$bg-color-secondarycomponent-hover: var(--td-bg-color-secondarycomponent-hover); // 色彩 - 次级组件 - hover
+$bg-color-secondarycomponent-active: var(--td-bg-color-secondarycomponent-active); // 色彩 - 次级组件 - active
 
-$bg-color-component-disabled: var(
-  --td-bg-color-component-disabled
-); // 色彩 - 组件 - disabled
+$bg-color-component-disabled: var(--td-bg-color-component-disabled); // 色彩 - 组件 - disabled
 
 // TODO: 考虑是否在组件内部做判断，不增加额外变量
 // 特殊组件背景色，目前只用于 button、input 组件多主题场景，浅色主题下固定为白色，深色主题下为 transparent 适配背景颜色
@@ -168,9 +144,7 @@ $bg-color-specialcomponent: var(--td-bg-color-specialcomponent);
 // 文本颜色
 $text-color-primary: var(--td-text-color-primary); // 色彩-文字-主要
 $text-color-secondary: var(--td-text-color-secondary); // 色彩-文字-次要
-$text-color-placeholder: var(
-  --td-text-color-placeholder
-); // 色彩-文字-占位符/说明
+$text-color-placeholder: var(--td-text-color-placeholder); // 色彩-文字-占位符/说明
 $text-color-disabled: var(--td-text-color-disabled); // 色彩-文字-禁用
 $text-color-anti: var(--td-text-color-anti); // 色彩-文字-反色
 $text-color-brand: var(--td-text-color-brand); // 色彩-文字-品牌
@@ -197,9 +171,7 @@ $shadow-inset-top: var(--td-shadow-inset-top);
 $shadow-inset-right: var(--td-shadow-inset-right);
 $shadow-inset-bottom: var(--td-shadow-inset-bottom);
 $shadow-inset-left: var(--td-shadow-inset-left);
-$shadow-inset:
-  $shadow-inset-top, $shadow-inset-right, $shadow-inset-bottom,
-  $shadow-inset-left;
+$shadow-inset: $shadow-inset-top, $shadow-inset-right, $shadow-inset-bottom, $shadow-inset-left;
 
 // 融合阴影
 $shadow-2-inset: $shadow-2, $shadow-inset;

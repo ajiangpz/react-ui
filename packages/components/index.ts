@@ -32,6 +32,7 @@ export * from "./switch";
 // export * from './calendar';
 export * from "./form";
 export * from "./ip-input";
+export * from "./fireworks";
 // export * from './tooltip';
 // export * from './drawer';
 // export * from './progress';

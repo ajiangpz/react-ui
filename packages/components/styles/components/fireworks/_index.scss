@@ -1,0 +1,86 @@
+@import "../../_vars.scss";
+@import "./_vars.scss";
+
+.#{$prefix}-fireworks {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: $fireworks-min-height;
+  background-color: rgba(2, 6, 13, 0.9);
+  border-radius: $border-radius-large;
+  isolation: isolate;
+}
+
+.#{$prefix}-fireworks__burst {
+  position: absolute;
+  top: var(--fireworks-top, 50%);
+  left: var(--fireworks-left, 50%);
+  width: var(--fireworks-size, 140px);
+  height: var(--fireworks-size, 140px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  animation: fireworks-burst var(--fireworks-duration, 2400ms) ease-out forwards;
+  animation-delay: var(--fireworks-delay, 0ms);
+  mix-blend-mode: screen;
+}
+
+.#{$prefix}-fireworks__spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: $fireworks-spark-width;
+  height: calc(var(--fireworks-size, 140px) / 2);
+  transform-origin: center 100%;
+  transform: translate(-50%, -100%) rotate(var(--fireworks-rotate, 0deg)) scaleY($fireworks-tail-scale);
+  background: linear-gradient(
+    180deg,
+    var(--fireworks-color, $brand-color) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: $fireworks-spark-width;
+  filter: drop-shadow(0 0 $fireworks-spark-blur rgba(255, 255, 255, 0.7));
+  animation: fireworks-spark var(--fireworks-duration, 2400ms) ease-out forwards;
+  animation-delay: var(--fireworks-delay, 0ms);
+}
+
+@keyframes fireworks-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -40%) scale(0.2);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fireworks-spark {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -100%) rotate(var(--fireworks-rotate, 0deg)) scaleY($fireworks-tail-scale);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -220%) rotate(var(--fireworks-rotate, 0deg)) scaleY(1);
+  }
+}
+
