@@ -2,6 +2,7 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import { CheckProps } from "../common/Check";
 import { Checkbox } from "@tendaui/react/es/index";
 import { useState } from "react";
+import React from "react";
 
 const meta: Meta<CheckProps> = {
   title: "Components/Checkbox",
@@ -37,4 +38,17 @@ const CheckboxExample = ({ ...args }) => {
 // 基础示例
 export const Default: Story = {
   render: ({ ...args }) => <CheckboxExample {...args}></CheckboxExample>
+};
+
+export const CheckRadio: Story = {
+  render: () => (
+    <Checkbox.Group<string[]>>
+      <Checkbox checkAll>全选</Checkbox>
+      <Checkbox value="北京">北京</Checkbox>
+      <Checkbox value="上海">上海</Checkbox>
+      <Checkbox value="广州" disabled>
+        广州
+      </Checkbox>
+    </Checkbox.Group>
+  )
 };

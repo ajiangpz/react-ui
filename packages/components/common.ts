@@ -27,6 +27,7 @@ export type HorizontalAlignEnum = "left" | "center" | "right";
 export type VerticalAlignEnum = "top" | "middle" | "bottom";
 
 export type LayoutEnum = "vertical" | "horizontal";
+
 // TElement 表示 API 只接受传入组件
 export type TElement<T = undefined> = T extends undefined ? ReactElement : (props: T) => ReactElement;
 
@@ -74,3 +75,17 @@ export type PlainObject = { [key: string]: unknown };
  * @deprecated use TScroll instead
  */
 export type InfinityScroll = TScroll;
+
+export const ARROW_DOWN_REG = /^ArrowDown$/i;
+export const ARROW_UP_REG = /^ArrowUp$/i;
+export const ARROW_LEFT_REG = /^ArrowLeft$/i;
+export const ARROW_RIGHT_REG = /^ArrowRight$/i;
+export const ESCAPE_REG = /^Escape$/i;
+export const SPACE_REG = /^Space$/i;
+export const ENTER_REG = /^Enter$/i;
+export const SHIFT_REG = /^(Shift|ShiftLeft|ShiftRight)$/i;
+export const CLEAR_REG = /^KeyC$/i;
+export const ALL_REG = /^(KeyA|KeyL)$/i;
+export const CHECKED_CODE_REG = /^(Enter|Space)$/i;
+
+export const THEME_MODE = "theme-mode";
