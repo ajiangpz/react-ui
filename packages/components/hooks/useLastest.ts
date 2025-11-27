@@ -1,12 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 
 const useLatest = <T>(value: T) => {
   const ref = useRef(value);
-
-  useEffect(() => {
-    ref.current = value;
-  });
-
+  ref.current = value;
   return ref;
 };
 
