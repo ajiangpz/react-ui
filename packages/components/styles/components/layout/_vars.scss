@@ -1,0 +1,18 @@
+// 颜色
+// layout字体色
+$layout-color: $text-color-secondary;
+// layout背景色
+$layout-bg-color: $bg-color-page;
+// header背景色
+$layout-header-bg-color: $bg-color-container;
+// sider背景色
+$layout-sider-bg-color: $bg-color-container;
+// footer字体色
+$layout-footer-color: $text-color-placeholder;
+
+// 尺寸
+$layout-header-height: $comp-size-xxxl;
+$layout-sider-width: 232px;
+
+// 动画
+$layout-sider-anim-duration: $anim-duration-base;

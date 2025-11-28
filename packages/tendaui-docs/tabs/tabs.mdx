@@ -1,0 +1,20 @@
+### 如何用 react 实现 tabs 组件
+包含上部的导航栏 和 下面的内容区域
+使用方式
+
+```tsx
+<Tabs>
+  <TabPanel title="Tab 1" content="Content 1" />
+  <TabPanel title="Tab 2" content="Content 2" />
+  <TabPanel title="Tab 3" content="Content 3" />
+</Tabs>
+```
+
+导航的列表通过遍历children 获取
+tabs组件维护一个 activeId
+tabPanel根据activeId 判断是否显示
+
+
+tabBar 指的是active导航项下的横线
+可以通过transform移动位置
+宽度根据导航项的宽度和activeId的索引计算
