@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { exportCustomTheme, clearLocalTheme, generateNewTheme, DEFAULT_THEME } from "../../common/Themes";
+import { Button } from "@tendaui/components";
+import { IconSetting } from "@tendaui/icons";
+console.log(Button);
 import "./Dock.css";
 
 interface DockProps {
@@ -42,38 +45,9 @@ export default function Dock({
 
   return (
     <div className="theme-generator-dock">
-      <div className="theme-generator-dock__operation">
-        <div
-          className="generator-btn"
-          onClick={handleClickCustomize}
-          style={{
-            width: !isCustomizeDrawerVisible ? "48px" : "216px",
-            margin: "0 4px",
-            transition: "width 0.3s"
-          }}
-        >
-          <button className="dock-button">
-            <span className="dock-icon">🎨</span>
-            {isCustomizeDrawerVisible && <span style={{ marginLeft: "8px" }}>主题定制</span>}
-          </button>
-        </div>
-
-        {(isCustomizeDrawerVisible || drawerVisible) && (
-          <>
-            <div className="export-btn" onClick={handleDownload} style={{ width: "48px", margin: "0 4px" }}>
-              <button className="dock-button">
-                <span className="dock-icon">⬇️</span>
-              </button>
-            </div>
-            <div className="recover-btn" style={{ width: "48px", marginLeft: "4px" }}>
-              <button className="dock-button" onClick={handleRecover}>
-                <span className="dock-icon">↩️</span>
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+      <Button variant="outline" shape="round" onClick={handleClickCustomize} icon={<IconSetting></IconSetting>}>
+        主题定制
+      </Button>
     </div>
   );
 }
-

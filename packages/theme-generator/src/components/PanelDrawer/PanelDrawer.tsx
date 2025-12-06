@@ -1,5 +1,5 @@
-import React from "react";
 import ColorPanel from "../ColorPanel/ColorPanel";
+import { Drawer } from "@tendaui/components";
 import "./PanelDrawer.css";
 
 interface PanelDrawerProps {
@@ -12,11 +12,8 @@ export default function PanelDrawer({ drawerVisible, refresh, device = "web" }: 
   if (!drawerVisible) return null;
 
   return (
-    <div className="panel-drawer">
-      <div className="panel-drawer__content">
-        <ColorPanel isRefresh={refresh} device={device} />
-      </div>
-    </div>
+    <Drawer size="30%">
+      <ColorPanel isRefresh={refresh} device={device} />
+    </Drawer>
   );
 }
-

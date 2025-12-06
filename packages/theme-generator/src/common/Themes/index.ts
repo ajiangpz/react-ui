@@ -346,3 +346,35 @@ export function clearLocalTheme() {
   localStorage.removeItem(CUSTOM_OPTIONS_ID);
   localStorage.removeItem(CUSTOM_TOKEN_ID);
 }
+
+/**
+ * 如果不传入 `tokenName`，则返回所有的 `token` 对象
+ */
+export function getTokenFromLocal(tokenName) {
+  const tokens = localStorage.getItem(CUSTOM_TOKEN_ID);
+  if (!tokens) return;
+  const tokenObj = JSON.parse(tokens);
+  if (!tokenName) return tokenObj;
+  return tokenObj[tokenName];
+}
+
+export function collectTokenIndexes(tokenArr) {
+  const isDarkMode = document.documentElement.getAttribute("theme-mode") === "dark";
+  const targetCss = document.querySelector(isDarkMode ? `#${CUSTOM_DARK_ID}` : `#${CUSTOM_THEME_ID}`);
+  console.log(targetCss, tokenArr);
+  return tokenArr
+    .map((token) => {
+      const reg = new RegExp(`${token}:\\s*var\\((--td-[\\w-]+)\\)`, "i");
+      const match = targetCss?.textContent.match(reg);
+      console.log(reg, match);
+      if (match) {
+        return {
+          name: token,
+          idx: parseInt(match[1].match(/(\d+)$/)?.[1], 10)
+        };
+      }
+      return null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.idx - b.idx);
+}

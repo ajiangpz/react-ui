@@ -1,64 +1,162 @@
-import React from "react";
+import { useState } from "react";
+import "./ColorColumn.css";
+import { IconEdit as Edit1Icon, IconClose as ErrorCircleIcon, IconLink as LinkUnlinkIcon } from "@tendaui/icons";
+import { Popup as TPopup, ColorPicker, ColorPickerPanel } from "@tendaui/components";
+import { getTokenValue, handleAttach } from "../../../common/utils";
+import { flatten } from "lodash-es";
 import "../ColorColumn.css";
+interface TokenItem {
+  idx: number;
+  name: string;
+  isModified?: boolean;
+}
 
 interface ColorColumnProps {
   type: string;
-  colorPalette: string[];
-  originColorPalette: string[];
-  onChangeGradation: (hex: string, idx: number) => void;
-  onRecoverGradation: () => void;
-  paletteChange: boolean;
+  gradientStep: number;
+  colorPalette: TokenItem[];
+  onRecoverGradation?: (type: string) => void;
+  onChangeGradation?: (hex: string, idx: number, type: string) => void;
+  paletteChange?: boolean;
 }
 
 export default function ColorColumn({
+  type,
+  gradientStep,
   colorPalette,
-  originColorPalette,
-  onChangeGradation,
+  paletteChange,
   onRecoverGradation,
-  paletteChange
+  onChangeGradation
 }: ColorColumnProps) {
-  const handleColorChange = (hex: string, idx: number) => {
-    onChangeGradation(hex, idx);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+
+  /** 恢复 */
+  const handleRecover = () => {
+    onRecoverGradation?.(type);
   };
 
+  /** 改变某个色阶 */
+  const changeGradation = (hex: string, idx: number) => {
+    onChangeGradation?.(hex, idx, type);
+  };
+
+  const flattenColorPalette = flatten(colorPalette);
+
   return (
-    <div className="color-column">
-      <div className="color-column__header">
-        <span className="color-column__title">色阶</span>
-        {paletteChange && (
-          <button className="color-column__recover" onClick={onRecoverGradation}>
-            恢复
-          </button>
+    <div className="color-content">
+      {/* ------- 横向渐变色条 ------- */}
+      <div className="color-content__horizontal-list">
+        {!paletteChange ? (
+          <div>
+            {flattenColorPalette
+              .filter(
+                (v, i) =>
+                  v &&
+                  ((flattenColorPalette[i + 1] && v.value !== flattenColorPalette[i + 1].value) ||
+                    i === flattenColorPalette.length - 1)
+              )
+              .map((color, idx) => (
+                <div key={idx} style={{ background: color.value }} onClick={() => setActiveIdx(idx)} />
+              ))}
+          </div>
+        ) : (
+          <div className="unlink" onClick={handleRecover}>
+            <LinkUnlinkIcon size="15px" />
+            断开色阶，点击恢复
+          </div>
         )}
       </div>
-      <div className="color-column__list">
-        {colorPalette.map((color, idx) => (
-          <div key={idx} className="color-column__item">
-            <div className="color-column__item-label">{idx + 1}</div>
+
+      {/* ------- 纵向 token 列表 ------- */}
+      <div className="color-content__vertical-list">
+        {/* 小箭头 */}
+        <span
+          className="current-arrow"
+          style={{
+            left: `${activeIdx * (type === "gray" ? 16 : 23) + (type === "gray" ? 5 : 8)}px`
+          }}
+        />
+
+        {/* 激活 tab 背景 */}
+        {(() => {
+          const paletteItemsWithName = flattenColorPalette.filter((v) => !!v.name);
+
+          const top = paletteItemsWithName.findIndex((v) => v.idx === activeIdx) * 44 + 4;
+          const height = paletteItemsWithName.filter((v) => v.idx === activeIdx).length * 44;
+
+          return (
             <div
-              className="color-column__item-color"
-              style={{ backgroundColor: color }}
-              onClick={() => {
-                const input = document.createElement("input");
-                input.type = "color";
-                input.value = color;
-                input.onchange = (e) => {
-                  const target = e.target as HTMLInputElement;
-                  handleColorChange(target.value, idx);
-                };
-                input.click();
+              className="active-tab"
+              style={{
+                top: `${top}px`,
+                height: `${height}px`
               }}
             />
-            <input
-              type="text"
-              className="color-column__item-input"
-              value={color}
-              onChange={(e) => handleColorChange(e.target.value, idx)}
-            />
-          </div>
-        ))}
+          );
+        })()}
+
+        {/* token 列表 */}
+        {flatten(colorPalette)
+          .filter((v) => !!v.name)
+          .map((color, index) => (
+            <div key={index}>
+              <TPopup
+                placement="left"
+                showArrow
+                trigger="click"
+                destroyOnClose
+                attach={handleAttach}
+                overlayStyle={{ borderRadius: "9px" }}
+                content={
+                  <ColorPickerPanel
+                    format="HEX"
+                    value={getTokenValue(color.name)}
+                    onChange={(hex) => changeGradation(hex, color.idx)}
+                  />
+                }
+              >
+                <div
+                  className="block"
+                  style={{
+                    border: "1px solid var(--theme-component-border)",
+                    backgroundColor: color.value,
+                    minWidth: "32px",
+                    height: "32px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "var(--text-anti)"
+                  }}
+                  onMouseEnter={() => setHoverIdx(index)}
+                  onMouseLeave={() => setHoverIdx(null)}
+                >
+                  {hoverIdx === index && <Edit1Icon />}
+                </div>
+              </TPopup>
+
+              {/* 文本部分 */}
+              {color.name && (
+                <div className="color-content__vertical-list-content" onClick={() => setActiveIdx(color.idx)}>
+                  <div className="color-content__vertical-list-title" title={color.name}>
+                    {color.name.replace("--td-", "")}
+                  </div>
+                  <div className="color-content__vertical-list-subtitle">
+                    <span>
+                      {type}
+                      {color.idx}&nbsp;
+                    </span>
+                    <span>{getTokenValue(color.name)}</span>
+                  </div>
+
+                  {color.isModified && <ErrorCircleIcon className="error-icon" />}
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );
 }
-

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Dock from "./Dock/Dock";
-import PanelDrawer from "./PanelDrawer/PanelDrawer";
+import ColorPanel from "./ColorPanel/ColorPanel";
+import { Drawer } from "@tendaui/components";
 import { applyThemeFromLocal, generateNewTheme, getOptionFromLocal, DEFAULT_THEME } from "../common/Themes";
 import "./ThemeGenerator.css";
 
@@ -12,7 +13,6 @@ interface ThemeGeneratorProps {
 export default function ThemeGenerator({ device = "web", showSetting = false }: ThemeGeneratorProps) {
   const [visible, setVisible] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [theme, setTheme] = useState(DEFAULT_THEME);
 
   useEffect(() => {
     const localTheme = getOptionFromLocal("color") ?? DEFAULT_THEME.value;
@@ -24,16 +24,8 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
     setVisible(true);
   };
 
-  const handleDrawerVisible = (v: boolean) => {
-    setVisible(v);
-  };
-
   const handleRefreshContent = () => {
     setRefresh(!refresh);
-  };
-
-  const handleChangeTheme = (newTheme: typeof theme) => {
-    setTheme(newTheme);
   };
 
   return (
@@ -45,8 +37,16 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
         showSetting={showSetting}
         device={device}
       />
-      <PanelDrawer drawerVisible={visible} refresh={refresh} device={device} />
+      <Drawer
+        size="311px"
+        visible={visible}
+        onClose={() => {
+          setVisible(false);
+        }}
+        onConfirm={() => setVisible(false)}
+      >
+        <ColorPanel isRefresh={refresh} device={device} />
+      </Drawer>
     </div>
   );
 }
-

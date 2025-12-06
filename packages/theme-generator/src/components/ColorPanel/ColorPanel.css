@@ -7,13 +7,12 @@
 }
 
 .color-panel__content {
-  padding: 16px;
   max-height: 80vh;
   overflow-y: auto;
 }
 
 .color-panel__main {
-  padding: 12px 4px 16px 16px;
+  padding: 12px 4px 16px 12px;
 }
 
 .color-panel__title {
@@ -74,4 +73,3 @@
     background-position: 100% 50%;
   }
 }
-
