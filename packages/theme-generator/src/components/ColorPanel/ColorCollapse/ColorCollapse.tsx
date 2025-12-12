@@ -1,7 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
 import { IconEdit as Edit1Icon, IconCopy as FileCopyIcon } from "@tendaui/icons";
 import { flatten } from "lodash-es";
+import ArrowIcon from "@tendaui/components/common/FakeArrow";
+import { CSSTransition } from "react-transition-group";
+
+console.log(ArrowIcon);
 import "./ColorCollapse.css";
 
 const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor, children }) => {
@@ -20,7 +24,8 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
     () => flatten(colorPalette).find((v) => v.type === "main" || v.type === "gray")?.value,
     [colorPalette]
   );
-  console.log(mainColorVal);
+  const nodeRef = useRef(null);
+
   return (
     <div className="color-collapse">
       <div className="color-collapse__header">
@@ -33,7 +38,13 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
           hideEmptyPopup
           overlayStyle={{ borderRadius: "9px" }}
           content={
-            <ColorPickerPanel format="HEX" value={mainColorVal} onChange={(hex) => onChangeMainColor(hex, type)} />
+            <ColorPickerPanel
+              format="HEX"
+              defaultValue={mainColorVal}
+              onChange={(hex) => {
+                onChangeMainColor(hex, type);
+              }}
+            />
           }
         >
           <div
@@ -75,20 +86,50 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
             </Popup>
           </div>
         </div>
+        {/* 箭头 */}
+        <div onClick={() => setIsActive((prev) => !prev)}>
+          <ArrowIcon isActive={isActive} overlayClassName="color-collapse__arrow" />
+        </div>
       </div>
 
       {/* 折叠内容 */}
-      <div
-        className="collapse-content"
-        style={{
-          maxHeight: isActive ? "500px" : "0px",
-          overflow: "hidden",
-          padding: "4px",
-          transition: "max-height 0.25s ease"
+      <CSSTransition
+        in={isActive}
+        timeout={300}
+        classNames="collapse"
+        unmountOnExit
+        mountOnEnter
+        nodeRef={nodeRef}
+        onEnter={() => {
+          const el = nodeRef.current! as HTMLElement;
+          el.style.height = "0px";
+          el.style.overflow = "hidden";
+        }}
+        onEntering={() => {
+          const el = nodeRef.current! as HTMLElement;
+          el.style.height = el.scrollHeight + "px";
+          el.style.overflow = "hidden";
+        }}
+        onEntered={() => {
+          const el = nodeRef.current! as HTMLElement;
+          el.style.height = "auto";
+          el.style.overflow = "";
+        }}
+        onExit={() => {
+          const el = nodeRef.current! as HTMLElement;
+          el.style.height = el.scrollHeight + "px";
+          el.style.overflow = "hidden";
+        }}
+        onExiting={() => {
+          const el = nodeRef.current! as HTMLElement;
+          el.style.height = "0px";
+          el.style.overflow = "hidden";
         }}
       >
-        {children}
-      </div>
+        <div ref={nodeRef} style={{ transition: "height 300ms ease", overflow: "hidden" }}>
+          {children}
+        </div>
+      </CSSTransition>
     </div>
   );
 };

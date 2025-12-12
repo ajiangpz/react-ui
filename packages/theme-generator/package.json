@@ -17,7 +17,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tvision-color": "^1.6.0",
-    "cssbeautify": "^0.3.1"
+    "cssbeautify": "^0.3.1",
+    "@tendaui/components": "workspace:*",
+    "@tendaui/icons": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

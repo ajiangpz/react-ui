@@ -6,15 +6,26 @@ import {
   DEFAULT_THEME,
   generateTokenList
 } from "../../common/Themes";
-import { ColorPicker } from "@tendaui/components";
+import { Popup, ColorPickerPanel } from "@tendaui/components";
 import ColorColumn from "./ColorColumn/ColorColumn";
 import ColorCollapse from "./ColorCollapse/ColorCollapse";
-import { BRAND_COLOR_MAP, ERROR_COLOR_MAP, GRAY_COLOR_MAP, SUCCESS_COLOR_MAP, WARNING_COLOR_MAP } from "./utils/const";
+import {
+  BRAND_COLOR_MAP,
+  ERROR_COLOR_MAP,
+  GRAY_COLOR_MAP,
+  SUCCESS_COLOR_MAP,
+  WARNING_COLOR_MAP,
+  DEFAULT_COLOR
+} from "./utils/const";
 import "./ColorPanel.css";
 import { isEqual } from "lodash-es";
+import { Color } from "tvision-color";
+import { IconEdit as Edit1Icon } from "@tendaui/icons";
+import classNames from "classnames";
 interface ColorPanelProps {
   isRefresh?: boolean;
   device?: string;
+  top?: number;
 }
 
 export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProps) {
@@ -26,6 +37,11 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
   const [initSuccessColorPalette, setSuccessInitColorPalette] = useState<string[]>([]);
   const [errorColorPalette, setErrorColorPalette] = useState<string[]>([]);
   const [initErrorColorPalette, setInitErrorColorPalette] = useState<string[]>([]);
+  const [warningColorPalette, setWarningColorPalette] = useState<string[]>([]);
+  const [initWarningColorPalette, setInitWarningColorPalette] = useState<string[]>([]);
+  const [grayColorPalette, setGrayColorPalette] = useState<string[]>([]);
+  const [initGrayColorPalette, setInitGrayColorPalette] = useState<string[]>([]);
+  const themes = DEFAULT_COLOR;
   const [generateMode, setGenerateMode] = useState<"remain" | "recommend">("remain");
   // 获取当前色板
   const getCurrentPalette = useCallback(
@@ -80,7 +96,10 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     },
     [currentBrandIdx]
   );
-
+  const changeColor = (hex: string) => {
+    setCurrentThemeColor(hex);
+    handleNewColorGeneration(hex);
+  };
   // 设置色板
   const setPalette = useCallback(() => {
     const palette = getCurrentPalette();
@@ -92,6 +111,12 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     const errorPalette = getCurrentPalette("error");
     setInitErrorColorPalette(JSON.parse(JSON.stringify(errorPalette)));
     setErrorColorPalette([...errorPalette]);
+    const warningPalette = getCurrentPalette("warning");
+    setInitWarningColorPalette(JSON.parse(JSON.stringify(warningPalette)));
+    setWarningColorPalette([...warningPalette]);
+    const grayPalette = getCurrentPalette("gray");
+    setInitGrayColorPalette(JSON.parse(JSON.stringify(grayPalette)));
+    setGrayColorPalette([...grayPalette]);
   }, [getCurrentPalette]);
 
   useEffect(() => {
@@ -105,15 +130,10 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (isRefresh) {
-  //     setPalette();
-  //   }
-  // }, [isRefresh]);
-
   const handleNewColorGeneration = (hex: string) => {
     setCurrentThemeColor(hex);
     const result = generateNewTheme(hex, generateMode === "remain", device);
+    console.log(result.colorPalette);
     setCurrentBrandIdx(result.brandColorIdx);
     setColorPalette(result.colorPalette);
     setInitColorPalette([...result.colorPalette]);
@@ -125,6 +145,8 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     if (type === "brand") palette = initColorPalette;
     if (type === "error") palette = initErrorColorPalette;
     if (type === "success") palette = initSuccessColorPalette;
+    if (type === "warning") palette = initWarningColorPalette;
+    if (type === "gray") palette = initGrayColorPalette;
     const diffPalette = palette.filter((v, i) => JSON.stringify(v) !== JSON.stringify(modifiedPalette[i]));
     diffPalette.forEach((v) => {
       if (v instanceof Array) {
@@ -137,8 +159,7 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
   };
 
   const changeMainColor = (v: string, type: string) => {
-    console.log("changeMainColor");
-    const { colorPalette } = generateTokenList(v, false, type !== "gray" ? 10 : 14);
+    const { colorPalette } = generateTokenList(v, false, type !== "gray" ? 10 : 14, true);
     let newPalette = [];
     let newInitPalette = [];
     if (type === "success") {
@@ -149,6 +170,14 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
       newPalette = JSON.parse(JSON.stringify(errorColorPalette));
       newInitPalette = JSON.parse(JSON.stringify(initErrorColorPalette));
     }
+    if (type === "warning") {
+      newPalette = JSON.parse(JSON.stringify(warningColorPalette));
+      newInitPalette = JSON.parse(JSON.stringify(initWarningColorPalette));
+    }
+    if (type === "gray") {
+      newPalette = JSON.parse(JSON.stringify(grayColorPalette));
+      newInitPalette = JSON.parse(JSON.stringify(initGrayColorPalette));
+    }
     colorPalette.forEach((v, i) => {
       if (newPalette[i] && !(newPalette[i] instanceof Array)) {
         newPalette[i].value = v;
@@ -158,7 +187,6 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
         newPalette[i].forEach((p) => {
           p.value = v;
         });
-
         newInitPalette[i].forEach((p) => {
           p.value = v;
         });
@@ -173,13 +201,21 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
       setErrorColorPalette(newPalette);
       setInitErrorColorPalette(newInitPalette);
     }
+    if (type === "warning") {
+      setWarningColorPalette(newPalette);
+      setInitWarningColorPalette(newInitPalette);
+    }
+    if (type === "gray") {
+      setGrayColorPalette(newPalette);
+      setInitGrayColorPalette(newInitPalette);
+    }
   };
 
   useEffect(() => {
     Promise.resolve().then(() => {
       setPalette();
     });
-  }, [setPalette]);
+  }, [setPalette, currentThemeColor, isRefresh]);
 
   const changeGradation = (hex, idx, type, saveToLocal = true) => {
     if (!colorPalette[idx]) return;
@@ -187,86 +223,210 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
       if (colorPalette[idx] instanceof Array) {
         setColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
       } else {
-        setColorPalette((prev) => {
-          prev[idx].value = hex;
-          return { ...prev };
-        });
+        setColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
       }
     }
 
     if (type === "success") {
-      console.log("setSuccessColorPalette2");
       setSuccessColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
     }
     if (type === "error") {
       setErrorColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
     }
+    if (type === "warning") {
+      setWarningColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+    }
+    if (type === "gray") {
+      setGrayColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+    }
 
     const tokenName = `--td-${type}-color-${idx + 1}`;
     modifyToken(tokenName, hex, saveToLocal);
   };
-  const isColorPaletteChange = useMemo(() => isEqual(colorPalette, initColorPalette), [colorPalette, initColorPalette]);
   const isSuccessColorPaletteChange = useMemo(
-    () => isEqual(successColorPalette, initSuccessColorPalette),
+    () => !isEqual(successColorPalette, initSuccessColorPalette),
     [successColorPalette, initSuccessColorPalette]
   );
   const isErrorColorPaletteChange = useMemo(
-    () => isEqual(errorColorPalette, initErrorColorPalette),
+    () => !isEqual(errorColorPalette, initErrorColorPalette),
     [errorColorPalette, initErrorColorPalette]
   );
+  const isWarningColorPaletteChange = useMemo(
+    () => !isEqual(warningColorPalette, initWarningColorPalette),
+    [warningColorPalette, initWarningColorPalette]
+  );
+  const isGrayColorPaletteChange = useMemo(
+    () => !isEqual(grayColorPalette, initGrayColorPalette),
+    [grayColorPalette, initGrayColorPalette]
+  );
+
+  const themeColorHsv = useMemo(() => {
+    return `(${Color.colorTransform(currentThemeColor, "hex", "hsv").join(",")})`;
+  }, [currentThemeColor]);
+
+  const themeColorRgb = useMemo(() => {
+    return `(${Color.colorTransform(currentThemeColor, "hex", "rgb").join(",")})`;
+  }, [currentThemeColor]);
+
+  // const headerHeight = getComputedStyle(document.documentElement).getPropertyValue("--header-height");
+  // console.log(headerHeight);
+  // if (headerHeight) setTop(() => 56 - window.scrollY);
+  // setTop(() => 56 - window.scrollY);
   return (
-    <div className="color-panel">
-      <div className="color-panel__content">
-        <div className="color-panel__main">
+    <div style={{ width: 268, background: "var(--bg-color-card)", borderRadius: "12px" }}>
+      <div
+        className="color-content__content"
+        style={{ overflowY: "auto", height: window.innerHeight - (56 + 32 - window.scrollY) + "px" }}
+      >
+        <div className="color-content__main">
           <p className="color-panel__title">主题色</p>
-
-          {/* 自定义颜色选择器 */}
-          <div className="color-panel__custom">
-            <ColorPicker
-              value={currentThemeColor}
-              format="HEX"
-              onChange={(v) => {
-                console.log(v);
-                handleNewColorGeneration(v);
-              }}
-            />
+          <div className="color-content__flex">
+            {themes.slice(0, 3).map((theme, index) => {
+              return (
+                <div
+                  key={index}
+                  className={classNames([
+                    "color-content__block",
+                    {
+                      "is-active": currentThemeColor.toLocaleLowerCase() === theme.value.toLocaleLowerCase()
+                    }
+                  ])}
+                  style={{ paddingBottom: "4px", color: "'var(--text-secondary)'" }}
+                >
+                  <div
+                    className={classNames({
+                      "is-active": currentThemeColor.toLocaleLowerCase() === theme.value.toLocaleLowerCase()
+                    })}
+                    onClick={() => handleNewColorGeneration(theme.value)}
+                  >
+                    <div
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        border: "1px solid var(--theme-component-border)",
+                        borderRadius: "6px",
+                        backgroundColor: theme.value
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <ColorCollapse
-            title="成功色"
-            type="primary"
-            colorPalette={successColorPalette}
-            paletteChange={isSuccessColorPaletteChange}
-            disabled={false}
-            onChangeMainColor={changeMainColor}
+          <Popup
+            placement="bottom-left"
+            showArrow
+            trigger="click"
+            destroyOnClose={true}
+            overlayStyle={{ borderRadius: "9px" }}
+            content={
+              <ColorPickerPanel defaultValue={currentThemeColor} format="HEX" onChange={changeColor}></ColorPickerPanel>
+            }
           >
-            <ColorColumn
-              type="success"
-              gradientStep={10}
-              colorPalette={successColorPalette}
-              originColorPalette={initSuccessColorPalette}
-              onChangeGradation={changeGradation}
-              onRecoverGradation={recoverGradation}
-            />
-          </ColorCollapse>
-
-          <ColorCollapse
-            title="错误色"
-            type="error"
-            colorPalette={errorColorPalette}
-            paletteChange={isErrorColorPaletteChange}
-            disabled={false}
-            onChangeMainColor={changeMainColor}
-          >
-            <ColorColumn
-              type="error"
-              gradientStep={10}
-              colorPalette={errorColorPalette}
-              originColorPalette={initErrorColorPalette}
-              onChangeGradation={changeGradation}
-              onRecoverGradation={recoverGradation}
-            />
-          </ColorCollapse>
+            <div className="color-content__custom">
+              <div className="color-content__custom-inner">
+                <div
+                  className="color-content__custom-top"
+                  style={{
+                    width: "100%",
+                    borderRadius: "6px",
+                    backgroundColor: currentThemeColor
+                  }}
+                >
+                  {" "}
+                  <p>hsv: {themeColorHsv}</p>
+                  <p>rgba: {themeColorRgb}</p>
+                </div>
+                <div className="color-content__custom-bottom">
+                  <div>
+                    <p>自定义主题颜色</p>
+                    <p style={{ color: "var(--text-secondary)" }}>HEX: {currentThemeColor}</p>
+                  </div>
+                  <Edit1Icon size="20" style={{ marginRight: "8px", color: "var(--text-primary)" }} />
+                </div>
+              </div>
+            </div>
+          </Popup>
+          <ColorColumn
+            type="brand"
+            colorPalette={colorPalette}
+            originColorPalette={initColorPalette}
+            onChangeGradation={changeGradation}
+            onRecoverGradation={recoverGradation}
+          />
         </div>
+
+        <ColorCollapse
+          title="成功色"
+          type="success"
+          colorPalette={successColorPalette}
+          paletteChange={isSuccessColorPaletteChange}
+          disabled={false}
+          onChangeMainColor={changeMainColor}
+        >
+          <ColorColumn
+            type="success"
+            gradientStep={10}
+            colorPalette={successColorPalette}
+            originColorPalette={initSuccessColorPalette}
+            onChangeGradation={changeGradation}
+            onRecoverGradation={recoverGradation}
+          />
+        </ColorCollapse>
+
+        <ColorCollapse
+          title="错误色"
+          type="error"
+          colorPalette={errorColorPalette}
+          paletteChange={isErrorColorPaletteChange}
+          disabled={false}
+          onChangeMainColor={changeMainColor}
+        >
+          <ColorColumn
+            type="error"
+            gradientStep={10}
+            colorPalette={errorColorPalette}
+            originColorPalette={initErrorColorPalette}
+            onChangeGradation={changeGradation}
+            onRecoverGradation={recoverGradation}
+          />
+        </ColorCollapse>
+
+        <ColorCollapse
+          title="警告色"
+          type="warning"
+          colorPalette={warningColorPalette}
+          paletteChange={isWarningColorPaletteChange}
+          disabled={false}
+          onChangeMainColor={changeMainColor}
+        >
+          <ColorColumn
+            type="warning"
+            gradientStep={10}
+            colorPalette={warningColorPalette}
+            originColorPalette={initWarningColorPalette}
+            onChangeGradation={changeGradation}
+            onRecoverGradation={recoverGradation}
+          />
+        </ColorCollapse>
+
+        <ColorCollapse
+          title="中性色"
+          type="gray"
+          colorPalette={grayColorPalette}
+          paletteChange={isGrayColorPaletteChange}
+          disabled={false}
+          onChangeMainColor={changeMainColor}
+        >
+          <ColorColumn
+            type="gray"
+            gradientStep={14}
+            colorPalette={grayColorPalette}
+            originColorPalette={initGrayColorPalette}
+            onChangeGradation={changeGradation}
+            onRecoverGradation={recoverGradation}
+          />
+        </ColorCollapse>
       </div>
     </div>
   );

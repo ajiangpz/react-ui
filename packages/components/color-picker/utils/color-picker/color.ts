@@ -453,6 +453,7 @@ export const getColorObject = (color: Color): ColorObject | null => {
   if (!color) {
     return null;
   }
+  console.log(color);
   const colorObject = Object.create(null);
   COLOR_OBJECT_OUTPUT_KEYS.forEach((key) => {
     colorObject[key] = (color as { [key: string]: any })[key];

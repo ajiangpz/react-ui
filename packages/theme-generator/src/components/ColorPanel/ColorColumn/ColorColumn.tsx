@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import "./ColorColumn.css";
 import { IconEdit as Edit1Icon, IconClose as ErrorCircleIcon, IconLink as LinkUnlinkIcon } from "@tendaui/icons";
-import { Popup as TPopup, ColorPicker, ColorPickerPanel } from "@tendaui/components";
+import { Popup as TPopup, ColorPickerPanel } from "@tendaui/components";
 import { getTokenValue, handleAttach } from "../../../common/utils";
 import { flatten } from "lodash-es";
 import "../ColorColumn.css";
@@ -41,7 +41,7 @@ export default function ColorColumn({
     onChangeGradation?.(hex, idx, type);
   };
 
-  const flattenColorPalette = flatten(colorPalette);
+  const flattenColorPalette = useMemo(() => flatten(colorPalette), [colorPalette]);
 
   return (
     <div className="color-content">
@@ -74,7 +74,7 @@ export default function ColorColumn({
         <span
           className="current-arrow"
           style={{
-            left: `${activeIdx * (type === "gray" ? 16 : 23) + (type === "gray" ? 5 : 8)}px`
+            left: `${activeIdx * (type === "gray" ? 16.88 : 23.62) + (type === "gray" ? 5 : 8)}px`
           }}
         />
 
@@ -97,7 +97,7 @@ export default function ColorColumn({
         })()}
 
         {/* token 列表 */}
-        {flatten(colorPalette)
+        {flattenColorPalette
           .filter((v) => !!v.name)
           .map((color, index) => (
             <div key={index}>

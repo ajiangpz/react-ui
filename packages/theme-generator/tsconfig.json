@@ -19,9 +19,15 @@
     "declarationMap": true,
     "outDir": "./dist",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tendaui/components": ["../components"],
+      "@tendaui/components/*": ["../components/*"],
+      "@tendaui/icons": ["../tendaui-icons"],
+      "@tendaui/icons/*": ["../tendaui-icons/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
-

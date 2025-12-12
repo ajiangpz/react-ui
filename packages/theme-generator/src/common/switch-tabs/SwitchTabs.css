@@ -1,0 +1,59 @@
+.switch-tabs {
+  width: 72px;
+  height: 100%;
+  position: sticky;
+  top: 0;
+}
+
+.switch-tabs__panel {
+  padding: 0px 8px;
+  position: relative;
+}
+
+.switch-tabs__panel .border {
+  position: absolute;
+  width: 3px;
+  height: 80px;
+  left: 0;
+  top: 0;
+  background: var(--td-brand-color);
+  border-radius: 0px 9px 9px 0px;
+  transition: top 0.2s;
+}
+
+.switch-tabs__panel-content {
+  cursor: pointer;
+  text-align: center;
+  height: 80px;
+  width: 56px;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: all 0.2s linear;
+}
+
+.switch-tabs__panel-content:hover {
+  background-color: var(--bg-color-card);
+}
+
+.switch-tabs__panel-content > div:not(.border) {
+  height: 48px;
+  width: 48px;
+}
+
+.switch-tabs__panel-content > p {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--text-primary);
+}
+
+.switch-tabs__panel-content svg {
+  border-radius: 9px;
+  font-size: 48px;
+}
+
+.switch-tabs__panel-content--active {
+  background-color: var(--bg-color-card);
+}
+

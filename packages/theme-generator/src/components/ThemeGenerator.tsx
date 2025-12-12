@@ -4,13 +4,22 @@ import ColorPanel from "./ColorPanel/ColorPanel";
 import { Drawer } from "@tendaui/components";
 import { applyThemeFromLocal, generateNewTheme, getOptionFromLocal, DEFAULT_THEME } from "../common/Themes";
 import "./ThemeGenerator.css";
-
+import SwitchTabs from "../common/switch-tabs";
 interface ThemeGeneratorProps {
   device?: string;
   showSetting?: boolean;
 }
 
+const activeTabMap: Record<string, number> = {
+  color: 0,
+  font: 1,
+  radius: 2,
+  shadow: 3,
+  size: 4
+};
+
 export default function ThemeGenerator({ device = "web", showSetting = false }: ThemeGeneratorProps) {
+  const [activeTabIdx, setActiveTabIdx] = useState<number>(activeTabMap.color);
   const [visible, setVisible] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
@@ -38,14 +47,19 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
         device={device}
       />
       <Drawer
-        size="311px"
+        size="348px"
         visible={visible}
         onClose={() => {
           setVisible(false);
         }}
         onConfirm={() => setVisible(false)}
+        footer={false}
+        closeOnOverlayClick={true}
       >
-        <ColorPanel isRefresh={refresh} device={device} />
+        <div style={{ display: "flex", paddingTop: "8px" }}>
+          <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx}></SwitchTabs>
+          <ColorPanel isRefresh={refresh} device={device} />
+        </div>
       </Drawer>
     </div>
   );
