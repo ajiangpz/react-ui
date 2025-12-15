@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from "react";
 import classNames from "classnames";
 import { isFunction, isNumber, isString } from "lodash-es";
 
-import { largeNumberToFixed } from "@tdesign/common-js/input-number/large-number";
+import { largeNumberToFixed } from "@tendaui/utils/js/input-number/large-number";
 import { accAdd, numberToPercent } from "../utils/number";
 import useConfig from "../hooks/useConfig";
 import useControlled from "../hooks/useControlled";

@@ -1,24 +1,15 @@
 import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import useMouseEvent, { type MouseCallback } from "../hooks/useMouseEvent";
-import Tooltip from "../tooltip/Tooltip";
-import type { TdTooltipProps } from "../tooltip/type";
 
 interface SliderHandleButtonProps {
   onChange: (event: MouseCallback) => void;
   classPrefix: string;
   style: React.CSSProperties;
-  toolTipProps: TdTooltipProps;
   hideTips: boolean;
 }
 
-const SliderHandleButton: React.FC<SliderHandleButtonProps> = ({
-  onChange,
-  style,
-  classPrefix,
-  toolTipProps,
-  hideTips
-}) => {
+const SliderHandleButton: React.FC<SliderHandleButtonProps> = ({ onChange, style, classPrefix }) => {
   const sliderNodeRef = useRef<HTMLDivElement>(null);
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -52,13 +43,7 @@ const SliderHandleButton: React.FC<SliderHandleButtonProps> = ({
     </div>
   );
 
-  return hideTips ? (
-    handleNode
-  ) : (
-    <Tooltip visible={popupVisible} placement="top" {...toolTipProps}>
-      {handleNode}
-    </Tooltip>
-  );
+  return handleNode;
 };
 
 export default SliderHandleButton;
