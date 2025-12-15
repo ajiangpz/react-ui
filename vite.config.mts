@@ -13,7 +13,9 @@ export default defineConfig({
       "@tendaui/icons": path.resolve(_dirname, "./packages/tendaui-icons"),
       "@tendaui/icons/*": path.resolve(_dirname, "./packages/tendaui-icons"),
       "@tendaui/react": path.resolve(_dirname, "./packages/tendaui-react"),
-      "@tendaui/react/*": path.resolve(_dirname, "./packages/tendaui-react")
+      "@tendaui/react/*": path.resolve(_dirname, "./packages/tendaui-react"),
+      "@tendaui/utils": path.resolve(_dirname, "./packages/utils"),
+      "@tendaui/utils/*": path.resolve(_dirname, "./packages/utils/*")
     }
   }
 });
