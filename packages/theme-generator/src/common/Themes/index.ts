@@ -1,9 +1,12 @@
+/* eslint-env browser */
 import { Color } from "tvision-color";
 import cssbeautify from "cssbeautify";
 
 // 样式表 ID
 export const CUSTOM_THEME_ID = "custom-theme";
 export const CUSTOM_DARK_ID = `${CUSTOM_THEME_ID}-dark`;
+export const CUSTOM_EXTRA_ID = `${CUSTOM_THEME_ID}-extra`;
+export const CUSTOM_COMMON_ID_PREFIX = `${CUSTOM_THEME_ID}-common`;
 
 // localStorage key
 export const CUSTOM_OPTIONS_ID = `${CUSTOM_THEME_ID}-options`;
@@ -177,7 +180,7 @@ export function generateTokenList(
 /**
  * 生成新主题
  */
-export function generateNewTheme(hex: string, remainInput = true, device = "web") {
+export function generateNewTheme(hex: string, remainInput = true, _device = "web") {
   updateLocalOption("color", hex, hex !== DEFAULT_THEME.value);
 
   const styleSheet = appendStyleSheet(CUSTOM_THEME_ID);
@@ -198,7 +201,7 @@ export function generateNewTheme(hex: string, remainInput = true, device = "web"
 /**
  * 导出主题为 CSS
  */
-export function exportCustomTheme(device = "web") {
+export function exportCustomTheme(_device = "web") {
   const styleSheet = document.getElementById(CUSTOM_THEME_ID);
   const darkStyleSheet = document.getElementById(CUSTOM_DARK_ID);
 
@@ -215,7 +218,7 @@ export function exportCustomTheme(device = "web") {
   `;
 
   const beautifyCssString = cssbeautify(finalCssString.trim());
-  const blob = new Blob([beautifyCssString], { type: "text/css" });
+  const blob = new window.Blob([beautifyCssString], { type: "text/css" });
   downloadFile(blob, "theme.css");
 }
 
@@ -230,21 +233,24 @@ export function extractRootContent(cssText: string): string {
 /**
  * 下载文件
  */
-export function downloadFile(blob: Blob, fileName: string) {
-  const url = URL.createObjectURL(blob);
+export function downloadFile(blob: globalThis.Blob, fileName: string) {
+  const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = fileName;
   a.click();
-  URL.revokeObjectURL(url);
+  window.URL.revokeObjectURL(url);
 }
 
 /**
  * 修改 Token
  */
 export function modifyToken(tokenName: string, newVal: string, saveToLocal = true) {
-  const styleSheets = document.querySelectorAll(`#${CUSTOM_THEME_ID}, #${CUSTOM_DARK_ID}`);
-
+  // 获取所有可能包含 token 的样式表
+  const styleSheets = document.querySelectorAll(
+    `#${CUSTOM_THEME_ID}, #${CUSTOM_DARK_ID}, #${CUSTOM_EXTRA_ID}, [id^="${CUSTOM_COMMON_ID_PREFIX}-"]`
+  );
+  console.log(styleSheets);
   let tokenFound = false;
 
   styleSheets.forEach((styleSheet) => {
@@ -252,7 +258,7 @@ export function modifyToken(tokenName: string, newVal: string, saveToLocal = tru
     const match = (styleSheet as HTMLStyleElement).textContent?.match(reg);
 
     if (!match) return;
-    if (match[1] === newVal) {
+    if (match[1].trim() === newVal.trim()) {
       tokenFound = true;
       return;
     }
@@ -350,7 +356,7 @@ export function clearLocalTheme() {
 /**
  * 如果不传入 `tokenName`，则返回所有的 `token` 对象
  */
-export function getTokenFromLocal(tokenName) {
+export function getTokenFromLocal(tokenName?: string) {
   const tokens = localStorage.getItem(CUSTOM_TOKEN_ID);
   if (!tokens) return;
   const tokenObj = JSON.parse(tokens);
@@ -358,23 +364,24 @@ export function getTokenFromLocal(tokenName) {
   return tokenObj[tokenName];
 }
 
-export function collectTokenIndexes(tokenArr) {
+type TokenIndex = { name: string; idx: number };
+
+export function collectTokenIndexes(tokenArr: string[]): TokenIndex[] {
   const isDarkMode = document.documentElement.getAttribute("theme-mode") === "dark";
   const targetCss = document.querySelector(isDarkMode ? `#${CUSTOM_DARK_ID}` : `#${CUSTOM_THEME_ID}`);
-  console.log(targetCss, tokenArr);
-  return tokenArr
-    .map((token) => {
-      const reg = new RegExp(`${token}:\\s*var\\((--td-[\\w-]+)\\)`, "i");
-      const match = targetCss?.textContent.match(reg);
-      console.log(reg, match);
-      if (match) {
-        return {
+  const result = tokenArr.reduce<TokenIndex[]>((acc, token) => {
+    const reg = new RegExp(`${token}:\\s*var\\((--td-[\\w-]+)\\)`, "i");
+    const match = targetCss?.textContent?.match(reg);
+    if (match && match[1]) {
+      const idxMatch = match[1].match(/(\d+)$/);
+      if (idxMatch && idxMatch[1]) {
+        acc.push({
           name: token,
-          idx: parseInt(match[1].match(/(\d+)$/)?.[1], 10)
-        };
+          idx: parseInt(idxMatch[1], 10)
+        });
       }
-      return null;
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.idx - b.idx);
+    }
+    return acc;
+  }, []);
+  return result.sort((a, b) => a.idx - b.idx);
 }

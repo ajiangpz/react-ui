@@ -1,0 +1,113 @@
+.segment-panel {
+  &__round {
+    display: flex;
+    height: 32px;
+
+    > div {
+      display: flex;
+      background-color: var(--bg-color-theme-secondary);
+      margin-right: 2px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.disabled {
+      :global(.t-slider__button) {
+        border-color: var(--bg-color-tag);
+        background-color: var(--bg-color-theme-surface);
+      }
+    }
+  }
+
+  &__round-tag {
+    height: 100%;
+    width: 32px;
+    color: var(--text-primary);
+    position: relative;
+
+    &:first-child {
+      border-radius: 9px 0 0 9px;
+    }
+
+    &:last-child {
+      border-radius: 0 9px 9px 0;
+      margin-right: 0;
+    }
+  }
+
+  &__round-slider {
+    width: 76px;
+    padding: 6px;
+    position: relative;
+    display: flex;
+    justify-content: space-between !important;
+
+    .slider-split {
+      background-color: var(--bg-color-theme-secondary);
+      width: 2px;
+      height: 8px;
+      z-index: 2;
+    }
+
+    :global(.t-slider__container) {
+      position: absolute;
+      top: 6px;
+      width: 60px;
+      left: 8px;
+    }
+
+    :global(.t-slider) {
+      padding: 6px 0;
+    }
+
+    :global(.t-slider__rail) {
+      height: 8px;
+      background-color: var(--bg-color-theme-tertiary);
+    }
+
+    :global(.t-slider__track) {
+      height: 8px;
+    }
+
+    :global(.t-slider__button) {
+      box-shadow: var(--shadow-1);
+    }
+  }
+
+  &__select {
+    text-align: center;
+    padding: 0;
+    margin-left: 8px;
+    width: 82px;
+
+    :global(.t-input) {
+      background: var(--bg-color-theme-secondary);
+      border: 1px solid transparent;
+      height: 32px;
+      border-radius: 9px;
+      padding: 0 8px;
+      transition: border-color 0.2s;
+      font-size: 14px;
+    }
+
+    :global(.t-select) {
+      font-size: 14px;
+
+      &:hover {
+        border-color: var(--component-border);
+      }
+    }
+
+    :global(.t-is-active) {
+      border-color: var(--brand-main) !important;
+    }
+
+    :global(.t-select__right-icon) {
+      color: var(--text-placeholder) !important;
+    }
+
+    :global(.t-select__single) {
+      margin-left: 0;
+    }
+  }
+}

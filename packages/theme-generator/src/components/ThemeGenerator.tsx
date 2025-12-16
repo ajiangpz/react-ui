@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import Dock from "./Dock/Dock";
-import ColorPanel from "./ColorPanel/ColorPanel";
 import { Drawer } from "@tendaui/components";
 import { applyThemeFromLocal, generateNewTheme, getOptionFromLocal, DEFAULT_THEME } from "../common/Themes";
 import "./ThemeGenerator.css";
 import SwitchTabs from "../common/switch-tabs";
+import ColorPanel from "./ColorPanel/ColorPanel";
+import RadiusPanel from "./radius-panel";
 interface ThemeGeneratorProps {
   device?: string;
   showSetting?: boolean;
@@ -58,7 +59,11 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
       >
         <div style={{ display: "flex", paddingTop: "8px" }}>
           <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx}></SwitchTabs>
-          <ColorPanel isRefresh={refresh} device={device} />
+          {activeTabIdx === activeTabMap.radius ? (
+            <RadiusPanel isRefresh={refresh} top={8} />
+          ) : (
+            <ColorPanel isRefresh={refresh} device={device} />
+          )}
         </div>
       </Drawer>
     </div>

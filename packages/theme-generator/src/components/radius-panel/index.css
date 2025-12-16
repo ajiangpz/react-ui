@@ -1,0 +1,127 @@
+.radius-content__content {
+  padding: 0;
+  overflow: auto;
+}
+
+.radius-content__content:hover::-webkit-scrollbar-thumb {
+  background-color: var(--bg-color-scroll);
+}
+
+.radius-content__content::-webkit-scrollbar {
+  width: 12px;
+  background: transparent;
+}
+
+.radius-content__content::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: transparent;
+}
+
+.radius-content__main {
+  padding: 12px 4px 16px 16px;
+}
+
+.radius-content__title {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 0;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.radius-content__round-tag-left,
+.radius-content__round-tag-right {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--brand-main-light);
+  border: 1px solid var(--brand-main);
+}
+
+.radius-content__round-tag-left.disabled,
+.radius-content__round-tag-right.disabled {
+  background: var(--bg-color-tag);
+  border: 1px solid var(--theme-component-border);
+}
+
+.radius-content__round-tag-left {
+  border-radius: 3px;
+}
+
+.radius-content__round-tag-right {
+  border-radius: 8px;
+}
+
+.radius-content__round-tag-wrapper {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.radius-content__list {
+  margin-top: 8px;
+  padding: 4px;
+  border-radius: 9px;
+  background-color: var(--bg-color-theme-secondary);
+}
+
+.radius-content__list-item-wrapper {
+  margin-bottom: 4px;
+  border-radius: 6px;
+}
+
+.radius-content__list-item-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.radius-content__list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 6px;
+  background: var(--bg-color-theme-surface);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.radius-content__list-item-round-tag {
+  width: 32px;
+  height: 32px;
+  background: var(--brand-main-light);
+  border: 1px solid var(--brand-main);
+  margin-right: 8px;
+  border-radius: 6px;
+}
+
+.radius-content__list-item-text {
+  flex: 1;
+  width: 158px;
+}
+
+.radius-content__list-item-title {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.radius-content__list-item-title.bottom {
+  color: var(--text-placeholder);
+}
+
+.radius-content__list span {
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}

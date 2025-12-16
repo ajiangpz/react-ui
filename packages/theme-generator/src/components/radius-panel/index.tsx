@@ -1,0 +1,293 @@
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import classNames from "classnames";
+import { Popup } from "@tendaui/components";
+// @ts-expect-error - utils is a JS file
+import { handleAttach } from "../../common/utils";
+import SegmentSelection from "../../common/segment-selection";
+import SizeSlider from "../../common/size-slider";
+import {
+  CUSTOM_COMMON_ID_PREFIX,
+  CUSTOM_EXTRA_ID,
+  getOptionFromLocal,
+  modifyToken,
+  updateLocalOption
+} from "../../common/Themes";
+import { RADIUS_OPTIONS, RADIUS_STEP_ARRAY } from "./built-in/border-radius";
+import "./index.css";
+
+interface RadiusPanelProps {
+  isRefresh?: boolean;
+  top?: number;
+}
+
+interface RadiusTokenItem {
+  token: string;
+  value: number | string | null;
+  enDesc: string;
+  desc: string;
+}
+
+const INITIAL_RADIUS_TYPE_LIST: RadiusTokenItem[] = [
+  {
+    token: "--td-radius-small",
+    value: null,
+    enDesc: "internal scenes of basic components.",
+    desc: "适用于基础组件内部场景"
+  },
+  {
+    token: "--td-radius-default",
+    value: null,
+    enDesc: "basic components",
+    desc: "适用于所有基础组件"
+  },
+  {
+    token: "--td-radius-medium",
+    value: null,
+    enDesc: "popup and card-type components",
+    desc: "适用于弹出类型和卡片类型组件"
+  },
+  {
+    token: "--td-radius-large",
+    value: null,
+    enDesc: "dialog-type components",
+    desc: "适用于对话框类型组件"
+  },
+  {
+    token: "--td-radius-extraLarge",
+    value: null,
+    enDesc: "extra-large display-type components",
+    desc: "适用于超大型展示型组件"
+  },
+  {
+    token: "--td-radius-circle",
+    value: null,
+    enDesc: "Circular Components",
+    desc: "适用于圆形组件"
+  }
+];
+
+const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
+  const isEn = useMemo(() => (typeof window !== "undefined" ? window.location.pathname.endsWith("en") : false), []);
+  const [viewportHeight, setViewportHeight] = useState(() => (typeof window !== "undefined" ? window.innerHeight : 0));
+  const [step, setStep] = useState(3);
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+  const [segmentSelectionDisabled, setSegmentSelectionDisabled] = useState(false);
+  const [radiusTypeList, setRadiusTypeList] = useState<RadiusTokenItem[]>(INITIAL_RADIUS_TYPE_LIST);
+
+  const radiusLabels = useMemo(() => {
+    return RADIUS_OPTIONS.reduce<Record<number, string>>((acc, item) => {
+      acc[item.value] = item.label;
+      return acc;
+    }, {});
+  }, []);
+
+  const contentStyle = useMemo(() => {
+    const contentHeight = Math.max(0, viewportHeight - top - 96);
+    return { overflowY: "scroll", height: `${contentHeight}px` };
+  }, [viewportHeight, top]);
+
+  const initStep = useCallback(() => {
+    const stored = getOptionFromLocal("radius");
+    const numericVal = stored !== null && stored !== undefined ? Number(stored) : null;
+    if (numericVal !== null && !Number.isNaN(numericVal) && numericVal >= 0) {
+      setStep(numericVal);
+    }
+  }, []);
+
+  const initRadiusToken = useCallback(() => {
+    const radiusStyle =
+      document.getElementById(`${CUSTOM_COMMON_ID_PREFIX}-radius`) || document.getElementById(CUSTOM_EXTRA_ID);
+    if (!radiusStyle || !radiusStyle.textContent) return;
+    const styleText = radiusStyle.textContent;
+    setRadiusTypeList((list) =>
+      list
+        .map((item) => {
+          const regex = new RegExp(`${item.token}\\s*:\\s*([^;]+);`);
+          const match = styleText.match(regex);
+          if (match) {
+            return { ...item, value: match[1].trim() };
+          }
+          return item;
+        })
+        .filter((item) => item.value !== null)
+    );
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setViewportHeight(window.innerHeight);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    initStep();
+    initRadiusToken();
+  }, [initStep, initRadiusToken]);
+
+  useEffect(() => {
+    const presetValues = RADIUS_STEP_ARRAY[step - 1];
+    if (!presetValues) return;
+    updateLocalOption("radius", String(step), step !== 3);
+    const isCustom = step === 6;
+    setRadiusTypeList((list) =>
+      list.map((item, idx) => {
+        const preset = presetValues[idx];
+        if (typeof preset === "undefined") return item;
+        const formattedPreset = typeof preset === "number" ? `${preset}px` : preset;
+        modifyToken(item.token, formattedPreset, isCustom);
+        return {
+          ...item,
+          value: preset
+        };
+      })
+    );
+  }, [step]);
+
+  useEffect(() => {
+    if (!radiusTypeList.length) return;
+    const currentValues = radiusTypeList.map((item) => item.value);
+    const existStep = RADIUS_STEP_ARRAY.find((steps) =>
+      steps.every((stepValue, idx) => {
+        const current = currentValues[idx];
+        if (current === null || typeof current === "undefined") return false;
+        const normalizedStep = typeof stepValue === "number" ? `${stepValue}px` : stepValue;
+        const normalizedCurrent = typeof current === "number" ? `${current}px` : String(current).trim();
+        return normalizedStep === normalizedCurrent;
+      })
+    );
+    if (!existStep) {
+      setSegmentSelectionDisabled(true);
+    }
+  }, [radiusTypeList]);
+
+  const formatRadiusValue = (radius: RadiusTokenItem["value"]) => {
+    if (radius === "50%") return "50%";
+    if (typeof radius === "number") return `${radius}px`;
+    if (typeof radius === "string") return radius;
+    return undefined;
+  };
+
+  const handleVisibleChange = (visible: boolean, context: { trigger?: string } | undefined, idx: number) => {
+    if (visible) {
+      setHoverIdx(idx);
+    } else if (context?.trigger === "document" && hoverIdx === idx) {
+      setHoverIdx(null);
+    }
+  };
+
+  const handleChangeRadius = (val: number, idx: number) => {
+    const target = radiusTypeList[idx];
+    if (!target) return;
+    const normalizedValue = `${val}px`;
+    modifyToken(target.token, normalizedValue);
+    setRadiusTypeList((list) => {
+      if (!list[idx]) return list;
+      const next = [...list];
+      next[idx] = { ...next[idx], value: val };
+      return next;
+    });
+    const presetValues = RADIUS_STEP_ARRAY[step - 1];
+    const preset = presetValues ? presetValues[idx] : null;
+    const normalizedPreset = typeof preset === "number" ? `${preset}px` : preset;
+    if (!normalizedPreset || normalizedPreset !== normalizedValue) {
+      setSegmentSelectionDisabled(true);
+    }
+  };
+
+  const handleStepChange = (value: string | number) => {
+    const numeric = Number(value);
+    if (Number.isNaN(numeric)) return;
+    setStep(numeric);
+  };
+
+  const titleText = isEn ? "Border Radius" : "圆角大小";
+
+  return (
+    <div
+      className="radius-content"
+      style={{
+        width: "268px",
+        background: "var(--bg-color-card)",
+        border: "1px solid var(--theme-component-border)",
+        borderRadius: "12px"
+      }}
+    >
+      <div className="radius-content__content" style={{ contentStyle }}>
+        <div className="radius-content__main">
+          <p className="radius-content__title">{titleText}</p>
+          <SegmentSelection
+            selectOptions={RADIUS_OPTIONS}
+            suspendedLabels={radiusLabels}
+            value={step}
+            disabled={false}
+            onEnable={() => setSegmentSelectionDisabled(false)}
+            onChange={handleStepChange}
+          >
+            {{
+              left: (
+                <div
+                  className={classNames("radius-content__round-tag-left", {
+                    disabled: segmentSelectionDisabled
+                  })}
+                ></div>
+              ),
+              right: (
+                <div
+                  className={classNames("radius-content__round-tag-right", {
+                    disabled: segmentSelectionDisabled
+                  })}
+                ></div>
+              )
+            }}
+          </SegmentSelection>
+          <div className="radius-content__list">
+            {radiusTypeList.map((token, idx) => (
+              <Popup
+                key={token.token}
+                placement="left"
+                showArrow
+                trigger="click"
+                destroyOnClose
+                hideEmptyPopup
+                overlayStyle={{ borderRadius: "9px" }}
+                content={
+                  <SizeSlider
+                    title="border-radius"
+                    sizeValue={token.value ?? undefined}
+                    disabled={token.token === "--td-radius-circle"}
+                    onChangeFontSize={(value) => handleChangeRadius(value, idx)}
+                  />
+                }
+                attach={handleAttach}
+                onVisibleChange={(visible, context) => handleVisibleChange(visible, context, idx)}
+              >
+                <div
+                  className="radius-content__list-item-wrapper"
+                  style={{
+                    border: hoverIdx === idx ? "1px solid var(--brand-main)" : "1px solid transparent",
+                    transition: "border-color .2s"
+                  }}
+                >
+                  <div className="radius-content__list-item">
+                    <div
+                      className="radius-content__list-item-round-tag"
+                      style={{ borderRadius: formatRadiusValue(token.value) }}
+                    ></div>
+                    <div className="radius-content__list-item-text">
+                      <div className="radius-content__list-item-title">
+                        {`${token.token.replace("--td-", "")}：${formatRadiusValue(token.value) ?? "--"}`}
+                      </div>
+                      <div className="radius-content__list-item-title bottom">{isEn ? token.enDesc : token.desc}</div>
+                    </div>
+                  </div>
+                </div>
+              </Popup>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RadiusPanel;
