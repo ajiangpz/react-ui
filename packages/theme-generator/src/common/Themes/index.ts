@@ -1,6 +1,7 @@
 /* eslint-env browser */
 import { Color } from "tvision-color";
 import cssbeautify from "cssbeautify";
+import { getDefaultRadiusCss } from "./token";
 
 // 样式表 ID
 export const CUSTOM_THEME_ID = "custom-theme";
@@ -250,7 +251,6 @@ export function modifyToken(tokenName: string, newVal: string, saveToLocal = tru
   const styleSheets = document.querySelectorAll(
     `#${CUSTOM_THEME_ID}, #${CUSTOM_DARK_ID}, #${CUSTOM_EXTRA_ID}, [id^="${CUSTOM_COMMON_ID_PREFIX}-"]`
   );
-  console.log(styleSheets);
   let tokenFound = false;
 
   styleSheets.forEach((styleSheet) => {
@@ -274,6 +274,35 @@ export function modifyToken(tokenName: string, newVal: string, saveToLocal = tru
       storeTokenToLocal(tokenName, newVal);
     }
   });
+
+  // 如果 token 不存在且是 radius token，创建 radius 样式表
+  if (!tokenFound && tokenName.startsWith("--td-radius-")) {
+    const radiusStyleId = `${CUSTOM_COMMON_ID_PREFIX}-radius`;
+    let radiusStyleSheet = document.getElementById(radiusStyleId) as HTMLStyleElement;
+
+    if (!radiusStyleSheet) {
+      radiusStyleSheet = appendStyleSheet(radiusStyleId);
+      // 初始化默认的 radius 值
+      radiusStyleSheet.textContent = getDefaultRadiusCss();
+    }
+
+    // 现在再次尝试修改 token
+    const reg = new RegExp(`${tokenName}:\\s*(.*?);`);
+    const match = radiusStyleSheet.textContent?.match(reg);
+
+    if (match) {
+      const currentVal = match[1];
+      radiusStyleSheet.textContent = radiusStyleSheet.textContent.replace(
+        `${tokenName}: ${currentVal}`,
+        `${tokenName}: ${newVal}`
+      );
+      tokenFound = true;
+
+      if (saveToLocal) {
+        storeTokenToLocal(tokenName, newVal);
+      }
+    }
+  }
 
   if (!tokenFound) {
     console.warn(`CSS variable: ${tokenName} is not exist`);
