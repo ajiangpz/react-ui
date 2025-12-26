@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import { Color } from "tvision-color";
 import cssbeautify from "cssbeautify";
-import { getDefaultRadiusCss } from "./token";
+import { getDefaultRadiusCss, getDefaultFontCss } from "./token";
 
 // 样式表 ID
 export const CUSTOM_THEME_ID = "custom-theme";
@@ -301,6 +301,97 @@ export function modifyToken(tokenName: string, newVal: string, saveToLocal = tru
       if (saveToLocal) {
         storeTokenToLocal(tokenName, newVal);
       }
+    }
+  }
+
+  // 如果 token 不存在且是 font token，创建 font 样式表
+  if (
+    !tokenFound &&
+    (tokenName.startsWith("--td-font-size-") ||
+      tokenName.startsWith("--td-line-height-") ||
+      tokenName.startsWith("--td-font-family"))
+  ) {
+    const fontStyleId = `${CUSTOM_COMMON_ID_PREFIX}-font`;
+    let fontStyleSheet = document.getElementById(fontStyleId) as HTMLStyleElement;
+
+    if (!fontStyleSheet) {
+      fontStyleSheet = appendStyleSheet(fontStyleId);
+      // 初始化默认的 font 值
+      fontStyleSheet.textContent = getDefaultFontCss();
+    }
+
+    // 现在再次尝试修改 token
+    const reg = new RegExp(`${tokenName}:\\s*(.*?);`);
+    const match = fontStyleSheet.textContent?.match(reg);
+
+    if (match) {
+      const currentVal = match[1];
+      fontStyleSheet.textContent = fontStyleSheet.textContent.replace(
+        `${tokenName}: ${currentVal}`,
+        `${tokenName}: ${newVal}`
+      );
+      tokenFound = true;
+
+      if (saveToLocal) {
+        storeTokenToLocal(tokenName, newVal);
+      }
+    } else {
+      // 如果 token 不在默认列表中，直接添加
+      const currentContent = fontStyleSheet.textContent || "";
+      const newContent = currentContent.replace(/:root\s*\{/, `:root {\n  ${tokenName}: ${newVal};`);
+      fontStyleSheet.textContent = newContent;
+      tokenFound = true;
+
+      if (saveToLocal) {
+        storeTokenToLocal(tokenName, newVal);
+      }
+    }
+  }
+
+  // 如果 token 不存在且是 text-color token，在主题样式表中创建
+  if (!tokenFound && tokenName.startsWith("--td-text-color-")) {
+    const isDarkMode = document.documentElement.getAttribute("theme-mode") === "dark";
+    const themeStyleId = isDarkMode ? CUSTOM_DARK_ID : CUSTOM_THEME_ID;
+    let themeStyleSheet = document.getElementById(themeStyleId) as HTMLStyleElement;
+
+    if (!themeStyleSheet) {
+      themeStyleSheet = appendStyleSheet(themeStyleId);
+      // 如果主题样式表不存在，创建一个基本的
+      const root = isDarkMode ? `:root[theme-mode="dark"]` : `:root,:root[theme-mode="light"]`;
+      themeStyleSheet.textContent = `${root}{\n  ${tokenName}: ${newVal};\n}`;
+      tokenFound = true;
+    } else {
+      // 检查 token 是否已存在
+      const reg = new RegExp(`${tokenName}:\\s*(.*?);`);
+      const match = themeStyleSheet.textContent?.match(reg);
+
+      if (match) {
+        // 如果存在，更新它
+        const currentVal = match[1];
+        themeStyleSheet.textContent = themeStyleSheet.textContent.replace(
+          `${tokenName}: ${currentVal}`,
+          `${tokenName}: ${newVal}`
+        );
+        tokenFound = true;
+      } else {
+        // 如果不存在，添加到样式表中
+        const currentContent = themeStyleSheet.textContent || "";
+        // 在最后一个 } 之前添加 token
+        const lastBraceIndex = currentContent.lastIndexOf("}");
+        if (lastBraceIndex !== -1) {
+          const beforeBrace = currentContent.substring(0, lastBraceIndex);
+          const afterBrace = currentContent.substring(lastBraceIndex);
+          themeStyleSheet.textContent = `${beforeBrace}\n  ${tokenName}: ${newVal};${afterBrace}`;
+        } else {
+          // 如果没有找到 }，直接在末尾添加
+          themeStyleSheet.textContent = `${currentContent}\n  ${tokenName}: ${newVal};`;
+        }
+        tokenFound = true;
+      }
+    }
+
+    if (tokenFound && saveToLocal) {
+      storeTokenToLocal(tokenName, newVal);
     }
   }
 

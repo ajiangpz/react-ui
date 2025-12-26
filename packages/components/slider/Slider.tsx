@@ -44,7 +44,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref
   const [value, internalOnChange] = useControlled(props, "value", onChange);
   const isVertical = layout === "vertical";
 
-  const renderValue = Array.isArray(value) ? value : [min, value];
+  const renderValue = Array.isArray(value) ? value : [min, Math.min(max, value)];
   const start = (renderValue[LEFT_NODE] - min) / (max - min);
   const width = (renderValue[RIGHT_NODE] - renderValue[LEFT_NODE]) / (max - min);
   const end = start + width;

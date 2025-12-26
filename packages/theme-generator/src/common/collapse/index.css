@@ -1,0 +1,57 @@
+.common-collapse {
+  padding: 16px 4px 16px 16px;
+  border-top: 1px solid var(--component-border);
+}
+
+.common-collapse__header {
+  display: flex;
+  align-items: center;
+}
+
+.common-collapse__round {
+  position: relative;
+  border-radius: 6px;
+}
+
+.common-collapse__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 12px;
+  font-size: 14px;
+  line-height: 22px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.common-collapse__title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.common-collapse__subtitle {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 20px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.common-collapse__arrow-wrapper {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.common-collapse__arrow {
+  color: var(--text-primary);
+  transform: scale(1.5);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.common-collapse__content {
+  margin-top: 16px;
+}

@@ -22,7 +22,6 @@ interface ColorColumnProps {
 
 export default function ColorColumn({
   type,
-  gradientStep,
   colorPalette,
   paletteChange,
   onRecoverGradation,

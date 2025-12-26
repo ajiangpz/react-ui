@@ -6,6 +6,7 @@ import "./ThemeGenerator.css";
 import SwitchTabs from "../common/switch-tabs";
 import ColorPanel from "./ColorPanel/ColorPanel";
 import RadiusPanel from "./radius-panel";
+import FontPanel from "./font-panel";
 interface ThemeGeneratorProps {
   device?: string;
   showSetting?: boolean;
@@ -61,6 +62,8 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
           <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx}></SwitchTabs>
           {activeTabIdx === activeTabMap.radius ? (
             <RadiusPanel isRefresh={refresh} top={8} />
+          ) : activeTabIdx === activeTabMap.font ? (
+            <FontPanel isRefresh={refresh} top={8} device={device} />
           ) : (
             <ColorPanel isRefresh={refresh} device={device} />
           )}

@@ -1,0 +1,129 @@
+.font-panel__round-tag-left {
+  font-size: 14px;
+  line-height: 32px;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  margin: 0;
+  position: relative;
+}
+
+.font-panel__round-tag-left::before,
+.font-panel__round-tag-left::after {
+  content: "";
+  height: 3px;
+  width: 100%;
+  background-color: rgba(227, 77, 89, 0.2);
+  position: absolute;
+  z-index: 0;
+  left: 0;
+}
+
+.font-panel__round-tag-left::before {
+  top: 8px;
+}
+
+.font-panel__round-tag-left::after {
+  top: 21px;
+}
+
+.font-panel__round-tag-right {
+  font-size: 14px;
+  line-height: 32px;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  margin: 0;
+  position: relative;
+}
+
+.font-panel__round-tag-right::before,
+.font-panel__round-tag-right::after {
+  content: "";
+  height: 5px;
+  width: 100%;
+  background-color: rgba(227, 77, 89, 0.2);
+  position: absolute;
+  z-index: 0;
+  left: 0;
+}
+
+.font-panel__round-tag-right::before {
+  top: 6px;
+}
+
+.font-panel__round-tag-right::after {
+  top: 21px;
+}
+
+.font-panel__token-list {
+  margin-top: 8px;
+  padding: 4px 4px 0 4px;
+  border-radius: 9px;
+  background-color: var(--bg-color-theme-secondary);
+}
+.font-panel__token-list .t-radio-group {
+  width: 100%;
+  border-radius: 6px;
+  text-align: center;
+  background-color: var(--bg-color-theme-radio);
+  margin-bottom: 4px;
+}
+
+.font-panel__token-list .t-radio-button {
+  width: 50%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+..font-panel__token-list .t-radio-group__bg-block {
+  border-radius: 5px;
+  width: calc(50% - 2px) !important;
+}
+
+.font-panel__token-list .code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  margin-bottom: 8px;
+}
+
+.font-panel__radio-group {
+  width: 100%;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  background-color: var(--bg-color-theme-radio);
+  display: flex;
+  position: relative;
+}
+
+.font-panel__radio-button {
+  width: 50%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  transition: color 0.2s;
+}
+
+.font-panel__radio-button.active {
+  color: var(--text-primary);
+}
+
+.font-panel__list {
+  overflow: hidden;
+}
+
+.font-panel__list-item {
+  margin-bottom: 4px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  background: var(--bg-color-theme-surface);
+  width: 100%;
+}
