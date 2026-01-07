@@ -348,6 +348,58 @@ export function modifyToken(tokenName: string, newVal: string, saveToLocal = tru
     }
   }
 
+  // 如果 token 不存在且是 size token，创建 size 样式表
+  if (
+    !tokenFound &&
+    (tokenName.startsWith("--td-comp-size-") ||
+      tokenName.startsWith("--td-comp-paddingLR-") ||
+      tokenName.startsWith("--td-comp-paddingTB-") ||
+      tokenName.startsWith("--td-comp-margin-") ||
+      tokenName.startsWith("--td-pop-padding-"))
+  ) {
+    const sizeStyleId = `${CUSTOM_COMMON_ID_PREFIX}-size`;
+    let sizeStyleSheet = document.getElementById(sizeStyleId) as HTMLStyleElement;
+
+    if (!sizeStyleSheet) {
+      sizeStyleSheet = appendStyleSheet(sizeStyleId);
+      // 初始化一个基本的 size 样式表
+      sizeStyleSheet.textContent = `:root {\n  ${tokenName}: ${newVal};\n}`;
+      tokenFound = true;
+    } else {
+      // 检查 token 是否已存在
+      const reg = new RegExp(`${tokenName}:\\s*(.*?);`);
+      const match = sizeStyleSheet.textContent?.match(reg);
+
+      if (match) {
+        // 如果存在，更新它
+        const currentVal = match[1];
+        sizeStyleSheet.textContent = sizeStyleSheet.textContent.replace(
+          `${tokenName}: ${currentVal}`,
+          `${tokenName}: ${newVal}`
+        );
+        tokenFound = true;
+      } else {
+        // 如果不存在，添加到样式表中
+        const currentContent = sizeStyleSheet.textContent || "";
+        // 在最后一个 } 之前添加 token
+        const lastBraceIndex = currentContent.lastIndexOf("}");
+        if (lastBraceIndex !== -1) {
+          const beforeBrace = currentContent.substring(0, lastBraceIndex);
+          const afterBrace = currentContent.substring(lastBraceIndex);
+          sizeStyleSheet.textContent = `${beforeBrace}\n  ${tokenName}: ${newVal};${afterBrace}`;
+        } else {
+          // 如果没有找到 }，直接在末尾添加
+          sizeStyleSheet.textContent = `${currentContent}\n  ${tokenName}: ${newVal};`;
+        }
+        tokenFound = true;
+      }
+    }
+
+    if (tokenFound && saveToLocal) {
+      storeTokenToLocal(tokenName, newVal);
+    }
+  }
+
   // 如果 token 不存在且是 text-color token，在主题样式表中创建
   if (!tokenFound && tokenName.startsWith("--td-text-color-")) {
     const isDarkMode = document.documentElement.getAttribute("theme-mode") === "dark";

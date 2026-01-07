@@ -1,12 +1,11 @@
 export default function BoxshadowSvg() {
   return (
     <svg
-      width="1em"
-      height="1em"
+      width="48"
+      height="48"
       viewBox="0 0 64 66"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ backgroundColor: `var(--bg-color-card)` }}
     >
       <path
         fillRule="evenodd"

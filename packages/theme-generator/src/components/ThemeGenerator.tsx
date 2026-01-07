@@ -8,6 +8,7 @@ import ColorPanel from "./ColorPanel/ColorPanel";
 import RadiusPanel from "./radius-panel";
 import FontPanel from "./font-panel";
 import ShadowPanel from "./shadow-panel";
+import SizePanel from "./size-panel";
 interface ThemeGeneratorProps {
   device?: string;
   showSetting?: boolean;
@@ -60,13 +61,15 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
         closeOnOverlayClick={true}
       >
         <div style={{ display: "flex", paddingTop: "8px" }}>
-          <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx}></SwitchTabs>
+          <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx} device={device}></SwitchTabs>
           {activeTabIdx === activeTabMap.radius ? (
             <RadiusPanel isRefresh={refresh} top={8} />
           ) : activeTabIdx === activeTabMap.font ? (
             <FontPanel isRefresh={refresh} top={8} device={device} />
           ) : activeTabIdx === activeTabMap.shadow ? (
             <ShadowPanel top={8} />
+          ) : activeTabIdx === activeTabMap.size ? (
+            <SizePanel top={8} />
           ) : (
             <ColorPanel isRefresh={refresh} device={device} />
           )}
