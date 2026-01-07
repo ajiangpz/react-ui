@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { exportCustomTheme, clearLocalTheme, generateNewTheme, DEFAULT_THEME } from "../../common/Themes";
+// import { useState, useEffect } from "react";
+// import { exportCustomTheme, clearLocalTheme, generateNewTheme, DEFAULT_THEME } from "../../common/Themes";
 import { Button } from "@tendaui/components";
 import { IconSetting } from "@tendaui/icons";
-console.log(Button);
 import "./Dock.css";
 
 interface DockProps {
@@ -13,35 +12,29 @@ interface DockProps {
   device?: string;
 }
 
-export default function Dock({
-  onTriggerVisible,
-  onRefreshContent,
-  drawerVisible,
-  showSetting = false,
-  device = "web"
-}: DockProps) {
-  const [isCustomizeDrawerVisible, setIsCustomizeDrawerVisible] = useState(false);
+export default function Dock({ onTriggerVisible, drawerVisible }: DockProps) {
+  // const [isCustomizeDrawerVisible, setIsCustomizeDrawerVisible] = useState(false);
 
-  useEffect(() => {
-    if (!drawerVisible) {
-      setIsCustomizeDrawerVisible(false);
-    }
-  }, [drawerVisible]);
+  // useEffect(() => {
+  //   if (!drawerVisible) {
+  //     setIsCustomizeDrawerVisible(false);
+  //   }
+  // }, [drawerVisible]);
 
   const handleClickCustomize = () => {
-    onTriggerVisible();
-    setIsCustomizeDrawerVisible(true);
+    if (!drawerVisible) onTriggerVisible();
+    // setIsCustomizeDrawerVisible(true);
   };
 
-  const handleDownload = () => {
-    exportCustomTheme(device);
-  };
+  // const handleDownload = () => {
+  //   exportCustomTheme(device);
+  // };
 
-  const handleRecover = () => {
-    generateNewTheme(DEFAULT_THEME.value, undefined, device);
-    clearLocalTheme();
-    onRefreshContent();
-  };
+  // const handleRecover = () => {
+  //   generateNewTheme(DEFAULT_THEME.value, undefined, device);
+  //   clearLocalTheme();
+  //   onRefreshContent();
+  // };
 
   return (
     <div className="theme-generator-dock">

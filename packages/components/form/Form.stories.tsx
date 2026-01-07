@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 
-import { Form, Input, Switch, Checkbox, Button, Select } from "@tendaui/react/es/index";
+import { Form, Input, Switch, Checkbox, Button, Select } from "../../components";
 
 import { NotificationProvider, useNotification } from "@tendaui/react/es/notification";
 import type { FormProps } from "./index";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@tendaui/react/es/index";
+import { Button } from "../../../components";
 
 export default function Base() {
   return (

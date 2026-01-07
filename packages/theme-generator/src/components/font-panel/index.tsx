@@ -5,7 +5,6 @@ import SizeAdjust from "./components/SizeAdjust";
 import LineHeightAdjust from "./components/LineHeightAdjust";
 import FontColorAdjust from "./components/FontColorAdjust";
 import { modifyToken } from "../../common/Themes";
-// @ts-expect-error - const is a JS file
 import { FONT_COLOR_MAP } from "../ColorPanel/utils/const";
 import "./index.css";
 

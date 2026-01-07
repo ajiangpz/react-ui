@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Select, Slider } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../utils";
 import type { SelectValue, SelectOption as TSelectOption } from "@tendaui/components/select/type";
 import "./index.scss";

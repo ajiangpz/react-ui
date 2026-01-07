@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
 import { Popup } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../../common/utils";
 import SegmentSelection from "../../common/segment-selection";
 import SizeSlider from "../../common/size-slider";
@@ -14,7 +13,6 @@ import {
 } from "../../common/Themes";
 import { RADIUS_OPTIONS, RADIUS_STEP_ARRAY } from "./built-in/border-radius";
 import "./index.css";
-
 interface RadiusPanelProps {
   isRefresh?: boolean;
   top?: number;
@@ -66,8 +64,9 @@ const INITIAL_RADIUS_TYPE_LIST: RadiusTokenItem[] = [
   }
 ];
 
-const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
+const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0, isRefresh }) => {
   const isEn = useMemo(() => (typeof window !== "undefined" ? window.location.pathname.endsWith("en") : false), []);
+  console.log("init");
   const [viewportHeight, setViewportHeight] = useState(() => (typeof window !== "undefined" ? window.innerHeight : 0));
   const [step, setStep] = useState(3);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
@@ -86,66 +85,9 @@ const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
     return { overflowY: "scroll", height: `${contentHeight}px` };
   }, [viewportHeight, top]);
 
-  const initStep = useCallback(() => {
-    const stored = getOptionFromLocal("radius");
-    const numericVal = stored !== null && stored !== undefined ? Number(stored) : null;
-    if (numericVal !== null && !Number.isNaN(numericVal) && numericVal >= 0) {
-      setStep(numericVal);
-    }
-  }, []);
-
-  const initRadiusToken = useCallback(() => {
-    const radiusStyle =
-      document.getElementById(`${CUSTOM_COMMON_ID_PREFIX}-radius`) || document.getElementById(CUSTOM_EXTRA_ID);
-    if (!radiusStyle || !radiusStyle.textContent) return;
-    const styleText = radiusStyle.textContent;
-    setRadiusTypeList((list) =>
-      list
-        .map((item) => {
-          const regex = new RegExp(`${item.token}\\s*:\\s*([^;]+);`);
-          const match = styleText.match(regex);
-          if (match) {
-            return { ...item, value: match[1].trim() };
-          }
-          return item;
-        })
-        .filter((item) => item.value !== null)
-    );
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => setViewportHeight(window.innerHeight);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    initStep();
-    initRadiusToken();
-  }, [initStep, initRadiusToken]);
-
-  useEffect(() => {
-    const presetValues = RADIUS_STEP_ARRAY[step - 1];
-    if (!presetValues) return;
-    updateLocalOption("radius", String(step), step !== 3);
-    const isCustom = step === 6;
-    setRadiusTypeList((list) =>
-      list.map((item, idx) => {
-        const preset = presetValues[idx];
-        if (typeof preset === "undefined") return item;
-        const formattedPreset = typeof preset === "number" ? `${preset}px` : preset;
-        modifyToken(item.token, formattedPreset, isCustom);
-        return {
-          ...item,
-          value: preset
-        };
-      })
-    );
-  }, [step]);
-
-  useEffect(() => {
-    if (!radiusTypeList.length) return;
-    const currentValues = radiusTypeList.map((item) => item.value);
+  const checkIfMatchesPreset = useCallback((list: RadiusTokenItem[]) => {
+    if (!list.length) return false;
+    const currentValues = list.map((item) => item.value);
     const existStep = RADIUS_STEP_ARRAY.find((steps) =>
       steps.every((stepValue, idx) => {
         const current = currentValues[idx];
@@ -155,10 +97,118 @@ const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
         return normalizedStep === normalizedCurrent;
       })
     );
-    if (!existStep) {
-      setSegmentSelectionDisabled(true);
+    return !!existStep;
+  }, []);
+
+  const applyPresetValues = useCallback(
+    (stepValue: number) => {
+      const presetValues = RADIUS_STEP_ARRAY[stepValue - 1];
+      if (!presetValues) return;
+      updateLocalOption("radius", String(stepValue));
+      const isCustom = stepValue === 6;
+      setRadiusTypeList((list) => {
+        const updated = list.map((item, idx) => {
+          const preset = presetValues[idx];
+          if (typeof preset === "undefined") return item;
+          const formattedPreset = typeof preset === "number" ? `${preset}px` : preset;
+          modifyToken(item.token, formattedPreset, isCustom);
+          return {
+            ...item,
+            value: preset
+          };
+        });
+        // 应用预设值后，检查是否匹配，如果不匹配则禁用
+        const matches = checkIfMatchesPreset(updated);
+        setSegmentSelectionDisabled(!matches);
+        return updated;
+      });
+    },
+    [checkIfMatchesPreset]
+  );
+
+  const initStep = useCallback(() => {
+    const stored = getOptionFromLocal("radius");
+    const numericVal = stored !== null && stored !== undefined ? Number(stored) : null;
+    // 如果 localStorage 中没有值，使用默认值 3
+    const stepValue = numericVal !== null && !Number.isNaN(numericVal) && numericVal >= 0 ? numericVal : 3;
+    setStep(stepValue);
+    // 如果是预设值（1-5），直接应用预设值
+    if (stepValue >= 1 && stepValue <= 5) {
+      applyPresetValues(stepValue);
     }
-  }, [radiusTypeList]);
+  }, [applyPresetValues]);
+
+  const initRadiusToken = useCallback(() => {
+    // 优先从 style 元素中读取
+    const radiusStyle =
+      document.getElementById(`${CUSTOM_COMMON_ID_PREFIX}-radius`) || document.getElementById(CUSTOM_EXTRA_ID);
+    if (radiusStyle && radiusStyle.textContent) {
+      const styleText = radiusStyle.textContent;
+      setRadiusTypeList((list) => {
+        const updated = list
+          .map((item) => {
+            const regex = new RegExp(`${item.token}\\s*:\\s*([^;]+);`);
+            const match = styleText.match(regex);
+            if (match) {
+              const valueStr = match[1].trim();
+              // 解析值：如果是数字+px，转换为数字；如果是50%，保持字符串
+              const value = valueStr.endsWith("px") ? parseInt(valueStr, 10) : valueStr === "50%" ? "50%" : valueStr;
+              return { ...item, value };
+            }
+            return item;
+          })
+          .filter((item) => item.value !== null);
+        // 检查是否匹配预设值
+        const matches = checkIfMatchesPreset(updated);
+        setSegmentSelectionDisabled(!matches);
+        return updated;
+      });
+      return;
+    }
+    // 如果 style 元素不存在，从实际应用的 CSS 变量中读取
+    const docStyle = getComputedStyle(document.documentElement);
+    setRadiusTypeList((list) => {
+      const updated = list
+        .map((item) => {
+          const cssValue = docStyle.getPropertyValue(item.token).trim();
+          if (cssValue) {
+            // 移除可能的 px 单位，保留原始格式
+            const value = cssValue.endsWith("px") ? parseInt(cssValue, 10) : cssValue === "50%" ? "50%" : cssValue;
+            return { ...item, value };
+          }
+          return item;
+        })
+        .filter((item) => item.value !== null && item.value !== "");
+      // 检查是否匹配预设值
+      const matches = checkIfMatchesPreset(updated);
+      setSegmentSelectionDisabled(!matches);
+      return updated;
+    });
+  }, [checkIfMatchesPreset]);
+
+  useEffect(() => {
+    const handleResize = () => setViewportHeight(window.innerHeight);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    // 确保 custom-theme 被 append 后再同步，类似 FontPanel 的处理方式
+    setTimeout(() => {
+      const stored = getOptionFromLocal("radius");
+      const numericVal = stored !== null && stored !== undefined ? Number(stored) : null;
+      const stepValue = numericVal !== null && !Number.isNaN(numericVal) && numericVal >= 0 ? numericVal : 3;
+
+      // 先初始化 step
+      initStep();
+
+      // 只有当 step 是自定义（6）时，才需要从 style 元素读取实际值
+      // 如果是预设值（1-5），applyPresetValues 已经设置了正确的值
+      if (stepValue === 6) {
+        initRadiusToken();
+      }
+    }, 100);
+  }, [initStep, initRadiusToken, isRefresh]);
 
   const formatRadiusValue = (radius: RadiusTokenItem["value"]) => {
     if (radius === "50%") return "50%";
@@ -184,20 +234,19 @@ const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
       if (!list[idx]) return list;
       const next = [...list];
       next[idx] = { ...next[idx], value: val };
+      // 检查更新后的列表是否匹配预设值
+      const matches = checkIfMatchesPreset(next);
+      setSegmentSelectionDisabled(!matches);
       return next;
     });
-    const presetValues = RADIUS_STEP_ARRAY[step - 1];
-    const preset = presetValues ? presetValues[idx] : null;
-    const normalizedPreset = typeof preset === "number" ? `${preset}px` : preset;
-    if (!normalizedPreset || normalizedPreset !== normalizedValue) {
-      setSegmentSelectionDisabled(true);
-    }
   };
 
   const handleStepChange = (value: string | number) => {
     const numeric = Number(value);
     if (Number.isNaN(numeric)) return;
     setStep(numeric);
+    // 直接应用预设值，而不是通过 effect 响应
+    applyPresetValues(numeric);
   };
 
   const titleText = isEn ? "Border Radius" : "圆角大小";
@@ -212,14 +261,14 @@ const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0 }) => {
         borderRadius: "12px"
       }}
     >
-      <div className="radius-content__content" style={{ contentStyle }}>
+      <div className="radius-content__content" style={contentStyle as React.CSSProperties}>
         <div className="radius-content__main">
           <p className="radius-content__title">{titleText}</p>
           <SegmentSelection
             selectOptions={RADIUS_OPTIONS}
             suspendedLabels={radiusLabels}
             value={step}
-            disabled={false}
+            disabled={segmentSelectionDisabled}
             onEnable={() => setSegmentSelectionDisabled(false)}
             onChange={handleStepChange}
           >

@@ -28,26 +28,34 @@ interface ColorPanelProps {
   top?: number;
 }
 
+interface PaletteItem {
+  value?: string;
+  idx?: number;
+  name?: string;
+  type?: string;
+  [key: string]: unknown;
+}
+
 export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProps) {
   const [currentThemeColor, setCurrentThemeColor] = useState(getOptionFromLocal("color") ?? DEFAULT_THEME.value);
   const [currentBrandIdx, setCurrentBrandIdx] = useState(6);
-  const [colorPalette, setColorPalette] = useState<string[]>([]);
-  const [initColorPalette, setInitColorPalette] = useState<string[]>([]);
-  const [successColorPalette, setSuccessColorPalette] = useState<string[]>([]);
-  const [initSuccessColorPalette, setSuccessInitColorPalette] = useState<string[]>([]);
-  const [errorColorPalette, setErrorColorPalette] = useState<string[]>([]);
-  const [initErrorColorPalette, setInitErrorColorPalette] = useState<string[]>([]);
-  const [warningColorPalette, setWarningColorPalette] = useState<string[]>([]);
-  const [initWarningColorPalette, setInitWarningColorPalette] = useState<string[]>([]);
-  const [grayColorPalette, setGrayColorPalette] = useState<string[]>([]);
-  const [initGrayColorPalette, setInitGrayColorPalette] = useState<string[]>([]);
+  const [colorPalette, setColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [initColorPalette, setInitColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [successColorPalette, setSuccessColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [initSuccessColorPalette, setSuccessInitColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [errorColorPalette, setErrorColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [initErrorColorPalette, setInitErrorColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [warningColorPalette, setWarningColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [initWarningColorPalette, setInitWarningColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [grayColorPalette, setGrayColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
+  const [initGrayColorPalette, setInitGrayColorPalette] = useState<PaletteItem[] | PaletteItem[][]>([]);
   const themes = DEFAULT_COLOR;
-  const [generateMode, setGenerateMode] = useState<"remain" | "recommend">("remain");
+  const [generateMode] = useState<"remain" | "recommend">("remain");
   // 获取当前色板
   const getCurrentPalette = useCallback(
     (type = "brand") => {
-      let colorMap;
-      let duplicateMap = [];
+      let colorMap: Array<{ name: string; type: string; idx: number }> = [];
+      let duplicateMap: Array<{ name: string; type: string; idx: number }> = [];
 
       if (type === "brand") {
         colorMap = BRAND_COLOR_MAP;
@@ -72,7 +80,7 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
       const docStyle = getComputedStyle(document.documentElement);
 
       const currentPalette = [...new Array(type === "gray" ? 14 : 10).keys()].map((_, i) => {
-        const color = colorMap.filter((v) => v.idx === i);
+        const color = colorMap.filter((v: { idx: number }) => v.idx === i);
 
         if (color.length) {
           if (color.length === 1) {
@@ -81,7 +89,7 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
               value: docStyle.getPropertyValue(`--td-${type}-color-${i + 1}`)
             };
           }
-          return color.map((v) => ({
+          return color.map((v: { idx: number; name: string; type: string }) => ({
             ...v,
             value: docStyle.getPropertyValue(`--td-${type}-color-${v.idx + 1}`)
           }));
@@ -103,20 +111,20 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
   // 设置色板
   const setPalette = useCallback(() => {
     const palette = getCurrentPalette();
-    setInitColorPalette([...palette]);
-    setColorPalette([...palette]);
+    setInitColorPalette([...palette] as PaletteItem[] | PaletteItem[][]);
+    setColorPalette([...palette] as PaletteItem[] | PaletteItem[][]);
     const successPalette = getCurrentPalette("success");
-    setSuccessInitColorPalette(JSON.parse(JSON.stringify(successPalette)));
-    setSuccessColorPalette([...successPalette]);
+    setSuccessInitColorPalette(JSON.parse(JSON.stringify(successPalette)) as PaletteItem[] | PaletteItem[][]);
+    setSuccessColorPalette([...successPalette] as PaletteItem[] | PaletteItem[][]);
     const errorPalette = getCurrentPalette("error");
-    setInitErrorColorPalette(JSON.parse(JSON.stringify(errorPalette)));
-    setErrorColorPalette([...errorPalette]);
+    setInitErrorColorPalette(JSON.parse(JSON.stringify(errorPalette)) as PaletteItem[] | PaletteItem[][]);
+    setErrorColorPalette([...errorPalette] as PaletteItem[] | PaletteItem[][]);
     const warningPalette = getCurrentPalette("warning");
-    setInitWarningColorPalette(JSON.parse(JSON.stringify(warningPalette)));
-    setWarningColorPalette([...warningPalette]);
+    setInitWarningColorPalette(JSON.parse(JSON.stringify(warningPalette)) as PaletteItem[] | PaletteItem[][]);
+    setWarningColorPalette([...warningPalette] as PaletteItem[] | PaletteItem[][]);
     const grayPalette = getCurrentPalette("gray");
-    setInitGrayColorPalette(JSON.parse(JSON.stringify(grayPalette)));
-    setGrayColorPalette([...grayPalette]);
+    setInitGrayColorPalette(JSON.parse(JSON.stringify(grayPalette)) as PaletteItem[] | PaletteItem[][]);
+    setGrayColorPalette([...grayPalette] as PaletteItem[] | PaletteItem[][]);
   }, [getCurrentPalette]);
 
   useEffect(() => {
@@ -135,25 +143,32 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     const result = generateNewTheme(hex, generateMode === "remain", device);
     console.log(result.colorPalette);
     setCurrentBrandIdx(result.brandColorIdx);
-    setColorPalette(result.colorPalette);
-    setInitColorPalette([...result.colorPalette]);
+    setColorPalette(result.colorPalette as unknown as PaletteItem[] | PaletteItem[][]);
+    setInitColorPalette([...result.colorPalette] as unknown as PaletteItem[] | PaletteItem[][]);
   };
 
-  const recoverGradation = (type) => {
-    let palette;
+  const recoverGradation = (type: string) => {
+    let palette: PaletteItem[] | PaletteItem[][] | undefined;
     const modifiedPalette = getCurrentPalette(type);
     if (type === "brand") palette = initColorPalette;
     if (type === "error") palette = initErrorColorPalette;
     if (type === "success") palette = initSuccessColorPalette;
     if (type === "warning") palette = initWarningColorPalette;
     if (type === "gray") palette = initGrayColorPalette;
+    if (!palette) return;
     const diffPalette = palette.filter((v, i) => JSON.stringify(v) !== JSON.stringify(modifiedPalette[i]));
     diffPalette.forEach((v) => {
-      if (v instanceof Array) {
-        changeGradation(v[0].value, v[0].idx, type, false);
+      if (Array.isArray(v)) {
+        const item = v[0] as { value?: string; idx?: number };
+        if (item?.value !== undefined && item?.idx !== undefined) {
+          changeGradation(item.value, item.idx, type, false);
+        }
         return;
       } else {
-        changeGradation(v.value, v.idx, type, false);
+        const item = v as { value?: string; idx?: number };
+        if (item?.value !== undefined && item?.idx !== undefined) {
+          changeGradation(item.value, item.idx, type, false);
+        }
       }
     });
   };
@@ -184,10 +199,10 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
         newInitPalette[i].value = v;
         changeGradation(v, i, type);
       } else if (newPalette[i] && newPalette[i] instanceof Array) {
-        newPalette[i].forEach((p) => {
+        (newPalette[i] as Array<{ value: string }>).forEach((p) => {
           p.value = v;
         });
-        newInitPalette[i].forEach((p) => {
+        (newInitPalette[i] as Array<{ value: string }>).forEach((p) => {
           p.value = v;
         });
         changeGradation(v, i, type);
@@ -217,27 +232,57 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
     });
   }, [setPalette, currentThemeColor, isRefresh]);
 
-  const changeGradation = (hex, idx, type, saveToLocal = true) => {
+  const changeGradation = (hex: string, idx: number, type: string, saveToLocal = true) => {
     if (!colorPalette[idx]) return;
     if (type === "brand") {
-      if (colorPalette[idx] instanceof Array) {
-        setColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+      if (Array.isArray(colorPalette[idx])) {
+        setColorPalette(
+          (prev) =>
+            prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+              | PaletteItem[]
+              | PaletteItem[][]
+        );
       } else {
-        setColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+        setColorPalette(
+          (prev) =>
+            prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+              | PaletteItem[]
+              | PaletteItem[][]
+        );
       }
     }
 
     if (type === "success") {
-      setSuccessColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+      setSuccessColorPalette(
+        (prev) =>
+          prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+            | PaletteItem[]
+            | PaletteItem[][]
+      );
     }
     if (type === "error") {
-      setErrorColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+      setErrorColorPalette(
+        (prev) =>
+          prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+            | PaletteItem[]
+            | PaletteItem[][]
+      );
     }
     if (type === "warning") {
-      setWarningColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+      setWarningColorPalette(
+        (prev) =>
+          prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+            | PaletteItem[]
+            | PaletteItem[][]
+      );
     }
     if (type === "gray") {
-      setGrayColorPalette((prev) => prev.map((item, i) => (i === idx ? { ...item, value: hex } : item)));
+      setGrayColorPalette(
+        (prev) =>
+          prev.map((item, i) => (i === idx ? { ...(Array.isArray(item) ? item[0] : item), value: hex } : item)) as
+            | PaletteItem[]
+            | PaletteItem[][]
+      );
     }
 
     const tokenName = `--td-${type}-color-${idx + 1}`;
@@ -281,7 +326,7 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
         <div className="color-content__main">
           <p className="color-panel__title">主题色</p>
           <div className="color-content__flex">
-            {themes.slice(0, 3).map((theme, index) => {
+            {themes.slice(0, 3).map((theme: { value: string; name: string }, index: number) => {
               return (
                 <div
                   key={index}
@@ -342,15 +387,26 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
                     <p>自定义主题颜色</p>
                     <p style={{ color: "var(--text-secondary)" }}>HEX: {currentThemeColor}</p>
                   </div>
-                  <Edit1Icon size="20" style={{ marginRight: "8px", color: "var(--text-primary)" }} />
+                  <Edit1Icon size="small" style={{ marginRight: "8px", color: "var(--text-primary)" }} />
                 </div>
               </div>
             </div>
           </Popup>
           <ColorColumn
             type="brand"
-            colorPalette={colorPalette}
-            originColorPalette={initColorPalette}
+            gradientStep={10}
+            colorPalette={
+              colorPalette as Array<{ idx: number; name: string; value?: string; type?: string; isModified?: boolean }>
+            }
+            originColorPalette={
+              initColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
             onChangeGradation={changeGradation}
             onRecoverGradation={recoverGradation}
           />
@@ -360,15 +416,31 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
           title="成功色"
           type="success"
           colorPalette={successColorPalette}
-          paletteChange={isSuccessColorPaletteChange}
           disabled={false}
           onChangeMainColor={changeMainColor}
         >
           <ColorColumn
             type="success"
             gradientStep={10}
-            colorPalette={successColorPalette}
-            originColorPalette={initSuccessColorPalette}
+            colorPalette={
+              successColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            originColorPalette={
+              initSuccessColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            paletteChange={isSuccessColorPaletteChange}
             onChangeGradation={changeGradation}
             onRecoverGradation={recoverGradation}
           />
@@ -378,15 +450,31 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
           title="错误色"
           type="error"
           colorPalette={errorColorPalette}
-          paletteChange={isErrorColorPaletteChange}
           disabled={false}
           onChangeMainColor={changeMainColor}
         >
           <ColorColumn
             type="error"
             gradientStep={10}
-            colorPalette={errorColorPalette}
-            originColorPalette={initErrorColorPalette}
+            colorPalette={
+              errorColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            originColorPalette={
+              initErrorColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            paletteChange={isErrorColorPaletteChange}
             onChangeGradation={changeGradation}
             onRecoverGradation={recoverGradation}
           />
@@ -396,15 +484,31 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
           title="警告色"
           type="warning"
           colorPalette={warningColorPalette}
-          paletteChange={isWarningColorPaletteChange}
           disabled={false}
           onChangeMainColor={changeMainColor}
         >
           <ColorColumn
             type="warning"
             gradientStep={10}
-            colorPalette={warningColorPalette}
-            originColorPalette={initWarningColorPalette}
+            colorPalette={
+              warningColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            originColorPalette={
+              initWarningColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            paletteChange={isWarningColorPaletteChange}
             onChangeGradation={changeGradation}
             onRecoverGradation={recoverGradation}
           />
@@ -414,15 +518,31 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
           title="中性色"
           type="gray"
           colorPalette={grayColorPalette}
-          paletteChange={isGrayColorPaletteChange}
           disabled={false}
           onChangeMainColor={changeMainColor}
         >
           <ColorColumn
             type="gray"
             gradientStep={14}
-            colorPalette={grayColorPalette}
-            originColorPalette={initGrayColorPalette}
+            colorPalette={
+              grayColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            originColorPalette={
+              initGrayColorPalette as Array<{
+                idx: number;
+                name: string;
+                value?: string;
+                type?: string;
+                isModified?: boolean;
+              }>
+            }
+            paletteChange={isGrayColorPaletteChange}
             onChangeGradation={changeGradation}
             onRecoverGradation={recoverGradation}
           />

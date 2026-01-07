@@ -18,7 +18,6 @@
     "markdown-it-container": "^3.0.0",
     "prismjs": "^1.29.0",
     "tdesign-theme-generator": "^1.1.6",
-    "@tendaui/react": "workspace:*",
     "@tendaui/components": "workspace:*",
     "@tendaui/theme-generator": "workspace:*"
   },

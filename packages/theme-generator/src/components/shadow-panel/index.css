@@ -1,0 +1,43 @@
+.shadow-content__content {
+  padding: 0;
+  overflow: auto;
+}
+
+.shadow-content__content:hover::-webkit-scrollbar-thumb {
+  background-color: var(--bg-color-scroll);
+}
+
+.shadow-content__content::-webkit-scrollbar {
+  width: 12px;
+  background: transparent;
+}
+
+.shadow-content__content::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: transparent;
+}
+
+.shadow-content__main {
+  padding: 12px 4px 16px 16px;
+}
+
+.shadow-content__title {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 0;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.shadow-panel__round-box {
+  width: 20px;
+  height: 20px;
+  background: var(--bg-color-theme-surface);
+  border-radius: 3px;
+}

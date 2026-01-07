@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Popup, List, RadioGroup, Radio } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../../../common/utils";
 import SegmentSelection from "../../../common/segment-selection";
 import SizeSlider from "../../../common/size-slider";
@@ -153,7 +152,7 @@ const LineHeightAdjust: React.FC = () => {
         </div>
       )}
       <div className="font-panel__token-list">
-        <RadioGroup theme="button" variant="default-filled" value={tokenType} onChange={(val) => setTokenType(val)}>
+        <RadioGroup theme="button" variant="default-filled" value={tokenType} onChange={(val) => setTokenType(val as "plus" | "time")}>
           <Radio.Button value="plus">固定模式</Radio.Button>
           <Radio.Button value="time">阶梯模式</Radio.Button>
         </RadioGroup>

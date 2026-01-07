@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../../../common/utils";
 import { IconEdit as Edit1Icon } from "@tendaui/icons";
 import { modifyToken } from "../../../common/Themes";
@@ -21,7 +20,7 @@ interface FontColorAdjustProps {
 
 const FontColorAdjust: React.FC<FontColorAdjustProps> = ({ colorPalette, onChangeGradation }) => {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
-  const [colorType, setColorType] = useState(1);
+  // const [colorType, setColorType] = useState(1);
 
   const flattenPalette = useMemo(() => {
     return colorPalette.flat();

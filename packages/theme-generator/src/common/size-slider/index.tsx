@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { InputNumber, Slider } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../utils";
 import type { InputNumberValue } from "@tendaui/components/input-number/type";
 import "./index.css";
@@ -29,8 +28,8 @@ const SizeSlider: React.FC<SizeSliderProps> = ({
   const [size, setSize] = useState<InputNumberValue | null>(null);
 
   useEffect(() => {
-    const newSize = needInteger ? parseInt(String(sizeValue || 0), 10) : sizeValue;
-    setSize(newSize);
+    const newSize = needInteger ? parseInt(String(sizeValue || 0), 10) : (sizeValue ?? null);
+    setSize(newSize as InputNumberValue | null);
   }, [sizeValue, needInteger]);
 
   const format = (val: InputNumberValue) => {
@@ -60,7 +59,7 @@ const SizeSlider: React.FC<SizeSliderProps> = ({
       <div className="panel__size-slider-op">
         <InputNumber
           disabled={disabled}
-          value={size}
+          value={size ?? undefined}
           format={format}
           theme="column"
           onChange={handleInputChange}
@@ -72,7 +71,9 @@ const SizeSlider: React.FC<SizeSliderProps> = ({
           min={min}
           max={max}
           step={step}
-          onChange={handleInputChange}
+          onChange={(value) => {
+            handleInputChange(typeof value === "number" ? value : value[0]);
+          }}
           tooltipProps={{
             attach: handleAttach
           }}

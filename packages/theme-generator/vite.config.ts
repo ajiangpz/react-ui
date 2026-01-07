@@ -4,6 +4,14 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@tendaui/components": resolve(__dirname, "../components"),
+      "@tendaui/components/": resolve(__dirname, "../components/"),
+      "@tendaui/icons": resolve(__dirname, "../tendaui-icons/src"),
+      "@tendaui/icons/": resolve(__dirname, "../tendaui-icons/src/")
+    }
+  },
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
@@ -12,7 +20,7 @@ export default defineConfig({
       formats: ["es", "cjs"]
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "@tendaui/components", "@tendaui/icons"],
       output: {
         globals: {
           react: "React",

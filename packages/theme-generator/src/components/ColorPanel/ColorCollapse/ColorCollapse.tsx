@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, ReactNode } from "react";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
 import { IconEdit as Edit1Icon, IconCopy as FileCopyIcon } from "@tendaui/icons";
 import { flatten } from "lodash-es";
@@ -8,10 +8,27 @@ import { CSSTransition } from "react-transition-group";
 console.log(ArrowIcon);
 import "./ColorCollapse.css";
 
-const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor, children }) => {
+interface ColorPaletteItem {
+  type?: string;
+  value?: string;
+  idx?: number;
+  name?: string;
+  [key: string]: unknown;
+}
+
+interface ColorCollapseProps {
+  type: string;
+  title: string;
+  colorPalette: ColorPaletteItem[] | ColorPaletteItem[][];
+  disabled: boolean;
+  onChangeMainColor: (hex: string, type: string) => void;
+  children: ReactNode;
+}
+
+const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor, children }: ColorCollapseProps) => {
   const [isActive, setIsActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const copyHex = (hex) => {
+  const copyHex = (hex: string) => {
     const input = document.createElement("input");
     input.value = hex;
     document.body.appendChild(input);
@@ -21,7 +38,8 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
   };
 
   const mainColorVal = useMemo(
-    () => flatten(colorPalette).find((v) => v.type === "main" || v.type === "gray")?.value,
+    () =>
+      (flatten(colorPalette) as ColorPaletteItem[]).find((v) => v.type === "main" || v.type === "gray")?.value || "",
     [colorPalette]
   );
   const nodeRef = useRef(null);
@@ -64,7 +82,7 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
           >
-            {!disabled && isHover && <Edit1Icon size="24px" />}
+            {!disabled && isHover && <Edit1Icon size="large" />}
           </div>
         </Popup>
 
@@ -88,7 +106,7 @@ const ColorCollapse = ({ type, title, colorPalette, disabled, onChangeMainColor,
         </div>
         {/* 箭头 */}
         <div onClick={() => setIsActive((prev) => !prev)}>
-          <ArrowIcon isActive={isActive} overlayClassName="color-collapse__arrow" />
+          <ArrowIcon isActive={isActive} className="color-collapse__arrow" />
         </div>
       </div>
 

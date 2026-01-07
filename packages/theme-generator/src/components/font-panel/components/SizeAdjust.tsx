@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Popup } from "@tendaui/components";
-// @ts-expect-error - utils is a JS file
 import { handleAttach } from "../../../common/utils";
 import SegmentSelection from "../../../common/segment-selection";
 import SizeSlider from "../../../common/size-slider";

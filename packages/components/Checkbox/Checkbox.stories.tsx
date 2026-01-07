@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import { CheckProps } from "../common/Check";
-import { Checkbox } from "@tendaui/react/es/index";
+import { Checkbox } from "../../components";
 import { useState } from "react";
 import React from "react";
 

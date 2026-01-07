@@ -8,13 +8,16 @@ import "../ColorColumn.css";
 interface TokenItem {
   idx: number;
   name: string;
+  value?: string;
   isModified?: boolean;
+  type?: string;
 }
 
 interface ColorColumnProps {
   type: string;
-  gradientStep: number;
+  gradientStep?: number;
   colorPalette: TokenItem[];
+  originColorPalette?: TokenItem[];
   onRecoverGradation?: (type: string) => void;
   onChangeGradation?: (hex: string, idx: number, type: string) => void;
   paletteChange?: boolean;
@@ -23,6 +26,7 @@ interface ColorColumnProps {
 export default function ColorColumn({
   type,
   colorPalette,
+  originColorPalette: _originColorPalette,
   paletteChange,
   onRecoverGradation,
   onChangeGradation
@@ -61,7 +65,7 @@ export default function ColorColumn({
           </div>
         ) : (
           <div className="unlink" onClick={handleRecover}>
-            <LinkUnlinkIcon size="15px" />
+            <LinkUnlinkIcon size="small" />
             断开色阶，点击恢复
           </div>
         )}
@@ -132,7 +136,7 @@ export default function ColorColumn({
                   onMouseEnter={() => setHoverIdx(index)}
                   onMouseLeave={() => setHoverIdx(null)}
                 >
-                  {hoverIdx === index && <Edit1Icon />}
+                  {hoverIdx === index && <Edit1Icon size="small" />}
                 </div>
               </TPopup>
 
