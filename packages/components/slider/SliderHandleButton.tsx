@@ -7,6 +7,7 @@ interface SliderHandleButtonProps {
   classPrefix: string;
   style: React.CSSProperties;
   hideTips: boolean;
+  toolTipProps?: any;
 }
 
 const SliderHandleButton: React.FC<SliderHandleButtonProps> = ({ onChange, style, classPrefix }) => {

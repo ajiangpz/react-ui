@@ -8,7 +8,7 @@ import useDefaultProps from "../hooks/useDefaultProps";
 import useMutationObserver from "../hooks/useMutationObserver";
 import useWindowSize from "../hooks/useWindowSize";
 import useTrigger from "./hooks/useTrigger";
-import type { TdPopupProps } from "./type";
+import type { TdPopupProps, PopupVisibleChangeContext } from "./type";
 import usePopper from "../hooks/usePopper";
 import { popupDefaultProps } from "./defaultProps";
 import classNames from "classnames";
@@ -62,7 +62,28 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 全局配置
   const { height: windowHeight, width: windowWidth } = useWindowSize();
-  const [visible, onVisibleChange] = useControlled(props, "visible", props.onVisibleChange);
+  const handleVisibleChange = (visible: boolean, context: PopupVisibleChangeContext) => {
+    props.onVisibleChange?.(visible, context);
+  };
+  const [visible, onVisibleChangeInternal] = useControlled(props, "visible", handleVisibleChange);
+  // 适配 useTrigger 的类型
+  const onVisibleChangeForTrigger = (
+    visible: boolean,
+    context: {
+      e?:
+        | React.MouseEvent<HTMLElement>
+        | React.TouchEvent<HTMLElement>
+        | React.FocusEvent<HTMLElement>
+        | React.KeyboardEvent<HTMLElement>;
+      trigger: string;
+    }
+  ) => {
+    const popupContext: PopupVisibleChangeContext = {
+      e: context.e as any,
+      trigger: context.trigger as any
+    };
+    onVisibleChangeInternal(visible, popupContext);
+  };
   // 记录 popup 元素
   // 如果内容为 null 或 undefined，且 hideEmptyPopup 为 true，则不展示 popup
   const [popupElement, setPopupElement] = useState(null);
@@ -101,7 +122,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     trigger,
     visible,
     delay,
-    onVisibleChange
+    onVisibleChange: onVisibleChangeForTrigger
   });
   // 传入popperjs 配置选项
   const popperOptions = props.popperOptions as Options;
@@ -110,7 +131,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   void _ignored;
 
   // popperRef 表示 popper 实例
-  popperRef.current = usePopper(getRefDom(triggerRef), popupElement, {
+  popperRef.current = usePopper(getRefDom(triggerRef) as HTMLElement | null, popupElement, {
     placement: popperPlacement as Placement,
     ...restPopperOptions
   });
@@ -125,8 +146,9 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   const updateTimeRef = useRef(null);
   // 监听 trigger 节点或内容变化动态更新 popup 定位
-  useMutationObserver(getRefDom(triggerRef), () => {
-    const isDisplayNone = getCssVarsValue("display", getRefDom(triggerRef)) === "none";
+  useMutationObserver(getRefDom(triggerRef) as HTMLElement | null, () => {
+    const triggerDom = getRefDom(triggerRef) as HTMLElement | null;
+    const isDisplayNone = triggerDom ? getCssVarsValue("display", triggerDom) === "none" : true;
     if (visible && !isDisplayNone) {
       clearTimeout(updateTimeRef.current);
       updateTimeRef.current = setTimeout(() => popperRef.current?.update?.(), 0);
@@ -177,8 +199,9 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
 
   // 整理浮层样式
   function getOverlayStyle(overlayStyle: TdPopupProps["overlayStyle"]) {
-    if (getRefDom(triggerRef) && popupRef.current && typeof overlayStyle === "function") {
-      return { ...overlayStyle(getRefDom(triggerRef), popupRef.current) };
+    const triggerDom = getRefDom(triggerRef) as HTMLElement | null;
+    if (triggerDom && popupRef.current && typeof overlayStyle === "function") {
+      return { ...overlayStyle(triggerDom, popupRef.current) };
     }
     return { ...overlayStyle };
   }
@@ -194,7 +217,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
       onExited={handleExited}
       classNames={`${classPrefix}-portal`}
     >
-      <Portal triggerNode={getRefDom(triggerRef)} attach="body" ref={portalRef}>
+      <Portal triggerNode={getRefDom(triggerRef) as HTMLElement | null} attach="body" ref={portalRef}>
         <CSSTransition appear timeout={0} in={visible} nodeRef={popupRef} classNames={`${classPrefix}-popup`}>
           <div
             ref={(node) => {
@@ -247,7 +270,8 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
     getPopupElement: () => popupRef.current,
     getPortalElement: () => portalRef.current,
     getPopupContentElement: () => contentRef.current,
-    setVisible: (visible: boolean) => onVisibleChange(visible, { trigger: "document" })
+    setVisible: (visible: boolean) =>
+      onVisibleChangeInternal(visible, { trigger: "document" } as PopupVisibleChangeContext)
   }));
   // 这里使用 React.Fragment 包裹 triggerNode 和 overlay，确保返回一个单一的父节点
   // 这样可以避免在渲染时出现多个根节点的错误

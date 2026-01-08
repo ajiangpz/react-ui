@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 // import log from "@tdesign/common-js/log/index";
 import useVirtualScroll from "../../hooks/useVirtualScroll";
 import { TdListProps } from "../type";
-import { Styles, type ComponentScrollToElementParams } from "../../common";
+import { Styles, type ScrollToElementParams } from "../../common";
 const log = console.log;
 export const useListVirtualScroll = (
   scroll: TdListProps["scroll"],
@@ -57,15 +57,15 @@ export const useListVirtualScroll = (
     [virtualConfig.translateY]
   );
 
-  const handleScrollTo = (params: ComponentScrollToElementParams) => {
+  const handleScrollTo = (params: ScrollToElementParams) => {
     const { index, key } = params;
     const targetIndex = index === 0 ? index : index ?? Number(key);
     if (!targetIndex && targetIndex !== 0) {
-      log.error("List", "scrollTo: `index` or `key` must exist.");
+      console.error("List", "scrollTo: `index` or `key` must exist.");
       return;
     }
     if (targetIndex < 0 || targetIndex >= listItems.length) {
-      log.error("List", `${targetIndex} does not exist in data, check \`index\` or \`key\` please.`);
+      console.error("List", `${targetIndex} does not exist in data, check \`index\` or \`key\` please.`);
       return;
     }
     virtualConfig.scrollToElement({ ...params, index: targetIndex - 1 });

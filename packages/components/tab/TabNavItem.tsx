@@ -70,7 +70,7 @@ const TabNavItem: React.FC<TabNavItemProps> = (props) => {
             onTabRemove({ value, e, index });
           }}
         >
-          <CloseIcon svg={""} />
+          <CloseIcon />
         </span>
       ) : null}
     </div>

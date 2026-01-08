@@ -5,6 +5,7 @@ import { TdColorModes, TdColorPickerProps } from "../../type";
 
 export interface ColorPanelHeaderProps extends TdColorPickerProps {
   mode?: TdColorModes;
+  colorModes?: Array<TdColorModes>;
   onModeChange?: (value: RadioValue, context: { e: React.ChangeEvent<HTMLInputElement> }) => void;
   baseClassName?: string;
 }

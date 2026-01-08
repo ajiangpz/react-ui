@@ -148,13 +148,13 @@ export default function useInputNumber<T extends InputNumberValue = InputNumberV
     setUserInput(val);
 
     if (largeNumber) {
-      onChange(val as T, { type: "input", e });
+      onChange(val as T, { type: "input", e: e as any });
       return;
     }
 
     if (canSetValue(String(val), Number(tValue))) {
       const newVal = val === "" ? undefined : Number(val);
-      onChange(newVal as T, { type: "input", e });
+      onChange(newVal as T, { type: "input", e: e as any });
     }
   };
 

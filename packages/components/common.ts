@@ -64,6 +64,8 @@ export interface ScrollToElementParams {
   /** 单个元素高度非固定场景下，即 isFixedRowHeight = false。延迟设置元素位置，一般用于依赖不同高度异步渲染等场景，单位：毫秒 */
   time?: number;
   behavior?: "auto" | "smooth";
+  /** 跳转元素的 key */
+  key?: string | number;
 }
 
 /**
@@ -89,3 +91,6 @@ export const ALL_REG = /^(KeyA|KeyL)$/i;
 export const CHECKED_CODE_REG = /^(Enter|Space)$/i;
 
 export const THEME_MODE = "theme-mode";
+
+export type ScrollContainer = string | (() => HTMLElement | Window) | HTMLElement | Window | null;
+export type ScrollContainerElement = HTMLElement | Window;

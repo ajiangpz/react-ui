@@ -23,12 +23,8 @@ interface SizeAdjustProps {
 
 const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
-  const [tokenTypeList, setTokenTypeList] = useState<
-    Array<TokenItem & { value: string }>
-  >([]);
-  const [initTokenList, setInitTokenList] = useState<
-    Array<TokenItem & { value: string }>
-  >([]);
+  const [tokenTypeList, setTokenTypeList] = useState<Array<TokenItem & { value: string }>>([]);
+  const [initTokenList, setInitTokenList] = useState<Array<TokenItem & { value: string }>>([]);
 
   useEffect(() => {
     const computedStyle = window.getComputedStyle(document.documentElement);
@@ -36,7 +32,7 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
       label: v.label,
       value: computedStyle.getPropertyValue(`--td-${v.label}`),
       desc: v.desc,
-      remark: v.remark,
+      remark: v.remark
     }));
     setTokenTypeList(newTokenTypeList);
     setInitTokenList(JSON.parse(JSON.stringify(newTokenTypeList)));
@@ -103,11 +99,7 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
           overlayStyle={{ borderRadius: "9px" }}
           onVisibleChange={(visible, context) => handleVisibleChange(visible, context, idx)}
           content={
-            <SizeSlider
-              title="size"
-              sizeValue={token.value}
-              onChangeFontSize={(v) => handleChangeSize(v, idx)}
-            />
+            <SizeSlider title="size" sizeValue={token.value} onChangeFontSize={(v) => handleChangeSize(v, idx)} />
           }
         >
           <div
@@ -115,10 +107,7 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
             style={{
               height: "48px",
               transition: "border-color .2s",
-              border:
-                hoverIdx === idx
-                  ? "1px solid var(--brand-main-hover)"
-                  : "1px solid transparent",
+              border: hoverIdx === idx ? "1px solid var(--brand-main-hover)" : "1px solid transparent",
               marginBottom: "4px",
               borderRadius: "6px",
               cursor: "pointer",
@@ -126,7 +115,7 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
               fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
               padding: "4px 6px",
               fontSize: "12px",
-              lineHeight: "20px",
+              lineHeight: "20px"
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -136,9 +125,7 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
                   {token.remark} : {token.value}
                 </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {renderSvg(type, parseSize(token.value))}
-              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>{renderSvg(type, parseSize(token.value))}</div>
             </div>
           </div>
         </Popup>
@@ -148,4 +135,3 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
 };
 
 export default SizeAdjust;
-

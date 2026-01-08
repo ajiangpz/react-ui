@@ -1,11 +1,11 @@
-@use 'sass:map';
-@import '../../vars.scss';
+@use "sass:map";
+@import "../../_vars.scss";
 
-@import './_vars.scss';
+@import "./_vars.scss";
 
-@import './_mixins.scss';
+@import "./_mixins.scss";
 
-@import '../../mixins/_reset.scss';
+@import "../../mixins/_reset.scss";
 
 @function btn-color($theme, $state: default) {
   $theme-map: map.get($btn-colors, $theme);
@@ -29,16 +29,16 @@
 
   @if $ghost == true {
     &.#{$prefix}-is-loading {
-      #{$attr}: btn-color($theme, 'default');
+      #{$attr}: btn-color($theme, "default");
     }
   } @else {
     &.#{$prefix}-is-loading {
-      #{$attr}: btn-color($theme, 'disabled');
+      #{$attr}: btn-color($theme, "disabled");
     }
   }
 
   @if $ghost == true {
-    #{$attr}: btn-color('ghost', 'disabled');
+    #{$attr}: btn-color("ghost", "disabled");
     background-color: transparent;
   } @else {
     #{$attr}: btn-color($theme, disabled);
@@ -90,57 +90,57 @@
       $btn-icon-size-default,
       $btn-padding-horizontal-default
     );
-    @include button-attr-color('gray-bg', background-color);
-    @include button-attr-color('gray-bg', border-color);
-    @include button-attr-color('text-gray', color);
+    @include button-attr-color("gray-bg", background-color);
+    @include button-attr-color("gray-bg", border-color);
+    @include button-attr-color("text-gray", color);
 
     &.#{$prefix}-button--theme-primary {
       color: $btn-text-variant-base-color;
-      @include button-attr-color('primary', background-color);
-      @include button-attr-color('primary', border-color);
+      @include button-attr-color("primary", background-color);
+      @include button-attr-color("primary", border-color);
     }
 
     &.#{$prefix}-button--theme-success {
       color: $btn-text-variant-base-color;
-      @include button-attr-color('success', background-color);
-      @include button-attr-color('success', border-color);
+      @include button-attr-color("success", background-color);
+      @include button-attr-color("success", border-color);
     }
 
     &.#{$prefix}-button--theme-warning {
       color: $btn-text-variant-base-color;
-      @include button-attr-color('warning', background-color);
-      @include button-attr-color('warning', border-color);
+      @include button-attr-color("warning", background-color);
+      @include button-attr-color("warning", border-color);
     }
 
     &.#{$prefix}-button--theme-danger {
       color: $btn-text-variant-base-color;
-      @include button-attr-color('danger', background-color);
-      @include button-attr-color('danger', border-color);
+      @include button-attr-color("danger", background-color);
+      @include button-attr-color("danger", border-color);
     }
 
     &.#{$prefix}-button--ghost {
-      @include button-attr-color('primary', background-color, true);
-      @include button-attr-color('white-ghost', color, true);
-      @include button-attr-color('white-ghost', border-color, true);
+      @include button-attr-color("primary", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
 
       &.#{$prefix}-button--theme-primary {
-        @include button-attr-color('primary', color, true);
-        @include button-attr-color('primary', border-color, true);
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
       }
 
       &.#{$prefix}-button--theme-success {
-        @include button-attr-color('success', color, true);
-        @include button-attr-color('success', border-color, true);
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
       }
 
       &.#{$prefix}-button--theme-warning {
-        @include button-attr-color('warning', color, true);
-        @include button-attr-color('warning', border-color, true);
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
       }
 
       &.#{$prefix}-button--theme-danger {
-        @include button-attr-color('danger', color, true);
-        @include button-attr-color('danger', border-color, true);
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
       }
     }
 
@@ -159,54 +159,54 @@
       $btn-icon-size-default,
       $btn-padding-horizontal-default
     );
-    @include button-attr-color('text', color);
+    @include button-attr-color("text", color);
 
-    @include button-attr-color('white-bg', background-color);
-    @include button-attr-color('border-gray', border-color);
+    @include button-attr-color("white-bg", background-color);
+    @include button-attr-color("border-gray", border-color);
 
     &.#{$prefix}-button--theme-primary {
-      @include button-attr-color('primary', color);
-      @include button-attr-color('primary', border-color);
+      @include button-attr-color("primary", color);
+      @include button-attr-color("primary", border-color);
     }
 
     &.#{$prefix}-button--theme-success {
-      @include button-attr-color('success', color);
-      @include button-attr-color('success', border-color);
+      @include button-attr-color("success", color);
+      @include button-attr-color("success", border-color);
     }
 
     &.#{$prefix}-button--theme-warning {
-      @include button-attr-color('warning', color);
-      @include button-attr-color('warning', border-color);
+      @include button-attr-color("warning", color);
+      @include button-attr-color("warning", border-color);
     }
 
     &.#{$prefix}-button--theme-danger {
-      @include button-attr-color('danger', color);
-      @include button-attr-color('danger', border-color);
+      @include button-attr-color("danger", color);
+      @include button-attr-color("danger", border-color);
     }
 
     &.#{$prefix}-button--ghost {
-      @include button-attr-color('none', background-color, true);
-      @include button-attr-color('white-ghost', color, true);
-      @include button-attr-color('white-ghost', border-color, true);
+      @include button-attr-color("none", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
 
       &.#{$prefix}-button--theme-primary {
-        @include button-attr-color('primary', color, true);
-        @include button-attr-color('primary', border-color, true);
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
       }
 
       &.#{$prefix}-button--theme-success {
-        @include button-attr-color('success', color, true);
-        @include button-attr-color('success', border-color, true);
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
       }
 
       &.#{$prefix}-button--theme-warning {
-        @include button-attr-color('warning', color, true);
-        @include button-attr-color('warning', border-color, true);
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
       }
 
       &.#{$prefix}-button--theme-danger {
-        @include button-attr-color('danger', color, true);
-        @include button-attr-color('danger', border-color, true);
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
       }
     }
 
@@ -250,48 +250,48 @@
     border-style: dashed;
 
     &.#{$prefix}-button--theme-primary {
-      @include button-attr-color('primary', color);
-      @include button-attr-color('primary', border-color);
+      @include button-attr-color("primary", color);
+      @include button-attr-color("primary", border-color);
     }
 
     &.#{$prefix}-button--theme-success {
-      @include button-attr-color('success', color);
-      @include button-attr-color('success', border-color);
+      @include button-attr-color("success", color);
+      @include button-attr-color("success", border-color);
     }
 
     &.#{$prefix}-button--theme-warning {
-      @include button-attr-color('warning', color);
-      @include button-attr-color('warning', border-color);
+      @include button-attr-color("warning", color);
+      @include button-attr-color("warning", border-color);
     }
 
     &.#{$prefix}-button--theme-danger {
-      @include button-attr-color('danger', color);
-      @include button-attr-color('danger', border-color);
+      @include button-attr-color("danger", color);
+      @include button-attr-color("danger", border-color);
     }
 
     &.#{$prefix}-button--ghost {
-      @include button-attr-color('none', background-color, true);
-      @include button-attr-color('white-ghost', color, true);
-      @include button-attr-color('white-ghost', border-color, true);
+      @include button-attr-color("none", background-color, true);
+      @include button-attr-color("white-ghost", color, true);
+      @include button-attr-color("white-ghost", border-color, true);
 
       &.#{$prefix}-button--theme-primary {
-        @include button-attr-color('primary', color, true);
-        @include button-attr-color('primary', border-color, true);
+        @include button-attr-color("primary", color, true);
+        @include button-attr-color("primary", border-color, true);
       }
 
       &.#{$prefix}-button--theme-success {
-        @include button-attr-color('success', color, true);
-        @include button-attr-color('success', border-color, true);
+        @include button-attr-color("success", color, true);
+        @include button-attr-color("success", border-color, true);
       }
 
       &.#{$prefix}-button--theme-warning {
-        @include button-attr-color('warning', color, true);
-        @include button-attr-color('warning', border-color, true);
+        @include button-attr-color("warning", color, true);
+        @include button-attr-color("warning", border-color, true);
       }
 
       &.#{$prefix}-button--theme-danger {
-        @include button-attr-color('danger', color, true);
-        @include button-attr-color('danger', border-color, true);
+        @include button-attr-color("danger", color, true);
+        @include button-attr-color("danger", border-color, true);
       }
     }
     &.#{$prefix}-is-loading:not(&.#{$prefix}-button--ghost) {
@@ -327,45 +327,45 @@
       $btn-icon-size-default,
       $btn-padding-horizontal-default
     );
-    @include button-attr-color('text-gray', color);
-    @include button-attr-color('text-bg', background-color);
-    @include button-attr-color('text-bg', border-color);
+    @include button-attr-color("text-gray", color);
+    @include button-attr-color("text-bg", background-color);
+    @include button-attr-color("text-bg", border-color);
 
     &.#{$prefix}-button--theme-primary {
-      @include button-attr-color('primary', color);
+      @include button-attr-color("primary", color);
     }
 
     &.#{$prefix}-button--theme-success {
-      @include button-attr-color('success', color);
+      @include button-attr-color("success", color);
     }
 
     &.#{$prefix}-button--theme-warning {
-      @include button-attr-color('warning', color);
+      @include button-attr-color("warning", color);
     }
 
     &.#{$prefix}-button--theme-danger {
-      @include button-attr-color('danger', color);
+      @include button-attr-color("danger", color);
     }
 
     &.#{$prefix}-button--ghost {
       background: none;
 
-      @include button-attr-color('white-ghost', color, true);
+      @include button-attr-color("white-ghost", color, true);
 
       &.#{$prefix}-button--theme-primary {
-        @include button-attr-color('primary', color, true);
+        @include button-attr-color("primary", color, true);
       }
 
       &.#{$prefix}-button--theme-success {
-        @include button-attr-color('success', color, true);
+        @include button-attr-color("success", color, true);
       }
 
       &.#{$prefix}-button--theme-warning {
-        @include button-attr-color('warning', color, true);
+        @include button-attr-color("warning", color, true);
       }
 
       &.#{$prefix}-button--theme-danger {
-        @include button-attr-color('danger', color, true);
+        @include button-attr-color("danger", color, true);
       }
     }
 
@@ -396,21 +396,11 @@
   }
 
   &.#{$prefix}-size-s {
-    @include button-size(
-      $btn-height-s,
-      $btn-font-s,
-      $btn-icon-size-s,
-      $btn-padding-horizontal-s
-    );
+    @include button-size($btn-height-s, $btn-font-s, $btn-icon-size-s, $btn-padding-horizontal-s);
   }
 
   &.#{$prefix}-size-l {
-    @include button-size(
-      $btn-height-l,
-      $btn-font-l,
-      $btn-icon-size-l,
-      $btn-padding-horizontal-l
-    );
+    @include button-size($btn-height-l, $btn-font-l, $btn-icon-size-l, $btn-padding-horizontal-l);
   }
 
   &--shape-square {
@@ -480,32 +470,30 @@
   --ripple-color: btn-color(white-bg, active);
 }
 
-.#{$prefix}-button--variant-base:not(.#{$prefix}-is-disabled):not(
-    .#{$prefix}-button--ghost
-  ) {
+.#{$prefix}-button--variant-base:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {
   --ripple-color: btn-color(gray-bg, active);
 }
 
-.#{$prefix}-button--variant-base.#{$prefix}-button--theme-primary:not(
-    .#{$prefix}-is-disabled
-  ):not(.#{$prefix}-button--ghost) {
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-primary:not(.#{$prefix}-is-disabled):not(
+    .#{$prefix}-button--ghost
+  ) {
   --ripple-color: btn-color(primary, active);
 }
 
-.#{$prefix}-button--variant-base.#{$prefix}-button--theme-success:not(
-    .#{$prefix}-is-disabled
-  ):not(.#{$prefix}-button--ghost) {
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-success:not(.#{$prefix}-is-disabled):not(
+    .#{$prefix}-button--ghost
+  ) {
   --ripple-color: btn-color(success, default)-active;
 }
 
-.#{$prefix}-button--variant-base.#{$prefix}-button--theme-warning:not(
-    .#{$prefix}-is-disabled
-  ):not(.#{$prefix}-button--ghost) {
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-warning:not(.#{$prefix}-is-disabled):not(
+    .#{$prefix}-button--ghost
+  ) {
   --ripple-color: btn-color(warning, active);
 }
 
-.#{$prefix}-button--variant-base.#{$prefix}-button--theme-danger:not(
-    .#{$prefix}-is-disabled
-  ):not(.#{$prefix}-button--ghost) {
+.#{$prefix}-button--variant-base.#{$prefix}-button--theme-danger:not(.#{$prefix}-is-disabled):not(
+    .#{$prefix}-button--ghost
+  ) {
   --ripple-color: btn-color(danger, active);
 }

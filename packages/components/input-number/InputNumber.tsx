@@ -33,7 +33,10 @@ function TdInputNumber<T extends InputNumberValue = InputNumberValue>(
     ChevronUpIcon: TdChevronUpIcon,
     AddIcon: TdAddIcon
   });
-  const props = useDefaultProps<InputNumberProps<T>>(originalProps, inputNumberDefaultProps);
+  const props = useDefaultProps<InputNumberProps<T>>(
+    originalProps,
+    inputNumberDefaultProps as Partial<InputNumberProps<T>>
+  );
   const {
     classPrefix,
     wrapClasses,
@@ -51,9 +54,11 @@ function TdInputNumber<T extends InputNumberValue = InputNumberValue>(
   const wrapRef = useRef(null);
 
   const status = isError ? "error" : props.status;
-  const addIcon = props.theme === "column" ? <ChevronUpIcon size={props.size} /> : <AddIcon size={props.size} />;
+  const iconSize = props.size === "medium" ? "default" : props.size;
+  const addIcon =
+    props.theme === "column" ? <ChevronUpIcon size={iconSize as any} /> : <AddIcon size={iconSize as any} />;
   const reduceIcon =
-    props.theme === "column" ? <ChevronDownIcon size={props.size} /> : <RemoveIcon size={props.size} />;
+    props.theme === "column" ? <ChevronDownIcon size={iconSize as any} /> : <RemoveIcon size={iconSize as any} />;
 
   useImperativeHandle(ref, () => ({
     currentElement: wrapRef.current,

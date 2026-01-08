@@ -36,7 +36,10 @@ const RadioGroup: React.FC<RadioGroupProps> = (originalProps) => {
 
   const radioGroupRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver>(null);
-  useKeyboard(radioGroupRef, setInternalValue);
+  const handleKeyboardChange = (value: any, context: { e: KeyboardEvent }) => {
+    setInternalValue(value, { e: context.e as any, name: props.name });
+  };
+  useKeyboard(radioGroupRef, handleKeyboardChange);
 
   const checkedRadioCls = `.${classPrefix}-radio-button.${classPrefix}-is-checked`;
   const { SIZE: sizeMap } = useCommonClassName();

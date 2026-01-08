@@ -1,5 +1,7 @@
-import arKW from '@tdesign/common-js/global-config/locale/ar_KW';
-import { GlobalConfigProvider } from '../config-provider/type';
+import { GlobalConfigProvider } from "../config-provider/type";
+
+// TODO: Import from @tdesign/common-js when available
+const arKW = {} as GlobalConfigProvider;
 
 // 需要 GlobalConfigProvider 保证数据类型正确
-export default arKW as unknown as GlobalConfigProvider;
+export default arKW;

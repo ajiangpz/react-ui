@@ -12,11 +12,11 @@ export interface AsideProps extends TdAsideProps, StyledProps {
 }
 
 const Aside: React.FC<AsideProps> = (props) => {
-  const { width, className, style, children, ...otherAsideProps } = useDefaultProps(props, { width: 232 });
+  const { width, className, style, children, ...otherAsideProps } = useDefaultProps(props, { width: "232px" });
 
   const { classPrefix } = useConfig();
   const asideClassNames = classNames(`${classPrefix}-layout__sider`, className);
-  const asideWidth = isNaN(Number(width)) ? width : `${width}px`;
+  const asideWidth: string = typeof width === "number" ? `${width}px` : width;
 
   const asideStyle: React.CSSProperties = {
     width: asideWidth,

@@ -15,7 +15,7 @@
   background-clip: content-box;
   background-color: transparent;
 }
-.color-content /deep/ .t-divider__horizontal {
+.color-content .t-divider__horizontal {
   margin: 16px 0;
 }
 .color-content__main {

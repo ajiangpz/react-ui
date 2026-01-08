@@ -1,1 +1,1 @@
-export const BASE_CLASS_PREFIX = "tenda";
+export const BASE_CLASS_PREFIX = "t";

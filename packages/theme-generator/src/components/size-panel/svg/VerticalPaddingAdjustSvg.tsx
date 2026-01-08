@@ -14,13 +14,7 @@ const VerticalPaddingAdjustSvg: React.FC<VerticalPaddingAdjustSvgProps> = ({ siz
   }, [height]);
 
   return (
-    <svg
-      width="12"
-      height={viewHeight}
-      viewBox={`0 0 12 ${viewHeight}`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="12" height={viewHeight} viewBox={`0 0 12 ${viewHeight}`} fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d={`M0 3C0 1.34315 1.34315 0 3 0H9C10.6569 0 12 1.34315 12 3V${4 + height}H0V3Z`}
         fill="#D54941"
@@ -42,4 +36,3 @@ const VerticalPaddingAdjustSvg: React.FC<VerticalPaddingAdjustSvgProps> = ({ siz
 };
 
 export default VerticalPaddingAdjustSvg;
-

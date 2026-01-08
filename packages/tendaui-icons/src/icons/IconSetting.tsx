@@ -6,13 +6,12 @@ function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width="3em"
-      height="3em"
+      width="1em"
+      height="1em"
       focusable={false}
       aria-hidden={true}
       {...props}
     >
-      11111111
       <path
         fillRule="evenodd"
         clipRule="evenodd"

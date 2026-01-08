@@ -6,13 +6,7 @@ interface HorizontalPaddingSvgProps {
 
 const HorizontalPaddingSvg: React.FC<HorizontalPaddingSvgProps> = ({ size = 2 }) => {
   return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_26565_99804)">
         <rect width="48" height="48" rx="6" fill="#D54941" fillOpacity="0.1" />
         <rect width="17" height="48" fill="#D54941" fillOpacity="0.16" />
@@ -32,15 +26,7 @@ const HorizontalPaddingSvg: React.FC<HorizontalPaddingSvgProps> = ({ size = 2 })
           fillOpacity="0.5"
         />
       </g>
-      <rect
-        x="0.5"
-        y="0.5"
-        width="47"
-        height="47"
-        rx="5.5"
-        stroke="black"
-        strokeOpacity="0.06"
-      />
+      <rect x="0.5" y="0.5" width="47" height="47" rx="5.5" stroke="black" strokeOpacity="0.06" />
       <defs>
         <clipPath id="clip0_26565_99804">
           <rect width="48" height="48" rx="6" fill="white" />
@@ -51,4 +37,3 @@ const HorizontalPaddingSvg: React.FC<HorizontalPaddingSvgProps> = ({ size = 2 })
 };
 
 export default HorizontalPaddingSvg;
-

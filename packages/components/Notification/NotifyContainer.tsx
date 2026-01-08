@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { TdNotificationProps } from "./type";
+import { TdNotificationProps, HeightItem } from "./type";
 import NotificationItem from "./NotifyItem";
 import useConfig from "../hooks/useConfig";
 export const GAP = 14;
@@ -32,7 +32,7 @@ const NotificationContainer = ({
     onHoverEnd();
   }, [onHoverEnd]);
 
-  const [heights, setHeights] = useState<{ toastId: string; height: number }[]>([]);
+  const [heights, setHeights] = useState<HeightItem[]>([]);
 
   const { classPrefix: prefix } = useConfig();
 

@@ -17,6 +17,7 @@
   ],
   "compilerOptions": {
     "emitDeclarationOnly": true,
-    "rootDir": "packages/components"
+    "rootDir": "packages",
+    "skipLibCheck": true
   }
 }

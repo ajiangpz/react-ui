@@ -23,7 +23,7 @@ const sizeTokenList: SizeToken[] = [
   { token: "--td-size-13", name: "size-13", value: null },
   { token: "--td-size-14", name: "size-14", value: null },
   { token: "--td-size-15", name: "size-15", value: null },
-  { token: "--td-size-16", name: "size-16", value: null },
+  { token: "--td-size-16", name: "size-16", value: null }
 ];
 
 const SizeDisplay: React.FC = () => {
@@ -34,7 +34,7 @@ const SizeDisplay: React.FC = () => {
       const docStyle = getComputedStyle(document.documentElement);
       return sizeTokenList.map((v) => ({
         ...v,
-        value: v.value ?? docStyle.getPropertyValue(v.token).trim(),
+        value: v.value ?? docStyle.getPropertyValue(v.token).trim()
       }));
     };
 
@@ -49,7 +49,7 @@ const SizeDisplay: React.FC = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "8px",
+            marginBottom: "8px"
           }}
         >
           <span>
@@ -65,4 +65,3 @@ const SizeDisplay: React.FC = () => {
 };
 
 export default SizeDisplay;
-

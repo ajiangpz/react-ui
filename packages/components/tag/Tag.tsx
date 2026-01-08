@@ -70,7 +70,7 @@ export const TagFunction: ForwardRefRenderFunction<HTMLDivElement, TagProps> = (
     <CloseIcon
       onClick={(e) => {
         if (disabled) return;
-        onClose({ e });
+        onClose({ e: e as any });
       }}
       className={`${tagClassPrefix}__icon-close`}
     />

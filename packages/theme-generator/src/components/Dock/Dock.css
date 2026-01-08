@@ -58,6 +58,10 @@
   font-size: 18px;
 }
 
+.theme-generator-dock .t-button .t-icon + .t-button__text:not(:empty) {
+  margin-left: 12px;
+}
+
 @keyframes toConic {
   0% {
     background-position: 0 0;
@@ -66,4 +70,3 @@
     background-position: 100% 50%;
   }
 }
-

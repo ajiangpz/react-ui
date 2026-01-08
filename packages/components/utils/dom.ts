@@ -27,3 +27,7 @@ export const getAttach = (
   }
   return document.body;
 };
+
+export const isWindow = (obj: unknown): obj is Window => {
+  return obj !== null && obj !== undefined && obj === (obj as Window).window;
+};

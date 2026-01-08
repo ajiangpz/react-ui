@@ -1,7 +1,7 @@
 import { isString } from "lodash-es";
 import raf from "raf";
 import { ScrollContainer, ScrollContainerElement } from "../common";
-import { isWindow } from "./dom";
+import { isWindow } from "../utils/dom";
 import { easeInOutCubic, EasingFunction } from "./easing";
 
 export function hasBodyScrollbar() {

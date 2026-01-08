@@ -9,14 +9,14 @@ const REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
  * Compatible with React 18 or 19 to check if node is a Fragment.
  */
 export default function isFragment(object: React.ReactElement | null | undefined): boolean {
+  if (!object || typeof object !== "object") return false;
+
+  const obj = object as unknown as { $$typeof?: symbol; type?: symbol | React.ElementType };
+
   return (
-    // Base object type
-    object &&
-    typeof object === "object" &&
     // React Element type
-    ((object as { $$typeof: symbol }).$$typeof === REACT_ELEMENT_TYPE_18 ||
-      (object as { $$typeof: symbol }).$$typeof === REACT_ELEMENT_TYPE_19) &&
+    (obj.$$typeof === REACT_ELEMENT_TYPE_18 || obj.$$typeof === REACT_ELEMENT_TYPE_19) &&
     // React Fragment type
-    (object as { type: symbol }).type === REACT_FRAGMENT_TYPE
+    obj.type === REACT_FRAGMENT_TYPE
   );
 }

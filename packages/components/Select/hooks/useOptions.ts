@@ -38,10 +38,12 @@ function UseOptions(
       const handlerOptionElement = (v) => {
         if (React.isValidElement<SelectOption>(v)) {
           if (v.type === OptionGroup) {
+            const children = v.props.children;
+            const childrenArray = Array.isArray(children) ? children : children ? [children] : [];
             return {
               ...v.props,
               group: v.props.label,
-              children: v.props.children?.map((v) => handlerOptionElement(v))
+              children: childrenArray.map((v) => handlerOptionElement(v))
             };
           }
           return {
@@ -74,25 +76,26 @@ function UseOptions(
     const labelKey = keys?.label || "label";
 
     setSelectedOptions((oldSelectedOptions: SelectOption[]) => {
-      const createOptionFromValue = (item: OptionValueType) => {
+      const createOptionFromValue = (item: OptionValueType): SelectOption => {
         if (valueType === "value") {
           return (
             valueToOption[item as string | number] ||
-            oldSelectedOptions.find((option) => get(option, valueKey) === item) || {
+            oldSelectedOptions.find((option) => get(option, valueKey) === item) ||
+            ({
               [valueKey]: item,
               [labelKey]: item
-            }
+            } as SelectOption)
           );
         }
         if (typeof item === "object" && item !== null) {
-          return item;
+          return item as SelectOption;
         }
-        return [];
+        return { [valueKey]: item, [labelKey]: item } as SelectOption;
       };
 
       // 多选
       if (Array.isArray(value)) {
-        return value.map(createOptionFromValue);
+        return value.map(createOptionFromValue).filter((opt): opt is SelectOption => opt !== null && opt !== undefined);
       }
 
       // 单选

@@ -6,20 +6,10 @@ interface VerticalPaddingSvgProps {
 
 const VerticalPaddingSvg: React.FC<VerticalPaddingSvgProps> = ({ size = 2 }) => {
   return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_26565_99786)">
         <rect width="48" height="48" rx="6" fill="#D54941" fillOpacity="0.1" />
-        <path
-          d="M0 6C0 2.68629 2.68629 0 6 0H42C45.3137 0 48 2.68629 48 6V17H0V6Z"
-          fill="#D54941"
-          fillOpacity="0.16"
-        />
+        <path d="M0 6C0 2.68629 2.68629 0 6 0H42C45.3137 0 48 2.68629 48 6V17H0V6Z" fill="#D54941" fillOpacity="0.16" />
         <path
           d="M0 32H48V42C48 45.3137 45.3137 48 42 48H6C2.68629 48 0 45.3137 0 42V32Z"
           fill="#D54941"
@@ -40,15 +30,7 @@ const VerticalPaddingSvg: React.FC<VerticalPaddingSvgProps> = ({ size = 2 }) => 
           fillOpacity="0.5"
         />
       </g>
-      <rect
-        x="0.5"
-        y="0.5"
-        width="47"
-        height="47"
-        rx="5.5"
-        stroke="black"
-        strokeOpacity="0.06"
-      />
+      <rect x="0.5" y="0.5" width="47" height="47" rx="5.5" stroke="black" strokeOpacity="0.06" />
       <defs>
         <clipPath id="clip0_26565_99786">
           <rect width="48" height="48" rx="6" fill="white" />
@@ -59,4 +41,3 @@ const VerticalPaddingSvg: React.FC<VerticalPaddingSvgProps> = ({ size = 2 }) => 
 };
 
 export default VerticalPaddingSvg;
-

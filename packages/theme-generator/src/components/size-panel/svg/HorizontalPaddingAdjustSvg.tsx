@@ -14,13 +14,7 @@ const HorizontalPaddingAdjustSvg: React.FC<HorizontalPaddingAdjustSvgProps> = ({
   }, [width]);
 
   return (
-    <svg
-      width={viewWidth}
-      height="12"
-      viewBox={`0 0 ${viewWidth} 12`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={viewWidth} height="12" viewBox={`0 0 ${viewWidth} 12`} fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d={`M0 3C0 1.34315 1.34315 0 3 0H${4 + width}V12H3C1.34315 12 0 10.6569 0 9V3Z`}
         fill="#D54941"
@@ -42,4 +36,3 @@ const HorizontalPaddingAdjustSvg: React.FC<HorizontalPaddingAdjustSvgProps> = ({
 };
 
 export default HorizontalPaddingAdjustSvg;
-

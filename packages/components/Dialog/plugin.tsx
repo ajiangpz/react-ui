@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "../utils/react-render";
 import DialogComponent, { DialogProps } from "./Dialog";
-import { getAttach } from "../utils/dom";
+import { getAttach } from "../common/Portal";
 import { DialogOptions, DialogMethod, DialogConfirmMethod, DialogAlertMethod, DialogInstance } from "./type";
 import PluginContainer from "../common/PluginContainer";
 import ConfigProvider from "../config-provider";
@@ -25,7 +25,8 @@ const createDialog: DialogPluginType = (props: DialogOptions): DialogInstance =>
     </PluginContainer>,
     fragment
   );
-  const container = getAttach(options.attach);
+  const attachResult = getAttach(options.attach);
+  const container = (attachResult && attachResult instanceof HTMLElement ? attachResult : null) || document.body;
 
   if (container) {
     container.appendChild(fragment);

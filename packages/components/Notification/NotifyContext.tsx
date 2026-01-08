@@ -1,6 +1,7 @@
 import React, { createContext, useState, useRef, useCallback, useContext } from "react";
 import { createPortal } from "react-dom";
 import NotifyContainer from "./NotifyContainer";
+import { TdNotificationProps } from "./type";
 
 // 1. 定义类型
 type NotificationType = "success" | "error" | "warning" | "info";

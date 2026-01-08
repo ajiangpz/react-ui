@@ -2,6 +2,7 @@ import { MouseEvent } from "react";
 import { StyledProps } from "../common";
 import { InputProps } from "../input";
 import { PopupProps } from "../popup";
+import { SelectInputProps } from "../select-input";
 import type { Color } from "./utils/color-picker/color";
 export interface TdColorPickerProps {
   /**
@@ -138,3 +139,5 @@ export interface TdColorBaseProps {
   onChange?: (options?) => void;
   baseClassName: string;
 }
+
+export type TdColorModes = keyof typeof import("./utils/color-picker/constants").COLOR_MODES;

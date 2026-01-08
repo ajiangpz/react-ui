@@ -15,12 +15,12 @@ const sizeSteps = {
     { name: "size-13", value: "48px" },
     { name: "size-14", value: "56px" },
     { name: "size-15", value: "64px" },
-    { name: "size-16", value: "72px" },
-  ],
+    { name: "size-16", value: "72px" }
+  ]
 };
 
 const sizeLabels = {
-  3: "默认",
+  3: "默认"
 };
 
 const sizeArr = [
@@ -39,7 +39,7 @@ const sizeArr = [
   { token: "--td-size-13", name: "size-13", value: "48px" },
   { token: "--td-size-14", name: "size-14", value: "56px" },
   { token: "--td-size-15", name: "size-15", value: "64px" },
-  { token: "--td-size-16", name: "size-16", value: "72px" },
+  { token: "--td-size-16", name: "size-16", value: "72px" }
 ];
 
 // 组件大小列表
@@ -47,58 +47,58 @@ const compSizeArr = [
   {
     label: "comp-size-xxxs",
     value: null,
-    remark: "size-6",
+    remark: "size-6"
   },
   {
     label: "comp-size-xxs",
     remark: "size-7",
-    value: null,
+    value: null
   },
   {
     label: "comp-size-xs",
     remark: "size-8",
-    value: null,
+    value: null
   },
   {
     remark: "size-9",
     value: null,
-    label: "comp-size-s",
+    label: "comp-size-s"
   },
   {
     remark: "size-10",
     value: null,
-    label: "comp-size-m",
+    label: "comp-size-m"
   },
   {
     remark: "size-11",
     value: null,
-    label: "comp-size-l",
+    label: "comp-size-l"
   },
   {
     remark: "size-12",
     value: null,
-    label: "comp-size-xl",
+    label: "comp-size-xl"
   },
   {
     remark: "size-13",
     value: null,
-    label: "comp-size-xxl",
+    label: "comp-size-xxl"
   },
   {
     remark: "size-14",
     value: null,
-    label: "comp-size-xxxl",
+    label: "comp-size-xxxl"
   },
   {
     remark: "size-15",
     value: null,
-    label: "comp-size-xxxxl",
+    label: "comp-size-xxxxl"
   },
   {
     remark: "size-16",
     value: null,
-    label: "comp-size-xxxxxl",
-  },
+    label: "comp-size-xxxxxl"
+  }
 ];
 
 // 组件左右边距列表
@@ -106,38 +106,38 @@ const compPaddingLRArr = [
   {
     label: "comp-paddingLR-xxs",
     remark: "size-1",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-xs",
     remark: "size-2",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-s",
     remark: "size-4",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-m",
     remark: "size-5",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-l",
     remark: "size-6",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-xl",
     remark: "size-8",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingLR-xxl",
     remark: "size-10",
-    value: null,
-  },
+    value: null
+  }
 ];
 
 // 组件上下边距列表
@@ -145,38 +145,38 @@ const compPaddingTBArr = [
   {
     label: "comp-paddingTB-xxs",
     remark: "size-1",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-xs",
     remark: "size-2",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-s",
     remark: "size-4",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-m",
     remark: "size-5",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-l",
     remark: "size-6",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-xl",
     remark: "size-8",
-    value: null,
+    value: null
   },
   {
     label: "comp-paddingTB-xxl",
     remark: "size-10",
-    value: null,
-  },
+    value: null
+  }
 ];
 
 // 组件弹出层边距列表
@@ -184,28 +184,28 @@ const compPopupPaddingArr = [
   {
     label: "pop-padding-s",
     remark: "size-2",
-    value: null,
+    value: null
   },
   {
     label: "pop-padding-m",
     remark: "size-3",
-    value: null,
+    value: null
   },
   {
     label: "pop-padding-l",
     remark: "size-4",
-    value: null,
+    value: null
   },
   {
     label: "pop-padding-xl",
     remark: "size-5",
-    value: null,
+    value: null
   },
   {
     label: "pop-padding-xxl",
     remark: "size-6",
-    value: null,
-  },
+    value: null
+  }
 ];
 
 // 组件间距列表
@@ -213,48 +213,48 @@ const compMarginArr = [
   {
     label: "comp-margin-xxs",
     remark: "size-1",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-xs",
     remark: "size-2",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-s",
     remark: "size-4",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-m",
     remark: "size-5",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-l",
     remark: "size-6",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-xl",
     remark: "size-7",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-xxl",
     remark: "size-8",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-xxxl",
     remark: "size-10",
-    value: null,
+    value: null
   },
   {
     label: "comp-margin-xxxxl",
     remark: "size-12",
-    value: null,
-  },
+    value: null
+  }
 ];
 
 export {
@@ -265,6 +265,5 @@ export {
   compPaddingLRArr,
   compPaddingTBArr,
   compPopupPaddingArr,
-  compMarginArr,
+  compMarginArr
 };
-

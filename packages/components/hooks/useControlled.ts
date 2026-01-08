@@ -29,10 +29,10 @@ const useControlled: <P extends unknown[], R extends object, K extends keyof R>(
   if (isControlled) return [value, onChange || (() => {})];
   return [
     internalValue,
-    (newValue, ...args) => {
+    ((newValue: any, ...args: any[]) => {
       setInternalValue(newValue);
-      onChange?.(newValue, ...args);
-    }
+      onChange?.(newValue, ...(args as any));
+    }) as any
   ];
 };
 

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import classNames from "classnames";
 import { Popup, PopupProps } from "../popup";
 import { ColorPickerProps, TdColorContext } from "./type";
 import useClassName from "./hooks/useClassNames";
@@ -23,7 +24,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
     expandAnimation: true,
     trigger: "click",
     ...restPopupProps,
-    overlayClassName: [baseClassName, overlayClassName],
+    overlayClassName: classNames(baseClassName, overlayClassName),
     overlayInnerStyle: {
       padding: 0,
       ...overlayInnerStyle

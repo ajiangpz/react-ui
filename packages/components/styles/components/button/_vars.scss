@@ -97,18 +97,16 @@ $btn-colors: (
     active: $text-color-primary,
     disabled: $text-color-disabled
   ),
-  none:(
+  none: (
     default: transparent,
     hover: transparent,
     active: transparent,
     disabled: transparent
   ),
-  "ghost":(
-    disabled:rgba(255, 255, 255, .22)
+  "ghost": (
+    disabled: rgba(255, 255, 255, 0.22)
   )
 );
-
-
 
 $btn-color-none: transparent;
 $btn-color-none-hover: transparent;
@@ -119,4 +117,4 @@ $btn-color-none-disabled: transparent;
 $btn-text-variant-base-color: $text-color-anti;
 
 // 状态色 - disabled ghost
-$btn-color-ghost-disabled: rgba(255, 255, 255, .22);
+$btn-color-ghost-disabled: rgba(255, 255, 255, 0.22);

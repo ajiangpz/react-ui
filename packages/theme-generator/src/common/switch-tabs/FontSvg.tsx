@@ -1,12 +1,6 @@
 export default function FontSvg() {
   return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M8.5 8C8.22386 8 8 8.22386 8 8.5C8 8.77614 8.22386 9 8.5 9H55.5C55.7761 9 56 8.77614 56 8.5C56 8.22386 55.7761 8 55.5 8H8.5Z"
         fill="var(--component-stroke)"

@@ -13,22 +13,23 @@ const FormatInputs = (props: TdColorFormatProps) => {
 
   const updateModelValue = () => {
     const value = getColorFormatMap(color, "encode")[format];
-    if (!value) return;
+    if (!value || typeof value === "string") return;
 
-    if (enableAlpha) {
-      value.a = Math.round(color.alpha * 100);
+    const valueObj = value as Record<string, number | string>;
+    if (enableAlpha && "a" in valueObj) {
+      valueObj.a = Math.round(color.alpha * 100);
     }
 
     const changedFormatValue: Record<string, number | string> = {};
-    Object.keys(value).forEach((key) => {
-      if (value[key] !== modelValueRef.current[key]) {
-        changedFormatValue[key] = value[key];
+    Object.keys(valueObj).forEach((key) => {
+      if (valueObj[key] !== modelValueRef.current[key]) {
+        changedFormatValue[key] = valueObj[key];
       }
-      lastModelValue.current[key] = value[key];
+      lastModelValue.current[key] = valueObj[key];
     });
 
     if (Object.keys(changedFormatValue).length > 0) {
-      modelValueRef.current = value;
+      modelValueRef.current = valueObj;
     }
   };
 
