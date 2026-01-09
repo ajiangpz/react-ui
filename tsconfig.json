@@ -19,10 +19,8 @@
       "@tendaui/components/*": ["packages/components/*"],
       "@tendaui/icons": ["packages/tendaui-icons"],
       "@tendaui/icons/*": ["packages/tendaui-icons/*"],
-      "@tendaui/react": ["packages/tendaui-react"],
-      "@tendaui/react/*": ["packages/tendaui-react/*"],
-      "@tendaui/utils/": ["packages/utils"],
-      "@tendaui/utils/*": ["packages/utils/*"]
+      "@tendaui/utils": ["packages/utils/js"],
+      "@tendaui/utils/*": ["packages/utils/js/*"]
     },
     "allowJs": true,
     "checkJs": true,

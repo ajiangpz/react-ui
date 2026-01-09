@@ -512,8 +512,8 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
             let ctrlKey = "value";
             if (React.isValidElement(child)) {
               if (child.type === FormItem) {
-                return React.cloneElement(child, {
-                  ref: (el) => {
+                return React.cloneElement(child as React.ReactElement<any>, {
+                  ref: (el: any) => {
                     if (!el) return;
                     innerFormItemsRef.current[index] = el;
                   }
@@ -523,11 +523,11 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
                 ctrlKey = ctrlKeyMap.get(child.type) || "value";
               }
               const childProps = child.props as TdFormItemProps & React.HTMLAttributes<HTMLDivElement>;
-              return React.cloneElement(child, {
+              return React.cloneElement(child as React.ReactElement<any>, {
                 disabled: disabledFromContext,
                 ...childProps,
                 [ctrlKey]: formValue,
-                onChange: (value: ValueType, ...args: unknown[]) => {
+                onChange: (value: ValueType, ...args: any[]) => {
                   const newValue = valueFormat ? valueFormat(value) : value;
                   updateFormValue(newValue, true, true);
                   childProps?.onChange?.call?.(null, value, ...args);

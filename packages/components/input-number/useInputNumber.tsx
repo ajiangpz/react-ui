@@ -10,12 +10,11 @@ import {
   getStepValue,
   formatThousandths,
   largeNumberToFixed
-} from "@tendaui/utils/js/input-number/number";
+} from "../utils/input-number/number";
 import useConfig from "../hooks/useConfig";
 import useControlled from "../hooks/useControlled";
 import useCommonClassName from "../hooks/useCommonClassName";
 import { InputNumberValue, TdInputNumberProps } from "./type";
-// 计算逻辑，统一到 common 中，方便各框架复用（如超过 16 位的大数处理）
 import { InputProps } from "../input";
 
 export const specialCode = ["-", ".", "e", "E"];

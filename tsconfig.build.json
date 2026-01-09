@@ -12,12 +12,10 @@
     "lib",
     "esm",
     "cjs",
-    "es",
-    "packages/tendaui-react/"
+    "es"
   ],
   "compilerOptions": {
     "emitDeclarationOnly": true,
-    "rootDir": "packages",
-    "skipLibCheck": true
+    "rootDir": "packages/components"
   }
 }
