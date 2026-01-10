@@ -27,7 +27,7 @@ export const DEFAULT_FONT_TOKENS = {
   "--td-font-size-body-large": "16px",
   "--td-font-size-title-small": "14px",
   "--td-font-size-title-medium": "16px",
-  "--td-font-size-title-large": "20px",
+  "--td-font-size-title-large": "18px",
   "--td-font-size-headline-small": "24px",
   "--td-font-size-headline-medium": "28px",
   "--td-font-size-headline-large": "36px",

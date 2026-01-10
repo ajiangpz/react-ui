@@ -48,33 +48,33 @@ const INITIAL_TOKEN_LABELS: TokenItem[] = [
 ];
 
 const SizeAdjust: React.FC = () => {
-  // 使用惰性初始化，从 localStorage 读取上次选择的字体大小
-  const [step, setStep] = useState(() => {
-    const fontStep = getOptionFromLocal("font");
-    if (fontStep) {
-      const stepNum = Number(fontStep);
-      // 确保 step 值在有效范围内 (1-6)
-      if (!Number.isNaN(stepNum) && stepNum >= 1 && stepNum <= 6) {
-        return stepNum;
-      }
-    }
-    return 3; // 默认值
-  });
+  const [step, setStep] = useState(3);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
   const [tokenType, setTokenType] = useState<"list" | "token">("list");
-  const [manuallyEnabled, setManuallyEnabled] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [segmentSelectionDisabled, setSegmentSelectionDisabled] = useState(false);
   const [tokenTypeList, setTokenTypeList] = useState<TokenItem[]>(INITIAL_TOKEN_LABELS);
   const [initTokenList, setInitTokenList] = useState<TokenItem[]>([]);
   const [ladderTypeList, setLadderTypeList] = useState<LadderItem[]>([]);
   const [initLadderList, setInitLadderList] = useState<LadderItem[]>([]);
-  // 使用 ref 来跟踪是否是用户主动选择 step（而不是初始化时自动匹配的）
-  const userSelectedStepRef = React.useRef(false);
+  const isInitializingRef = React.useRef(true);
 
   const fontSizeLabelsMap = useMemo(() => fontSizeLabels, []);
 
+  // 初始化 step：从 localStorage 读取
+  const initStep = useCallback(() => {
+    const fontStep = getOptionFromLocal("font");
+    if (fontStep !== null && fontStep !== undefined) {
+      const stepNum = Number(fontStep);
+      if (!Number.isNaN(stepNum) && stepNum >= 1 && stepNum <= 6) {
+        setStep(stepNum);
+      }
+    }
+  }, []);
+
+  // 初始化字体大小：读取当前样式
   const handleInitFontSize = useCallback(() => {
     const computedStyle = window.getComputedStyle(document.documentElement);
+    console.log(computedStyle);
     const newTokenTypeList = INITIAL_TOKEN_LABELS.map((v) => ({
       ...v,
       value: computedStyle.getPropertyValue(v.label).trim() || null
@@ -98,47 +98,20 @@ const SizeAdjust: React.FC = () => {
     });
     setLadderTypeList(newLadderList);
     setInitLadderList(JSON.parse(JSON.stringify(newLadderList)));
-
-    // 检查当前的字体大小是否与某个预设的 step 匹配
-    const fontSizeStepArray = Object.keys(fontSizeSteps).map(
-      (v) => fontSizeSteps[Number(v) as keyof typeof fontSizeSteps]
-    );
-    const matchedStep = fontSizeStepArray.findIndex(
-      (array) => array.filter((v, i) => v.value === newTokenTypeList[i]?.value?.trim()).length === array.length
-    );
-
-    // 如果找到匹配的预设值，更新 step 显示（但不触发应用预设值的逻辑）
-    if (matchedStep !== -1) {
-      const matchedStepValue = matchedStep + 1;
-      // 使用函数式更新，避免依赖 step
-      setStep((currentStep) => {
-        // 如果当前 step 与匹配的 step 不同，更新它
-        // 这会在初始化完成后触发，但 isInitialized 标志会阻止应用预设值
-        return matchedStepValue !== currentStep ? matchedStepValue : currentStep;
-      });
-    }
-
-    setIsInitialized(true);
   }, []);
 
+  // 监听 step 变化，应用预设值（类似 Vue 的 watch step）
   useEffect(() => {
-    // 延迟初始化，确保样式表已加载
-    setTimeout(() => {
-      handleInitFontSize();
-    }, 100);
-  }, [handleInitFontSize]);
+    if (isInitializingRef.current || !fontSizeSteps[step as keyof typeof fontSizeSteps]) return;
 
-  // 应用预设字体大小值的函数
-  const applyFontSizeStep = useCallback(
-    (stepValue: number) => {
-      if (!isInitialized) return;
-      if (!fontSizeSteps[stepValue as keyof typeof fontSizeSteps]) return;
+    // 默认值（step=3）的时候不保存
+    updateLocalOption("font", String(step), step !== 3);
 
-      // 始终保存 step 值，以便下次打开时能恢复上次选择
-      updateLocalOption("font", String(stepValue), true);
-      const isCustom = stepValue === 6;
-      const newSteps = fontSizeSteps[stepValue as keyof typeof fontSizeSteps];
+    const isCustom = step === 6;
+    const newSteps = fontSizeSteps[step as keyof typeof fontSizeSteps];
 
+    // 更新 tokenTypeList
+    requestAnimationFrame(() => {
       setTokenTypeList((list) => {
         const updated = list.map((item) => {
           const stepItem = newSteps.find((s) => s.name === item.label);
@@ -169,20 +142,45 @@ const SizeAdjust: React.FC = () => {
 
         return updated;
       });
-    },
-    [isInitialized]
-  );
+    });
+  }, [step]);
 
-  // 使用 useMemo 计算是否匹配预设值，避免在 useEffect 中调用 setState
-  const segmentSelectionDisabled = useMemo(() => {
+  // 监听 tokenTypeList 变化，检查是否匹配预设值（类似 Vue 的 watch tokenTypeList）
+  useEffect(() => {
+    if (isInitializingRef.current || tokenTypeList.length === 0 || tokenTypeList[0].value === null) return;
+
     const fontSizeStepArray = Object.keys(fontSizeSteps).map(
       (v) => fontSizeSteps[Number(v) as keyof typeof fontSizeSteps]
     );
+
     const isMatch = fontSizeStepArray.find(
-      (array) => array.filter((v, i) => v.value === tokenTypeList[i]?.value?.trim()).length === array.length
+      (array) => array.filter((v, i) => v.value === (tokenTypeList[i]?.value?.trim() || "")).length === array.length
     );
-    return !isMatch && !manuallyEnabled && isInitialized;
-  }, [tokenTypeList, manuallyEnabled, isInitialized]);
+
+    requestAnimationFrame(() => {
+      if (!isMatch) {
+        setSegmentSelectionDisabled(true);
+      } else {
+        setSegmentSelectionDisabled(false);
+      }
+    });
+  }, [tokenTypeList]);
+
+  // 组件挂载时初始化
+  useEffect(() => {
+    const init = () => {
+      // 先读取当前样式
+      handleInitFontSize();
+      // 标记初始化完成，允许后续的 watch 逻辑执行
+      isInitializingRef.current = false;
+      // 然后从 localStorage 读取 step 并应用（如果有的话）
+      // 注意：必须在初始化标记完成后，这样 step 的 watch 才能执行
+      initStep();
+    };
+    // 使用 requestAnimationFrame 确保 DOM 已渲染
+    const rafId = requestAnimationFrame(init);
+    return () => cancelAnimationFrame(rafId);
+  }, [initStep, handleInitFontSize]);
 
   const handleVisibleChange = useCallback(
     (visible: boolean, context: { trigger?: string } | undefined, idx: number) => {
@@ -202,24 +200,30 @@ const SizeAdjust: React.FC = () => {
       if (!styleSheet) return;
 
       if (Array.isArray(tokenName)) {
+        // 阶梯模式传进来的是数组
         tokenName.forEach((token) => {
           modifyToken(token, res);
         });
       } else {
+        // Token 模式传进来的是单个
         modifyToken(tokenName, res);
       }
 
       if (type === "list") {
+        // 阶梯模式需要修改所有对应该梯度的值
         const fontSizeList = ladderTypeList[idx].tokens;
+        // 修改 state
         setLadderTypeList((list) => {
           const updated = [...list];
           updated[idx] = { ...updated[idx], value: res };
+          // 检查是否与初始值不同
+          if (parseInt(initLadderList[idx]?.value || "0", 10) !== parseInt(res, 10)) {
+            setSegmentSelectionDisabled(true);
+          }
           return updated;
         });
-        if (parseInt(initLadderList[idx]?.value || "0", 10) !== parseInt(res, 10)) {
-          setManuallyEnabled(false);
-        }
 
+        // 更新对应的 tokenTypeList
         setTokenTypeList((list) => {
           return list.map((item) => {
             if (fontSizeList.includes(item.label)) {
@@ -231,16 +235,20 @@ const SizeAdjust: React.FC = () => {
       }
 
       if (type === "token") {
-        if (parseInt(initTokenList[idx]?.value || "0", 10) !== parseInt(res, 10)) {
-          setManuallyEnabled(false);
+        // token 模式需要修改单个 token 的值
+        const preVal = initTokenList[idx]?.value;
+        // 检查是否与初始值不同
+        if (parseInt(preVal || "0", 10) !== parseInt(res, 10)) {
+          setSegmentSelectionDisabled(true);
         }
+        // 修改 state
         setTokenTypeList((list) => {
           const updated = [...list];
           updated[idx] = { ...updated[idx], value: res };
           return updated;
         });
 
-        const preVal = initTokenList[idx]?.value;
+        // 同时将它从阶梯中移除
         if (res !== preVal) {
           setLadderTypeList((list) => {
             const updated = [...list];
@@ -256,23 +264,15 @@ const SizeAdjust: React.FC = () => {
         }
       }
     },
-    [ladderTypeList, initLadderList, initTokenList]
+    [ladderTypeList, initTokenList, initLadderList]
   );
 
-  const handleStepChange = useCallback(
-    (value: string | number) => {
-      const numeric = Number(value);
-      if (!Number.isNaN(numeric)) {
-        userSelectedStepRef.current = true; // 标记为用户主动选择
-        setStep(numeric);
-        // 如果已初始化，立即应用预设值（在事件处理函数中，而不是 useEffect）
-        if (isInitialized) {
-          applyFontSizeStep(numeric);
-        }
-      }
-    },
-    [isInitialized, applyFontSizeStep]
-  );
+  const handleStepChange = useCallback((value: string | number) => {
+    const numeric = Number(value);
+    if (!Number.isNaN(numeric)) {
+      setStep(numeric);
+    }
+  }, []);
 
   return (
     <div>
@@ -282,7 +282,7 @@ const SizeAdjust: React.FC = () => {
         value={step}
         disabled={segmentSelectionDisabled}
         onEnable={() => {
-          setManuallyEnabled(true);
+          setSegmentSelectionDisabled(false);
         }}
         onChange={handleStepChange}
       >

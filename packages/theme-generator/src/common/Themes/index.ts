@@ -519,10 +519,40 @@ export function applyThemeFromLocal(device: string) {
 
 /**
  * 清除本地主题
+ * @param resetToDefault 是否重置为默认值（字体、圆角等）
  */
-export function clearLocalTheme() {
+export function clearLocalTheme(resetToDefault = false) {
   localStorage.removeItem(CUSTOM_OPTIONS_ID);
   localStorage.removeItem(CUSTOM_TOKEN_ID);
+
+  // 移除所有自定义样式表（字体、圆角、尺寸等）
+  const styleSheetsToRemove = document.querySelectorAll(`[id^="${CUSTOM_COMMON_ID_PREFIX}-"], #${CUSTOM_EXTRA_ID}`);
+  styleSheetsToRemove.forEach((styleSheet) => {
+    styleSheet.remove();
+  });
+
+  // 清空主题样式表的内容（但保留样式表元素，因为 generateNewTheme 会重新填充）
+  const themeStyleSheet = document.getElementById(CUSTOM_THEME_ID);
+  const darkStyleSheet = document.getElementById(CUSTOM_DARK_ID);
+  if (themeStyleSheet) {
+    themeStyleSheet.textContent = "";
+  }
+  if (darkStyleSheet) {
+    darkStyleSheet.textContent = "";
+  }
+
+  // 如果需要重置为默认值，重新应用默认的字体和圆角值
+  if (resetToDefault) {
+    // 应用默认字体值
+    const fontStyleId = `${CUSTOM_COMMON_ID_PREFIX}-font`;
+    const fontStyleSheet = appendStyleSheet(fontStyleId);
+    fontStyleSheet.textContent = getDefaultFontCss();
+
+    // 应用默认圆角值
+    const radiusStyleId = `${CUSTOM_COMMON_ID_PREFIX}-radius`;
+    const radiusStyleSheet = appendStyleSheet(radiusStyleId);
+    radiusStyleSheet.textContent = getDefaultRadiusCss();
+  }
 }
 
 /**

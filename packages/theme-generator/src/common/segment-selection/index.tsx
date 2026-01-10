@@ -48,7 +48,6 @@ const SegmentSelection: React.FC<SegmentSelectionProps> = ({
     if (disabled) {
       const disabledOption = selectOptions.find((v) => v.disabled);
       if (disabledOption) {
-        console.log("setStep2", Number(disabledOption.value));
         setStep(Number(disabledOption.value));
       }
     }
