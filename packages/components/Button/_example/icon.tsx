@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../../../components";
-import { IconArrowLeft, IconDelete, IconAlertTriangle } from "@tendaui/icons";
+import { IconArrowLeft, IconDelete, IconAlertTriangle, IconCheckCircleStroked } from "@tendaui/icons";
 
 export default function Icon() {
   return (
@@ -11,6 +11,9 @@ export default function Icon() {
       </Button>
       <Button icon={<IconDelete />} theme="danger">
         危险按钮
+      </Button>
+      <Button theme="success" icon={<IconCheckCircleStroked />}>
+        成功按钮
       </Button>
     </div>
   );

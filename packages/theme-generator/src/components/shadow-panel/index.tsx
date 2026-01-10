@@ -3,7 +3,7 @@ import SegmentSelection from "../../common/segment-selection";
 import { getOptionFromLocal, modifyToken, updateLocalOption } from "../../common/Themes";
 import { ShadowSelect, ShadowSelectDetail, ShadowSelectType, ShadowTypeDetail, ShadowTypeMap } from "./constants";
 import ShadowCard from "./components/ShadowCard";
-import "./index.css";
+import "./index.scss";
 
 interface ShadowPanelProps {
   top?: number;

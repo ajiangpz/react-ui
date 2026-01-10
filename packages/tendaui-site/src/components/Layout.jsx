@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import siteConfig from '../../site.config.mjs';
-import './Layout.css';
+import './Layout.scss';
 
 export default function Layout({ children }) {
   const location = useLocation();

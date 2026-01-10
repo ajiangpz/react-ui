@@ -5,7 +5,7 @@ import FontSvg from "./FontSvg";
 import RadiusSvg from "./RadiusSvg";
 import BoxshadowSvg from "./BoxshadowSvg";
 import SizeSvg from "./SizeSvg";
-import "./SwitchTabs.css";
+import "./SwitchTabs.scss";
 
 interface TabItem {
   title: string;

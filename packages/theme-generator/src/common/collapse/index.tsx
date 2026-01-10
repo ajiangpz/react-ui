@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import { IconChevronDown as ChevronDownIcon } from "@tendaui/icons";
-import "./index.css";
+import "./index.scss";
 
 interface CollapseProps {
   title?: ReactNode;

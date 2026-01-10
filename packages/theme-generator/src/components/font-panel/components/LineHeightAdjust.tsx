@@ -5,7 +5,7 @@ import SegmentSelection from "../../../common/segment-selection";
 import SizeSlider from "../../../common/size-slider";
 import { getOptionFromLocal, updateLocalOption } from "../../../common/Themes";
 import { LINE_HEIGHT_OPTIONS, LINE_HEIGHT_STEPS, updateLineHeightTokens } from "../built-in/line-height";
-import "./LineHeightAdjust.css";
+import "./LineHeightAdjust.scss";
 import { IconShrinkScreenStroked, IconFullScreenStroked } from "@tendaui/icons";
 
 const LineHeightAdjust: React.FC = () => {

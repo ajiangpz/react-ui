@@ -1,5 +1,5 @@
 import React, { useState, Suspense, lazy } from "react";
-import "./Demo.css";
+import "./Demo.scss";
 
 export default function DemoWrapper({ componentName, demoName, code: initialCode, children }) {
   const [showCode, setShowCode] = useState(false);

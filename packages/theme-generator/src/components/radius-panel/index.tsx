@@ -12,7 +12,7 @@ import {
   updateLocalOption
 } from "../../common/Themes";
 import { RADIUS_OPTIONS, RADIUS_STEP_ARRAY } from "./built-in/border-radius";
-import "./index.css";
+import "./index.scss";
 interface RadiusPanelProps {
   isRefresh?: boolean;
   top?: number;

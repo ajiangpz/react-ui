@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Popup } from "@tendaui/components";
 import { handleAttach } from "../../../common/utils";
 import ShadowLayer from "./ShadowLayer";
-import "./shadow-card.css";
+import "./shadow-card.scss";
 
 export interface ShadowDetail {
   label: string;

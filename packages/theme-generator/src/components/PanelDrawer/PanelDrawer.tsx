@@ -1,6 +1,6 @@
 import ColorPanel from "../ColorPanel/ColorPanel";
 import { Drawer } from "@tendaui/components";
-import "./PanelDrawer.css";
+import "./PanelDrawer.scss";
 
 interface PanelDrawerProps {
   drawerVisible: boolean;

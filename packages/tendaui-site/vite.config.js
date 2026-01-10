@@ -13,7 +13,6 @@ export default defineConfig({
       "@tendaui/components": resolve(__dirname, "../components"),
       "@tendaui/icons": resolve(__dirname, "../tendaui-icons"),
       "@tendaui/utils": resolve(__dirname, "../utils"),
-      "@tendaui/utils/*": resolve(__dirname, "../utils/*"),
       "@tendaui/site": resolve(__dirname, "./src"),
       "@tendaui/theme-generator": resolve(__dirname, "../theme-generator/src")
     }

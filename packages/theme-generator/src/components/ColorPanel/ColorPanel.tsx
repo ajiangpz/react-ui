@@ -17,7 +17,7 @@ import {
   WARNING_COLOR_MAP,
   DEFAULT_COLOR
 } from "./utils/const";
-import "./ColorPanel.css";
+import "./ColorPanel.scss";
 import { isEqual } from "lodash-es";
 import { Color } from "tvision-color";
 import { IconEdit as Edit1Icon } from "@tendaui/icons";

@@ -89,7 +89,7 @@ export default async function mdToReact({ source, file, md, pageData: pd = pageD
   // 4. 生成 React 组件代码
   const reactSource = `
 import React, { useState, Suspense, lazy } from 'react';
-import '@tendaui/site/doc.css';
+import '@tendaui/site/doc.scss';
 import DemoWrapper from '@tendaui/site/components/Demo';
 
 ${demoImports ? `${demoImports}\n` : ""}

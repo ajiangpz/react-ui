@@ -14,7 +14,7 @@ import {
   compPopupPaddingArr,
   compMarginArr
 } from "./built-in/size-map";
-import "./index.css";
+import "./index.scss";
 
 interface SizePanelProps {
   top?: number;

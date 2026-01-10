@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { InputNumber, Popup, ColorPickerPanel } from "@tendaui/components";
 import type { InputNumberValue } from "@tendaui/components/input-number/type";
 import { handleAttach } from "../../../common/utils";
-import "./shadow-editor.css";
+import "./shadow-editor.scss";
 
 interface ShadowEditorProps {
   name: string;

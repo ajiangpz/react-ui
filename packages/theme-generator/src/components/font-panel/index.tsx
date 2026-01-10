@@ -6,7 +6,7 @@ import LineHeightAdjust from "./components/LineHeightAdjust";
 import FontColorAdjust from "./components/FontColorAdjust";
 import { modifyToken } from "../../common/Themes";
 import { FONT_COLOR_MAP } from "../ColorPanel/utils/const";
-import "./index.css";
+import "./index.scss";
 
 interface FontPanelProps {
   top?: number;

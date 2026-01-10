@@ -5,7 +5,7 @@ import SegmentSelection from "../../../common/segment-selection";
 import SizeSlider from "../../../common/size-slider";
 import { CUSTOM_THEME_ID, getOptionFromLocal, modifyToken, updateLocalOption } from "../../../common/Themes";
 import { fontSizeLabels, fontSizeSteps } from "../built-in/font-size";
-import "./SizeAdjust.css";
+import "./SizeAdjust.scss";
 
 const STEP_MAP = [
   { label: "超小号", enLabel: "mini", value: 1 },

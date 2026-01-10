@@ -37,7 +37,3 @@ isComponent: true
 | theme    | 按钮主题                                                | `default` \| `primary` \| `success` \| `warning` \| `danger` | `default`   |
 | variant  | 按钮变体                                                | `base` \| `outline` \| `dashed` \| `text`                    | `base`      |
 | onClick  | 点击按钮时的回调                                        | (e: MouseEvent) => void                                      | -           |
-
-<!-- design -->
-
-aa

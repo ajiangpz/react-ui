@@ -6,7 +6,7 @@ import ArrowIcon from "@tendaui/components/common/FakeArrow";
 import { CSSTransition } from "react-transition-group";
 
 console.log(ArrowIcon);
-import "./ColorCollapse.css";
+import "./ColorCollapse.scss";
 
 interface ColorPaletteItem {
   type?: string;
