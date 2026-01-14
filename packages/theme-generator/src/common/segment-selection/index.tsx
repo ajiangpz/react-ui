@@ -39,12 +39,13 @@ const SegmentSelection: React.FC<SegmentSelectionProps> = ({
 
   const [step, setStep] = useState<string | number | undefined>(value);
   const [innerSelectOptions, setInnerSelectOptions] = useState<SelectOption[]>(selectOptions);
-
+  // value 一直是 3 ，不会变化
   useEffect(() => {
     setStep(value);
   }, [value]);
 
   useEffect(() => {
+    console.log("disabled", disabled);
     if (disabled) {
       const disabledOption = selectOptions.find((v) => v.disabled);
       if (disabledOption) {

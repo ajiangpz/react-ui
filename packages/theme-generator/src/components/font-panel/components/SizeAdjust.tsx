@@ -74,7 +74,6 @@ const SizeAdjust: React.FC = () => {
   // 初始化字体大小：读取当前样式
   const handleInitFontSize = useCallback(() => {
     const computedStyle = window.getComputedStyle(document.documentElement);
-    console.log(computedStyle);
     const newTokenTypeList = INITIAL_TOKEN_LABELS.map((v) => ({
       ...v,
       value: computedStyle.getPropertyValue(v.label).trim() || null
@@ -102,14 +101,17 @@ const SizeAdjust: React.FC = () => {
 
   // 监听 step 变化，应用预设值（类似 Vue 的 watch step）
   useEffect(() => {
-    if (isInitializingRef.current || !fontSizeSteps[step as keyof typeof fontSizeSteps]) return;
+    if (isInitializingRef.current) return;
 
-    // 默认值（step=3）的时候不保存
+    // 保存 step 到 localStorage（默认值 step=3 的时候不保存）
     updateLocalOption("font", String(step), step !== 3);
+    updateLocalOption("font", "", step === 3);
+
+    // 如果 step === 6（自定义），不需要应用预设值，直接返回
+    if (step === 6 || !fontSizeSteps[step as keyof typeof fontSizeSteps]) return;
 
     const isCustom = step === 6;
     const newSteps = fontSizeSteps[step as keyof typeof fontSizeSteps];
-
     // 更新 tokenTypeList
     requestAnimationFrame(() => {
       setTokenTypeList((list) => {
@@ -219,6 +221,7 @@ const SizeAdjust: React.FC = () => {
           // 检查是否与初始值不同
           if (parseInt(initLadderList[idx]?.value || "0", 10) !== parseInt(res, 10)) {
             setSegmentSelectionDisabled(true);
+            setStep(6);
           }
           return updated;
         });
@@ -240,6 +243,7 @@ const SizeAdjust: React.FC = () => {
         // 检查是否与初始值不同
         if (parseInt(preVal || "0", 10) !== parseInt(res, 10)) {
           setSegmentSelectionDisabled(true);
+          setStep(6);
         }
         // 修改 state
         setTokenTypeList((list) => {

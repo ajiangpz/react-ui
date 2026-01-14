@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Popup } from "@tendaui/components";
 import SizeSlider from "../../../common/size-slider";
 import { CUSTOM_THEME_ID, modifyToken } from "../../../common/Themes";
@@ -23,19 +23,15 @@ interface SizeAdjustProps {
 
 const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
-  const [tokenTypeList, setTokenTypeList] = useState<Array<TokenItem & { value: string }>>([]);
-  const [initTokenList, setInitTokenList] = useState<Array<TokenItem & { value: string }>>([]);
-
-  useEffect(() => {
+  const tokenTypeList = useMemo(() => {
     const computedStyle = window.getComputedStyle(document.documentElement);
-    const newTokenTypeList = tokenList.map((v) => ({
+
+    return tokenList.map((v) => ({
       label: v.label,
       value: computedStyle.getPropertyValue(`--td-${v.label}`),
       desc: v.desc,
       remark: v.remark
     }));
-    setTokenTypeList(newTokenTypeList);
-    setInitTokenList(JSON.parse(JSON.stringify(newTokenTypeList)));
   }, [tokenList]);
 
   const handleVisibleChange = useCallback(
@@ -54,10 +50,6 @@ const SizeAdjust: React.FC<SizeAdjustProps> = ({ tokenList, type }) => {
     const tokenName = `--td-${tokenTypeList[idx].label}`;
     const styleSheet = document.getElementById(CUSTOM_THEME_ID);
     if (!styleSheet) return;
-
-    const newTokenTypeList = [...tokenTypeList];
-    newTokenTypeList[idx].value = res;
-    setTokenTypeList(newTokenTypeList);
     modifyToken(tokenName, res);
   };
 

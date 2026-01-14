@@ -237,6 +237,10 @@ const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0, isRefresh }) => {
       // 检查更新后的列表是否匹配预设值
       const matches = checkIfMatchesPreset(next);
       setSegmentSelectionDisabled(!matches);
+      if (!matches) {
+        // 更新 localStorage
+        updateLocalOption("radius", "6");
+      }
       return next;
     });
   };
