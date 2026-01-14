@@ -1,18 +1,23 @@
 export const DEFAULT_COLOR = [
   {
-    name: "腾讯蓝",
+    name: "中性黑",
+    subtitle: "",
+    value: "#333333"
+  },
+  {
+    name: "商用蓝",
     subtitle: "",
     value: "#0052D9"
   },
   {
-    name: "风信子蓝",
+    name: "IPCOM红",
     subtitle: "",
-    value: "#0894FA"
+    value: "#d82228"
   },
   {
-    name: "金花茶黄",
+    name: "腾达橙",
     subtitle: "",
-    value: "#F3B814"
+    value: "#ed7020"
   }
 ];
 

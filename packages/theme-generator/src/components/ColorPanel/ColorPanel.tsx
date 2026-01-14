@@ -326,7 +326,7 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
         <div className="color-content__main">
           <p className="color-panel__title">主题色</p>
           <div className="color-content__flex">
-            {themes.slice(0, 3).map((theme: { value: string; name: string }, index: number) => {
+            {themes.slice(0, 4).map((theme: { value: string; name: string }, index: number) => {
               return (
                 <div
                   key={index}

@@ -16,9 +16,9 @@ export const CUSTOM_TOKEN_ID = `${CUSTOM_THEME_ID}-tokens`;
 
 // 默认主题
 export const DEFAULT_THEME = {
-  value: "#0052d9",
-  name: "TDesign",
-  enName: "TDesign"
+  value: "#333333",
+  name: "中性黑",
+  enName: "Neutral Black"
 };
 
 // 默认样式获取方法
@@ -155,13 +155,12 @@ export function generateNewTheme(hex: string, remainInput = true, _device = "web
   // 动态生成
   const styleSheet = appendStyleSheet(CUSTOM_THEME_ID);
   const darkStyleSheet = appendStyleSheet(CUSTOM_DARK_ID);
-
+  // const extraStyleSheet = appendStyleSheet(CUSTOM_EXTRA_ID);
   const { brandColorIdx, colorPalette, styleSheetString } = generateTokenList(hex, false, 10, remainInput);
   const darkCssTokenString = generateTokenList(hex, true).styleSheetString;
 
   styleSheet.textContent = styleSheetString;
   darkStyleSheet.textContent = darkCssTokenString;
-
   document.documentElement.setAttribute("theme-color", CUSTOM_THEME_ID);
   document.documentElement.style.setProperty("--brand-main", hex);
 
