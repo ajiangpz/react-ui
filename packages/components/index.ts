@@ -10,6 +10,7 @@ export * from "./radio";
 export * from "./checkbox";
 export * from "./input-number";
 export * from "./config-provider";
+export * from "./layout";
 // export * from './steps';
 // export * from './sticky-tool';
 // export * from './message';
