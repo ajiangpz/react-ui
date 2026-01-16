@@ -1,51 +1,60 @@
+// 导入组件库的变量文件，使用 SCSS 变量（会自动编译成 CSS 变量）
+@import "../../components/styles/_vars.scss";
+
 .tdesign-doc {
-  background: #fff;
-  padding: 24px;
-  border-radius: 4px;
+  background: $bg-color-container;
+  padding: $comp-paddingTB-l $comp-paddingLR-xl;
+  border-radius: $border-radius-medium;
+  color: $text-color-primary;
 }
 
 .tdesign-doc-header {
-  margin-bottom: 32px;
+  margin-bottom: $comp-margin-xxl;
 }
 
 .tdesign-doc-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 32px;
+  margin: 0 0 $comp-margin-xs 0;
+  font-size: $font-size-xxl;
   font-weight: 600;
-  color: #333;
+  line-height: $text-line-height-xxl;
+  color: $text-color-primary;
+  letter-spacing: -0.02em;
 }
 
 .tdesign-doc-description {
   margin: 0;
-  font-size: 16px;
-  color: #666;
-  line-height: 1.6;
+  font-size: $font-size-l;
+  line-height: $text-line-height-l;
+  color: $text-color-secondary;
 }
 
 .tdesign-doc-tabs {
   display: flex;
-  border-bottom: 1px solid #e7e7e7;
-  margin-bottom: 24px;
+  border-bottom: 1px solid $component-border;
+  margin-bottom: $comp-margin-l;
 }
 
 .tdesign-doc-tab {
-  padding: 12px 24px;
+  padding: $comp-paddingTB-s $comp-paddingLR-l;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  font-size: 14px;
-  color: #666;
-  transition: all 0.2s;
-}
+  font-size: $font-size-base;
+  line-height: $text-line-height-base;
+  color: $text-color-secondary;
+  transition: all $anim-duration-base $anim-time-fn-easing;
+  position: relative;
 
-.tdesign-doc-tab:hover {
-  color: #0052d9;
-}
+  &:hover {
+    color: $brand-color;
+  }
 
-.tdesign-doc-tab.active {
-  color: #0052d9;
-  border-bottom-color: #0052d9;
+  &.active {
+    color: $brand-color;
+    border-bottom-color: $brand-color;
+    font-weight: 500;
+  }
 }
 
 .tdesign-doc-content {
@@ -55,161 +64,194 @@
 .tdesign-doc-demo h2,
 .tdesign-doc-demo h3,
 .tdesign-doc-demo h4 {
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: $comp-margin-xxl;
+  margin-bottom: $comp-margin-m;
   font-weight: 600;
-  color: #333;
+  line-height: $text-line-height-xl;
+  color: $text-color-primary;
 }
 
 .tdesign-doc-demo h2 {
-  font-size: 24px;
+  font-size: $font-size-xl;
 }
 
 .tdesign-doc-demo h3 {
-  font-size: 20px;
+  font-size: $font-size-l;
 }
 
 .tdesign-doc-demo h4 {
-  font-size: 16px;
+  font-size: $font-size-base;
 }
 
 .tdesign-doc-demo p {
-  margin: 16px 0;
-  line-height: 1.6;
-  color: #666;
+  margin: $comp-margin-m 0;
+  line-height: $text-line-height-l;
+  color: $text-color-secondary;
 }
 
 .tdesign-doc-api table {
   width: 100%;
   border-collapse: collapse;
-  margin: 16px 0;
+  margin: $comp-margin-m 0;
+  border: 1px solid $component-border;
+  border-radius: $border-radius-medium;
+  overflow: hidden;
 }
 
 .tdesign-doc-api table th,
 .tdesign-doc-api table td {
-  padding: 12px;
+  padding: $comp-paddingTB-s $comp-paddingLR-m;
   text-align: left;
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 1px solid $component-border;
 }
 
 .tdesign-doc-api table th {
-  background: #fafafa;
+  background: $bg-color-secondarycontainer;
   font-weight: 600;
-  color: #333;
+  color: $text-color-primary;
 }
 
 .tdesign-doc-api table td {
-  color: #666;
+  color: $text-color-secondary;
+}
+
+.tdesign-doc-api table tr:last-child th,
+.tdesign-doc-api table tr:last-child td {
+  border-bottom: none;
 }
 
 .tdesign-doc-api code {
-  background: #f5f5f5;
-  padding: 2px 6px;
-  border-radius: 2px;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  font-size: 13px;
-  color: #e83e8c;
+  background: $bg-color-secondarycontainer;
+  padding: 2px $comp-paddingLR-xxs;
+  border-radius: $border-radius-small;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "Courier New", monospace;
+  font-size: $font-size-s;
+  color: $error-color;
+  border: 1px solid transparent;
 }
 
 .tdesign-doc-api pre {
-  background: #f5f5f5;
-  padding: 16px;
-  border-radius: 4px;
+  background: $bg-color-secondarycontainer;
+  padding: $comp-paddingTB-m $comp-paddingLR-l;
+  border-radius: $border-radius-medium;
   overflow-x: auto;
+  border: 1px solid $component-border;
+  margin: $comp-margin-m 0;
 }
 
 .tdesign-doc-api pre code {
   background: none;
   padding: 0;
-  color: #333;
+  color: $text-color-primary;
+  border: none;
 }
 
 .tdesign-doc-design {
-  line-height: 1.6;
-  color: #333;
+  line-height: $text-line-height-l;
+  color: $text-color-primary;
 }
 
 .tdesign-doc-design h1,
 .tdesign-doc-design h2,
 .tdesign-doc-design h3,
 .tdesign-doc-design h4 {
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: $comp-margin-xxl;
+  margin-bottom: $comp-margin-m;
   font-weight: 600;
-  color: #333;
+  line-height: $text-line-height-xl;
+  color: $text-color-primary;
 }
 
 .tdesign-doc-design h1 {
-  font-size: 28px;
-  border-bottom: 2px solid #e7e7e7;
-  padding-bottom: 12px;
+  font-size: $font-size-xl;
+  border-bottom: 2px solid $component-border;
+  padding-bottom: $comp-paddingTB-s;
+  margin-bottom: $comp-margin-m;
 }
 
 .tdesign-doc-design h2 {
-  font-size: 24px;
-  margin-top: 40px;
+  font-size: $font-size-l;
+  margin-top: $comp-margin-xxxxl;
 }
 
 .tdesign-doc-design h3 {
-  font-size: 20px;
-  margin-top: 32px;
+  font-size: $font-size-base;
+  margin-top: $comp-margin-xxl;
 }
 
 .tdesign-doc-design h4 {
-  font-size: 16px;
-  margin-top: 24px;
+  font-size: $font-size-base;
+  margin-top: $comp-margin-l;
 }
 
 .tdesign-doc-design p {
-  margin: 16px 0;
-  line-height: 1.8;
-  color: #666;
+  margin: $comp-margin-m 0;
+  line-height: $text-line-height-xl;
+  color: $text-color-secondary;
 }
 
 .tdesign-doc-design ul,
 .tdesign-doc-design ol {
-  margin: 16px 0;
-  padding-left: 24px;
-  color: #666;
+  margin: $comp-margin-m 0;
+  padding-left: $comp-paddingLR-xl;
+  color: $text-color-secondary;
 }
 
 .tdesign-doc-design li {
-  margin: 8px 0;
-  line-height: 1.6;
+  margin: $comp-margin-xs 0;
+  line-height: $text-line-height-l;
 }
 
 .tdesign-doc-design code {
-  background: #f5f5f5;
-  padding: 2px 6px;
-  border-radius: 2px;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  font-size: 13px;
-  color: #e83e8c;
+  background: $bg-color-secondarycontainer;
+  padding: 2px $comp-paddingLR-xxs;
+  border-radius: $border-radius-small;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "Courier New", monospace;
+  font-size: $font-size-s;
+  color: $error-color;
+  border: 1px solid transparent;
 }
 
 .tdesign-doc-design pre {
-  background: #f5f5f5;
-  padding: 16px;
-  border-radius: 4px;
+  background: $bg-color-secondarycontainer;
+  padding: $comp-paddingTB-m $comp-paddingLR-l;
+  border-radius: $border-radius-medium;
   overflow-x: auto;
-  margin: 16px 0;
+  margin: $comp-margin-m 0;
+  border: 1px solid $component-border;
 }
 
 .tdesign-doc-design pre code {
   background: none;
   padding: 0;
-  color: #333;
+  color: $text-color-primary;
+  border: none;
 }
 
 .tdesign-doc-design blockquote {
-  border-left: 4px solid #0052d9;
-  padding-left: 16px;
-  margin: 16px 0;
-  color: #666;
+  border-left: 4px solid $brand-color;
+  padding-left: $comp-paddingLR-m;
+  margin: $comp-margin-m 0;
+  color: $text-color-secondary;
   font-style: italic;
+  background: $bg-color-secondarycontainer;
+  padding-top: $comp-paddingTB-xs;
+  padding-bottom: $comp-paddingTB-xs;
+  border-radius: 0 $border-radius-small $border-radius-small 0;
 }
 
 .tdesign-doc-design strong {
-  color: #333;
+  color: $text-color-primary;
   font-weight: 600;
+}
+
+.tdesign-doc-design a {
+  color: $text-color-link;
+  text-decoration: none;
+  transition: color $anim-duration-base $anim-time-fn-easing;
+
+  &:hover {
+    color: $brand-color;
+    text-decoration: underline;
+  }
 }

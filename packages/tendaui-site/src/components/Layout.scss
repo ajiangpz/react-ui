@@ -1,25 +1,100 @@
 // 导入组件库的变量文件，使用 SCSS 变量（会自动编译成 CSS 变量）
 @import "../../../components/styles/_vars.scss";
 
-.tdesign-site-logo {
-  padding: 20px 24px;
+.tdesign-site-aside {
+  background: $bg-color-container;
+  border-right: 1px solid $component-border;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.tdesign-site-header {
+  padding: $comp-paddingTB-m $comp-paddingLR-l;
   border-bottom: 1px solid $component-border;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  background: $bg-color-container;
+}
+
+.tdesign-site-brand {
+  flex: 1;
+}
+
+.tdesign-site-brand-title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-color-primary;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.tdesign-site-theme-toggle {
+  padding: $comp-paddingTB-xxs $comp-paddingLR-xs;
+  min-width: auto;
+  color: $text-color-secondary;
+  transition: all $anim-duration-base $anim-time-fn-easing;
+
+  &:hover {
+    color: $text-color-primary;
+    background: $bg-color-container-hover;
+  }
+
+  &:active {
+    background: $bg-color-container-active;
+  }
+
+  svg {
+    color: currentColor;
+  }
 }
 
 .tdesign-site-nav {
-  padding: 16px 0;
+  flex: 1;
+  padding: $comp-paddingTB-s 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  // 自定义滚动条样式
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-color;
+    border-radius: $border-radius-default;
+
+    &:hover {
+      background: $scrollbar-hover-color;
+    }
+  }
 }
 
 .tdesign-site-nav-group {
-  margin-bottom: 24px;
+  margin-bottom: $comp-margin-l;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .tdesign-site-nav-group-title {
-  padding: 8px 24px;
-  margin: 0;
-  font-size: 14px;
+  padding: $comp-paddingTB-xxs $comp-paddingLR-l;
+  margin: 0 0 $comp-margin-xxs 0;
+  font-size: $font-size-s;
   font-weight: 600;
   color: $text-color-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
 }
 
 .tdesign-site-nav-list {
@@ -30,25 +105,61 @@
 
 .tdesign-site-nav-item {
   display: block;
-  padding: 8px 24px;
+  padding: $comp-paddingTB-xxs $comp-paddingLR-l;
   text-decoration: none;
-  font-size: 14px;
-  transition: all 0.2s;
+  font-size: $font-size-base;
+  line-height: $text-line-height-base;
   color: $text-color-primary;
+  transition: all $anim-duration-base $anim-time-fn-easing;
+  border-left: 2px solid transparent;
+  position: relative;
 
   &:hover {
-    background: $bg-color-page;
+    background: $bg-color-container-hover;
     color: $brand-color;
   }
 
   &.active {
     background: $brand-color-light;
     color: $brand-color;
-    border-right: 2px solid $brand-color;
+    border-left-color: $brand-color;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: $brand-color;
+    }
   }
 }
 
 .tdesign-site-main {
   flex: 1;
-  padding: 24px;
+  padding: $comp-paddingTB-l $comp-paddingLR-xl;
+  background: $bg-color-page;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  // 自定义滚动条样式
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scrollbar-color;
+    border-radius: $border-radius-default;
+
+    &:hover {
+      background: $scrollbar-hover-color;
+    }
+  }
 }
