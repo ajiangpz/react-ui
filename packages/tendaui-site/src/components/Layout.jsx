@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Layout as TLayout, Button } from "@tendaui/components";
 import { IconSun, IconMoon } from "@tendaui/icons";
 import siteConfig from "../../site.config.mjs";
+import { toggleThemeWithTransition } from "../utils/viewTransition";
 import "./Layout.scss";
 
 export default function Layout({ children }) {
@@ -28,8 +29,24 @@ export default function Layout({ children }) {
     }
   }, [isDark]);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
+  const toggleTheme = (event) => {
+    const newIsDark = !isDark;
+    toggleThemeWithTransition(
+      event,
+      () => {
+        // 在 ViewTransition 的回调中同步更新 DOM 和状态
+        // 这样 ViewTransition 可以正确捕获 DOM 变化
+        if (newIsDark) {
+          document.documentElement.setAttribute("theme-mode", "dark");
+          localStorage.setItem("theme-mode", "dark");
+        } else {
+          document.documentElement.setAttribute("theme-mode", "light");
+          localStorage.setItem("theme-mode", "light");
+        }
+        setIsDark(newIsDark);
+      },
+      newIsDark
+    ); // 传入新的主题状态，用于确定动画方向
   };
 
   return (

@@ -2,7 +2,7 @@ export const DEFAULT_COLOR = [
   {
     name: "中性黑",
     subtitle: "",
-    value: "#333333"
+    value: "#262626"
   },
   {
     name: "商用蓝",

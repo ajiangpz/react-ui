@@ -1,15 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useLayoutEffect } from "react";
 import classNames from "classnames";
 import ColorSvg from "./ColorSvg";
 import FontSvg from "./FontSvg";
 import RadiusSvg from "./RadiusSvg";
 import BoxshadowSvg from "./BoxshadowSvg";
 import SizeSvg from "./SizeSvg";
+import { getOptionFromLocal, DEFAULT_THEME } from "../Themes";
 import "./SwitchTabs.scss";
 
 interface TabItem {
   title: string;
-  image: React.ComponentType;
+  image: React.ComponentType<{ color?: string }>;
 }
 
 interface SwitchTabsProps {
@@ -43,8 +44,42 @@ const isMobile = (device?: string) => {
   return device === "mobile" || device === "pad";
 };
 
+// 获取当前品牌色的辅助函数
+const getBrandColor = () => {
+  // 优先从 CSS 变量获取
+  const cssColor = window.getComputedStyle(document.documentElement).getPropertyValue("--td-brand-color").trim();
+
+  if (cssColor) {
+    return cssColor;
+  }
+
+  // 从 localStorage 获取
+  const localColor = getOptionFromLocal("color");
+  if (localColor) {
+    return localColor;
+  }
+
+  // 使用默认值
+  return DEFAULT_THEME.value;
+};
+
 export default function SwitchTabs({ activeTabIdx, device, onChangeActiveTab }: SwitchTabsProps) {
   const lang = useMemo(() => getLang(), []);
+  const [brandColor, setBrandColor] = useState<string>(() => getBrandColor());
+
+  // 监听主题变化
+  useLayoutEffect(() => {
+    const observer = new MutationObserver(() => {
+      setBrandColor(getBrandColor());
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["style", "theme-color"]
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const tabs: TabItem[] = useMemo(() => {
     const text = lang;
@@ -96,7 +131,7 @@ export default function SwitchTabs({ activeTabIdx, device, onChangeActiveTab }: 
               onClick={() => handleClickPanel(index)}
             >
               <div>
-                <ImageComponent />
+                <ImageComponent color={brandColor} />
               </div>
               <p>{tab.title}</p>
             </div>

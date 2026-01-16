@@ -1,13 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TendaUI - React 组件库</title>
+    <style>
+      /* ViewTransition API 样式 */
+      html {
+        view-transition-name: root;
+      }
+
+      ::view-transition-new(root),
+      ::view-transition-old(root) {
+        animation: none;
+        /* 确保伪元素正确覆盖，避免闪烁 */
+        height: 100%;
+        width: 100%;
+      }
+
+      [theme-mode="dark"]::view-transition-old(root) {
+        z-index: 100;
+      }
+
+      /* 确保过渡组正确设置 */
+      ::view-transition-group(root) {
+        animation-duration: 0.3s;
+        animation-timing-function: ease-in-out;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-

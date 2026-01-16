@@ -16,10 +16,29 @@ export const CUSTOM_TOKEN_ID = `${CUSTOM_THEME_ID}-tokens`;
 
 // 默认主题
 export const DEFAULT_THEME = {
-  value: "#333333",
+  value: "#262626",
   name: "中性黑",
   enName: "Neutral Black"
 };
+
+// 腾讯蓝颜色值
+const TENCENT_BLUE = "#0052D9";
+
+/**
+ * 腾讯蓝的 `--td-brand-color-x` 系列 Token 深色数值
+ */
+const TENCENT_BLUE_DARK_PALETTE = [
+  "#1b2f51",
+  "#173463",
+  "#143975",
+  "#103d88",
+  "#0d429a",
+  "#054bbe",
+  "#2667d4",
+  "#4582e6",
+  "#699ef5",
+  "#96bbf8"
+];
 
 // 默认样式获取方法
 const getDefaultFontCss = () => BUILT_IN_THEMES.web.common.font;
@@ -51,47 +70,50 @@ export function generateTokenList(
   const lowCaseHex = hex.toLowerCase();
   const root = isDark ? `:root[theme-mode="dark"]` : `:root,:root[theme-mode="light"]`;
 
-  let colorPalette: string[];
-  let brandColorIdx: number;
-
   const [{ colors, primary }] = Color.getColorGradations({
     colors: [lowCaseHex],
     step: step,
     remainInput
   });
 
-  colorPalette = colors;
-  brandColorIdx = primary;
+  const isTencentBlue = lowCaseHex === TENCENT_BLUE.toLowerCase();
+  const validPrimary = typeof primary === "number" && !isNaN(primary) ? primary : 6;
 
-  if (lowCaseHex === DEFAULT_THEME.value.toLowerCase()) {
-    brandColorIdx = 8;
-  }
+  let colorPalette: string[];
+  let brandColorIdx: number;
 
   if (isDark) {
-    if (lowCaseHex === DEFAULT_THEME.value.toLowerCase()) {
-      colorPalette = [
-        "#1b2f51",
-        "#173463",
-        "#143975",
-        "#103d88",
-        "#0d429a",
-        "#054bbe",
-        "#2667d4",
-        "#4582e6",
-        "#699ef5",
-        "#96bbf8"
-      ];
-      brandColorIdx = 8;
-    } else {
-      colorPalette = colorPalette.reverse().map((color) => {
-        const [h, s, l] = Color.colorTransform(color, "hex", "hsl");
-        return Color.colorTransform([h, Number(s) - 4, l], "hsl", "hex");
-      });
-      brandColorIdx = 5;
-    }
-    colorPalette[0] = `${colorPalette[brandColorIdx]}20`;
+    colorPalette = isTencentBlue ? TENCENT_BLUE_DARK_PALETTE : [...colors].reverse();
+    brandColorIdx = isTencentBlue ? 8 : 6;
+  } else {
+    colorPalette = [...colors];
+    brandColorIdx = isTencentBlue ? 7 : validPrimary + 1;
   }
-
+  // 为什么黑夜模式下生成的颜色和Tdesign的不一样
+  // if (isDark) {
+  //   if (lowCaseHex === DEFAULT_THEME.value.toLowerCase()) {
+  //     colorPalette = [
+  //       "#1b2f51",
+  //       "#173463",
+  //       "#143975",
+  //       "#103d88",
+  //       "#0d429a",
+  //       "#054bbe",
+  //       "#2667d4",
+  //       "#4582e6",
+  //       "#699ef5",
+  //       "#96bbf8"
+  //     ];
+  //     brandColorIdx = 8;
+  //   } else {
+  //     colorPalette = colorPalette.reverse().map((color) => {
+  //       const [h, s, l] = Color.colorTransform(color, "hex", "hsl");
+  //       return Color.colorTransform([h, Number(s) - 4, l], "hsl", "hex");
+  //     });
+  //     brandColorIdx = 5;
+  //   }
+  //   colorPalette[0] = `${colorPalette[brandColorIdx]}20`;
+  // }
   const styleSheetString = `${root}{
     --td-brand-color-1: ${colorPalette[0]};
     --td-brand-color-2: ${colorPalette[1]};
@@ -106,9 +128,9 @@ export function generateTokenList(
     --td-brand-color-light: var(--td-brand-color-1);
     --td-brand-color-focus: var(--td-brand-color-2);
     --td-brand-color-disabled: var(--td-brand-color-3);
-    --td-brand-color-hover: var(--td-brand-color-${brandColorIdx > 0 ? brandColorIdx : brandColorIdx + 1});
-    --td-brand-color: var(--td-brand-color-${brandColorIdx + 1});
-    --td-brand-color-active:var(--td-brand-color-${brandColorIdx > 8 ? brandColorIdx + 1 : brandColorIdx + 2});
+    --td-brand-color-hover: var(--td-brand-color-${brandColorIdx > 1 ? brandColorIdx - 1 : brandColorIdx});
+    --td-brand-color: var(--td-brand-color-${brandColorIdx});
+    --td-brand-color-active: var(--td-brand-color-${brandColorIdx < 10 ? brandColorIdx + 1 : brandColorIdx});
     ${isDark ? DARK_FUNCTION_COLOR : LIGHT_FUNCTION_COLOR}
   }`;
 
@@ -158,7 +180,6 @@ export function generateNewTheme(hex: string, remainInput = true, _device = "web
   // const extraStyleSheet = appendStyleSheet(CUSTOM_EXTRA_ID);
   const { brandColorIdx, colorPalette, styleSheetString } = generateTokenList(hex, false, 10, remainInput);
   const darkCssTokenString = generateTokenList(hex, true).styleSheetString;
-
   styleSheet.textContent = styleSheetString;
   darkStyleSheet.textContent = darkCssTokenString;
   document.documentElement.setAttribute("theme-color", CUSTOM_THEME_ID);

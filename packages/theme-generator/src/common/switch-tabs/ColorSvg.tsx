@@ -1,4 +1,8 @@
-export default function ColorSvg() {
+interface ColorSvgProps {
+  color?: string;
+}
+
+export default function ColorSvg({ color = "#262626" }: ColorSvgProps) {
   return (
     <svg
       className="icon"
@@ -10,7 +14,7 @@ export default function ColorSvg() {
     >
       <path
         d="M512 0a512 512 0 0 0 0 1024c180.224 0-110.592-204.8 204.8-204.8a302.08 302.08 0 0 0 307.2-307.2A512 512 0 0 0 512 0zM179.2 486.4A76.8 76.8 0 1 1 256 409.6a76.8 76.8 0 0 1-76.8 76.8zM358.4 307.2a76.8 76.8 0 1 1 76.8-76.8A76.8 76.8 0 0 1 358.4 307.2z m307.2 0a76.8 76.8 0 1 1 76.8-76.8A76.8 76.8 0 0 1 665.6 307.2z m179.2 179.2A76.8 76.8 0 1 1 921.6 409.6a76.8 76.8 0 0 1-76.8 76.8z"
-        fill="#2c2c2c"
+        fill={color}
       ></path>
     </svg>
   );
