@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/react",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "a react ui component library",
   "main": "es/index.js",
   "module": "es/index.js",
@@ -51,8 +51,7 @@
     "react-is": "^18.2.0",
     "react-transition-group": "~4.4.1",
     "sortablejs": "^1.15.0",
-    "@tendaui/icons": "workspace:^",
-    "@tendaui/utils": "workspace:^",
+    "@tendaui/icons": "^1.2.2",
     "tslib": "~2.3.1",
     "validator": "~13.15.0"
   },

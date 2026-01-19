@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/theme-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TendaUI 主题配置生成器",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
