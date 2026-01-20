@@ -37,14 +37,14 @@ jobs:
           node-version: "22.20.0"
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: |
-          # 如果 lockfile 不同步，先更新它
-          # 注意：这不是最佳实践，建议在本地运行 pnpm install 并提交 lockfile
-          pnpm install --no-frozen-lockfile
+      # - name: Install dependencies
+      #   run: |
+      #     # 如果 lockfile 不同步，先更新它
+      #     # 注意：这不是最佳实践，建议在本地运行 pnpm install 并提交 lockfile
+      #     pnpm install --no-frozen-lockfile
 
-      - name: Build components
-        run: pnpm run build:components
+      # - name: Build components
+      #   run: pnpm run build:components
 
       - name: Build site
         working-directory: packages/tendaui-site
