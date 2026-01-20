@@ -9,8 +9,8 @@ export const docs = [
         titleEn: "Button",
         name: "button",
         path: "/components/button",
-        component: () => import("../../../components/button/button.md"),
-        componentEn: () => import("../../../components/button/button.md")
+        component: () => import("../../packages/components/button/button.md"),
+        componentEn: () => import("../../packages/components/button/button.md")
       }
     ]
   }
