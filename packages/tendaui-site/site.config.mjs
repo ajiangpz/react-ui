@@ -9,8 +9,8 @@ export const docs = [
         titleEn: "Button",
         name: "button",
         path: "/components/button",
-        component: () => import("../../packages/components/button/button.md"),
-        componentEn: () => import("../../packages/components/button/button.md")
+        component: () => import("@tendaui/components/button/button.md"),
+        componentEn: () => import("@tendaui/components/button/button.md")
       }
     ]
   }

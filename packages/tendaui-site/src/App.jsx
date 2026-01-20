@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import { Layout } from "@tendaui/react";
 import Layout from "./components/Layout";
 import Loading from "./components/Loading";
-import { ThemeGenerator } from "@tendaui/theme-generator";
+import { ThemeGenerator } from "../../theme-generator/src/index";
 import siteConfig from "../site.config.mjs";
 
 // 生成路由
