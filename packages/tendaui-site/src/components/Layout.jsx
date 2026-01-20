@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Layout as TLayout, Button } from "@tendaui/components";
+import { Layout as TLayout, Button } from "@tendaui/react";
 import { IconSun, IconMoon } from "@tendaui/icons";
 import siteConfig from "../../site.config.mjs";
 import { toggleThemeWithTransition } from "../utils/viewTransition";

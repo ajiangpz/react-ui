@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../../components";
+import { Button } from "@tendaui/react";
 import { IconArrowLeft, IconDelete, IconAlertTriangle, IconCheckCircleStroked } from "@tendaui/icons";
 
 export default function Icon() {
