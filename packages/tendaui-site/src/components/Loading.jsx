@@ -1,5 +1,5 @@
-import React from 'react';
-import './loading.scss';
+import React from "react";
+import "./Loading.scss";
 
 export default function Loading() {
   return (
@@ -9,4 +9,3 @@ export default function Loading() {
     </div>
   );
 }
-
