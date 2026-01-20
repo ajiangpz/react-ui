@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react(), pluginTdoc()],
   resolve: {
     alias: {
-      "@tendaui/react": resolve(__dirname, "../tendaui-react"),
+      "@tendaui/react": resolve(__dirname, "../components"),
       "@tendaui/components": resolve(__dirname, "../components"),
       "@tendaui/icons": resolve(__dirname, "../tendaui-icons"),
       "@tendaui/utils": resolve(__dirname, "../utils"),
