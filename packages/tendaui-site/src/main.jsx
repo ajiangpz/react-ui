@@ -5,6 +5,7 @@ import "./index.scss";
 // 全局引入组件库样式，所有 demo 无需单独引入
 // import "@tendaui/react/es/style/index.css";
 // 引入主题生成器组件
+import "@tendaui/components/style/index.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
