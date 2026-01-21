@@ -20,7 +20,9 @@
       "@tendaui/icons": ["packages/tendaui-icons"],
       "@tendaui/icons/*": ["packages/tendaui-icons/*"],
       "@tendaui/utils": ["packages/utils/js"],
-      "@tendaui/utils/*": ["packages/utils/js/*"]
+      "@tendaui/utils/*": ["packages/utils/js/*"],
+      "@tendaui/react": ["packages/components"],
+      "@tendaui/react/*": ["packages/components/*"]
     },
     "allowJs": true,
     "checkJs": true,
