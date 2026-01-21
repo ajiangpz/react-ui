@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       "@tendaui/react": resolve(__dirname, "../components"),
       "@tendaui/components": resolve(__dirname, "../components"),
-      "@tendaui/icons": resolve(__dirname, "../tendaui-icons"),
+      "@tendaui/icons": resolve(__dirname, "../tendaui-icons/src/index.ts"),
       "@tendaui/utils": resolve(__dirname, "../utils"),
       "@tendaui/utils/*": resolve(__dirname, "../utils/*"),
       "@tendaui/site": resolve(__dirname, "./src"),
