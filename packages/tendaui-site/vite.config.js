@@ -5,8 +5,12 @@ import { fileURLToPath } from "url";
 import pluginTdoc from "./plugins/plugin-tdoc/index.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+const basePath = process.env.VITE_BASE_PATH || (repoName ? `/${repoName}/` : "/");
+const normalizedBase = basePath.endsWith("/") ? basePath : `${basePath}/`;
 
 export default defineConfig({
+  base: normalizedBase,
   plugins: [react(), pluginTdoc()],
   resolve: {
     alias: {
