@@ -46,6 +46,9 @@
   ],
   "sideEffects": [
     "**/*.scss",
-    "**/*.css"
+    "**/*.css",
+    "**/style/index.js",
+    "**/style/css.js",
+    "**/style/all.js"
   ]
 }
