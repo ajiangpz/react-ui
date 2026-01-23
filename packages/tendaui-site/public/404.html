@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TendaUI - React 组件库</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var l = window.location;
+        var isGitHubPages = l.hostname.endsWith("github.io");
+        var firstSegment = l.pathname.split("/")[1];
+        var base = isGitHubPages && firstSegment ? "/" + firstSegment : "";
+        var path = l.pathname.replace(base, "") || "/";
+        var redirect =
+          l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          base +
+          "/?redirect=" +
+          encodeURIComponent(path + l.search + l.hash);
+        l.replace(redirect);
+      })();
+    </script>
+  </body>
+</html>
