@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-// import { Layout } from "@tendaui/react";
 import Layout from "./components/Layout";
 import Loading from "./components/Loading";
 import { ThemeGenerator } from "../../theme-generator/src/index";
