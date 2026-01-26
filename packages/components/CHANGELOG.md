@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/ajiangpz/react-ui/compare/@tendaui/components@1.0.1...@tendaui/components@1.0.2) (2026-01-26)
+
+
+### Features
+
+* components add  multi language ([3e43162](https://github.com/ajiangpz/react-ui/commit/3e431627fcfdaad5bfc52285b853ae63584a697d))
+
+
+
+
+
 ## 1.0.1 (2026-01-26)
 
 

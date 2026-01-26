@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/site",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TendaUI Documentation Site",
   "private": true,
   "type": "module",
