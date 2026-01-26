@@ -12,7 +12,7 @@ import { StyledProps, TNode } from "../common";
 import parseTNode from "../utils/parseTNode";
 import useConfig from "../hooks/useConfig";
 import useGlobalIcon from "../hooks/useGlobalIcon";
-// import { useLocaleReceiver } from '../locale/LocalReceiver';
+import { useLocaleReceiver } from "../locale/LocalReceiver";
 import { dialogCardDefaultProps } from "./defaultProps";
 import useDefaultProps from "../hooks/useDefaultProps";
 
@@ -44,11 +44,9 @@ const DialogCard = forwardRef<HTMLDivElement, DialogCardProps>((props, ref) => {
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
     CheckCircleFilledIcon: TdCheckCircleFilledIcon
   });
-  // const [local, t] = useLocaleReceiver('dialog');
-  // const confirmText = t(local.confirm);
-  // const cancelText = t(local.cancel);
-  const confirmText = "确认";
-  const cancelText = "取消";
+  const [local, t] = useLocaleReceiver("dialog");
+  const confirmText = t(local.confirm);
+  const cancelText = t(local.cancel);
   const {
     theme,
     header,

@@ -10,6 +10,7 @@ import useDefaultProps from "../hooks/useDefaultProps";
 import { StyledProps, TNode, TElement } from "../common";
 import { isFunction } from "lodash-es";
 import useConfig from "../hooks/useConfig";
+import { useLocaleReceiver } from "../locale/LocalReceiver";
 export interface InputProps extends TdInputProps, StyledProps {
   showInput?: boolean; // 控制透传readonly同时是否展示input 默认保留 因为正常Input需要撑开宽度
   keepWrapperWidth?: boolean; // 控制透传autoWidth之后是否容器宽度也自适应 多选等组件需要用到自适应但也需要保留宽度
@@ -36,12 +37,14 @@ const renderIcon = (classPrefix: string, type: "prefix" | "suffix", icon: TNode 
 const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const props = useDefaultProps<InputProps>(originalProps, inputDefaultProps as Partial<InputProps>);
   const { classPrefix } = useConfig();
+  const [local, t] = useLocaleReceiver("input");
+  const placeholderText = t(local.placeholder);
 
   const {
     type,
     autoWidth,
     borderless,
-    placeholder = "请输入内容",
+    placeholder = placeholderText,
     disabled,
     size,
     className,

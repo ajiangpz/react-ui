@@ -1,6 +1,7 @@
 import React from "react";
 import { get } from "lodash-es";
 import useConfig from "../hooks/useConfig";
+import { useLocaleReceiver } from "../locale/LocalReceiver";
 import { TableRowData, BaseTableCol, BaseTableCellParams } from "./type";
 import TR from "./TR";
 
@@ -20,6 +21,8 @@ const TBody = <T extends TableRowData = TableRowData>(props: TBodyProps<T>) => {
   const { data, columns, rowKey, rowClassName, rowAttributes, cellEmptyContent, empty, onRowClick, onCellClick } =
     props;
   const { classPrefix } = useConfig();
+  const [local, t] = useLocaleReceiver("table");
+  const emptyText = typeof local.empty === "string" ? t(local.empty) : local.empty;
 
   // 空数据渲染
   const renderEmpty = () => {
@@ -35,7 +38,7 @@ const TBody = <T extends TableRowData = TableRowData>(props: TBodyProps<T>) => {
     return (
       <tr className={`${classPrefix}-table__empty-row`}>
         <td colSpan={columns.length}>
-          <div className={`${classPrefix}-table__empty`}>暂无数据</div>
+          <div className={`${classPrefix}-table__empty`}>{emptyText}</div>
         </td>
       </tr>
     );

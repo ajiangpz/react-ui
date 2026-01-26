@@ -15,6 +15,7 @@ import useSetState from "../hooks/useSetState";
 import { drawerDefaultProps } from "./defaultProps";
 import useDrag from "./hooks/useDrag";
 import { useLockStyle } from "./hooks/useLockStyle";
+import { useLocaleReceiver } from "../locale/LocalReceiver";
 
 import type { StyledProps } from "../common";
 import type { DrawerEventSource, DrawerInstance, TdDrawerProps } from "./type";
@@ -32,10 +33,10 @@ export interface DrawerProps extends TdDrawerProps, StyledProps {
 
 const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
   // 国际化文本初始化
-  // const [local, t] = useLocaleReceiver("drawer");
+  const [local, t] = useLocaleReceiver("drawer");
   const { CloseIcon } = useGlobalIcon({ CloseIcon: TdCloseIcon });
-  const confirmText = "确认";
-  const cancelText = "取消";
+  const confirmText = t(local.confirm);
+  const cancelText = t(local.cancel);
 
   const props = useDefaultProps<DrawerProps>(originalProps, drawerDefaultProps);
   const { body, children, header, footer, ...restProps } = props;
