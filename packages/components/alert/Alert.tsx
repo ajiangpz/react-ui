@@ -18,6 +18,7 @@ import { StyledProps } from "../common";
 import { alertDefaultProps } from "./defaultProps";
 import composeRefs from "../utils/composeRefs";
 import useDefaultProps from "../hooks/useDefaultProps";
+import { useLocaleReceiver } from "../locale/LocalReceiver";
 
 const transitionTime = 200;
 
@@ -25,7 +26,7 @@ export interface AlertProps extends TdAlertProps, StyledProps {}
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   const { classPrefix } = useConfig();
-  // const [local, t] = useLocaleReceiver('alert');
+  const [local, t] = useLocaleReceiver("alert");
   const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon, ErrorCircleFilledIcon } = useGlobalIcon({
     CloseIcon: TdCloseIcon,
     InfoCircleFilledIcon: TdInfoCircleFilledIcon,
@@ -88,7 +89,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
           })}
           {+maxLine < message.length && (
             <div className={`${classPrefix}-alert__collapse`} onClick={handleCollapse}>
-              {collapsed ? "展开" : "收起"}
+              {collapsed ? t(local.expandText) : t(local.collapseText)}
             </div>
           )}
         </div>

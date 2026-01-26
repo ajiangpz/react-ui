@@ -10,6 +10,8 @@
   "packageManager": "pnpm@8.15.0",
   "scripts": {
     "release:lerna": "lerna run build --stream && lerna publish from-package",
+    "dev": "pnpm --filter @tendaui/site dev",
+    "storybook": "storybook dev -p 6006",
     "lerna:build": "lerna run build --stream",
     "lerna:test": "lerna run test --stream",
     "lerna:lint": "lerna run lint --stream",
