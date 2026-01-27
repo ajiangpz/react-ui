@@ -5,7 +5,7 @@ import SizeAdjust from "./components/SizeAdjust";
 import LineHeightAdjust from "./components/LineHeightAdjust";
 import FontColorAdjust from "./components/FontColorAdjust";
 import { modifyToken } from "../../common/Themes";
-import { FONT_COLOR_MAP } from "../ColorPanel/utils/const";
+import { FONT_COLOR_MAP } from "../color-panel/utils/const";
 import "./index.scss";
 
 interface FontPanelProps {

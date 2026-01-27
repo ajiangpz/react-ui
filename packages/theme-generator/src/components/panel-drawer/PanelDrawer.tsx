@@ -1,4 +1,4 @@
-import ColorPanel from "../ColorPanel/ColorPanel";
+import ColorPanel from "../color-panel/ColorPanel";
 import { Drawer } from "@tendaui/components";
 import "./PanelDrawer.scss";
 

@@ -7,8 +7,8 @@ import {
   generateTokenList
 } from "../../common/Themes";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
-import ColorColumn from "./ColorColumn/ColorColumn";
-import ColorCollapse from "./ColorCollapse/ColorCollapse";
+import ColorColumn from "./color-column/ColorColumn";
+import ColorCollapse from "./color-collapse/ColorCollapse";
 import {
   BRAND_COLOR_MAP,
   ERROR_COLOR_MAP,
