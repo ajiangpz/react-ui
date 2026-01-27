@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/components",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "TendaUI React Components - Source code",
   "main": "index.ts",
   "module": "index.ts",
