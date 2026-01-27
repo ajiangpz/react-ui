@@ -1,1 +1,1 @@
-export { default } from "./ColorColumn";
+export { default } from "./color-column";

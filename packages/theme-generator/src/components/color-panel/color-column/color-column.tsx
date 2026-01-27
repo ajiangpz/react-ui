@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
-import "./ColorColumn.scss";
+import "./color-column.scss";
 import { IconEdit as Edit1Icon, IconClose as ErrorCircleIcon, IconLink as LinkUnlinkIcon } from "@tendaui/icons";
 import { Popup as TPopup, ColorPickerPanel } from "@tendaui/components";
 import { getTokenValue, handleAttach } from "../../../common/utils";
 import { flatten } from "lodash-es";
-import "../ColorColumn.scss";
+import "../color-column.scss";
 interface TokenItem {
   idx: number;
   name: string;

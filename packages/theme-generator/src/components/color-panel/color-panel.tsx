@@ -7,8 +7,8 @@ import {
   generateTokenList
 } from "../../common/Themes";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
-import ColorColumn from "./color-column/ColorColumn";
-import ColorCollapse from "./color-collapse/ColorCollapse";
+import ColorColumn from "./color-column/color-column";
+import ColorCollapse from "./color-collapse/color-collapse";
 import {
   BRAND_COLOR_MAP,
   ERROR_COLOR_MAP,
@@ -17,7 +17,7 @@ import {
   WARNING_COLOR_MAP,
   DEFAULT_COLOR
 } from "./utils/const";
-import "./ColorPanel.scss";
+import "./color-panel.scss";
 import { isEqual } from "lodash-es";
 import { Color } from "tvision-color";
 import { IconEdit as Edit1Icon } from "@tendaui/icons";

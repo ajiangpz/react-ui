@@ -4,7 +4,7 @@ import { Drawer } from "@tendaui/components";
 import { applyThemeFromLocal, generateNewTheme, getOptionFromLocal, DEFAULT_THEME } from "../common/Themes";
 import "./ThemeGenerator.scss";
 import SwitchTabs from "../common/switch-tabs";
-import ColorPanel from "./color-panel/ColorPanel";
+import ColorPanel from "./color-panel/color-panel";
 import RadiusPanel from "./radius-panel";
 import FontPanel from "./font-panel";
 import ShadowPanel from "./shadow-panel";
