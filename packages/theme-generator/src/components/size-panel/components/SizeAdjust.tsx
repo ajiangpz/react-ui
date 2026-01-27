@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Popup } from "@tendaui/components";
 import SizeSlider from "../../../common/size-slider";
-import { CUSTOM_THEME_ID, modifyToken } from "../../../common/Themes";
+import { CUSTOM_THEME_ID, modifyToken } from "../../../common/themes";
 import { handleAttach } from "../../../common/utils";
 import SizeAdjustSvg from "../svg/SizeAdjustSvg";
 import HorizontalPaddingAdjustSvg from "../svg/HorizontalPaddingAdjustSvg";

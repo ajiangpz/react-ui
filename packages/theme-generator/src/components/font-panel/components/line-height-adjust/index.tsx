@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Popup, List, RadioGroup, Radio } from "@tendaui/components";
-import { handleAttach } from "../../../common/utils";
-import SegmentSelection from "../../../common/segment-selection";
-import SizeSlider from "../../../common/size-slider";
-import { getOptionFromLocal, updateLocalOption } from "../../../common/Themes";
-import { LINE_HEIGHT_OPTIONS, LINE_HEIGHT_STEPS, updateLineHeightTokens } from "../built-in/line-height";
-import "./LineHeightAdjust.scss";
+import { handleAttach } from "../../../../common/utils";
+import SegmentSelection from "../../../../common/segment-selection";
+import SizeSlider from "../../../../common/size-slider";
+import { getOptionFromLocal, updateLocalOption } from "../../../../common/themes";
+import { LINE_HEIGHT_OPTIONS, LINE_HEIGHT_STEPS, updateLineHeightTokens } from "../../built-in/line-height";
+import "./index.scss";
 import { IconShrinkScreenStroked, IconFullScreenStroked } from "@tendaui/icons";
 
 const LineHeightAdjust: React.FC = () => {
@@ -152,7 +152,12 @@ const LineHeightAdjust: React.FC = () => {
         </div>
       )}
       <div className="font-panel__token-list">
-        <RadioGroup theme="button" variant="default-filled" value={tokenType} onChange={(val) => setTokenType(val as "plus" | "time")}>
+        <RadioGroup
+          theme="button"
+          variant="default-filled"
+          value={tokenType}
+          onChange={(val) => setTokenType(val as "plus" | "time")}
+        >
           <Radio.Button value="plus">固定模式</Radio.Button>
           <Radio.Button value="time">阶梯模式</Radio.Button>
         </RadioGroup>

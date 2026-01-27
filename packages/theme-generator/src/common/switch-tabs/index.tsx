@@ -5,7 +5,7 @@ import FontSvg from "./FontSvg";
 import RadiusSvg from "./RadiusSvg";
 import BoxshadowSvg from "./BoxshadowSvg";
 import SizeSvg from "./SizeSvg";
-import { getOptionFromLocal, DEFAULT_THEME } from "../Themes";
+import { getOptionFromLocal, DEFAULT_THEME } from "../themes";
 import "./SwitchTabs.scss";
 
 interface TabItem {

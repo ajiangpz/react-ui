@@ -5,10 +5,10 @@ import {
   modifyToken,
   DEFAULT_THEME,
   generateTokenList
-} from "../../common/Themes";
+} from "../../common/themes";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
-import ColorColumn from "./color-column/color-column";
-import ColorCollapse from "./color-collapse/color-collapse";
+import ColorColumn from "./color-column";
+import ColorCollapse from "./color-collapse";
 import {
   BRAND_COLOR_MAP,
   ERROR_COLOR_MAP,

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { Popup, ColorPickerPanel } from "@tendaui/components";
-import { handleAttach } from "../../../common/utils";
+import { handleAttach } from "../../../../common/utils";
 import { IconEdit as Edit1Icon } from "@tendaui/icons";
-import { modifyToken } from "../../../common/Themes";
-import "./FontColorAdjust.scss";
+import { modifyToken } from "../../../../common/themes";
+import "./index.scss";
 
 interface ColorItem {
   name?: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import ShadowEditor from "./ShadowEditor";
-import "./shadow-layer.scss";
+import ShadowEditor from "../shadow-editor/index";
+import "./index.scss";
 
 interface ShadowLayerProps {
   shadow: string[];

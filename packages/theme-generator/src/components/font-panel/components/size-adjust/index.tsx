@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Popup } from "@tendaui/components";
-import { handleAttach } from "../../../common/utils";
-import SegmentSelection from "../../../common/segment-selection";
-import SizeSlider from "../../../common/size-slider";
-import { CUSTOM_THEME_ID, getOptionFromLocal, modifyToken, updateLocalOption } from "../../../common/Themes";
-import { fontSizeLabels, fontSizeSteps } from "../built-in/font-size";
-import "./SizeAdjust.scss";
+import { handleAttach } from "../../../../common/utils";
+import SegmentSelection from "../../../../common/segment-selection";
+import SizeSlider from "../../../../common/size-slider";
+import { CUSTOM_THEME_ID, getOptionFromLocal, modifyToken, updateLocalOption } from "../../../../common/themes";
+import { fontSizeLabels, fontSizeSteps } from "../../built-in/font-size";
+import "./index.scss";
 
 const STEP_MAP = [
   { label: "超小号", enLabel: "mini", value: 1 },

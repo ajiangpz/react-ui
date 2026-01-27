@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SegmentSelection from "../../common/segment-selection";
-import { getOptionFromLocal, modifyToken, updateLocalOption } from "../../common/Themes";
+import { getOptionFromLocal, modifyToken, updateLocalOption } from "../../common/themes";
 import { ShadowSelect, ShadowSelectDetail, ShadowSelectType, ShadowTypeDetail, ShadowTypeMap } from "./constants";
-import ShadowCard from "./components/ShadowCard";
+import ShadowCard from "./components/shadow-card/index";
 import "./index.scss";
 
 interface ShadowPanelProps {

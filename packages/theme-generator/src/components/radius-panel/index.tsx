@@ -10,7 +10,7 @@ import {
   getOptionFromLocal,
   modifyToken,
   updateLocalOption
-} from "../../common/Themes";
+} from "../../common/themes";
 import { RADIUS_OPTIONS, RADIUS_STEP_ARRAY } from "./built-in/border-radius";
 import "./index.scss";
 interface RadiusPanelProps {

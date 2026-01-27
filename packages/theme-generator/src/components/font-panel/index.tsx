@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { IconLineHeight, IconCommand } from "@tendaui/icons";
 import Collapse from "../../common/collapse";
-import SizeAdjust from "./components/SizeAdjust";
-import LineHeightAdjust from "./components/LineHeightAdjust";
-import FontColorAdjust from "./components/FontColorAdjust";
-import { modifyToken } from "../../common/Themes";
+import SizeAdjust from "./components/size-adjust";
+import LineHeightAdjust from "./components/line-height-adjust";
+import FontColorAdjust from "./components/font-color-adjust";
+import { modifyToken } from "../../common/themes";
 import { FONT_COLOR_MAP } from "../color-panel/utils/const";
 import "./index.scss";
 

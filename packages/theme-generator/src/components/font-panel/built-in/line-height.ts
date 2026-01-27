@@ -1,4 +1,4 @@
-import { modifyToken } from "../../../common/Themes";
+import { modifyToken } from "../../../common/themes";
 
 export const LINE_HEIGHT_STEPS: Record<number, number> = {
   1: 2,

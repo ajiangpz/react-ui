@@ -1,7 +1,7 @@
 import { Button, DialogPlugin } from "@tendaui/components";
 import { IconSetting, IconDownload, IconRefresh } from "@tendaui/icons";
 import { useRef } from "react";
-import { clearLocalTheme, DEFAULT_THEME, exportCustomTheme, generateNewTheme } from "../../common/Themes";
+import { clearLocalTheme, DEFAULT_THEME, exportCustomTheme, generateNewTheme } from "../../common/themes";
 import { handleAttach } from "../../common/utils";
 import "./Dock.scss";
 
