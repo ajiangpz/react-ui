@@ -1,10 +1,11 @@
-@import './_vars.scss';
-@import './_mixins.scss';
-@import '../../mixins/_text.scss';
-@import './_map.scss';
+@use "../../_vars.scss" as *;
+@use './_vars.scss' as *;
+@use './_mixins.scss' as *;
+@use '../../mixins/_text.scss' as *;
+@use './_map.scss' as *;
 
-@import '../../mixins/_reset.scss';
-@import '../../utilities/_tips.scss';
+@use '../../mixins/_reset.scss' as *;
+@use '../../utilities/_tips.scss' as *;
 
 .#{$prefix}-input {
   @include reset;
@@ -67,7 +68,7 @@
       width: 100%;
     }
 
-    // 隐藏Edge浏览器默认的密码框样式
+    // 隐藏Edge浏览器默认的密码框样�?
     &[type='password']::-ms-reveal {
       display: none;
     }
@@ -84,13 +85,13 @@
     }
   }
 
-  // 底部的额外消息
+  // 底部的额外消�?
   &__extra {
     font: $input-extra-font;
     color: $input-extra-color-default;
   }
 
-  // 输入框后面的状态图标
+  // 输入框后面的状态图�?
   &__status {
     position: absolute;
     right: $input-status-position-right;
@@ -108,12 +109,12 @@
     visibility: visible;
   }
 
-  // 输入框状态
+  // 输入框状�?
 
   @include input-readonly;
   @include input-disabled;
 
-  // 输入框的前置、后置图标
+  // 输入框的前置、后置图�?
   @include input-fix-position(prefix);
   @include input-fix-position(suffix);
 
@@ -123,7 +124,7 @@
     height: 1em;
   }
 
-  // 输入框大小
+  // 输入框大�?
   &.#{$prefix}-size-l {
     height: $input-height-l;
     font: $input-font-l;
@@ -176,7 +177,7 @@
       }
     }
     .#{$prefix}-input__suffix {
-      // 特殊使用的 suffix icon
+      // 特殊使用�?suffix icon
       > .t-icon-time,
       .t-icon-calendar {
         color: $input-border-color-default-focus;

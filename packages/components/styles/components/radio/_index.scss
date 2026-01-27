@@ -1,11 +1,11 @@
+@use "../../_vars.scss" as *;
 // 组件允许单个组件打包，因此默认引入公共基础样式
 
-@import "../../vars.scss";
-@import "./_var.scss";
-@import "./_mixins.scss";
-@import "../../mixins/_reset.scss";
-@import "../../mixins/_scrollbar.scss";
-@import "../../mixins/_focus.scss";
+@use "./_vars.scss" as *;
+@use "./_mixins.scss" as *;
+@use "../../mixins/_reset.scss" as *;
+@use "../../mixins/_scrollbar.scss" as *;
+@use "../../mixins/_focus.scss" as *;
 
 // <name> 替换为组件名
 .#{$radio-cls}-group {

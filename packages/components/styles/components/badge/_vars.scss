@@ -1,12 +1,13 @@
+@use "../../_vars.scss" as *;
 $badge-text-color: $text-color-anti;
 $badge-color: $error-color;
 
 // 尺寸
 // 默认尺寸 circle/round 高度
 $badge-height: $comp-size-xxs;
-// 小尺寸 circle/round 高度
+// 小尺寸circle/round 高度
 $badge-height-s: $comp-size-xxxs;
-// dot 宽/高
+// dot 大小
 $badge-dot-size: 6px;
 // $badge-status-size: 6px;
 $badge-min-width: 8px;

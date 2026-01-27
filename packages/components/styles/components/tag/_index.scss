@@ -1,6 +1,7 @@
-@import './_var.scss';
+@use "../../_vars.scss" as *;
+@use './_var.scss' as *;
 
-@import '../../mixins/reset.scss';
+@use '../../mixins/reset.scss' as *;
 
 .#{$prefix}-tag {
   @include reset;

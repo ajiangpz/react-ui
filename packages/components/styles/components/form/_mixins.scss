@@ -1,4 +1,6 @@
-@use 'sass:map';
+@use "sass:map";
+@use "../../_vars.scss" as *;
+@use "./_vars.scss" as *;
 
 @mixin input-status($status) {
   .#{$prefix}-is-#{$status} {
@@ -6,7 +8,7 @@
     @include input-status-extra($status);
 
     .#{$prefix}-form__controls-content {
-      // TODO: 兼容目前未使用SelectInput重构的组件的样式 全部重构后可以都由input层控制状态变化
+      // TODO: 兼容目前未使用SelectInput重构的组件的样式 全部重构后可以都由input层控制状态变量
       .#{$prefix}-input,
       .#{$prefix}-select,
       .#{$prefix}-radio-button,
@@ -16,8 +18,7 @@
         border-color: map.get(map.get($input-color, border), $status);
 
         &--focused {
-          box-shadow: 0 0 0 2px
-            map.get(map.get($input-color, box-shadow), $status);
+          box-shadow: 0 0 0 2px map.get(map.get($input-color, box-shadow), $status);
         }
 
         // 处理组件内icon颜色
@@ -28,9 +29,7 @@
       }
 
       .#{$prefix}-select {
-        > .#{$prefix}-select__right-icon:not(
-            .#{$prefix}-select__right-icon-clear
-          ) {
+        > .#{$prefix}-select__right-icon:not(.#{$prefix}-select__right-icon-clear) {
           color: map.get(map.get($input-color, border), $status);
         }
       }
@@ -50,8 +49,7 @@
       .#{$prefix}-cascader,
       .#{$prefix}-select {
         &.#{$prefix}-is-active {
-          box-shadow: 0 0 0 2px
-            map.get(map.get($input-color, box-shadow), $status);
+          box-shadow: 0 0 0 2px map.get(map.get($input-color, box-shadow), $status);
         }
       }
 

@@ -1,12 +1,12 @@
 // 组件允许单个组件打包，因此默认引入公共基础样式
 
-@import "../../_vars.scss";
+@use "../../_vars.scss" as *;
 
-@import "./_vars.scss";
+@use "./_vars.scss" as *;
 
-@import "./_mixin.scss";
+@use "./_mixin.scss" as *;
 
-@import "../../mixins/_reset.scss";
+@use "../../mixins/_reset.scss" as *;
 
 .#{$prefix}-layout {
   @include reset;

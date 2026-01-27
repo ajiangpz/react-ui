@@ -1,15 +1,17 @@
+@use "../_vars.scss" as *;
+
 // 变量定义
 $tips-text-default: $text-color-placeholder;
 $tips-text-error: $error-color;
 $tips-text-warning: $warning-color;
 $tips-text-success: $success-color;
 
-// 建议维护一个 map，方便按状态取值
+// 建议维护一个map，方便按状态取值
 $tips-text-colors: (
   default: $tips-text-default,
   error: $tips-text-error,
   warning: $tips-text-warning,
-  success: $tips-text-success,
+  success: $tips-text-success
 );
 
 // 单行省略
@@ -44,5 +46,5 @@ $tips-text-colors: (
   default: $tips-text-default,
   success: $tips-text-success,
   warning: $tips-text-warning,
-  error: $tips-text-error,
+  error: $tips-text-error
 );

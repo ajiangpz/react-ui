@@ -1,6 +1,7 @@
-@import '../vars.scss';
+@use "../_vars.scss" as *;
+@use "../vars.scss" as *;
 
-// 滚动条样式 mixin
+// 滚动条样式mixin
 @mixin scrollbar($size: 6px, $borderSize: 0px) {
   // Safari/Chrome 中滚动条样式设置
   &::-webkit-scrollbar {
@@ -21,7 +22,7 @@
   }
 }
 
-// 隐藏滚动条 mixin
+// 隐藏滚动条mixin
 @mixin hideScrollbar {
   /* Chrome / Safari */
   &::-webkit-scrollbar {

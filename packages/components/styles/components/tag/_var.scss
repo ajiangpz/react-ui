@@ -1,5 +1,6 @@
+@use "../../_vars.scss" as *;
 // <component>-[type]-[attrtype]-<attr>-[status]
-@import '../../vars.scss';
+@use '../../vars.scss' as *;
 // checked [false - default; true - primary]
 $tag-default-background-color: $bg-color-component;
 $tag-default-border-color: transparent;

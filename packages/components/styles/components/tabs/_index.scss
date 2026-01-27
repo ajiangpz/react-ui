@@ -1,7 +1,8 @@
-@import "../../vars.scss";
-@import "./vars.scss";
-@import "./_mixins.scss";
-@import "../../mixins/reset.scss";
+@use "../../_vars.scss" as *;
+@use "../../vars.scss" as *;
+@use "./vars.scss" as *;
+@use "./_mixins.scss" as *;
+@use "../../mixins/reset.scss" as *;
 
 .#{$prefix}-tabs {
   @include reset;
@@ -108,58 +109,58 @@
     &.#{$prefix}-is-active {
       color: $tab-default-text-select;
       // font-weight: 500;
-      text-shadow: $tab-btn-text-shadow-active; // 由于在wins上字体变粗时会扩大width的宽度，导致有抖动的问题；因此采用text-shadow来代替
-    }
+      text-shadow: $tab-btn-text-shadow-active; // 由于在wins上字体变粗时会扩大width的宽度，导致有抖动的问题；因此采用text-shadow来代�?    }
 
-    &.#{$prefix}-is-disabled {
-      color: $tab-default-text-disabled;
-      cursor: not-allowed;
-    }
+      &.#{$prefix}-is-disabled {
+        color: $tab-default-text-disabled;
+        cursor: not-allowed;
+      }
 
-    & > .remove-btn {
-      margin-left: $tab-btn-remove-btn-margin-left;
-      transition: $tab-btn-remove-btn-transition;
-      display: flex;
+      & > .remove-btn {
+        margin-left: $tab-btn-remove-btn-margin-left;
+        transition: $tab-btn-remove-btn-transition;
+        display: flex;
+      }
+    }
+    &__content {
+      overflow: hidden;
+      position: relative;
+    }
+    &__bar {
+      position: absolute;
+      background-color: $tab-default-bar-bg-color;
+      z-index: 1;
+      transition: $tab-bar-transition;
+      border-radius: $border-radius-small;
+
+      &.#{$prefix}-is-top {
+        bottom: 0;
+        left: 0;
+        height: $tab-default-stroke-size;
+      }
+
+      &.#{$prefix}-is-bottom {
+        top: 0;
+        left: 0;
+        height: $tab-default-stroke-size;
+      }
+
+      &.#{$prefix}-is-left {
+        top: 0;
+        right: 0;
+        width: $tab-default-stroke-size;
+      }
+
+      &.#{$prefix}-is-right {
+        top: 0;
+        left: 0;
+        width: $tab-default-stroke-size;
+      }
     }
   }
-  &__content {
-    overflow: hidden;
-    position: relative;
-  }
-  &__bar {
-    position: absolute;
-    background-color: $tab-default-bar-bg-color;
-    z-index: 1;
-    transition: $tab-bar-transition;
-    border-radius: $border-radius-small;
-
-    &.#{$prefix}-is-top {
-      bottom: 0;
-      left: 0;
-      height: $tab-default-stroke-size;
+  .#{$prefix}-tab-panel {
+    &.#{$prefix}-is-hidden {
+      display: none;
     }
-
-    &.#{$prefix}-is-bottom {
-      top: 0;
-      left: 0;
-      height: $tab-default-stroke-size;
-    }
-
-    &.#{$prefix}-is-left {
-      top: 0;
-      right: 0;
-      width: $tab-default-stroke-size;
-    }
-
-    &.#{$prefix}-is-right {
-      top: 0;
-      left: 0;
-      width: $tab-default-stroke-size;
-    }
-  }
-}
-.#{$prefix}-tab-panel {
-  &.#{$prefix}-is-hidden {
-    display: none;
   }
 }

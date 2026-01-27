@@ -1,8 +1,8 @@
-@import "../../_vars.scss";
-@import "../input/_vars.scss";
-@import "../input/_mixins.scss";
-@import "../../mixins/_reset.scss";
-@import "../../utilities/_tips.scss";
+@use "../../_vars.scss" as *;
+@use "../input/_vars.scss" as *;
+@use "../input/_mixins.scss" as *;
+@use "../../mixins/_reset.scss" as *;
+@use "../../utilities/_tips.scss" as *;
 
 .#{$prefix}-ip-input {
   @include reset;
@@ -65,13 +65,13 @@
     &--error {
       border-color: $input-border-color-error;
 
-      // 错误状态下的聚焦样式，优先级高于普通聚焦和 --focused 类
+      // 错误状态下的聚焦样式，优先级高于普通聚焦和 --focused
       &:focus {
         border-color: $input-border-color-error !important;
         box-shadow: 0 0 0 1px $input-border-color-error !important;
       }
 
-      // 当同时有 --error 和 --focused 类时，确保错误样式优先
+      // 当同时有 --error --focused 类时，确保错误样式优先
       &.#{$prefix}-ip-input__segment--focused {
         border-color: $input-border-color-error !important;
         box-shadow: 0 0 0 1px $input-border-color-error !important;
@@ -274,7 +274,4 @@
       border-color: $input-border-color-default-focus;
     }
   }
-
-  // 移除整个组件的 is-error 样式，因为每个段有自己的错误状态
-  // 错误状态通过 __segment--error 等类来控制
 }

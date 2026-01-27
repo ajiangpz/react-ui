@@ -1,12 +1,12 @@
-@import "../../_vars.scss";
+@use "../../_vars.scss" as *;
 
-@import "./_vars.scss";
+@use "./_vars.scss" as *;
 
-@import "../../mixins/_reset.scss";
+@use "../../mixins/_reset.scss" as *;
 
-@import "../../mixins//layout.scss";
+@use "../../mixins//layout.scss" as *;
 
-@import "../../mixins/scrollbar.scss";
+@use "../../mixins/scrollbar.scss" as *;
 .#{$prefix}-list {
   @include reset();
   @include scrollbar();

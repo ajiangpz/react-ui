@@ -1,3 +1,4 @@
+@use "../../_vars.scss" as *;
 // 默认选项卡
 $tab-default-bg: $bg-color-container;
 $tab-default-bg-hover: $bg-color-container-hover;
@@ -56,7 +57,7 @@ $tab-btn-border: 1px solid $tab-card-stroke; // 按钮边框
 $tab-bar-operations-border: 1px solid $tab-card-stroke; // 卡片边框
 
 // 动画&过度
-$tab-nav-scroll-transform: translate(0); // 滚动栏滚动过度
+$tab-nav-scroll-transform: translate(0); // 滚动栏滚动动画
 $tab-btn-fade-transform-left: translateX(-50px); // 按钮过渡动画
 $tab-btn-fade-transform-right: translateX(50px); // 按钮过渡动画
 $tab-nav-warp-is-smooth-transform: transform $anim-duration-moderate $anim-time-fn-ease-out; // smooth 过渡动画

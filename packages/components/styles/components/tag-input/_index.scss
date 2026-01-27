@@ -1,9 +1,10 @@
-@import '../../_vars.scss';
-@import './_vars.scss';
-@import '../../utilities/_animation.scss';
+@use "../../_vars.scss" as *;
+@use '../../_vars.scss' as *;
+@use './_vars.scss' as *;
+@use '../../utilities/_animation.scss' as *;
 
-@import '../../mixins/_reset.scss';
-@import '../../mixins/_scrollbar.scss';
+@use '../../mixins/_reset.scss' as *;
+@use '../../mixins/_scrollbar.scss' as *;
 
 .#{$prefix}-tag-input {
   @include reset;
@@ -123,7 +124,7 @@
   margin-right: $comp-margin-s;
 }
 
-/** 换行模式避免标签和右侧图标重合，需保留图标宽度 22px 和左侧距离标签间距 8px */
+/** 换行模式避免标签和右侧图标重合，需保留图标宽度 22px 和左侧距离标签间�?8px */
 .#{$prefix}-tag-input--break-line.#{$prefix}-tag-input--with-tag:not(
     .#{$prefix}-input--auto-width
   ),
@@ -139,14 +140,14 @@
   }
 }
 
-/** auto-width 模式，左右边距相同 */
+/** auto-width 模式，左右边距相�?*/
 .#{$prefix}-tag-input.#{$prefix}-input--auto-width {
   .#{$prefix}-input {
     padding-right: 0;
   }
 }
 
-/** max-rows模式，限制最大高度 */
+/** max-rows模式，限制最大高�?*/
 .#{$prefix}-tag-input--max-rows {
   .#{$prefix}-input {
     &.#{$prefix}-size-s {

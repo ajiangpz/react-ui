@@ -1,5 +1,5 @@
-@import './_light.scss';
-@import './_dark.scss';
-@import './size.scss';
-@import './radius.scss';
-@import './_font.scss';
+@use './_light.scss' as *;
+@use './_dark.scss' as *;
+@use './size.scss' as *;
+@use './radius.scss' as *;
+@use './_font.scss' as *;

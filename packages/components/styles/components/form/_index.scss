@@ -1,12 +1,13 @@
+@use "../../_vars.scss" as *;
 // 组件允许单个组件打包，因此默认引入公共基础样式
 
-@import '../../_vars.scss';
+@use '../../_vars.scss' as *;
 
-@import './_vars.scss';
+@use './_vars.scss' as *;
 
-@import './_mixins.scss';
+@use './_mixins.scss' as *;
 
-@import '../../mixins/_reset.scss';
+@use '../../mixins/_reset.scss' as *;
 
 .#{$prefix}-form {
   @include reset;
@@ -24,12 +25,12 @@
   &__item {
     margin-bottom: $form-item-margin-bottom;
 
-    // 文档流撑开内容补足剩余的 4px
+    // 文档流撑开内容补足剩余�?4px
     &.#{$prefix}-form__item-with-help {
       margin-bottom: $form-item-with-help-margin-bottom;
     }
 
-    // 绝对定位布局需要重设底部间距
+    // 绝对定位布局需要重设底部间�?
     &.#{$prefix}-form__item-with-extra {
       margin-bottom: $form-item-margin-bottom;
     }
@@ -97,7 +98,7 @@
       min-height: $form-item-control-height;
     }
 
-    // formItem 嵌套情况无间距
+    // formItem 嵌套情况无间�?
     .#{$prefix}-form__item {
       margin-bottom: 0;
       margin-right: $form-item-margin-right-inline;
@@ -110,7 +111,7 @@
   }
 
   &__controls.#{$prefix}-form--success-border {
-    // 输入框状态
+    // 输入框状�?
     @include input-status(success);
   }
 
@@ -169,6 +170,6 @@
   white-space: nowrap;
 }
 
-// 输入框状态
+// 输入框状�?
 @include input-status(warning);
 @include input-status(error);

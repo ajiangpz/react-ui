@@ -1,11 +1,11 @@
 @use "sass:map";
-@import "../../_vars.scss";
+@use "../../_vars.scss" as *;
 
-@import "./_vars.scss";
+@use "./_vars.scss" as *;
 
-@import "./_mixins.scss";
+@use "./_mixins.scss" as *;
 
-@import "../../mixins/_reset.scss";
+@use "../../mixins/_reset.scss" as *;
 
 @function btn-color($theme, $state: default) {
   $theme-map: map.get($btn-colors, $theme);
@@ -463,7 +463,7 @@
 }
 
 .#{$prefix}-button--ghost {
-  --ripple-color: @gray-color-10; // 幽灵按钮相当于按钮深色模式，因此固定为深色模式 token
+  --ripple-color: @gray-color-10; // 幽灵按钮相当于按钮深色模式，因此固定为深色模�?token
 }
 
 .#{$prefix}-button:not(.#{$prefix}-is-disabled):not(.#{$prefix}-button--ghost) {

@@ -1,10 +1,11 @@
+@use "../../_vars.scss" as *;
 // 组件允许单个组件打包，因此默认引入公共基础样式.#{$prefix}
 
-@import '../../_vars.scss';
+@use '../../_vars.scss' as *;
 
-@import './_vars.scss';
+@use './_vars.scss' as *;
 
-@import '../../mixins/_reset.scss';
+@use '../../mixins/_reset.scss' as *;
 
 // Badge
 .#{$prefix}-badge {

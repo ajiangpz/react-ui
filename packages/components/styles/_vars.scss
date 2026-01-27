@@ -79,15 +79,15 @@ $warning-color: var(--td-warning-color); // 色彩-功能-警告
 $error-color: var(--td-error-color); // 色彩-功能-失败
 $success-color: var(--td-success-color); // 色彩-功能-成功
 
-// 基础颜色的扩展 用于 hover / 聚焦 / 禁用 / 点击 等状态
-$brand-color-hover: var(--td-brand-color-hover); // hover态
+// 基础颜色的扩充用于 hover / 聚焦 / 禁用 / 点击 等状态
+$brand-color-hover: var(--td-brand-color-hover); // hover
 $brand-color-focus: var(--td-brand-color-focus); // focus态，包括鼠标和键盘
-$brand-color-active: var(--td-brand-color-active); // 点击态
-$brand-color-disabled: var(--td-brand-color-disabled); // 禁用态
-$brand-color-light: var(--td-brand-color-light); // 浅色的选中态
+$brand-color-active: var(--td-brand-color-active); // 点击
+$brand-color-disabled: var(--td-brand-color-disabled); // 禁用
+$brand-color-light: var(--td-brand-color-light); // 浅色的选中
 $brand-color-light-hover: var(--td-brand-color-light-hover);
 
-// 警告色扩展
+// 警告色扩充
 $warning-color-hover: var(--td-warning-color-hover);
 $warning-color-focus: var(--td-warning-color-focus);
 $warning-color-active: var(--td-warning-color-active);
@@ -95,7 +95,7 @@ $warning-color-disabled: var(--td-warning-color-disabled);
 $warning-color-light: var(--td-warning-color-light);
 $warning-color-light-hover: var(--td-warning-color-light-hover);
 
-// 失败/错误色扩展
+// 失败/错误色扩充
 $error-color-hover: var(--td-error-color-hover);
 $error-color-focus: var(--td-error-color-focus);
 $error-color-active: var(--td-error-color-active);
@@ -103,7 +103,7 @@ $error-color-disabled: var(--td-error-color-disabled);
 $error-color-light: var(--td-error-color-light);
 $error-color-light-hover: var(--td-error-color-light-hover);
 
-// 成功色扩展
+// 成功色扩充
 $success-color-hover: var(--td-success-color-hover);
 $success-color-focus: var(--td-success-color-focus);
 $success-color-active: var(--td-success-color-active);
@@ -116,7 +116,7 @@ $mask-active: var(--td-mask-active); // 遮罩-弹出
 $mask-disabled: var(--td-mask-disabled); // 遮罩-禁用
 $mask-bg: var(--td-mask-background); // 二维码遮罩
 
-// 背景色
+// 背景颜色
 $bg-color-page: var(--td-bg-color-page); // 色彩 - page
 $bg-color-container: var(--td-bg-color-container); // 色彩 - 容器
 $bg-color-container-hover: var(--td-bg-color-container-hover); // 色彩 - 容器 - hover
@@ -138,13 +138,13 @@ $bg-color-secondarycomponent-active: var(--td-bg-color-secondarycomponent-active
 $bg-color-component-disabled: var(--td-bg-color-component-disabled); // 色彩 - 组件 - disabled
 
 // TODO: 考虑是否在组件内部做判断，不增加额外变量
-// 特殊组件背景色，目前只用于 button、input 组件多主题场景，浅色主题下固定为白色，深色主题下为 transparent 适配背景颜色
+// 特殊组件背景色，目前只用button、input 组件多主题场景，浅色主题下固定为白色，深色主题下transparent 适配背景颜色
 $bg-color-specialcomponent: var(--td-bg-color-specialcomponent);
 
 // 文本颜色
 $text-color-primary: var(--td-text-color-primary); // 色彩-文字-主要
 $text-color-secondary: var(--td-text-color-secondary); // 色彩-文字-次要
-$text-color-placeholder: var(--td-text-color-placeholder); // 色彩-文字-占位符/说明
+$text-color-placeholder: var(--td-text-color-placeholder); // 色彩-文字-占位说明
 $text-color-disabled: var(--td-text-color-disabled); // 色彩-文字-禁用
 $text-color-anti: var(--td-text-color-anti); // 色彩-文字-反色
 $text-color-brand: var(--td-text-color-brand); // 色彩-文字-品牌
@@ -159,14 +159,14 @@ $component-border: var(--td-component-border);
 
 // shadow
 
-// 基础/下层 投影 hover 使用的组件包括：表格 /
+// 基础/下层 投影 hover 使用的组件包括：表格
 $shadow-1: var(--td-shadow-1);
-// 中层投影 下拉 使用的组件包括：下拉菜单 / 气泡确认框 / 选择器 /
+// 中层投影 下拉 使用的组件包括：下拉菜单 / 气泡确认 / 选择
 $shadow-2: var(--td-shadow-2);
-// 上层投影（警示/弹窗）使用的组件包括：全局提示 / 消息通知
+// 上层投影（警告/弹窗）使用的组件包括：全局提示 / 消息通知
 $shadow-3: var(--td-shadow-3);
 
-// 内投影 用于弹窗类组件（气泡确认框 / 全局提示 / 消息通知）的内描边
+// 内投影用于弹窗类组件（气泡确认 / 全局提示 / 消息通知）的内描影
 $shadow-inset-top: var(--td-shadow-inset-top);
 $shadow-inset-right: var(--td-shadow-inset-right);
 $shadow-inset-bottom: var(--td-shadow-inset-bottom);
@@ -207,7 +207,7 @@ $comp-size-xxxl: var(--td-comp-size-xxxl);
 $comp-size-xxxxl: var(--td-comp-size-xxxxl);
 $comp-size-xxxxxl: var(--td-comp-size-xxxxxl);
 
-// popup 弹出层整体边距 token
+// popup 弹出层整体边距token
 $pop-padding-s: var(--td-pop-padding-s);
 $pop-padding-m: var(--td-pop-padding-m);
 $pop-padding-l: var(--td-pop-padding-l);
@@ -252,12 +252,12 @@ $spacer-1: $spacer; // 间距-8
 $spacer-2: $spacer * 2; // 间距-16
 $spacer-3: $spacer * 3; // 间距-24
 $spacer-4: $spacer * 4; // 间距-32
-$spacer-5: $spacer * 5; // 间距-大-40
-$spacer-6: $spacer * 6; // 间距-大-48
-$spacer-7: $spacer * 7; // 间距-大-48
-$spacer-8: $spacer * 8; // 间距-大-48
-$spacer-9: $spacer * 9; // 间距-大-48
-$spacer-10: $spacer * 10; // 间距-大-80
+$spacer-5: $spacer * 5; // 间距-40
+$spacer-6: $spacer * 6; // 间距-48
+$spacer-7: $spacer * 7; // 间距-48
+$spacer-8: $spacer * 8; // 间距-48
+$spacer-9: $spacer * 9; // 间距-48
+$spacer-10: $spacer * 10; // 间距-80
 
 $text-line-height-s: var(--td-line-height-body-small);
 $text-line-height-base: var(--td-line-height-body-medium);
@@ -302,7 +302,7 @@ $border-radius-medium: var(--td-radius-medium); // 圆角-6
 $border-radius-large: var(--td-radius-large); // 圆角-9
 $border-radius-extraLarge: var(--td-radius-extraLarge); // 圆角-12
 $border-radius-round: var(--td-radius-round); // 圆角-999
-$border-radius-circle: var(--td-radius-circle); // 圆角-全圆角
+$border-radius-circle: var(--td-radius-circle); // 圆角-全圆
 
 // 表单相关
 $form-height: 30px;

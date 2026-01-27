@@ -1,6 +1,8 @@
 /**
  * 颜色
  */
+@use "../../_vars.scss" as *;
+
 $dialog-box-shadow: $shadow-2;
 $drawer-bg-color: $bg-color-container;
 $drawer-border-color: $border-level-1-color;

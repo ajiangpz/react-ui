@@ -1,12 +1,13 @@
-@import '../../_vars.scss';
+@use "../../_vars.scss" as *;
+@use '../../_vars.scss' as *;
 
-@import './_var.scss';
+@use './_var.scss' as *;
 
-@import '../../mixins/_text.scss';
+@use '../../mixins/_text.scss' as *;
 
-@import '../../mixins/_reset.scss';
+@use '../../mixins/_reset.scss' as *;
 
-@import '../../mixins/_scrollbar.scss';
+@use '../../mixins/_scrollbar.scss' as *;
 
 // select
 .#{$prefix}-select__wrap {
@@ -19,7 +20,7 @@
     @include scrollbar(8px, 2px);
 
     margin: $select-dropdown-margin;
-    padding: 0; // 展开动画 如果有padding会直接生长 需要移动到内部
+    padding: 0; // 展开动画 如果有padding会直接生�?需要移动到内部
     max-height: $select-dropdown-max-height;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -245,7 +246,7 @@
   }
 }
 
-/** 规范 CSS 类名为 --hover */
+/** 规范 CSS 类名�?--hover */
 .#{$prefix}-select-option.#{$prefix}-select-option__hover,
 .#{$prefix}-select-option.#{$prefix}-select-option--hover {
   &:not(.#{$prefix}-is-disabled),

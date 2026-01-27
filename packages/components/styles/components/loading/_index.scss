@@ -1,10 +1,11 @@
-@import '../../_vars.scss';
+@use "../../_vars.scss" as *;
+@use '../../_vars.scss' as *;
 
-@import './_vars.scss';
+@use './_vars.scss' as *;
 
-@import '../../utilities/_animation.scss';
+@use '../../utilities/_animation.scss' as *;
 
-@import '../../mixins/_reset.scss';
+@use '../../mixins/_reset.scss' as *;
 
 .#{$prefix}-loading {
   @include reset;

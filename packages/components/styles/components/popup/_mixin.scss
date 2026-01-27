@@ -1,3 +1,5 @@
+@use "../../_vars.scss" as *;
+@use "./_vars.scss" as *;
 @mixin content-placement-top {
   .#{$prefix}-popup[data-popper-placement^="top"] {
     .#{$prefix}-popup__content {
@@ -123,7 +125,7 @@
   }
 }
 
-@mixin  arrow-placement-right() {
+@mixin arrow-placement-right() {
   .#{$prefix}-popup[data-popper-placement^="right"] .#{$prefix}-popup__arrow {
     left: calc(-#{$popup-arrow-width} / 2);
 
@@ -145,5 +147,3 @@
     top: calc(100% - $popup-arrow-width * 2);
   }
 }
-
-

@@ -1,14 +1,10 @@
-// 组件允许单个组件打包，因此默认引入公共基础样式
+@use "../../_vars.scss" as *;
+@use "./_vars.scss" as *;
+@use "./_mixin.scss" as *;
 
-@import '../../vars.scss';
+@use "../../mixins/_layout.scss" as *;
 
-@import './_var.scss';
-
-@import './_mixin.scss';
-
-@import '../../mixins/_layout.scss';
-
-@import '../../mixins/_reset.scss';
+@use "../../mixins/_reset.scss" as *;
 
 .#{$prefix}-popup {
   @include reset;
@@ -38,7 +34,7 @@
 
   &::before {
     position: absolute;
-    content: '';
+    content: "";
     width: $popup-arrow-width;
     height: $popup-arrow-height;
     transform: rotate(45deg);

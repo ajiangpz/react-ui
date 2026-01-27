@@ -1,5 +1,5 @@
-@import '../../vars.scss';
+@use '../../vars.scss' as *;
 
-@import './_var.scss';
+@use './_var.scss' as *;
 
-@import '../../mixins/_reset.scss';
+@use '../../mixins/_reset.scss' as *;

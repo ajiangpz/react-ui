@@ -1,8 +1,9 @@
-@import './_vars.scss';
+@use "./_vars.scss" as *;
+@use './_vars.scss' as *;
 
-@import './mixins/_scrollbar.scss';
+@use './mixins/_scrollbar.scss' as *;
 
-// 响应式断点 后面支持紧凑模式可以迁移过去
+// 响应式断�?后面支持紧凑模式可以迁移过去
 :root {
   --td-screen-xs: #{$screen-xs};
   --td-screen-sm: #{$screen-sm};

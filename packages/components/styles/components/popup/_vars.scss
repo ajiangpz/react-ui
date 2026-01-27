@@ -1,3 +1,4 @@
+@use "../../_vars.scss" as *;
 // 颜色
 $popup-bg: $bg-color-container;
 $arrow-bg: $bg-color-container;
@@ -11,7 +12,7 @@ $popup-arrow-height: 8px;
 $popup-content-arrow-spacer: $comp-margin-l;
 $popup-content-margin: $comp-margin-s;
 
-// 箭头位置偏移量
+// 箭头位置偏移
 $popup-arrow-position: $popup-arrow-width;
 $popup-content-font-size: $font-size-base;
 
@@ -27,5 +28,6 @@ $popup-flow: "#{prefix}-popup--animation";
 $popup-flow-duration: $anim-duration-base;
 $popup-flow-fn: $anim-time-fn-ease-in;
 $popup-flow-transition-enter: opacity $popup-flow-duration linear;
-$popup-flow-transition-leave: opacity $popup-flow-duration $anim-time-fn-ease-out,
+$popup-flow-transition-leave:
+  opacity $popup-flow-duration $anim-time-fn-ease-out,
   visibility $popup-flow-duration $popup-flow-fn;

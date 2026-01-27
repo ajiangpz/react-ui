@@ -1,6 +1,7 @@
-@import "../../vars.scss";
-@import "../../mixins/_reset.scss";
-@import "./_var.scss";
+@use "../../_vars.scss" as *;
+@use "../../vars.scss" as *;
+@use "../../mixins/_reset.scss" as *;
+@use "./_var.scss" as *;
 
 // 表格基础样式
 .#{$prefix}-table {
@@ -75,20 +76,17 @@
     display: block;
   }
 
-  // 当单元格启用省略时
-  &__cell--ellipsis {
-    overflow: hidden;
-    position: relative;
+  // 当单元格启用省略�?  &__cell--ellipsis {
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+
+  // 确保内部内容不会超出
+  & > div {
+    width: 100%;
     max-width: 100%;
-
-    // 确保内部内容不会超出
-    & > div {
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
+    box-sizing: border-box;
   }
-
   // 边框模式
   &--bordered {
     td,
@@ -106,11 +104,9 @@
     }
   }
 
-  // 斑马纹
-  &--stripe {
-    tbody tr:nth-of-type(odd) {
-      background-color: $table-highlight-bg-color;
-    }
+  // 斑马�?  &--stripe {
+  tbody tr:nth-of-type(odd) {
+    background-color: $table-highlight-bg-color;
   }
 
   // 悬浮效果
@@ -150,8 +146,7 @@
   &--layout-fixed {
     table-layout: fixed;
 
-    // 固定布局下，省略文本需要特殊处理
-    td.#{$prefix}-table__cell--ellipsis,
+    // 固定布局下，省略文本需要特殊处�?    td.#{$prefix}-table__cell--ellipsis,
     th.#{$prefix}-table__cell--ellipsis {
       overflow: hidden;
       position: relative;
@@ -175,12 +170,10 @@
     }
   }
 
-  // 空数据
-  &__empty-row {
-    td {
-      padding: 0;
-      border: 0;
-    }
+  // 空数�?  &__empty-row {
+  td {
+    padding: 0;
+    border: 0;
   }
 
   &__empty {

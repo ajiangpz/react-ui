@@ -1,3 +1,4 @@
+@use "../../_vars.scss" as *;
 $dialog-border-color: transparent;
 $dialog-bg-color: $bg-color-container;
 $dialog-header-text-color: $text-color-primary;
@@ -50,7 +51,7 @@ $dialog-close-border-radius: $border-radius-medium;
 // 位置
 $dialog-close-position-top: $spacer-3;
 $dialog-close-position-right: $spacer-3;
-// 此处不能使用20% 因为定位是paddingTop 所以20% 会根据屏幕宽度
+// 此处不能使用 20% 因为定位是 paddingTop，所以 20% 会根据屏幕宽度计算
 $dialog-top-position-top: 20vh;
 
 // 动画

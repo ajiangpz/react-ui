@@ -1,12 +1,12 @@
 // 组件允许单个组件打包，因此默认引入公共基础样式
 
-@import "../../_vars.scss";
+@use "../../_vars.scss" as *;
 
-@import "./_vars.scss";
+@use "./_vars.scss" as *;
 
-@import "./_mixins.scss";
+@use "./_mixins.scss" as *;
 
-@import "../../mixins/_reset.scss";
+@use "../../mixins/_reset.scss" as *;
 
 .#{$prefix}-color-picker__panel {
   padding: 0;
@@ -578,7 +578,7 @@
   }
 }
 
-// 覆盖select-option 默认样式，使其更紧凑点
+// 覆盖select-option 默认样式，使其更紧凑
 .#{$prefix}-color-picker__select-options {
   > .#{$prefix}-popup__content {
     box-shadow: $shadow-1, $shadow-inset-top, $shadow-inset-right, $shadow-inset-bottom, $shadow-inset-left;

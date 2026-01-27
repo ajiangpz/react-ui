@@ -1,4 +1,5 @@
-@import '../_vars.scss';
+@use "../_vars.scss" as *;
+@use '../_vars.scss' as *;
 
 @mixin reset {
   font: $font-body-medium;

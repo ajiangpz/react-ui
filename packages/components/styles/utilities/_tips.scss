@@ -1,4 +1,5 @@
-@import '../mixins/_text.scss';
+@use "../_vars.scss" as *;
+@use "../mixins/_text.scss" as *;
 .#{$prefix}-tips {
   font-size: $font-size-s;
 }

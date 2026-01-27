@@ -1,4 +1,6 @@
-@import './_map.scss';
+@use "../../_vars.scss" as *;
+@use "./_vars.scss" as *;
+@use "./_map.scss" as *;
 
 @mixin input-base() {
   border-width: 1px;
@@ -71,7 +73,7 @@
   }
 }
 
-// 状态样式：需要 map-get 或 #{} 来拼接变量名
+// 状态样式：需使用map-get 和 #{} 来拼接变量名
 @mixin input-status($status) {
   &.#{$prefix}-is-#{$status} {
     border-color: #000;
