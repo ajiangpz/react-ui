@@ -19,10 +19,7 @@
       "bump": "from-package"
     },
     "version": {
-      "allowBranch": [
-        "main",
-        "master"
-      ],
+      "allowBranch": ["main", "master"],
       "conventionalCommits": true
     },
     "run": {
@@ -33,9 +30,7 @@
       "hoist": false
     }
   },
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "ignoreChanges": [
     "**/*.md",
     "**/*.test.ts",
