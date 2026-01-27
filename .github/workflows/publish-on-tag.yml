@@ -18,13 +18,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          registry-url: "https://registry.npmjs.org/"
+        with:
+          node-version: "22.20.0"
           cache: "pnpm"
 
       - name: Install dependencies
