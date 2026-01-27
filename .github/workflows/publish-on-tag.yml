@@ -36,6 +36,13 @@ jobs:
         run: |
           git checkout -- packages/tendaui-icons/src/icons/index.ts
 
+      - name: Verify npm auth
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config get registry
+          npm whoami
+
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
