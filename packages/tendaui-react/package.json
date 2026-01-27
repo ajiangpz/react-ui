@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/react",
-  "version": "1.1.6",
+  "version": "1.2.3",
   "description": "a react ui component library",
   "main": "es/index.js",
   "module": "es/index.js",
