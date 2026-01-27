@@ -139,9 +139,9 @@ export default function ColorPanel({ isRefresh, device = "web" }: ColorPanelProp
   }, []);
 
   const handleNewColorGeneration = (hex: string) => {
+    if (hex === currentThemeColor) return;
     setCurrentThemeColor(hex);
     const result = generateNewTheme(hex, generateMode === "remain", device);
-    console.log(result.colorPalette);
     setCurrentBrandIdx(result.brandColorIdx);
     setColorPalette(result.colorPalette as unknown as PaletteItem[] | PaletteItem[][]);
     setInitColorPalette([...result.colorPalette] as unknown as PaletteItem[] | PaletteItem[][]);

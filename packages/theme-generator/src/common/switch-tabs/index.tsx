@@ -75,7 +75,7 @@ export default function SwitchTabs({ activeTabIdx, device, onChangeActiveTab }: 
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["style", "theme-color"]
+      attributeFilter: ["style", "theme-color", "theme-mode"]
     });
 
     return () => observer.disconnect();
