@@ -1,27 +1,55 @@
 // 导入组件库的变量文件，使用 SCSS 变量（会自动编译成 CSS 变量）
 @import "../../../components/styles/_vars.scss";
 
+.tdesign-site-layout {
+  min-height: 100vh;
+}
+
+.tdesign-site-content {
+  min-width: 0;
+  margin-inline-start: 240px;
+  min-height: 100vh;
+}
+
 .tdesign-site-aside {
   background: $bg-color-container;
   border-right: 1px solid $component-border;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
+  align-self: stretch;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 10;
+}
+
+.tdesign-site-aside-header {
+  height: 56px;
+  padding: 0 $comp-paddingLR-l;
+  border-bottom: 1px solid $component-border;
+  background: $bg-color-container;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .tdesign-site-header {
-  padding: $comp-paddingTB-m $comp-paddingLR-l;
+  height: 56px;
+  padding: 0 $comp-paddingLR-l;
   border-bottom: 1px solid $component-border;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   flex-shrink: 0;
   background: $bg-color-container;
-}
-
-.tdesign-site-brand {
-  flex: 1;
+  position: fixed;
+  top: 0;
+  inset-inline-start: 240px;
+  inset-inline-end: 0;
+  z-index: 9;
 }
 
 .tdesign-site-brand-title {
@@ -31,6 +59,12 @@
   color: $text-color-primary;
   line-height: 1.4;
   letter-spacing: -0.02em;
+}
+
+.tdesign-site-tools {
+  display: flex;
+  align-items: center;
+  gap: $comp-margin-xs;
 }
 
 .tdesign-site-theme-toggle {
@@ -58,6 +92,7 @@
   padding: $comp-paddingTB-s 0;
   overflow-y: auto;
   overflow-x: hidden;
+  min-height: 0;
 
   // 自定义滚动条样式
   &::-webkit-scrollbar {
@@ -139,7 +174,7 @@
 
 .tdesign-site-main {
   flex: 1;
-  padding: $comp-paddingTB-l $comp-paddingLR-xl;
+  padding: calc(56px + #{$comp-paddingTB-l}) $comp-paddingLR-xl $comp-paddingTB-l;
   background: $bg-color-page;
   overflow-y: auto;
   overflow-x: hidden;
