@@ -10,6 +10,11 @@ export interface TdConfigProviderProps {
 
 export interface GlobalConfigProvider {
   /**
+   * 文本方向，'rtl' 表示从右往左
+   * @default 'ltr'
+   */
+  direction?: "ltr" | "rtl";
+  /**
    * 警告全局配置
    */
   alert?: AlertConfig;

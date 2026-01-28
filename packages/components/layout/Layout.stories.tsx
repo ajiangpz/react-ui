@@ -21,7 +21,7 @@ export const Default: StoryObj<typeof Layout> = {
         <Content>Content</Content>
         <Footer>Copyright </Footer>
       </Layout>
-      <Aside>Aside</Aside>
+      {/* <Aside>Aside</Aside> */}
     </Layout>
   )
 };

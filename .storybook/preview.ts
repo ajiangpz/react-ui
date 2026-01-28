@@ -44,13 +44,34 @@ const preview: Preview = {
         ],
         showName: true
       }
+    },
+    direction: {
+      name: "Direction",
+      description: "Text direction (LTR/RTL)",
+      defaultValue: "ltr",
+      toolbar: {
+        icon: "transfer",
+        items: [
+          { value: "ltr", title: "LTR" },
+          { value: "rtl", title: "RTL" }
+        ],
+        showName: true
+      }
     }
   },
   decorators: [
     (Story, context) => {
       const locale = locales[context.globals.locale as keyof typeof locales] ?? zhCN;
+      const direction = (context.globals.direction as "ltr" | "rtl") ?? "ltr";
+      const mergedConfig = { ...locale, direction };
+
+      if (typeof document !== "undefined") {
+        document.documentElement.setAttribute("dir", direction);
+        document.body.setAttribute("dir", direction);
+      }
+
       return React.createElement(ConfigProvider, {
-        globalConfig: locale,
+        globalConfig: mergedConfig,
         children: React.createElement(Story)
       });
     }

@@ -1,5 +1,4 @@
 import type { StorybookConfig } from "@storybook/react-vite";
-// @ts-expect-error - The Storybook config runtime resolves remark-gfm after installation
 import remarkGfm from "remark-gfm";
 
 const config: StorybookConfig = {

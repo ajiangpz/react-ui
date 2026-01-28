@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Layout as TLayout, Button } from "../../../components";
+import { Layout as TLayout, Button, ConfigProvider } from "../../../components";
 import { IconSun, IconMoon } from "../../../tendaui-icons/src/index";
 import siteConfig from "../../site.config.mjs";
 import { toggleThemeWithTransition } from "../utils/viewTransition";
@@ -17,6 +17,13 @@ export default function Layout({ children }) {
     // 检查系统偏好
     return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
+  const [direction, setDirection] = useState(() => {
+    const savedDirection = localStorage.getItem("dir");
+    if (savedDirection === "rtl" || savedDirection === "ltr") {
+      return savedDirection;
+    }
+    return document.documentElement.getAttribute("dir") || "ltr";
+  });
 
   useEffect(() => {
     // 更新 document 的 theme-mode 属性
@@ -28,6 +35,12 @@ export default function Layout({ children }) {
       localStorage.setItem("theme-mode", "light");
     }
   }, [isDark]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", direction);
+    document.body.setAttribute("dir", direction);
+    localStorage.setItem("dir", direction);
+  }, [direction]);
 
   const toggleTheme = (event) => {
     const newIsDark = !isDark;
@@ -49,45 +62,61 @@ export default function Layout({ children }) {
     ); // 传入新的主题状态，用于确定动画方向
   };
 
+  const toggleDirection = () => {
+    setDirection((prev) => (prev === "rtl" ? "ltr" : "rtl"));
+  };
+
   return (
-    <TLayout>
-      <TLayout.Aside width="240px" className="tdesign-site-aside">
-        <div className="tdesign-site-header">
-          <div className="tdesign-site-brand">
-            <h1 className="tdesign-site-brand-title">TendaUI</h1>
-          </div>
-          <Button
-            variant="text"
-            theme="default"
-            onClick={toggleTheme}
-            className="tdesign-site-theme-toggle"
-            title={isDark ? "切换到浅色模式" : "切换到暗色模式"}
-            aria-label={isDark ? "切换到浅色模式" : "切换到暗色模式"}
-          >
-            {isDark ? <IconSun size="large" /> : <IconMoon size="large" />}
-          </Button>
-        </div>
-        <nav className="tdesign-site-nav">
-          {siteConfig.docs.map((group) => (
-            <div key={group.title} className="tdesign-site-nav-group">
-              <h3 className="tdesign-site-nav-group-title">{group.title}</h3>
-              <ul className="tdesign-site-nav-list">
-                {group.children?.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      to={item.path}
-                      className={`tdesign-site-nav-item ${location.pathname === item.path ? "active" : ""}`}
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+    <ConfigProvider globalConfig={{ direction }}>
+      <TLayout>
+        <TLayout.Aside width="240px" className="tdesign-site-aside">
+          <div className="tdesign-site-header">
+            <div className="tdesign-site-brand">
+              <h1 className="tdesign-site-brand-title">TendaUI</h1>
             </div>
-          ))}
-        </nav>
-      </TLayout.Aside>
-      <TLayout.Content className="tdesign-site-main">{children}</TLayout.Content>
-    </TLayout>
+            <Button
+              variant="text"
+              theme="default"
+              onClick={toggleTheme}
+              className="tdesign-site-theme-toggle"
+              title={isDark ? "切换到浅色模式" : "切换到暗色模式"}
+              aria-label={isDark ? "切换到浅色模式" : "切换到暗色模式"}
+            >
+              {isDark ? <IconSun size="large" /> : <IconMoon size="large" />}
+            </Button>
+            <Button
+              variant="text"
+              theme="default"
+              onClick={toggleDirection}
+              className="tdesign-site-theme-toggle"
+              title={direction === "rtl" ? "切换到 LTR" : "切换到 RTL"}
+              aria-label={direction === "rtl" ? "切换到 LTR" : "切换到 RTL"}
+            >
+              {direction.toUpperCase()}
+            </Button>
+          </div>
+          <nav className="tdesign-site-nav">
+            {siteConfig.docs.map((group) => (
+              <div key={group.title} className="tdesign-site-nav-group">
+                <h3 className="tdesign-site-nav-group-title">{group.title}</h3>
+                <ul className="tdesign-site-nav-list">
+                  {group.children?.map((item) => (
+                    <li key={item.path}>
+                      <Link
+                        to={item.path}
+                        className={`tdesign-site-nav-item ${location.pathname === item.path ? "active" : ""}`}
+                      >
+                        {item.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </TLayout.Aside>
+        <TLayout.Content className="tdesign-site-main">{children}</TLayout.Content>
+      </TLayout>
+    </ConfigProvider>
   );
 }

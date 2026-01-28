@@ -36,6 +36,7 @@ export const setGlobalConfig = (configInfo?: GlobalConfigProvider) => {
 export default function ConfigProvider({ children, globalConfig, notSet }: ConfigProviderProps) {
   const defaultData = cloneDeep(defaultGlobalConfig);
   const mergedGlobalConfig = merge(defaultData, globalConfig);
+  const direction = mergedGlobalConfig.direction || "ltr";
 
   useEffect(() => {
     if (!notSet) {
@@ -44,7 +45,23 @@ export default function ConfigProvider({ children, globalConfig, notSet }: Confi
     }
   }, [mergedGlobalConfig, notSet]);
 
-  return <ConfigContext.Provider value={{ globalConfig: mergedGlobalConfig }}>{children}</ConfigContext.Provider>;
+  useEffect(() => {
+    if (notSet || typeof document === "undefined") return;
+    document.documentElement.setAttribute("dir", direction);
+    document.body.setAttribute("dir", direction);
+  }, [direction, notSet]);
+
+  return (
+    <ConfigContext.Provider value={{ globalConfig: mergedGlobalConfig }}>
+      <div
+        className={`${mergedGlobalConfig.classPrefix}-config-provider`}
+        dir={direction}
+        style={{ display: "contents" }}
+      >
+        {children}
+      </div>
+    </ConfigContext.Provider>
+  );
 }
 
 ConfigProvider.getGlobalConfig = getGlobalConfig;

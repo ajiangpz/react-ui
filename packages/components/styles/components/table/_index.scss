@@ -50,12 +50,12 @@
     overflow-wrap: break-word;
     background-color: inherit;
     box-sizing: border-box;
-    text-align: left;
+    text-align: start;
   }
 
   // 对齐方式
   .#{$prefix}-align-left {
-    text-align: left;
+    text-align: start;
   }
 
   .#{$prefix}-align-center {
@@ -63,7 +63,7 @@
   }
 
   .#{$prefix}-align-right {
-    text-align: right;
+    text-align: end;
   }
 
   // 文本省略
@@ -91,10 +91,10 @@
   &--bordered {
     td,
     th {
-      border-left: 1px solid $table-border-color;
+      border-inline-start: 1px solid $table-border-color;
 
       &:first-child {
-        border-left-width: 0;
+        border-inline-start-width: 0;
       }
     }
 

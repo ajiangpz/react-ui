@@ -1,17 +1,17 @@
 @use "../../_vars.scss" as *;
 // 组件允许单个组件打包，因此默认引入公共基础样式
 
-@use '../../_vars.scss' as *;
+@use "../../_vars.scss" as *;
 
-@use './_vars.scss' as *;
+@use "./_vars.scss" as *;
 
-@use './_animate.scss' as *;
+@use "./_animate.scss" as *;
 
-@use './_mixins.scss' as *;
+@use "./_mixins.scss" as *;
 
-@use '../../mixins/_reset.scss' as *;
+@use "../../mixins/_reset.scss" as *;
 
-@use '../../mixins/_scrollbar.scss' as *;
+@use "../../mixins/_scrollbar.scss" as *;
 
 // <name> 替换为组件名
 .#{$prefix}-dialog {
@@ -64,7 +64,7 @@
       font-size: $dialog-icon-size;
       display: inline-flex;
       align-items: center;
-      margin-right: $dialog-header-icon-margin-right;
+      margin-inline-end: $dialog-header-icon-margin-right;
       flex-shrink: 0;
     }
   }
@@ -106,9 +106,7 @@
 
     box-sizing: border-box;
     padding: $dialog-body-padding-fullscreen;
-    height: calc(
-      100% - $dialog-header-height-fullscreen - $dialog-footer-height-fullscreen
-    );
+    height: calc(100% - $dialog-header-height-fullscreen - $dialog-footer-height-fullscreen);
     overflow: auto;
   }
 
@@ -121,10 +119,10 @@
 
   &__footer {
     width: 100%;
-    text-align: right;
+    text-align: end;
     padding: $dialog-footer-padding;
     .#{$prefix}-button + .#{$prefix}-button {
-      margin-left: $dialog-footer-button-margin-left;
+      margin-inline-start: $dialog-footer-button-margin-left;
     }
   }
 
@@ -202,7 +200,7 @@
   width: 100%;
   height: 100%;
 
-  // modeless 点击穿�?即可以操作背景后的元�?
+  // modeless 点击穿�?即可以操作背景后的元�?
   &.#{$prefix}-dialog__ctx--modeless {
     pointer-events: none;
   }
@@ -238,7 +236,7 @@
   &.#{$prefix}-not-display {
     display: none;
   }
-  // 遮罩�?
+  // 遮罩�?
   .#{$prefix}-dialog__mask {
     position: fixed;
     top: 0;
@@ -249,7 +247,7 @@
     background: $dialog-mask-bg-color;
     pointer-events: auto;
   }
-  // wrap 滚动的显示层 固定为页面窗口大�?
+  // wrap 滚动的显示层 固定为页面窗口大�?
   .#{$prefix}-dialog__wrap {
     position: fixed;
     top: 0;
@@ -260,22 +258,22 @@
     overflow: auto;
     @include scrollbar(8px, 2px);
   }
-  // 定位�?用于实现居中 或者距离顶�?定位
+  // 定位�?用于实现居中 或者距离顶�?定位
   .#{$prefix}-dialog__position {
-    // 因为内容会超�?使用flex布局
+    // 因为内容会超�?使用flex布局
     display: flex;
     justify-content: center;
     min-height: 100%;
     width: 100%;
     // 通过修改position为absolute进行拖拽定位
     position: relative;
-    // 设置最小距离顶部底部距�?
+    // 设置最小距离顶部底部距�?
     padding: 48px 0;
     box-sizing: border-box;
     // 居中和距顶部布局
     &.#{$prefix}-dialog--top {
       align-items: flex-start;
-      // 这里top api实现 更改padding 因为子元素拖拽定�?如果使用子元素margin 拖拽时需要计算margin 比较麻烦
+      // 这里top api实现 更改padding 因为子元素拖拽定�?如果使用子元素margin 拖拽时需要计算margin 比较麻烦
       padding-top: $dialog-top-position-top;
     }
     // 垂直居中布局
@@ -285,7 +283,7 @@
   }
 
   .#{$prefix}-dialog__position_fullscreen {
-    // 因为内容会超�?使用flex布局
+    // 因为内容会超�?使用flex布局
     display: flex;
     justify-content: center;
     min-height: 100%;

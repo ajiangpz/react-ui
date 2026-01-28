@@ -2,7 +2,6 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import { Select } from "@tendaui/react/es";
 
 import { useState } from "react";
-import { Select as TSelect } from "tdesign-react";
 
 const meta: Meta<typeof Select> = {
   title: "Components/Select",
@@ -77,32 +76,7 @@ const MultiSelect = () => {
   );
 };
 
-const TMultiSelect = () => {
-  const [value, setValue] = useState(["3", "5"]);
-  const handleChange = (v: string[]) => {
-    console.log(v);
-    setValue(v);
-  };
-  return (
-    <TSelect
-      value={value}
-      onChange={handleChange}
-      filterable
-      multiple
-      options={options1}
-      onRemove={(options) => {
-        console.log("onRemove", options);
-      }}
-    />
-  );
-};
-
 export const MultiSelectExample: Story = {
   args: {},
   render: ({ ...args }) => <MultiSelect {...args}></MultiSelect>
-};
-
-export const TMultiSelectExample: Story = {
-  args: {},
-  render: ({ ...args }) => <TMultiSelect {...args}></TMultiSelect>
 };

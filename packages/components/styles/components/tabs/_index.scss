@@ -31,7 +31,7 @@
     position: relative;
 
     &.#{$prefix}-is-addable {
-      margin-right: $tab-btn-width;
+      margin-inline-end: $tab-btn-width;
     }
 
     &.#{$prefix}-tabs__nav--card {
@@ -61,8 +61,8 @@
       align-items: center;
       height: $tab-nav-item-wrapper-height;
       padding: $tab-nav-item-wrapper-padding;
-      margin-left: $tab-nav-item-margin-left;
-      margin-right: $tab-nav-item-margin-right;
+      margin-inline-start: $tab-nav-item-margin-left;
+      margin-inline-end: $tab-nav-item-margin-right;
       border-radius: $border-radius-default;
       transition: $tab-nav-item-transition;
 
@@ -117,7 +117,7 @@
       }
 
       & > .remove-btn {
-        margin-left: $tab-btn-remove-btn-margin-left;
+        margin-inline-start: $tab-btn-remove-btn-margin-left;
         transition: $tab-btn-remove-btn-transition;
         display: flex;
       }
@@ -135,25 +135,25 @@
 
       &.#{$prefix}-is-top {
         bottom: 0;
-        left: 0;
+        inset-inline-start: 0;
         height: $tab-default-stroke-size;
       }
 
       &.#{$prefix}-is-bottom {
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         height: $tab-default-stroke-size;
       }
 
       &.#{$prefix}-is-left {
         top: 0;
-        right: 0;
+        inset-inline-end: 0;
         width: $tab-default-stroke-size;
       }
 
       &.#{$prefix}-is-right {
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: $tab-default-stroke-size;
       }
     }

@@ -6,6 +6,7 @@ import defaultLocale from "../locale/zh_CN";
 
 export const defaultGlobalConfig: GlobalConfigProvider = {
   classPrefix: defaultClassPrefix,
+  direction: "ltr",
   attach: null,
   form: {},
   icon: {} as Record<string, typeof Icon>,

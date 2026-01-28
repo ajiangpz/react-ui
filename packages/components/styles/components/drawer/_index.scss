@@ -141,11 +141,11 @@
     box-sizing: border-box;
 
     .#{$prefix}-button {
-      margin-left: $drawer-footer-btn-margin-left;
+      margin-inline-start: $drawer-footer-btn-margin-left;
     }
 
     .#{$prefix}-button:first-child {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 
@@ -157,7 +157,7 @@
     width: $drawer-close-btn-size;
     height: $drawer-close-btn-size;
     top: calc((#{$drawer-header-height} - #{$drawer-close-btn-size}) / 2);
-    right: $drawer-close-btn-position-right;
+    inset-inline-end: $drawer-close-btn-position-right;
     color: $drawer-close-btn-color;
     background-color: $drawer-close-btn-bg-color;
     border-radius: $border-radius-default;
