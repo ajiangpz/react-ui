@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 使用 ViewTransition API 实现主题切换过渡效果
  * 支持圆形展开/收缩动画
  */
@@ -36,34 +36,27 @@ export function toggleThemeWithTransition(event, callback, willBeDark) {
   });
 
   transition.ready.then(() => {
-    // 如果没有提供事件对象，使用屏幕中心作为动画起点
-    const clientX = event?.clientX ?? window.innerWidth / 2;
-    const clientY = event?.clientY ?? window.innerHeight / 2;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const slant = Math.max(80, Math.round(height * 0.2));
 
-    // 计算半径，以点击位置为圆心，到四个角的距离中最大的那个作为半径
-    const radius = Math.hypot(
-      Math.max(clientX, window.innerWidth - clientX),
-      Math.max(clientY, window.innerHeight - clientY)
-    );
-
-    const clipPath = [`circle(0% at ${clientX}px ${clientY}px)`, `circle(${radius}px at ${clientX}px ${clientY}px)`];
+    const startClip = `polygon(0 0, 0 0, ${slant}px 100%, 0 100%)`;
+    const endClip = `polygon(0 0, ${width}px 0, ${width + slant}px 100%, 0 100%)`;
 
     // 使用传入的 willBeDark 参数来确定动画方向
     const isDark = willBeDark ?? getThemeMode() === "dark";
-    const clipPathList = isDark ? clipPath.reverse() : clipPath;
-
-    // 获取要动画的伪元素
-    // 切换到暗色：动画 old root（亮色）收缩消失
-    // 切换到亮色：动画 new root（亮色）展开显示
-    const pseudoElement = isDark ? "::view-transition-old(root)" : "::view-transition-new(root)";
+    const animateOld = isDark;
+    const clipPathList = animateOld ? [endClip, startClip] : [startClip, endClip];
+    const pseudoElement = `::view-transition-${animateOld ? "old" : "new"}(root)`;
 
     document.documentElement.animate(
       {
         clipPath: clipPathList
       },
       {
-        duration: 700,
-        easing: "ease-in-out",
+        duration: 1000,
+        easing: "linear",
+        fill: "both",
         pseudoElement: pseudoElement
       }
     );
