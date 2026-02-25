@@ -52,7 +52,7 @@ export const BaseForm = () => {
           </FormItem>
         </div>
       </FormItem>
-      <FormItem style={{ marginLeft: 100 }}>
+      <FormItem style={{ marginInlineStart: 100 }}>
         <div className="flex gap-2">
           <Button type="submit" theme="primary">
             提交

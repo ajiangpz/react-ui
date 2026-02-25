@@ -5,7 +5,7 @@ import parseTNode from "../../utils/parseTNode";
 import { ValidateStatus } from "../const";
 
 export default function useFormItemStyle(props) {
-  const { classPrefix } = useConfig();
+  const { classPrefix, direction } = useConfig();
 
   const {
     className,
@@ -70,13 +70,22 @@ export default function useFormItemStyle(props) {
     [`${classPrefix}-form__item-with-help`]: helpNode,
     [`${classPrefix}-form__item-with-extra`]: extraNode
   });
+  // todo form item label 也需要 RTL 处理
+  const isRtl = direction === "rtl";
+  const resolvedLabelAlign = isRtl
+    ? labelAlign === "left"
+      ? "right"
+      : labelAlign === "right"
+        ? "left"
+        : labelAlign
+    : labelAlign;
 
   const formItemLabelClass = classNames(`${classPrefix}-form__label`, {
     [`${classPrefix}-form__label--required`]: needRequiredMark,
     [`${classPrefix}-form__label--required-right`]: needRequiredMark && requiredMarkPosition === "right",
-    [`${classPrefix}-form__label--top`]: labelAlign === "top" || !labelWidth,
-    [`${classPrefix}-form__label--left`]: labelAlign === "left" && labelWidth,
-    [`${classPrefix}-form__label--right`]: labelAlign === "right" && labelWidth
+    [`${classPrefix}-form__label--top`]: resolvedLabelAlign === "top" || !labelWidth,
+    [`${classPrefix}-form__label--left`]: resolvedLabelAlign === "left" && labelWidth,
+    [`${classPrefix}-form__label--right`]: resolvedLabelAlign === "right" && labelWidth
   });
 
   const contentClass = () => {
@@ -100,14 +109,17 @@ export default function useFormItemStyle(props) {
 
   let labelStyle = {};
   let contentStyle = {};
-  if (label && labelWidth && labelAlign !== "top") {
+  if (label && labelWidth && resolvedLabelAlign !== "top") {
     if (typeof labelWidth === "number") {
       labelStyle = { width: `${labelWidth}px` };
-      contentStyle = { marginLeft: layout !== "inline" ? `${labelWidth}px` : "" };
+      contentStyle = { marginInlineStart: layout !== "inline" ? `${labelWidth}px` : "" };
     } else {
       labelStyle = { width: labelWidth };
-      contentStyle = { marginLeft: layout !== "inline" ? labelWidth : "" };
+      contentStyle = { marginInlineStart: layout !== "inline" ? labelWidth : "" };
     }
+  }
+  if (isRtl && label && labelWidth && resolvedLabelAlign !== "top") {
+    labelStyle = { ...labelStyle, float: "right" };
   }
 
   return {

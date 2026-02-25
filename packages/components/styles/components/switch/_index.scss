@@ -1,11 +1,11 @@
 @use "../../_vars.scss" as *;
-@use '../../_vars.scss' as *;
+@use "../../_vars.scss" as *;
 
-@use './_vars.scss' as *;
+@use "./_vars.scss" as *;
 
-@use './_mixins.scss' as *;
+@use "./_mixins.scss" as *;
 
-@use '../../mixins/_reset.scss' as *;
+@use "../../mixins/_reset.scss" as *;
 
 .#{$prefix}-switch {
   @include reset;
@@ -50,7 +50,7 @@
     }
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -85,8 +85,7 @@
     display: inline-flex;
     align-items: center;
     color: $switch-content-color-unchecked;
-    padding: 0 $switch-content-margin-right-default 0
-      $switch-content-margin-left-default;
+    padding: 0 $switch-content-margin-right-default 0 $switch-content-margin-left-default;
     font-size: $switch-content-font-size-default;
     min-width: $switch-min-width-default;
     transition: $switch-content-transition;
@@ -106,18 +105,13 @@
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-default);
       transform: translate(-100%, 0);
-      width: calc(
-        $switch-height-default - 2 * $switch-width-border-check-default
-      );
-      height: calc(
-        $switch-height-default - 2 * $switch-width-border-check-default
-      );
+      width: calc($switch-height-default - 2 * $switch-width-border-check-default);
+      height: calc($switch-height-default - 2 * $switch-width-border-check-default);
       top: $switch-width-border-check-default;
     }
 
     .#{$prefix}-switch__content {
-      padding: 0 $switch-content-margin-left-default 0
-        $switch-content-margin-right-default;
+      padding: 0 $switch-content-margin-left-default 0 $switch-content-margin-right-default;
       color: $switch-content-color-checked;
     }
   }
@@ -169,6 +163,35 @@
   }
 }
 
+[dir="rtl"] .#{$prefix}-switch {
+  &__handle {
+    left: auto;
+    right: $switch-width-border-default;
+  }
+
+  &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
+    .#{$prefix}-switch__handle::before {
+      left: -6px;
+      right: 0;
+    }
+
+    &.#{$prefix}-is-checked {
+      .#{$prefix}-switch__handle::before {
+        right: -6px;
+        left: 0;
+      }
+    }
+  }
+
+  &.#{$prefix}-is-checked {
+    .#{$prefix}-switch__handle {
+      right: auto;
+      left: $switch-width-border-check-default;
+      transform: none;
+    }
+  }
+}
+
 .#{$prefix}-switch.#{$prefix}-size-l {
   min-width: $switch-min-width-l;
   height: $switch-height-l;
@@ -213,6 +236,7 @@
   &.#{$prefix}-is-checked {
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-l);
+      transform: translate(-100%, 0);
       top: $switch-width-border-check-l;
       width: calc($switch-height-l - 2 * $switch-width-border-check-l);
       height: calc($switch-height-l - 2 * $switch-width-border-check-l);
@@ -220,6 +244,35 @@
 
     .#{$prefix}-switch__content {
       padding: 0 $switch-content-margin-left-l 0 $switch-content-margin-right-l;
+    }
+  }
+}
+
+[dir="rtl"] .#{$prefix}-switch.#{$prefix}-size-l {
+  &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
+    .#{$prefix}-switch__handle::before {
+      left: -8px;
+      right: 0;
+    }
+
+    &.#{$prefix}-is-checked {
+      .#{$prefix}-switch__handle::before {
+        right: -8px;
+        left: 0;
+      }
+    }
+  }
+
+  .#{$prefix}-switch__handle {
+    left: auto;
+    right: $switch-width-border-l;
+  }
+
+  &.#{$prefix}-is-checked {
+    .#{$prefix}-switch__handle {
+      right: auto;
+      left: $switch-width-border-check-l;
+      transform: none;
     }
   }
 }
@@ -268,6 +321,7 @@
   &.#{$prefix}-is-checked {
     .#{$prefix}-switch__handle {
       left: calc(100% - $switch-width-border-check-s);
+      transform: translate(-100%, 0);
       top: $switch-width-border-check-s;
       width: calc($switch-height-s - 2 * $switch-width-border-check-s);
       height: calc($switch-height-s - 2 * $switch-width-border-check-s);
@@ -275,6 +329,35 @@
 
     .#{$prefix}-switch__content {
       padding: 0 $switch-content-margin-left-s 0 $switch-content-margin-right-s;
+    }
+  }
+}
+
+[dir="rtl"] .#{$prefix}-switch.#{$prefix}-size-s {
+  &:active:not(.#{$prefix}-is-disabled):not(.#{$prefix}-is-loading) {
+    .#{$prefix}-switch__handle::before {
+      left: -4px;
+      right: 0;
+    }
+
+    &.#{$prefix}-is-checked {
+      .#{$prefix}-switch__handle::before {
+        right: -4px;
+        left: 0;
+      }
+    }
+  }
+
+  .#{$prefix}-switch__handle {
+    left: auto;
+    right: $switch-width-border-s;
+  }
+
+  &.#{$prefix}-is-checked {
+    .#{$prefix}-switch__handle {
+      right: auto;
+      left: $switch-width-border-check-s;
+      transform: none;
     }
   }
 }

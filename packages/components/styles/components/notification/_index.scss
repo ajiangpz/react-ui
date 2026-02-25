@@ -10,15 +10,15 @@
 
 .#{$prefix}-notify {
   &[data-x-position='right'] {
-    right: 8px;
+    inset-inline-end: 8px;
   }
 
   &[data-x-position='left'] {
-    left: 8px;
+    inset-inline-start: 8px;
   }
 
   &[data-x-position='center'] {
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
   }
 
@@ -90,7 +90,7 @@
   &__icon {
     width: $notification-icon-width;
     text-align: center;
-    margin-right: $notification-icon-margin-right;
+    margin-inline-end: $notification-icon-margin-right;
 
     .t-icon {
       font-size: $notification-icon-font-size;

@@ -22,7 +22,7 @@ const RIGHT_NODE = 1;
 type SliderHandleNode = typeof LEFT_NODE | typeof RIGHT_NODE;
 
 const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref) => {
-  const { classPrefix } = useConfig();
+  const { classPrefix, direction } = useConfig();
   const props = useDefaultProps(originalProps, sliderDefaultProps);
   const {
     disabled,
@@ -43,6 +43,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref
   const sliderRef = useRef<HTMLDivElement>(null);
   const [value, internalOnChange] = useControlled(props, "value", onChange);
   const isVertical = layout === "vertical";
+  const isRtl = direction === "rtl";
 
   const renderValue = Array.isArray(value) ? value : [min, Math.min(max, value)];
   const start = (renderValue[LEFT_NODE] - min) / (max - min);
@@ -95,8 +96,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref
     return result;
   }, [max, min, step]);
 
-  const startDirection = isVertical ? "bottom" : "left";
-  const stepDirection = isVertical ? "top" : "left";
+  const startDirection = isVertical ? "bottom" : isRtl ? "right" : "left";
+  const stepDirection = isVertical ? "top" : isRtl ? "right" : "left";
   const sizeKey = isVertical ? "height" : "width";
   const renderDots = isVertical ? dots.map((item) => ({ ...item, position: 1 - item.position })) : dots;
 
@@ -168,8 +169,15 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref
 
     const clientKey = isVertical ? "clientY" : "clientX";
     const sliderPositionInfo = sliderRef.current.getBoundingClientRect();
-    const sliderOffset = sliderPositionInfo[startDirection];
-    const position = ((event[clientKey] - sliderOffset) / sliderPositionInfo[sizeKey]) * (isVertical ? -1 : 1);
+    let position = 0;
+    if (isVertical) {
+      const sliderOffset = sliderPositionInfo[startDirection];
+      position = ((event[clientKey] - sliderOffset) / sliderPositionInfo[sizeKey]) * -1;
+    } else if (isRtl) {
+      position = (sliderPositionInfo.right - event[clientKey]) / sliderPositionInfo.width;
+    } else {
+      position = (event[clientKey] - sliderPositionInfo.left) / sliderPositionInfo.width;
+    }
     setPosition(position, nodeIndex);
   };
 

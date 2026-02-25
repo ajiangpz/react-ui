@@ -69,16 +69,16 @@
   }
 
   .t-icon + .#{$prefix}-button__text:not(:empty) {
-    margin-left: $btn-icon-text-margin-left;
+    margin-inline-start: $btn-icon-text-margin-left;
   }
 
   .#{$prefix}-loading + .#{$prefix}-button__text:not(:empty) {
-    margin-left: $btn-icon-text-margin-left;
+    margin-inline-start: $btn-icon-text-margin-left;
   }
 
   .#{$prefix}-button__suffix:not(:empty) {
     display: inline-flex;
-    margin-left: $btn-icon-text-margin-left;
+    margin-inline-start: $btn-icon-text-margin-left;
   }
 
   // 主要按钮

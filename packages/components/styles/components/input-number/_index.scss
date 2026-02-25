@@ -21,7 +21,7 @@ $inputNumberCls: "#{$prefix}-input-number";
 
   &:not(&--column) {
     > .#{$prefix}-input-number__decrease + .#{$prefix}-input__wrap {
-      margin-left: $comp-margin-xs;
+      margin-inline-start: $comp-margin-xs;
     }
   }
 
@@ -36,15 +36,15 @@ $inputNumberCls: "#{$prefix}-input-number";
 
   > .#{$prefix}-input__tips {
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
   }
 
   // 输入框和右置内容之间需要间距  input + .#{$prefix}-input__suffix {
-  margin-left: $input-number-padding-horizontal-default;
+  margin-inline-start: $input-number-padding-horizontal-default;
 }
 
 .#{$prefix}-input__prefix {
-  margin-right: $input-number-padding-horizontal-default;
+  margin-inline-end: $input-number-padding-horizontal-default;
 }
 
 .#{$inputCls} {
@@ -127,11 +127,11 @@ $inputNumberCls: "#{$prefix}-input-number";
 }
 
 .#{$inputNumberCls}__decrease {
-  left: 0;
+  inset-inline-start: 0;
 }
 
 .#{$inputNumberCls}__increase {
-  right: -8px;
+  inset-inline-end: -8px;
 }
 
 .#{$inputNumberCls}.#{$prefix}-is-disabled {
@@ -197,7 +197,7 @@ $inputNumberCls: "#{$prefix}-input-number";
     .#{$inputCls} {
       height: $input-number-inner-height-l;
       line-height: $input-number-inner-height-l;
-      padding-right: calc($input-number-right-button-width-l + $input-number-padding-horizontal-default);
+      padding-inline-end: calc($input-number-right-button-width-l + $input-number-padding-horizontal-default);
     }
 
     .#{$inputNumberCls}__decrease,
@@ -252,7 +252,7 @@ $inputNumberCls: "#{$prefix}-input-number";
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    padding-right: calc($input-number-right-button-width + $input-number-padding-horizontal-default);
+    padding-inline-end: calc($input-number-right-button-width + $input-number-padding-horizontal-default);
     border-radius: $border-radius-default;
   }
 
@@ -261,9 +261,9 @@ $inputNumberCls: "#{$prefix}-input-number";
     width: $input-number-right-button-width;
     height: $input-number-button-column-height;
     border: 0;
-    left: initial;
+    inset-inline-start: auto;
     top: initial;
-    right: 1px;
+    inset-inline-end: 1px;
     border-radius: 0;
     background: $input-number-right-button-bg-color;
     opacity: 0;
@@ -343,9 +343,10 @@ $inputNumberCls: "#{$prefix}-input-number";
 .#{$inputNumberCls}--row {
   .#{$prefix}-input__wrap {
     width: initial;
-    margin-right: $comp-margin-xs;
+    margin-inline-end: $comp-margin-xs;
   }
   .#{$prefix}-input-number__increase {
-    right: 0;
+    inset-inline-end: 0;
   }
 }
+

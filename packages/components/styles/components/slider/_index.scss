@@ -11,11 +11,11 @@
 .#{$prefix}-slider__input-container {
   display: flex;
   align-items: center;
-  margin-left: $slider-input-margin-left;
+  margin-inline-start: $slider-input-margin-left;
 
   &.is-vertical {
     padding-top: $slider-input-vertical-padding-top;
-    margin-left: $slider-input-vertical-margin-left;
+    margin-inline-start: $slider-input-vertical-margin-left;
   }
 
   .#{$prefix}-slider__center-line {
@@ -120,7 +120,7 @@
   &__mark {
     position: absolute;
     top: 2px;
-    left: 0;
+    inset-inline-start: 0;
     width: 100%;
   }
 
@@ -168,14 +168,14 @@
 
   .#{$prefix}-slider__handle {
     margin-top: $slider-vertical-handle-margin-top;
-    margin-left: $slider-vertical-handle-margin-left;
+    margin-inline-start: $slider-vertical-handle-margin-left;
     top: auto;
     transform: translateY(50%);
   }
 
   .#{$prefix}-slider__mark {
     top: 0;
-    left: 12px;
+    inset-inline-start: 12px;
     width: $slider-vertical-mark-width;
     height: 100%;
   }
@@ -183,14 +183,14 @@
   .#{$prefix}-slider__stop {
     width: $slider-stop-height;
     height: $slider-stop-width;
-    left: 4px;
+    inset-inline-start: 4px;
     background-color: $slider-background;
   }
 
   .#{$prefix}-slider__mark-text {
     transform: translateY(-50%);
     margin-top: $slider-vertical-text-margin-top;
-    margin-left: $slider-vertical-text-margin-left;
+    margin-inline-start: $slider-vertical-text-margin-left;
   }
 }
 
@@ -198,7 +198,7 @@
   top: auto;
   position: absolute;
   z-index: 2;
-  left: 50%;
+  inset-inline-start: 50%;
   transform: translate(-50%, 50%);
   background-color: transparent;
   text-align: center;

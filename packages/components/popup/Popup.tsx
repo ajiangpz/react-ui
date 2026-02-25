@@ -38,7 +38,7 @@ export interface PopupRef {
 
 const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   const props = useDefaultProps<PopupProps>(originalProps, popupDefaultProps);
-  const { classPrefix } = useConfig();
+  const { classPrefix, direction } = useConfig();
   const {
     trigger,
     content,
@@ -110,10 +110,24 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   }, [hideEmptyPopup, content, visible, popupElement]);
 
   // 转化 placement
-  const popperPlacement = useMemo(
-    () => placement && (placement.replace(/-(left|top)$/, "-start").replace(/-(right|bottom)$/, "-end") as Placement),
-    [placement]
-  );
+  const popperPlacement = useMemo(() => {
+    if (!placement) return placement;
+    const normalized = placement
+      .replace(/-(left|top)$/, "-start")
+      .replace(/-(right|bottom)$/, "-end");
+    if (direction !== "rtl") return normalized as Placement;
+    const parts = normalized.split("-");
+    const mirrored = parts
+      .map((part) => {
+        if (part === "left") return "right";
+        if (part === "right") return "left";
+        if (part === "start") return "end";
+        if (part === "end") return "start";
+        return part;
+      })
+      .join("-");
+    return mirrored as Placement;
+  }, [placement, direction]);
   // 获取 triggerNode
   const { getTriggerNode, getPopupProps, getTriggerDom } = useTrigger({
     triggerRef,

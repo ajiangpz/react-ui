@@ -73,7 +73,7 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
   } = state;
 
   const size = propsSize;
-  const { classPrefix } = useConfig();
+  const { classPrefix, direction } = useConfig();
   const drawerAttach = useAttach("drawer", attach);
   const maskRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,8 +81,16 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
   const prefixCls = `${classPrefix}-drawer`;
 
   const closeIcon = isValidElement(closeBtn) ? closeBtn : <CloseIcon />;
+  const isRtl = direction === "rtl";
+  const actualPlacement = useMemo(() => {
+    if (!isRtl) return placement;
+    if (placement === "left") return "right";
+    if (placement === "right") return "left";
+    return placement;
+  }, [isRtl, placement]);
+
   const { dragSizeValue, enableDrag, draggableLineStyles, draggingStyles } = useDrag(
-    placement,
+    actualPlacement,
     sizeDraggable,
     onSizeDragEnd
   );
@@ -147,10 +155,10 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
   const contentWrapperStyle = useMemo(
     () => ({
       transform: visible && animationStart ? "translateX(0)" : undefined,
-      width: ["left", "right"].includes(placement) ? sizeValue : "",
-      height: ["top", "bottom"].includes(placement) ? sizeValue : ""
+      width: ["left", "right"].includes(actualPlacement) ? sizeValue : "",
+      height: ["top", "bottom"].includes(actualPlacement) ? sizeValue : ""
     }),
-    [visible, placement, sizeValue, animationStart]
+    [visible, actualPlacement, sizeValue, animationStart]
   );
 
   const renderDrawerButton = (btn: DrawerProps["cancelBtn"], defaultProps: ButtonProps) => {
@@ -184,12 +192,12 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
 
       const footerStyle = {
         display: "flex",
-        justifyContent: placement === "right" ? "flex-start" : "flex-end"
+        justifyContent: actualPlacement === "right" ? "flex-start" : "flex-end"
       };
 
       return (
         <div style={footerStyle}>
-          {placement === "right" ? (
+          {actualPlacement === "right" ? (
             <>
               {renderConfirmBtn} {renderCancelBtn}
             </>
@@ -233,7 +241,7 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
       <Portal attach={drawerAttach} ref={drawerWrapperRef}>
         <div
           ref={containerRef}
-          className={classnames(prefixCls, className, `${prefixCls}--${placement}`, {
+          className={classnames(prefixCls, className, `${prefixCls}--${actualPlacement}`, {
             [`${prefixCls}--open`]: visible,
             [`${prefixCls}--attach`]: showInAttachedElement,
             [`${prefixCls}--without-mask`]: !showOverlay
@@ -244,7 +252,7 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
         >
           {renderOverlay}
           <div
-            className={classnames(`${prefixCls}__content-wrapper`, `${prefixCls}__content-wrapper--${placement}`)}
+            className={classnames(`${prefixCls}__content-wrapper`, `${prefixCls}__content-wrapper--${actualPlacement}`)}
             style={{ ...contentWrapperStyle, ...draggingStyles }}
           >
             {renderCloseBtn}

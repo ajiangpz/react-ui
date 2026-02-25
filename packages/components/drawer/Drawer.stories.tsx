@@ -29,7 +29,7 @@ const BaseDrawer = () => {
         showOverlay={true}
         size="small"
         sizeDraggable={{ min: 200, max: 800 }}
-        placement="bottom"
+        placement="right"
       >
         <div>
           <p>Drawer Content</p>

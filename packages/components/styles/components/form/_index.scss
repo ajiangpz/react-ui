@@ -38,7 +38,7 @@
 
   &__label {
     float: left;
-    padding-right: $form-label-padding-right;
+    padding-inline-end: $form-label-padding-right;
     vertical-align: middle;
     line-height: $form-item-control-height;
     color: $form-color-label;
@@ -61,7 +61,7 @@
     &--required:not(.#{$prefix}-form__label--required-right) {
       label::before {
         display: inline-block;
-        margin-right: $form-label-margin-right-required;
+        margin-inline-end: $form-label-margin-right-required;
         color: $form-color-error;
         line-height: $form-label-line-height;
         content: '*';
@@ -71,7 +71,7 @@
     &--required-right {
       label::after {
         display: inline-block;
-        margin-left: $form-label-margin-left-required;
+        margin-inline-start: $form-label-margin-left-required;
         color: $form-color-error;
         line-height: $form-label-line-height;
         content: '*';
@@ -101,7 +101,7 @@
     // formItem 嵌套情况无间�?
     .#{$prefix}-form__item {
       margin-bottom: 0;
-      margin-right: $form-item-margin-right-inline;
+      margin-inline-end: $form-item-margin-right-inline;
     }
   }
 
@@ -133,7 +133,7 @@
     }
 
     button + button {
-      margin-left: $form-status-button-margin;
+      margin-inline-start: $form-status-button-margin;
     }
   }
 }
@@ -147,7 +147,7 @@
     margin: 0;
     min-width: 200px;
     display: inline-block;
-    margin-right: $form-item-margin-right-inline;
+    margin-inline-end: $form-item-margin-right-inline;
   }
 }
 
@@ -173,3 +173,4 @@
 // 输入框状�?
 @include input-status(warning);
 @include input-status(error);
+

@@ -24,9 +24,9 @@ const IconPlayCmp = <IconPlay></IconPlay>;
 export const ButtonWithIcon: Story = {
   render: () => (
     <div style={{ display: "flex", gap: "8px" }}>
-      <Button icon={IconBackwardinCmp}></Button>
-      <Button icon={IconPlayCmp}></Button>
-      <Button icon={IconFastFowardCmp}></Button>
+      <Button icon={IconBackwardinCmp}>Backward</Button>
+      <Button icon={IconPlayCmp}>Play</Button>
+      <Button icon={IconFastFowardCmp}>FastFoward</Button>
     </div>
   )
 };
