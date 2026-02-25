@@ -20,6 +20,7 @@ import AlphaSlider from "./alpha";
 import HueSlider from "./hue";
 import SaturationPanel from "./saturation";
 import SwatchesPanel from "./swatches";
+import FormatPanel from "./format";
 
 const Panel = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) => {
   const baseClassName = useClassName();
@@ -33,6 +34,8 @@ const Panel = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) => {
     style,
     swatchColors,
     showPrimaryColorPreview,
+    inputProps,
+    selectInputProps,
     onChange,
     onPaletteBarChange
   } = useDefaultProps(props, colorPickerDefaultProps);
@@ -169,6 +172,16 @@ const Panel = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) => {
             </div>
           ) : null}
         </div>
+
+        {/* 颜色格式输入区域 */}
+        <FormatPanel
+          {...baseProps}
+          format={format}
+          enableAlpha={enableAlpha}
+          inputProps={inputProps}
+          selectInputProps={selectInputProps}
+          onInputChange={() => emitColorChange("input")}
+        />
 
         {showSystemColors && (
           <div className={`${baseClassName}__swatches-wrap`}>

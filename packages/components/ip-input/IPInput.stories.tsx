@@ -10,18 +10,38 @@ import { NotificationProvider, useNotification } from "../notification";
 import type { SubmitContext } from "../form/type";
 import type { FormProps } from "../form/Form";
 import { isValidIPv4, isValidIPv6, isValidCIDRMask } from "./utils";
+
 const meta: Meta<typeof IPInput> = {
   title: "Components/IPInput",
   component: IPInput,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: "IP 输入框用于输入 IPv4、IPv6 地址，支持 CIDR 格式、智能粘贴解析等功能。"
+      }
+    }
+  },
   argTypes: {
+    value: {
+      control: "text",
+      description: "受控值"
+    },
+    defaultValue: {
+      control: "text",
+      description: "非受控初始值"
+    },
     allowIPv6: {
       control: "boolean",
       description: "是否允许 IPv6"
     },
     allowCIDR: {
       control: "boolean",
-      description: "是否允许 CIDR 格式"
+      description: "是否允许 CIDR 格式（带掩码）"
+    },
+    placeholder: {
+      control: "text",
+      description: "占位符"
     },
     disabled: {
       control: "boolean",
@@ -37,17 +57,25 @@ const meta: Meta<typeof IPInput> = {
     },
     autoFocus: {
       control: "boolean",
-      description: "是否自动聚焦"
+      description: "是否自动聚焦第一个输入框"
+    },
+    showSegmentSeparators: {
+      control: "boolean",
+      description: "是否显示分隔符"
+    },
+    tips: {
+      control: "text",
+      description: "提示文本"
     }
   }
 };
 
 export default meta;
-
 type Story = StoryObj<typeof IPInput>;
 
-// 基础 IPv4 输入
-export const Basic: Story = {
+/** 基础 IPv4 输入 */
+export const Default: Story = {
+  name: "基础 IPv4 输入",
   args: {
     placeholder: "192.168.0.1",
     allowIPv6: false,
@@ -55,86 +83,78 @@ export const Basic: Story = {
   }
 };
 
-// 支持 CIDR
+/** 支持 CIDR */
 export const WithCIDR: Story = {
-  args: {
-    placeholder: "192.168.0.1/24",
-    allowCIDR: true,
-    showClear: true
-  },
-  render: (args) => {
-    const Component = () => {
-      const [value, setValue] = useState("");
-      return (
-        <div>
-          <IPInput
-            {...args}
-            value={value}
-            onChange={(val) => {
-              setValue(val);
-              console.log("值:", val);
-            }}
-          />
-          <div style={{ marginTop: 16, color: "#666" }}>当前值: {value || "(空)"}</div>
-        </div>
-      );
-    };
-    return <Component />;
-  }
-};
-
-// 支持 IPv6
-export const IPv6: Story = {
-  args: {
-    allowIPv6: true,
-    allowCIDR: true,
-    placeholder: "2001:db8::1"
-  },
-  render: (args) => {
-    const Component = () => {
-      const [value, setValue] = useState("");
-      return (
-        <div>
-          <IPInput
-            {...args}
-            value={value}
-            onChange={(val) => {
-              setValue(val);
-              console.log("值:", val);
-            }}
-          />
-          <div style={{ marginTop: 16, color: "#666" }}>当前值: {value || "(空)"}</div>
-        </div>
-      );
-    };
-    return <Component />;
-  }
-};
-
-// 受控组件示例
-export const Controlled: Story = {
+  name: "支持 CIDR",
   render: () => {
     const Component = () => {
-      const [value, setValue] = useState("192.168.1.1");
-
+      const [value, setValue] = useState("");
       return (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <IPInput
             value={value}
             onChange={(val) => {
               setValue(val);
+              console.log("值:", val);
             }}
             allowCIDR={true}
             showClear={true}
+            placeholder="192.168.0.1/24"
           />
-          <div style={{ marginTop: 16 }}>
-            <div>当前值: {value || "(空)"}</div>
-          </div>
-          <div style={{ marginTop: 16 }}>
-            <button onClick={() => setValue("10.0.0.1")}>设置为 10.0.0.1</button>
-            <button onClick={() => setValue("172.16.0.1/24")} style={{ marginLeft: 8 }}>
-              设置为 172.16.0.1/24
-            </button>
+          <div style={{ color: "#666", fontSize: "12px" }}>当前值: {value || "(空)"}</div>
+        </div>
+      );
+    };
+    return <Component />;
+  }
+};
+
+/** 支持 IPv6 */
+export const IPv6: Story = {
+  name: "支持 IPv6",
+  render: () => {
+    const Component = () => {
+      const [value, setValue] = useState("");
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <IPInput
+            value={value}
+            onChange={(val) => {
+              setValue(val);
+              console.log("值:", val);
+            }}
+            allowIPv6={true}
+            allowCIDR={true}
+            placeholder="2001:db8::1"
+          />
+          <div style={{ color: "#666", fontSize: "12px" }}>当前值: {value || "(空)"}</div>
+        </div>
+      );
+    };
+    return <Component />;
+  }
+};
+
+/** 受控组件 */
+export const Controlled: Story = {
+  name: "受控组件",
+  render: () => {
+    const Component = () => {
+      const [value, setValue] = useState("192.168.1.1");
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <IPInput value={value} onChange={setValue} allowCIDR={true} showClear={true} />
+          <div style={{ color: "#666", fontSize: "12px" }}>当前值: {value || "(空)"}</div>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <Button size="small" onClick={() => setValue("10.0.0.1")}>
+              设为 10.0.0.1
+            </Button>
+            <Button size="small" onClick={() => setValue("172.16.0.1/24")}>
+              设为 172.16.0.1/24
+            </Button>
+            <Button size="small" onClick={() => setValue("")}>
+              清空
+            </Button>
           </div>
         </div>
       );
@@ -143,24 +163,46 @@ export const Controlled: Story = {
   }
 };
 
-// 粘贴功能演示
+/** 禁用和只读状态 */
+export const States: Story = {
+  name: "禁用和只读状态",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div>
+        <div style={{ marginBottom: "8px", color: "#666" }}>正常状态</div>
+        <IPInput defaultValue="192.168.0.1" />
+      </div>
+      <div>
+        <div style={{ marginBottom: "8px", color: "#666" }}>禁用状态</div>
+        <IPInput defaultValue="192.168.0.1" disabled />
+      </div>
+      <div>
+        <div style={{ marginBottom: "8px", color: "#666" }}>只读状态</div>
+        <IPInput defaultValue="192.168.0.1" readOnly />
+      </div>
+    </div>
+  )
+};
+
+/** 粘贴功能 */
 export const PasteDemo: Story = {
+  name: "粘贴功能",
   render: () => {
     const Component = () => {
       const [value, setValue] = useState("");
       return (
-        <div>
-          <div style={{ marginBottom: 16, color: "#666" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div style={{ color: "#666", fontSize: "12px" }}>
             尝试粘贴以下内容：
-            <ul>
+            <ul style={{ margin: "8px 0", paddingLeft: "20px" }}>
               <li>192.168.0.1</li>
               <li>192.168.0.1/24</li>
               <li>abc 10.0.0.1 xyz（会自动提取 IP）</li>
               <li>2001:db8::1（需要开启 IPv6）</li>
             </ul>
           </div>
-          <IPInput value={value} onChange={(val) => setValue(val)} allowCIDR={true} allowIPv6={true} showClear={true} />
-          <div style={{ marginTop: 16, color: "#666" }}>当前值: {value || "(空)"}</div>
+          <IPInput value={value} onChange={setValue} allowCIDR={true} allowIPv6={true} showClear={true} />
+          <div style={{ color: "#666", fontSize: "12px" }}>当前值: {value || "(空)"}</div>
         </div>
       );
     };
@@ -168,14 +210,14 @@ export const PasteDemo: Story = {
   }
 };
 
-// 键盘导航演示
+/** 键盘导航 */
 export const KeyboardNavigation: Story = {
-  render: () => {
-    return (
-      <div>
-        <div style={{ marginBottom: 16, color: "#666" }}>
-          <p>键盘操作说明：</p>
-          <ul>
+  name: "键盘导航",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ color: "#666", fontSize: "12px" }}>
+        <p style={{ fontWeight: "bold" }}>键盘操作说明：</p>
+        <ul style={{ margin: "8px 0", paddingLeft: "20px" }}>
             <li>输入 3 位数字自动跳转到下一段</li>
             <li>输入 . 或空格跳转到下一段</li>
             <li>左/右箭头键在段之间移动</li>
@@ -184,84 +226,36 @@ export const KeyboardNavigation: Story = {
         </div>
         <IPInput placeholder="192.168.0.1" autoFocus />
       </div>
-    );
-  }
+  )
 };
 
-// 禁用和只读状态
-export const States: Story = {
-  render: () => {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div>
-          <div style={{ marginBottom: 8 }}>正常状态：</div>
-          <IPInput defaultValue="192.168.0.1" />
-        </div>
-        <div>
-          <div style={{ marginBottom: 8 }}>禁用状态：</div>
-          <IPInput defaultValue="192.168.0.1" disabled />
-        </div>
-        <div>
-          <div style={{ marginBottom: 8 }}>只读状态：</div>
-          <IPInput defaultValue="192.168.0.1" readOnly />
-        </div>
-      </div>
-    );
-  }
-};
-
-// 错误状态
-export const ErrorState: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState("256.1.1.1");
-      return (
-        <div>
-          <IPInput value={value} onChange={(val) => setValue(val)} allowCIDR={true} />
-          <div style={{ marginTop: 16 }}>
-            <button onClick={() => setValue("256.1.1.1")}>设置无效值</button>
-            <button onClick={() => setValue("192.168.0.1")} style={{ marginLeft: 8 }}>
-              设置有效值
-            </button>
-          </div>
-        </div>
-      );
-    };
-    return <Component />;
-  }
-};
-
-// 前导零控制
-export const LeadingZeros: Story = {
-  render: () => {
-    return <div style={{ display: "flex", flexDirection: "column", gap: 16 }}></div>;
-  }
-};
-
-// 完整功能演示
+/** 完整功能示例 */
 export const FullFeatured: Story = {
+  name: "完整功能示例",
   render: () => {
     const Component = () => {
       const [value, setValue] = useState("");
-
       return (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <IPInput
             value={value}
-            onChange={(val) => {
-              setValue(val);
-            }}
+            onChange={setValue}
             allowIPv6={true}
             allowCIDR={true}
             showClear={true}
             placeholder="输入 IPv4 或 IPv6 地址"
             tips="支持 IPv4、IPv6 和 CIDR 格式"
           />
-          <div style={{ marginTop: 16, padding: 12, background: "#f5f5f5", borderRadius: 4 }}>
-            <div>
+          <div
+            style={{
+              padding: "12px",
+              background: "#f5f5f5",
+              borderRadius: "4px",
+              fontSize: "12px"
+            }}
+          >
               <strong>当前值：</strong>
               {value || "(空)"}
-            </div>
           </div>
         </div>
       );
@@ -270,8 +264,9 @@ export const FullFeatured: Story = {
   }
 };
 
-// 表单使用示例
+/** 表单使用示例 */
 export const InForm: Story = {
+  name: "表单使用示例",
   render: () => {
     const Component = () => {
       const [form] = (Form as any).useForm();
@@ -283,12 +278,10 @@ export const InForm: Story = {
           console.log("表单数据:", e.fields);
         } else {
           showError({ title: "校验失败", message: "请检查表单输入" });
-          console.log("校验错误:", e.validateResult);
         }
       };
 
-      const onReset: FormProps["onReset"] = (e) => {
-        console.log(e);
+      const onReset: FormProps["onReset"] = () => {
         success({ title: "成功提示", message: "重置成功" });
       };
 
@@ -303,7 +296,6 @@ export const InForm: Story = {
               {
                 validator: (val: string) => {
                   if (!val) return true;
-                  // 支持 IPv4 和 CIDR 格式
                   if (val.includes("/")) {
                     const [ip, mask] = val.split("/");
                     if (!isValidIPv4(ip)) {
@@ -318,8 +310,7 @@ export const InForm: Story = {
                     return { result: false, message: "请输入有效的 IP 地址" };
                   }
                   return true;
-                },
-                message: "请输入有效的 IP 地址"
+                }
               }
             ]}
           >
@@ -337,8 +328,7 @@ export const InForm: Story = {
                     return { result: false, message: "请输入有效的 IP 地址" };
                   }
                   return true;
-                },
-                message: "请输入有效的 IP 地址"
+                }
               }
             ]}
           >
@@ -356,8 +346,7 @@ export const InForm: Story = {
                     return { result: false, message: "请输入有效的 IP 地址" };
                   }
                   return true;
-                },
-                message: "请输入有效的 IP 地址"
+                }
               }
             ]}
           >
@@ -369,13 +358,11 @@ export const InForm: Story = {
           </FormItem>
 
           <FormItem>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ display: "flex", gap: "8px" }}>
               <Button type="submit" theme="primary">
                 提交
               </Button>
-              <Button type="reset" theme="default">
-                重置
-              </Button>
+              <Button type="reset">重置</Button>
               <Button
                 onClick={() => {
                   form.setFieldsValue({
@@ -401,8 +388,9 @@ export const InForm: Story = {
   }
 };
 
-// 表单验证示例
+/** 表单验证示例 */
 export const FormValidation: Story = {
+  name: "表单验证示例",
   render: () => {
     const Component = () => {
       const [form] = (Form as any).useForm();
@@ -425,8 +413,13 @@ export const FormValidation: Story = {
             rules={[
               { required: true, message: "请输入 IPv4 地址" },
               {
-                pattern: /^(\d{1,3}\.){3}\d{1,3}$/,
-                message: "请输入有效的 IPv4 地址（格式：192.168.0.1）"
+                validator: (val: string) => {
+                  if (!val) return true;
+                  if (!isValidIPv4(val)) {
+                    return { result: false, message: "请输入有效的 IPv4 地址" };
+                  }
+                  return true;
+                }
               }
             ]}
           >
@@ -441,7 +434,7 @@ export const FormValidation: Story = {
                 validator: (val: string) => {
                   if (!val) return true;
                   if (!val.includes("/")) {
-                    return { result: false, message: "CIDR 格式必须包含掩码（如：192.168.0.1/24）" };
+                    return { result: false, message: "CIDR 格式必须包含掩码" };
                   }
                   const [ip, mask] = val.split("/");
                   if (!isValidIPv4(ip)) {
@@ -451,8 +444,7 @@ export const FormValidation: Story = {
                     return { result: false, message: "掩码必须是 0-32 之间的整数" };
                   }
                   return true;
-                },
-                message: "请输入有效的 CIDR 格式"
+                }
               }
             ]}
           >
@@ -466,7 +458,6 @@ export const FormValidation: Story = {
               {
                 validator: (val: string) => {
                   if (!val) return true;
-                  // 支持 IPv6 和 CIDR 格式
                   if (val.includes("/")) {
                     const [ip, mask] = val.split("/");
                     if (!isValidIPv6(ip)) {
@@ -481,8 +472,7 @@ export const FormValidation: Story = {
                     return { result: false, message: "请输入有效的 IPv6 地址" };
                   }
                   return true;
-                },
-                message: "请输入有效的 IPv6 地址"
+                }
               }
             ]}
           >
