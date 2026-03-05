@@ -71,10 +71,10 @@ export const Controlled: Story = {
   render: () => {
     const ControlledExample = () => {
       const [checked, setChecked] = useState(true);
-  return (
+      return (
         <Checkbox checked={checked} onChange={(val) => setChecked(val)}>
           受控复选框（点击切换）
-      </Checkbox>
+        </Checkbox>
       );
     };
     return <ControlledExample />;
@@ -163,9 +163,9 @@ export const GroupWithOptions: Story = {
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>当前选中值：{JSON.stringify(value)}</div>
           <Checkbox.Group options={options} value={value} onChange={(val) => setValue(val as (string | number)[])} />
-    </div>
-  );
-};
+        </div>
+      );
+    };
     return <OptionsExample />;
   }
 };

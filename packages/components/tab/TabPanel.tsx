@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import type { TdTabPanelProps } from "./type";
 import { StyledProps } from "../common";
@@ -17,13 +17,16 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
     tabPanelDefaultProps
   );
   const { tdTabPanelClassPrefix } = useTabClass();
-  const lazyRenderRef = useRef(lazy);
+  const [shouldRender, setShouldRender] = useState(!lazy);
 
-  if (lazy && isActive && lazyRenderRef.current) {
-    lazyRenderRef.current = false;
-  }
+  // 当标签激活且是延迟渲染时，设置为应该渲染
+  useEffect(() => {
+    if (lazy && isActive) {
+      setShouldRender(true);
+    }
+  }, [lazy, isActive]);
 
-  if ((!isActive && destroyOnHide) || lazyRenderRef.current) {
+  if ((!isActive && destroyOnHide) || !shouldRender) {
     return null;
   }
 

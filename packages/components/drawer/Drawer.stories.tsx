@@ -187,7 +187,7 @@ export const Sizes: Story = {
           </Drawer>
         </>
       );
-};
+    };
     return <SizeDrawer />;
   }
 };
@@ -237,7 +237,7 @@ export const NoOverlay: Story = {
           </Drawer>
         </>
       );
-};
+    };
     return <NoOverlayDrawer />;
   }
 };
@@ -247,16 +247,16 @@ export const CustomHeaderFooter: Story = {
   name: "自定义头部和底部",
   render: () => {
     const CustomDrawer = () => {
-  const [visible, setVisible] = useState(false);
-  return (
+      const [visible, setVisible] = useState(false);
+      return (
         <>
           <Button theme="primary" onClick={() => setVisible(true)}>
             自定义头部和底部
           </Button>
-      <Drawer
+          <Drawer
             header={<h3 style={{ color: "var(--td-brand-color)", margin: 0 }}>自定义标题</h3>}
-        visible={visible}
-        onClose={() => setVisible(false)}
+            visible={visible}
+            onClose={() => setVisible(false)}
             confirmBtn={{ content: "保存", theme: "primary" }}
             cancelBtn={{ content: "取消", variant: "outline" }}
             onConfirm={() => {
@@ -361,7 +361,7 @@ export const AllVariants: Story = {
 
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-        <div>
+          <div>
             <h4 style={{ marginBottom: "12px", color: "#666" }}>不同方向</h4>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Button theme="primary" onClick={() => setLeftVisible(true)}>
@@ -376,7 +376,7 @@ export const AllVariants: Story = {
               <Button theme="primary" onClick={() => setBottomVisible(true)}>
                 底部
               </Button>
-        </div>
+            </div>
           </div>
 
           <Drawer header="左侧抽屉" placement="left" visible={leftVisible} onClose={() => setLeftVisible(false)}>
@@ -394,9 +394,9 @@ export const AllVariants: Story = {
           <Drawer header="底部抽屉" placement="bottom" visible={bottomVisible} onClose={() => setBottomVisible(false)}>
             <p>从底部滑出的抽屉</p>
           </Drawer>
-    </div>
-  );
-};
+        </div>
+      );
+    };
     return <AllVariantsDrawer />;
   }
 };

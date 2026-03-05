@@ -315,9 +315,7 @@ export const WithAction: Story = {
         <Tabs
           value={activeTab}
           onChange={(val) => setActiveTab(val as string)}
-          action={
-            <button style={{ marginRight: "8px", cursor: "pointer" }}>操作按钮</button>
-          }
+          action={<button style={{ marginRight: "8px", cursor: "pointer" }}>操作按钮</button>}
         >
           <TabPanel label="选项卡一" value="tab1">
             <div style={{ padding: "16px" }}>选项卡一的内容</div>
@@ -344,9 +342,7 @@ export const Lazy: Story = {
 
       return (
         <div>
-          <div style={{ marginBottom: "8px", color: "#666" }}>
-            懒加载模式下，只有在选项卡被激活时才会渲染内容
-          </div>
+          <div style={{ marginBottom: "8px", color: "#666" }}>懒加载模式下，只有在选项卡被激活时才会渲染内容</div>
           <Tabs value={activeTab} onChange={(val) => setActiveTab(val as string)}>
             <TabPanel label="选项卡一" value="tab1" lazy>
               <div style={{ padding: "16px" }}>选项卡一的内容（懒加载）</div>

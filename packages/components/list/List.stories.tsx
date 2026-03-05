@@ -233,11 +233,11 @@ export const HeaderFooter: Story = {
       <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         <div>
           <h4 style={{ marginBottom: "16px", color: "#666" }}>字符串头部/底部</h4>
-        <List header="这里是 Header" footer="这里是 Footer">
-          {listData.map((item) => (
-            <List.ListItem key={item.id}>{item.content}</List.ListItem>
-          ))}
-        </List>
+          <List header="这里是 Header" footer="这里是 Footer">
+            {listData.map((item) => (
+              <List.ListItem key={item.id}>{item.content}</List.ListItem>
+            ))}
+          </List>
         </div>
 
         <div>
@@ -246,10 +246,10 @@ export const HeaderFooter: Story = {
             header={<div style={{ fontWeight: "bold", color: "var(--td-brand-color)" }}>自定义 Header</div>}
             footer={<div style={{ textAlign: "center", color: "#999" }}>自定义 Footer</div>}
           >
-          {listData.map((item) => (
-            <List.ListItem key={item.id}>{item.content}</List.ListItem>
-          ))}
-        </List>
+            {listData.map((item) => (
+              <List.ListItem key={item.id}>{item.content}</List.ListItem>
+            ))}
+          </List>
         </div>
       </div>
     );
@@ -260,68 +260,68 @@ export const HeaderFooter: Story = {
 export const ScrollLoading: Story = {
   name: "滚动加载",
   render: () => {
-  interface ListItemData {
-    id: number;
-    content: string;
-    icon: string;
-    title: string;
-  }
+    interface ListItemData {
+      id: number;
+      content: string;
+      icon: string;
+      title: string;
+    }
 
     const ScrollExample = () => {
-  const [listData, setListData] = useState<ListItemData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [pageNum, setPageNum] = useState(1);
+      const [listData, setListData] = useState<ListItemData[]>([]);
+      const [isLoading, setIsLoading] = useState(false);
+      const [pageNum, setPageNum] = useState(1);
 
-  const dataSource: ListItemData[] = [];
+      const dataSource: ListItemData[] = [];
       const total = 100;
       const pageSize = 20;
 
-  for (let i = 0; i < total; i++) {
-    dataSource.push({
-      id: i,
-      content: "列表内容列表内容列表内容",
-      icon: "https://tdesign.gtimg.com/list-icon.png",
-      title: `列表标题 ${i + 1}`
-    });
-  }
+      for (let i = 0; i < total; i++) {
+        dataSource.push({
+          id: i,
+          content: "列表内容列表内容列表内容",
+          icon: "https://tdesign.gtimg.com/list-icon.png",
+          title: `列表标题 ${i + 1}`
+        });
+      }
 
-  const fetchData = async (pageInfo: { pageNum: number; pageSize: number }) => {
-    if (isLoading) return;
-    setIsLoading(true);
-      setTimeout(() => {
-        const { pageNum, pageSize } = pageInfo;
-        const newDataSource = dataSource.slice((pageNum - 1) * pageSize, pageNum * pageSize);
-        setListData((prev) => prev.concat(newDataSource));
-        setPageNum(pageNum);
-        setIsLoading(false);
+      const fetchData = async (pageInfo: { pageNum: number; pageSize: number }) => {
+        if (isLoading) return;
+        setIsLoading(true);
+        setTimeout(() => {
+          const { pageNum, pageSize } = pageInfo;
+          const newDataSource = dataSource.slice((pageNum - 1) * pageSize, pageNum * pageSize);
+          setListData((prev) => prev.concat(newDataSource));
+          setPageNum(pageNum);
+          setIsLoading(false);
         }, 500);
-  };
+      };
 
-  const handleScroll: TdListProps["onScroll"] = ({ scrollBottom }) => {
-    if (!scrollBottom && listData.length < total) {
-      fetchData({ pageNum: pageNum + 1, pageSize });
-    }
-  };
+      const handleScroll: TdListProps["onScroll"] = ({ scrollBottom }) => {
+        if (!scrollBottom && listData.length < total) {
+          fetchData({ pageNum: pageNum + 1, pageSize });
+        }
+      };
 
-  useEffect(() => {
-    fetchData({ pageNum, pageSize });
-  }, []);
+      useEffect(() => {
+        fetchData({ pageNum, pageSize });
+      }, []);
 
-  return (
-    <List
-      asyncLoading={isLoading ? "loading" : ""}
-      size="small"
-      style={{ height: "300px", overflow: "auto" }}
-      onScroll={handleScroll}
-    >
-      {listData.map((item) => (
-        <List.ListItem key={item.id}>
-          <List.ListItemMeta image={item.icon} title={item.title} description={item.content} />
-        </List.ListItem>
-      ))}
-    </List>
-  );
-};
+      return (
+        <List
+          asyncLoading={isLoading ? "loading" : ""}
+          size="small"
+          style={{ height: "300px", overflow: "auto" }}
+          onScroll={handleScroll}
+        >
+          {listData.map((item) => (
+            <List.ListItem key={item.id}>
+              <List.ListItemMeta image={item.icon} title={item.title} description={item.content} />
+            </List.ListItem>
+          ))}
+        </List>
+      );
+    };
 
     return <ScrollExample />;
   }
@@ -331,50 +331,50 @@ export const ScrollLoading: Story = {
 export const VirtualScroll: Story = {
   name: "虚拟滚动",
   render: () => {
-  interface ListItemData {
-    content: string;
-  }
+    interface ListItemData {
+      content: string;
+    }
 
     const VirtualScrollExample = () => {
-  const [data, setData] = useState<ListItemData[]>([]);
-  const listRef = useRef<ListInstanceFunctions>(null);
+      const [data, setData] = useState<ListItemData[]>([]);
+      const listRef = useRef<ListInstanceFunctions>(null);
 
       const handleScrollTo = () => {
-    listRef.current?.scrollTo({
-      index: 30,
-      behavior: "smooth"
-    });
-  };
+        listRef.current?.scrollTo({
+          index: 30,
+          behavior: "smooth"
+        });
+      };
 
-  useEffect(() => {
-    const list: ListItemData[] = [];
-    for (let i = 0; i < 3000; i++) {
-      list.push({ content: `第${i + 1}个列表内容的描述性文字` });
-    }
-    setTimeout(() => setData(list), 0);
-  }, []);
+      useEffect(() => {
+        const list: ListItemData[] = [];
+        for (let i = 0; i < 3000; i++) {
+          list.push({ content: `第${i + 1}个列表内容的描述性文字` });
+        }
+        setTimeout(() => setData(list), 0);
+      }, []);
 
-  const imageUrl = "https://tdesign.gtimg.com/site/avatar.jpg";
+      const imageUrl = "https://tdesign.gtimg.com/site/avatar.jpg";
 
-  return (
+      return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <List
-        ref={listRef}
-        style={{ height: "300px" }}
-        scroll={{ type: "virtual", rowHeight: 80, bufferSize: 10, threshold: 10 }}
-      >
-        {data.map((item, index) => (
-          <List.ListItem key={index}>
-            <List.ListItemMeta image={imageUrl} title="列表标题" description={item.content} />
-          </List.ListItem>
-        ))}
-      </List>
-      <div>
+          <List
+            ref={listRef}
+            style={{ height: "300px" }}
+            scroll={{ type: "virtual", rowHeight: 80, bufferSize: 10, threshold: 10 }}
+          >
+            {data.map((item, index) => (
+              <List.ListItem key={index}>
+                <List.ListItemMeta image={imageUrl} title="列表标题" description={item.content} />
+              </List.ListItem>
+            ))}
+          </List>
+          <div>
             <button onClick={handleScrollTo}>滚动到第 30 项</button>
-      </div>
-    </div>
-  );
-};
+          </div>
+        </div>
+      );
+    };
 
     return <VirtualScrollExample />;
   },
@@ -391,45 +391,45 @@ export const VirtualScroll: Story = {
 export const AsyncLoading: Story = {
   name: "异步加载状态",
   render: () => {
-const AsyncLoadingExample = () => {
-  const [asyncLoading, setAsyncLoading] = useState<React.ReactNode>("");
+    const AsyncLoadingExample = () => {
+      const [asyncLoading, setAsyncLoading] = useState<React.ReactNode>("");
 
-  const listData = [
-    { id: 1, content: "列表内容列表内容列表内容" },
-    { id: 2, content: "列表内容列表内容列表内容" },
-    { id: 3, content: "列表内容列表内容列表内容" },
-    { id: 4, content: "列表内容列表内容列表内容" }
-  ];
+      const listData = [
+        { id: 1, content: "列表内容列表内容列表内容" },
+        { id: 2, content: "列表内容列表内容列表内容" },
+        { id: 3, content: "列表内容列表内容列表内容" },
+        { id: 4, content: "列表内容列表内容列表内容" }
+      ];
 
-  const handleAsyncLoading = (val: string) => {
-    if (val === "loading-custom") {
+      const handleAsyncLoading = (val: string) => {
+        if (val === "loading-custom") {
           setAsyncLoading(<div style={{ textAlign: "center", padding: "12px", color: "#999" }}>没有更多数据了</div>);
-    } else {
-      setAsyncLoading(val);
-    }
-  };
+        } else {
+          setAsyncLoading(val);
+        }
+      };
 
       const onLoadMore: TdListProps["onLoadMore"] = () => {
         console.log("加载更多");
-    handleAsyncLoading("loading");
-  };
+        handleAsyncLoading("loading");
+      };
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
             <button onClick={() => handleAsyncLoading("load-more")}>显示加载更多</button>
             <button onClick={() => handleAsyncLoading("loading")}>显示加载中</button>
             <button onClick={() => handleAsyncLoading("loading-custom")}>自定义底部</button>
             <button onClick={() => handleAsyncLoading("")}>隐藏加载状态</button>
-      </div>
-      <List asyncLoading={asyncLoading} onLoadMore={onLoadMore}>
-        {listData.map((item) => (
-          <List.ListItem key={item.id}>{item.content}</List.ListItem>
-        ))}
-      </List>
-    </div>
-  );
-};
+          </div>
+          <List asyncLoading={asyncLoading} onLoadMore={onLoadMore}>
+            {listData.map((item) => (
+              <List.ListItem key={item.id}>{item.content}</List.ListItem>
+            ))}
+          </List>
+        </div>
+      );
+    };
 
     return <AsyncLoadingExample />;
   }

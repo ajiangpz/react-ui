@@ -251,7 +251,7 @@ export const GroupExample: Story = {
       <InputGroup separate>
         <Input placeholder="用户名" prefixIcon={<IconUser />} />
         <Input type="password" placeholder="密码" prefixIcon={<IconLock />} />
-    </InputGroup>
+      </InputGroup>
     </div>
   )
 };

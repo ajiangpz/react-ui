@@ -64,13 +64,13 @@ export const Basic: Story = {
   render: (args) => {
     const BasicExample = () => {
       const [value, setValue] = useState<number>(30);
-  return (
+      return (
         <div style={{ width: "400px", padding: "20px 0" }}>
           <Slider
-        {...args}
+            {...args}
             value={value}
             onChange={(val) => setValue(val as number)}
-        label={({ value }) => `${value}%`}
+            label={({ value }) => `${value}%`}
           />
           <div style={{ marginTop: "16px", color: "#666" }}>当前值：{value}</div>
         </div>
@@ -93,8 +93,8 @@ export const Range: Story = {
             当前范围：{value[0]} - {value[1]}
           </div>
         </div>
-  );
-};
+      );
+    };
     return <RangeExample />;
   }
 };
@@ -182,7 +182,7 @@ export const Vertical: Story = {
       const [value, setValue] = useState<SliderValue>(40);
       const [rangeValue, setRangeValue] = useState<SliderValue>([20, 70]);
 
-  return (
+      return (
         <div style={{ display: "flex", gap: "80px", padding: "20px" }}>
           <div style={{ height: "250px" }}>
             <div style={{ marginBottom: "8px", color: "#666" }}>单滑块</div>
@@ -194,12 +194,7 @@ export const Vertical: Story = {
           </div>
           <div style={{ height: "250px" }}>
             <div style={{ marginBottom: "8px", color: "#666" }}>带输入框</div>
-        <Slider
-          value={value}
-          onChange={setValue}
-              layout="vertical"
-              inputNumberProps={{ theme: "row" }}
-            />
+            <Slider value={value} onChange={setValue} layout="vertical" inputNumberProps={{ theme: "row" }} />
           </div>
         </div>
       );
@@ -240,9 +235,9 @@ export const CustomLabel: Story = {
               <span style={{ color: position === "start" ? "blue" : "green" }}>{value}%</span>
             )}
           />
-    </div>
-  );
-};
+        </div>
+      );
+    };
     return <CustomLabelExample />;
   }
 };

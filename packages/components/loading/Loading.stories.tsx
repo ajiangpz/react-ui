@@ -145,17 +145,17 @@ export const Fullscreen: Story = {
   name: "全屏加载",
   render: () => {
     const FullscreenExample = () => {
-  const [loading, setLoading] = useState(false);
+      const [loading, setLoading] = useState(false);
 
       const showLoading = () => {
         setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-  };
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      };
 
-  return (
-    <>
+      return (
+        <>
           <Loading loading={loading} fullscreen preventScrollThrough={true} text="全屏加载中..." />
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <div style={{ color: "#666" }}>点击按钮显示全屏加载，2秒后自动关闭</div>
@@ -165,9 +165,9 @@ export const Fullscreen: Story = {
               </Button>
             </div>
           </div>
-    </>
-  );
-};
+        </>
+      );
+    };
     return <FullscreenExample />;
   }
 };
@@ -177,26 +177,26 @@ export const Delay: Story = {
   name: "延迟加载",
   render: () => {
     const DelayExample = () => {
-  const [data, setData] = useState("");
-  const [loading, setLoading] = useState(false);
+      const [data, setData] = useState("");
+      const [loading, setLoading] = useState(false);
 
       const loadData = (time?: number) => {
-    setLoading(true);
-    setData("");
-    const timer = setTimeout(() => {
-      setLoading(false);
-      setData("数据加载完成，短时间的数据加载并未出现 loading");
-      clearTimeout(timer);
-    }, time || 100);
-  };
+        setLoading(true);
+        setData("");
+        const timer = setTimeout(() => {
+          setLoading(false);
+          setData("数据加载完成，短时间的数据加载并未出现 loading");
+          clearTimeout(timer);
+        }, time || 100);
+      };
 
-  useEffect(() => {
-    setTimeout(() => {
+      useEffect(() => {
+        setTimeout(() => {
           loadData();
-    }, 0);
-  }, []);
+        }, 0);
+      }, []);
 
-  return (
+      return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div style={{ color: "#666", fontSize: "12px" }}>
             设置 delay=500ms，当加载时间小于 500ms 时不显示 loading，避免闪烁
@@ -212,18 +212,18 @@ export const Delay: Story = {
             >
               {data || "等待加载..."}
             </div>
-        </Loading>
+          </Loading>
           <div style={{ display: "flex", gap: "8px" }}>
             <Button size="small" onClick={() => loadData()}>
               快速加载（无 loading）
-        </Button>
+            </Button>
             <Button size="small" onClick={() => loadData(1000)}>
               慢速加载（显示 loading）
-        </Button>
-      </div>
-    </div>
-  );
-};
+            </Button>
+          </div>
+        </div>
+      );
+    };
     return <DelayExample />;
   },
   parameters: {

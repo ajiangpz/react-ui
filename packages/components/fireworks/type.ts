@@ -69,4 +69,3 @@ export interface TdFireworksProps {
    */
   onLaunch?: (context: FireworksLaunchContext) => void;
 }
-

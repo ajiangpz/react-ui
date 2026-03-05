@@ -103,12 +103,12 @@ export const Default: Story = {
   name: "基础对话框",
   render: () => {
     const BaseExample = () => {
-  const [visible, setVisible] = useState(false);
+      const [visible, setVisible] = useState(false);
 
-  const onConfirm: DialogProps["onConfirm"] = (context) => {
-    console.log("点击了确认按钮", context);
-    setVisible(false);
-  };
+      const onConfirm: DialogProps["onConfirm"] = (context) => {
+        console.log("点击了确认按钮", context);
+        setVisible(false);
+      };
 
       const onClose: DialogProps["onClose"] = (context) => {
         console.log("关闭弹窗", context);
@@ -141,7 +141,7 @@ export const Themes: Story = {
       const openDialog = (t: DialogProps["theme"]) => {
         setTheme(t);
         setVisible(true);
-  };
+      };
 
       return (
         <>
@@ -306,7 +306,7 @@ export const ConfirmLoading: Story = {
         setLoading(true);
         setTimeout(() => {
           setLoading(false);
-    setVisible(false);
+          setVisible(false);
         }, 2000);
       };
 
@@ -338,15 +338,15 @@ export const FullScreen: Story = {
     const FullScreenExample = () => {
       const [visible, setVisible] = useState(false);
 
-  return (
-    <>
+      return (
+        <>
           <Button theme="primary" onClick={() => setVisible(true)}>
             全屏对话框
-      </Button>
-      <Dialog
+          </Button>
+          <Dialog
             header="全屏对话框"
             mode="full-screen"
-        visible={visible}
+            visible={visible}
             onClose={() => setVisible(false)}
             onConfirm={() => setVisible(false)}
           >
@@ -354,10 +354,10 @@ export const FullScreen: Story = {
               <p>这是一个全屏对话框，适合展示大量内容。</p>
               <p>可以在这里放置复杂的表单、数据展示等。</p>
             </div>
-      </Dialog>
-    </>
-  );
-};
+          </Dialog>
+        </>
+      );
+    };
     return <FullScreenExample />;
   }
 };
@@ -398,20 +398,20 @@ export const PluginExample: Story = {
   render: () => {
     const buttonStyle: React.CSSProperties = { marginRight: 16 };
 
-  const showDialog = () => {
-    const myDialog = DialogPlugin({
+    const showDialog = () => {
+      const myDialog = DialogPlugin({
         header: "DialogPlugin 调用",
         body: "这是通过 DialogPlugin 函数调用的对话框",
-      onConfirm: ({ e }) => {
-        console.log("confirm clicked", e);
-        myDialog.hide();
-      },
+        onConfirm: ({ e }) => {
+          console.log("confirm clicked", e);
+          myDialog.hide();
+        },
         onClose: ({ trigger }) => {
           console.log("trigger:", trigger);
-        myDialog.hide();
-      }
-    });
-  };
+          myDialog.hide();
+        }
+      });
+    };
 
     const showConfirm = () => {
       const confirmDialog = DialogPlugin.confirm({
@@ -421,12 +421,12 @@ export const PluginExample: Story = {
         cancelBtn: "取消",
         onConfirm: () => {
           confirmDialog.hide();
-      },
+        },
         onClose: () => {
           confirmDialog.hide();
-      }
-    });
-  };
+        }
+      });
+    };
 
     const showAlert = () => {
       const alertDialog = DialogPlugin.alert({
@@ -435,25 +435,25 @@ export const PluginExample: Story = {
         confirmBtn: { content: "我知道了", theme: "primary" },
         onConfirm: () => {
           alertDialog.hide();
-      },
+        },
         onClose: () => {
           alertDialog.hide();
-      }
-    });
-  };
+        }
+      });
+    };
 
-  return (
-    <div>
+    return (
+      <div>
         <p style={{ marginBottom: "16px", color: "#666" }}>
           函数调用方式：DialogPlugin(options) / DialogPlugin.confirm(options) / DialogPlugin.alert(options)
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-        <Button theme="primary" onClick={showDialog} style={buttonStyle}>
+          <Button theme="primary" onClick={showDialog} style={buttonStyle}>
             DialogPlugin
-        </Button>
+          </Button>
           <Button theme="primary" onClick={showConfirm} style={buttonStyle}>
-          DialogPlugin.confirm
-        </Button>
+            DialogPlugin.confirm
+          </Button>
           <Button theme="primary" onClick={showAlert} style={buttonStyle}>
             DialogPlugin.alert
           </Button>
@@ -543,10 +543,10 @@ export const AllVariants: Story = {
             >
               <p>危险主题对话框内容</p>
             </Dialog>
-      </div>
-    </div>
-  );
-};
+          </div>
+        </div>
+      );
+    };
     return <AllVariantsExample />;
   }
 };

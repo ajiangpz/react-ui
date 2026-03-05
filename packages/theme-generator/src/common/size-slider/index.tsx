@@ -28,7 +28,7 @@ const SizeSlider: React.FC<SizeSliderProps> = ({
   const [size, setSize] = useState<InputNumberValue | null>(null);
 
   useEffect(() => {
-    const newSize = needInteger ? parseInt(String(sizeValue || 0), 10) : (sizeValue ?? null);
+    const newSize = needInteger ? parseInt(String(sizeValue || 0), 10) : sizeValue ?? null;
     setSize(newSize as InputNumberValue | null);
   }, [sizeValue, needInteger]);
 

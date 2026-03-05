@@ -100,9 +100,7 @@ export const Default: Story = {
             placeholder="请输入标签，按回车添加"
             {...args}
           />
-          <div style={{ marginTop: "8px", color: "#666", fontSize: "12px" }}>
-            当前标签：{tags.join(", ")}
-          </div>
+          <div style={{ marginTop: "8px", color: "#666", fontSize: "12px" }}>当前标签：{tags.join(", ")}</div>
         </div>
       );
     };
@@ -130,12 +128,7 @@ export const ControlledUncontrolled: Story = {
           </div>
           <div>
             <div style={{ marginBottom: "8px", color: "#666" }}>非受控模式</div>
-            <TagInput
-              defaultValue={["Svelte", "Solid"]}
-              placeholder="请输入"
-              clearable
-              style={{ width: "400px" }}
-            />
+            <TagInput defaultValue={["Svelte", "Solid"]} placeholder="请输入" clearable style={{ width: "400px" }} />
           </div>
         </div>
       );
@@ -174,30 +167,15 @@ export const Sizes: Story = {
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div>
         <div style={{ marginBottom: "8px", color: "#666" }}>小尺寸</div>
-        <TagInput
-          size="small"
-          defaultValue={["标签一", "标签二"]}
-          placeholder="小尺寸"
-          style={{ width: "400px" }}
-        />
+        <TagInput size="small" defaultValue={["标签一", "标签二"]} placeholder="小尺寸" style={{ width: "400px" }} />
       </div>
       <div>
         <div style={{ marginBottom: "8px", color: "#666" }}>中尺寸（默认）</div>
-        <TagInput
-          size="medium"
-          defaultValue={["标签一", "标签二"]}
-          placeholder="中尺寸"
-          style={{ width: "400px" }}
-        />
+        <TagInput size="medium" defaultValue={["标签一", "标签二"]} placeholder="中尺寸" style={{ width: "400px" }} />
       </div>
       <div>
         <div style={{ marginBottom: "8px", color: "#666" }}>大尺寸</div>
-        <TagInput
-          size="large"
-          defaultValue={["标签一", "标签二"]}
-          placeholder="大尺寸"
-          style={{ width: "400px" }}
-        />
+        <TagInput size="large" defaultValue={["标签一", "标签二"]} placeholder="大尺寸" style={{ width: "400px" }} />
       </div>
     </div>
   )
@@ -278,9 +256,7 @@ export const MaxTags: Story = {
             clearable
             style={{ width: "400px" }}
           />
-          <div style={{ color: "#666", fontSize: "12px" }}>
-            已输入 {tags.length}/5 个标签
-          </div>
+          <div style={{ color: "#666", fontSize: "12px" }}>已输入 {tags.length}/5 个标签</div>
         </div>
       );
     };

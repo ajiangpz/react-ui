@@ -168,19 +168,11 @@ export const CustomValue: Story = {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Switch
-              customValue={[1, 0]}
-              value={value1}
-              onChange={(val) => setValue1(val)}
-            />
+            <Switch customValue={[1, 0]} value={value1} onChange={(val) => setValue1(val)} />
             <span style={{ color: "#666" }}>数字值: {String(value1)}</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Switch
-              customValue={["open", "close"]}
-              value={value2}
-              onChange={(val) => setValue2(val)}
-            />
+            <Switch customValue={["open", "close"]} value={value2} onChange={(val) => setValue2(val)} />
             <span style={{ color: "#666" }}>字符串值: {String(value2)}</span>
           </div>
         </div>
@@ -209,14 +201,8 @@ export const AsyncChange: Story = {
 
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <Switch
-            value={checked}
-            loading={loading}
-            onChange={(val) => handleChange(val as boolean)}
-          />
-          <div style={{ color: "#666", fontSize: "12px" }}>
-            点击切换，模拟 1 秒异步请求
-          </div>
+          <Switch value={checked} loading={loading} onChange={(val) => handleChange(val as boolean)} />
+          <div style={{ color: "#666", fontSize: "12px" }}>点击切换，模拟 1 秒异步请求</div>
         </div>
       );
     };
@@ -240,14 +226,8 @@ export const BeforeChange: Story = {
 
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <Switch
-            value={checked}
-            beforeChange={beforeChange}
-            onChange={(val) => setChecked(val as boolean)}
-          />
-          <div style={{ color: "#666", fontSize: "12px" }}>
-            切换前会弹出确认框，确认后才会切换
-          </div>
+          <Switch value={checked} beforeChange={beforeChange} onChange={(val) => setChecked(val as boolean)} />
+          <div style={{ color: "#666", fontSize: "12px" }}>切换前会弹出确认框，确认后才会切换</div>
         </div>
       );
     };

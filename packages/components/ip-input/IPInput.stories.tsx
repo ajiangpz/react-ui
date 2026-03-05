@@ -218,14 +218,14 @@ export const KeyboardNavigation: Story = {
       <div style={{ color: "#666", fontSize: "12px" }}>
         <p style={{ fontWeight: "bold" }}>键盘操作说明：</p>
         <ul style={{ margin: "8px 0", paddingLeft: "20px" }}>
-            <li>输入 3 位数字自动跳转到下一段</li>
-            <li>输入 . 或空格跳转到下一段</li>
-            <li>左/右箭头键在段之间移动</li>
-            <li>在段开头按 Backspace 跳转到上一段</li>
-          </ul>
-        </div>
-        <IPInput placeholder="192.168.0.1" autoFocus />
+          <li>输入 3 位数字自动跳转到下一段</li>
+          <li>输入 . 或空格跳转到下一段</li>
+          <li>左/右箭头键在段之间移动</li>
+          <li>在段开头按 Backspace 跳转到上一段</li>
+        </ul>
       </div>
+      <IPInput placeholder="192.168.0.1" autoFocus />
+    </div>
   )
 };
 
@@ -254,8 +254,8 @@ export const FullFeatured: Story = {
               fontSize: "12px"
             }}
           >
-              <strong>当前值：</strong>
-              {value || "(空)"}
+            <strong>当前值：</strong>
+            {value || "(空)"}
           </div>
         </div>
       );

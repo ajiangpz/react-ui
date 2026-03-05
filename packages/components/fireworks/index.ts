@@ -7,4 +7,3 @@ export * from "./type";
 
 export const Fireworks = _Fireworks;
 export default Fireworks;
-

@@ -1,4 +1,4 @@
-import { isString } from 'lodash-es';
+import { isString } from "lodash-es";
 
 /**
  * 复数规则判断函数
@@ -55,26 +55,26 @@ export function t<T>(pattern: T, ...args: any[]): string {
     if (args.length > 0) {
       const [firstArg, secondArg] = args;
 
-      if (typeof firstArg === 'number') {
-      // 第一个参数是数字，表示 count
+      if (typeof firstArg === "number") {
+        // 第一个参数是数字，表示 count
         count = firstArg;
-        if (secondArg && typeof secondArg === 'object') {
-        // 第二个参数是对象，表示额外的数据
+        if (secondArg && typeof secondArg === "object") {
+          // 第二个参数是对象，表示额外的数据
           data = secondArg;
         } else {
           data.count = count; // 若没有提供第二个参数，则将 count 添加到数据中
         }
-      } else if (typeof firstArg === 'object' && firstArg !== null) {
-      // 第一个参数是对象，表示数据
+      } else if (typeof firstArg === "object" && firstArg !== null) {
+        // 第一个参数是对象，表示数据
         data = firstArg;
       }
     }
 
     // 处理复数形式：支持 "no items | one item | {count} items" 格式
-    if (text.includes('|')) {
-      const pluralParts = text.split('|').map((part) => part.trim());
+    if (text.includes("|")) {
+      const pluralParts = text.split("|").map((part) => part.trim());
 
-      if (typeof count === 'number') {
+      if (typeof count === "number") {
         // 使用 count 进行复数处理
         const pluralIndex = getPluralIndex(count);
 
@@ -82,7 +82,7 @@ export function t<T>(pattern: T, ...args: any[]): string {
         if (pluralIndex < pluralParts.length) {
           text = pluralParts[pluralIndex];
         } else {
-        // 如果索引超出范围，使用最后一个选项
+          // 如果索引超出范围，使用最后一个选项
           text = pluralParts[pluralParts.length - 1];
         }
       } else {
@@ -107,5 +107,5 @@ export function t<T>(pattern: T, ...args: any[]): string {
   }
 
   // 如果不是字符串或函数，返回空字符串
-  return '';
+  return "";
 }

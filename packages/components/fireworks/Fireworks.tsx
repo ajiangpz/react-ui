@@ -1,12 +1,4 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react";
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
 
 import useConfig from "../hooks/useConfig";
@@ -135,4 +127,3 @@ const Fireworks = forwardRef<HTMLDivElement, FireworksProps>((props, ref) => {
 Fireworks.displayName = "Fireworks";
 
 export default Fireworks;
-

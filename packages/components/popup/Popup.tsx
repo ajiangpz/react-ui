@@ -112,9 +112,7 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
   // 转化 placement
   const popperPlacement = useMemo(() => {
     if (!placement) return placement;
-    const normalized = placement
-      .replace(/-(left|top)$/, "-start")
-      .replace(/-(right|bottom)$/, "-end");
+    const normalized = placement.replace(/-(left|top)$/, "-start").replace(/-(right|bottom)$/, "-end");
     if (direction !== "rtl") return normalized as Placement;
     const parts = normalized.split("-");
     const mirrored = parts

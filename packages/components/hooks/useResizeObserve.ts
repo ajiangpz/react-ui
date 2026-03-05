@@ -31,6 +31,5 @@ export default function useResizeObserver(
         observer = null;
       }
     };
-    // eslint-disable-next-line
   }, [container, enabled]);
 }

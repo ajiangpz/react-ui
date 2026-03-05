@@ -113,9 +113,7 @@ export const Triggers: Story = {
 export const Placements: Story = {
   name: "不同弹出位置",
   render: () => {
-    const popupContent = (text: string) => (
-      <div style={{ padding: "8px 12px", fontSize: "12px" }}>{text}</div>
-    );
+    const popupContent = (text: string) => <div style={{ padding: "8px 12px", fontSize: "12px" }}>{text}</div>;
 
     return (
       <div style={{ padding: "80px 120px" }}>

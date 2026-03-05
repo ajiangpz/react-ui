@@ -240,19 +240,11 @@ export const Validation: Story = {
             <Input placeholder="请输入邮箱" />
           </FormItem>
 
-          <FormItem
-            label="手机号"
-            name="phone"
-            rules={[{ telnumber: true, message: "请输入正确的手机号" }]}
-          >
+          <FormItem label="手机号" name="phone" rules={[{ telnumber: true, message: "请输入正确的手机号" }]}>
             <Input placeholder="请输入手机号" />
           </FormItem>
 
-          <FormItem
-            label="网址"
-            name="url"
-            rules={[{ url: true, message: "请输入正确的网址" }]}
-          >
+          <FormItem label="网址" name="url" rules={[{ url: true, message: "请输入正确的网址" }]}>
             <Input placeholder="请输入网址" />
           </FormItem>
 
@@ -343,64 +335,64 @@ export const FormListDemo: Story = {
     const FormListExample = () => {
       const [form] = Form.useForm();
 
-      const onSubmit: FormProps["onSubmit"] = (e) => {
+      const onSubmit: FormProps["onSubmit"] = () => {
         const allFields = form.getFieldsValue(true);
         console.log("表单数据:", allFields);
-};
+      };
 
-const cityOptions = [
-  { label: "北京", value: "bj" },
-  { label: "上海", value: "sh" },
-  { label: "广州", value: "gz" },
-  { label: "深圳", value: "sz" }
-];
+      const cityOptions = [
+        { label: "北京", value: "bj" },
+        { label: "上海", value: "sh" },
+        { label: "广州", value: "gz" },
+        { label: "深圳", value: "sz" }
+      ];
 
-  return (
-    <Form
-      form={form}
-      colon
-      onSubmit={onSubmit}
-      labelWidth={100}
-      initialData={{
-        address: [
-          { city: "bj", area: "海淀" },
-          { city: "sh", area: "浦东" }
-        ]
-      }}
-    >
-      <FormList name="address">
+      return (
+        <Form
+          form={form}
+          colon
+          onSubmit={onSubmit}
+          labelWidth={100}
+          initialData={{
+            address: [
+              { city: "bj", area: "海淀" },
+              { city: "sh", area: "浦东" }
+            ]
+          }}
+        >
+          <FormList name="address">
             {(fields, { add, remove }) => (
-          <>
+              <>
                 {fields.map(({ key, name, ...restField }, index) => (
                   <FormItem key={key} label={`地址 ${index + 1}`}>
                     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                <FormItem
-                  name={[name, "city"]}
-                  rules={[{ required: true, message: "请选择城市" }]}
+                      <FormItem
+                        name={[name, "city"]}
+                        rules={[{ required: true, message: "请选择城市" }]}
                         {...restField}
                         style={{ marginBottom: 0 }}
-                >
+                      >
                         <Select options={cityOptions} placeholder="选择城市" style={{ width: "120px" }} />
                       </FormItem>
                       <FormItem name={[name, "area"]} {...restField} style={{ marginBottom: 0 }}>
                         <Input placeholder="详细地址" style={{ width: "200px" }} />
-                </FormItem>
+                      </FormItem>
                       {fields.length > 1 && (
                         <Button variant="text" theme="danger" onClick={() => remove(index)}>
                           删除
                         </Button>
                       )}
                     </div>
-              </FormItem>
-            ))}
-            <FormItem style={{ marginLeft: 100 }}>
+                  </FormItem>
+                ))}
+                <FormItem style={{ marginLeft: 100 }}>
                   <Button variant="dashed" onClick={() => add({ city: "", area: "" })}>
                     + 添加地址
-              </Button>
-            </FormItem>
-          </>
-        )}
-      </FormList>
+                  </Button>
+                </FormItem>
+              </>
+            )}
+          </FormList>
           <FormItem style={{ marginLeft: 100 }}>
             <Button type="submit" theme="primary">
               提交
@@ -474,18 +466,10 @@ export const FormMethods: Story = {
 
       return (
         <Form form={form} labelWidth={100} colon>
-          <FormItem
-            label="用户名"
-            name="username"
-            rules={[{ required: true, message: "请输入用户名" }]}
-          >
+          <FormItem label="用户名" name="username" rules={[{ required: true, message: "请输入用户名" }]}>
             <Input placeholder="请输入用户名" />
           </FormItem>
-          <FormItem
-            label="邮箱"
-            name="email"
-            rules={[{ email: true, message: "请输入正确的邮箱" }]}
-          >
+          <FormItem label="邮箱" name="email" rules={[{ email: true, message: "请输入正确的邮箱" }]}>
             <Input placeholder="请输入邮箱" />
           </FormItem>
           <FormItem style={{ marginInlineStart: 100 }}>
@@ -498,9 +482,9 @@ export const FormMethods: Story = {
               <Button onClick={handleReset}>重置表单</Button>
             </div>
           </FormItem>
-    </Form>
-  );
-};
+        </Form>
+      );
+    };
     return <FormMethodsExample />;
   }
 };

@@ -392,9 +392,7 @@ export const CustomPanel: Story = {
           panel={
             <div style={{ padding: "16px" }}>
               <h4 style={{ margin: "0 0 12px" }}>自定义下拉内容</h4>
-              <p style={{ margin: "0 0 12px", color: "#666" }}>
-                可以放置任意内容，如表单、表格等。
-              </p>
+              <p style={{ margin: "0 0 12px", color: "#666" }}>可以放置任意内容，如表单、表格等。</p>
               <div style={{ display: "flex", gap: "8px" }}>
                 <Button
                   size="small"

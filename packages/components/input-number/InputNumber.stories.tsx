@@ -195,16 +195,16 @@ export const Align: Story = {
       <div style={{ display: "flex", gap: "16px" }}>
         <div>
           <div style={{ marginBottom: "4px", fontSize: "12px", color: "#999" }}>左对齐</div>
-        <InputNumber align="left" defaultValue={100} />
+          <InputNumber align="left" defaultValue={100} />
         </div>
         <div>
           <div style={{ marginBottom: "4px", fontSize: "12px", color: "#999" }}>居中对齐</div>
-        <InputNumber align="center" defaultValue={200} />
+          <InputNumber align="center" defaultValue={200} />
         </div>
         <div>
           <div style={{ marginBottom: "4px", fontSize: "12px", color: "#999" }}>右对齐</div>
-        <InputNumber align="right" defaultValue={300} />
-      </div>
+          <InputNumber align="right" defaultValue={300} />
+        </div>
       </div>
     </div>
   )
@@ -284,22 +284,17 @@ export const Format: Story = {
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
             <div style={{ marginBottom: "8px", color: "#666" }}>百分比格式</div>
-          <InputNumber
-            format={(val) => `${val} %`}
-            value={value}
-            onChange={setValue}
-            style={{ width: 250 }}
-          />
+            <InputNumber format={(val) => `${val} %`} value={value} onChange={setValue} style={{ width: 250 }} />
           </div>
           <div>
             <div style={{ marginBottom: "8px", color: "#666" }}>货币格式（保留2位小数）</div>
-          <InputNumber
-            decimalPlaces={2}
+            <InputNumber
+              decimalPlaces={2}
               format={(_, { fixedNumber }) => `¥ ${fixedNumber}`}
               value={value2}
               onChange={setValue2}
-            style={{ width: 250 }}
-          />
+              style={{ width: 250 }}
+            />
           </div>
         </div>
       );

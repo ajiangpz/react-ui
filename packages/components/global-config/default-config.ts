@@ -1,39 +1,39 @@
-export type AnimationType = 'ripple' | 'expand' | 'fade';
+export type AnimationType = "ripple" | "expand" | "fade";
 
 export default {
-  classPrefix: 't',
+  classPrefix: "t",
   animation: {
-    include: ['ripple', 'expand', 'fade'],
-    exclude: [],
-  } as Record<'include' | 'exclude', Array<AnimationType>>,
+    include: ["ripple", "expand", "fade"],
+    exclude: []
+  } as Record<"include" | "exclude", Array<AnimationType>>,
   attach: null,
   calendar: {
     firstDayOfWeek: 1,
     fillWithZero: true,
-    controllerConfig: undefined,
+    controllerConfig: undefined
   },
   icon: {},
   input: {
-    autocomplete: '',
+    autocomplete: ""
   },
   dialog: {
     closeOnEscKeydown: true,
     closeOnOverlayClick: true,
     confirmBtnTheme: {
-      default: 'primary',
-      info: 'primary',
-      warning: 'primary',
-      danger: 'primary',
-      success: 'primary',
-    },
+      default: "primary",
+      info: "primary",
+      warning: "primary",
+      danger: "primary",
+      success: "primary"
+    }
   },
   message: {},
   popconfirm: {
     confirmBtnTheme: {
-      default: 'primary',
-      warning: 'primary',
-      danger: 'primary',
-    },
+      default: "primary",
+      warning: "primary",
+      danger: "primary"
+    }
   },
   table: {
     // 展开和收起图标（使用收起图标）
@@ -47,34 +47,34 @@ export default {
     // 是否隐藏排序图标的文本提示
     hideSortTips: false,
     // 全局表格尺寸配置
-    size: 'medium',
+    size: "medium"
   },
   select: {
     // 清除按钮
     clearIcon: undefined,
-    filterable: false,
+    filterable: false
   },
   drawer: {
     closeOnEscKeydown: true,
     closeOnOverlayClick: true,
-    size: 'small',
+    size: "small"
   },
   tree: {
     // 目录层级图标
-    folderIcon: undefined,
+    folderIcon: undefined
   },
   datePicker: {
-    firstDayOfWeek: 1,
+    firstDayOfWeek: 1
   },
   steps: {
     checkIcon: undefined,
-    errorIcon: undefined,
+    errorIcon: undefined
   },
   tag: {
-    closeIcon: undefined,
+    closeIcon: undefined
   },
   form: {
-    requiredMark: undefined,
+    requiredMark: undefined
   },
   empty: {
     titleText: {
@@ -82,14 +82,14 @@ export default {
       success: undefined,
       fail: undefined,
       empty: undefined,
-      networkError: undefined,
+      networkError: undefined
     },
     image: {
       maintenance: undefined,
       success: undefined,
       fail: undefined,
       empty: undefined,
-      networkError: undefined,
+      networkError: undefined
     }
-  },
+  }
 } as const;

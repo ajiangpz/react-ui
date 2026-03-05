@@ -11,9 +11,9 @@ export const rgb2cmyk = (red: number, green: number, blue: number) => {
   let computedY = 0;
   let computedK = 0;
 
-  const r = parseInt(`${red}`.replace(/\s/g, ''), 10);
-  const g = parseInt(`${green}`.replace(/\s/g, ''), 10);
-  const b = parseInt(`${blue}`.replace(/\s/g, ''), 10);
+  const r = parseInt(`${red}`.replace(/\s/g, ""), 10);
+  const g = parseInt(`${green}`.replace(/\s/g, ""), 10);
+  const b = parseInt(`${blue}`.replace(/\s/g, ""), 10);
 
   if (r === 0 && g === 0 && b === 0) {
     computedK = 1;
@@ -61,7 +61,7 @@ export const cmyk2rgb = (cyan: number, magenta: number, yellow: number, black: n
   return {
     r,
     g,
-    b,
+    b
   };
 };
 
@@ -76,7 +76,7 @@ const toNumber = (str: string) => Math.max(0, Math.min(255, parseInt(str, 10)));
  */
 export const cmykInputToColor = (input: string) => {
   if (/cmyk/i.test(input)) {
-    const str = input.replace(/\s/g, '');
+    const str = input.replace(/\s/g, "");
     const match = str.match(REG_CMYK_STRING);
     const c = toNumber(match[1]);
     const m = toNumber(match[2]);

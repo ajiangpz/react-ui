@@ -1,6 +1,6 @@
 export default {
-  classPrefix: 't',
+  classPrefix: "t",
   form: {
-    requiredMark: undefined,
-  },
+    requiredMark: undefined
+  }
 } as const;

@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { Log } from './types';
+import { Log } from "./types";
 
 const logSet = new Set();
 
@@ -24,7 +23,7 @@ const log: Log = {
   },
   info(componentName, message): void {
     console.info(`TDesign ${componentName} Info: ${message}`);
-  },
+  }
 };
 
 export default log;

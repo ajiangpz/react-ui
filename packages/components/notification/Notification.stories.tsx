@@ -9,7 +9,8 @@ const meta: Meta<typeof NotificationProvider> = {
   parameters: {
     docs: {
       description: {
-        component: "通知组件用于向用户显示全局提示信息，支持成功、错误、警告、信息等多种类型，以及堆叠显示、自动关闭等功能。"
+        component:
+          "通知组件用于向用户显示全局提示信息，支持成功、错误、警告、信息等多种类型，以及堆叠显示、自动关闭等功能。"
       }
     }
   },
@@ -52,28 +53,16 @@ export const Default: Story = {
       const { success, error, warning, info } = useNotification();
       return (
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-          <Button
-            theme="success"
-            onClick={() => success({ title: "成功提示", message: "操作成功完成！" })}
-          >
+          <Button theme="success" onClick={() => success({ title: "成功提示", message: "操作成功完成！" })}>
             成功通知
           </Button>
-          <Button
-            theme="danger"
-            onClick={() => error({ title: "错误提示", message: "操作发生错误！" })}
-          >
+          <Button theme="danger" onClick={() => error({ title: "错误提示", message: "操作发生错误！" })}>
             错误通知
           </Button>
-          <Button
-            theme="warning"
-            onClick={() => warning({ title: "警告提示", message: "请注意这个警告！" })}
-          >
+          <Button theme="warning" onClick={() => warning({ title: "警告提示", message: "请注意这个警告！" })}>
             警告通知
           </Button>
-          <Button
-            theme="primary"
-            onClick={() => info({ title: "信息提示", message: "这是一条信息通知" })}
-          >
+          <Button theme="primary" onClick={() => info({ title: "信息提示", message: "这是一条信息通知" })}>
             信息通知
           </Button>
         </div>
@@ -180,9 +169,7 @@ export const Stacking: Story = {
 
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div style={{ color: "#666", fontSize: "12px" }}>
-            点击按钮快速显示多条通知，观察堆叠效果
-          </div>
+          <div style={{ color: "#666", fontSize: "12px" }}>点击按钮快速显示多条通知，观察堆叠效果</div>
           <div>
             <Button theme="primary" onClick={showMultiple}>
               显示多条通知
@@ -269,9 +256,7 @@ export const UsageExample: Story = {
 
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div style={{ color: "#666", fontSize: "12px" }}>
-            模拟真实业务场景中的通知使用
-          </div>
+          <div style={{ color: "#666", fontSize: "12px" }}>模拟真实业务场景中的通知使用</div>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <Button theme="primary" onClick={handleSubmit}>
               提交表单（随机结果）
@@ -303,34 +288,17 @@ export const AllVariants: Story = {
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Button
                 theme="success"
-                onClick={() =>
-                  success({ title: "成功", message: `操作成功 ${index.current++}` })
-                }
+                onClick={() => success({ title: "成功", message: `操作成功 ${index.current++}` })}
               >
                 成功
               </Button>
-              <Button
-                theme="danger"
-                onClick={() =>
-                  error({ title: "错误", message: `操作失败 ${index.current++}` })
-                }
-              >
+              <Button theme="danger" onClick={() => error({ title: "错误", message: `操作失败 ${index.current++}` })}>
                 错误
               </Button>
-              <Button
-                theme="warning"
-                onClick={() =>
-                  warning({ title: "警告", message: `请注意 ${index.current++}` })
-                }
-              >
+              <Button theme="warning" onClick={() => warning({ title: "警告", message: `请注意 ${index.current++}` })}>
                 警告
               </Button>
-              <Button
-                theme="primary"
-                onClick={() =>
-                  info({ title: "信息", message: `提示信息 ${index.current++}` })
-                }
-              >
+              <Button theme="primary" onClick={() => info({ title: "信息", message: `提示信息 ${index.current++}` })}>
                 信息
               </Button>
             </div>

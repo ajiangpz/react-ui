@@ -15,6 +15,7 @@
     "lerna:build": "lerna run build --stream",
     "lerna:test": "lerna run test --stream",
     "lerna:lint": "lerna run lint --stream",
+    "lint": "eslint .",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",

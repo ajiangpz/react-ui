@@ -83,10 +83,10 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 const basicOptions = [
-        { label: "架构云", value: "1", title: "架构云选项" },
-        { label: "大数据", value: "2" },
-        { label: "区块链", value: "3" },
-        { label: "物联网", value: "4", disabled: true },
+  { label: "架构云", value: "1", title: "架构云选项" },
+  { label: "大数据", value: "2" },
+  { label: "区块链", value: "3" },
+  { label: "物联网", value: "4", disabled: true },
   { label: "人工智能", value: "5" }
 ];
 
@@ -129,9 +129,9 @@ export const Filterable: Story = {
           filterable
           clearable
           style={{ width: "300px" }}
-    />
-  );
-};
+        />
+      );
+    };
     return <FilterableExample />;
   }
 };
@@ -143,11 +143,11 @@ export const Multiple: Story = {
     const MultipleExample = () => {
       const [value, setValue] = useState<string[]>(["1", "3"]);
       const options = [
-  { label: "全选", checkAll: true },
-  { label: "架构云", value: "1" },
-  { label: "大数据", value: "2" },
-  { label: "区块链", value: "3" },
-  { label: "物联网", value: "4", disabled: true },
+        { label: "全选", checkAll: true },
+        { label: "架构云", value: "1" },
+        { label: "大数据", value: "2" },
+        { label: "区块链", value: "3" },
+        { label: "物联网", value: "4", disabled: true },
         { label: "人工智能", value: "5" }
       ];
       return (
@@ -187,8 +187,20 @@ export const Status: Story = {
   name: "不同状态",
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Select status="default" options={basicOptions} placeholder="默认状态" tips="这是一条提示" style={{ width: "300px" }} />
-      <Select status="success" options={basicOptions} placeholder="成功状态" tips="校验通过" style={{ width: "300px" }} />
+      <Select
+        status="default"
+        options={basicOptions}
+        placeholder="默认状态"
+        tips="这是一条提示"
+        style={{ width: "300px" }}
+      />
+      <Select
+        status="success"
+        options={basicOptions}
+        placeholder="成功状态"
+        tips="校验通过"
+        style={{ width: "300px" }}
+      />
       <Select status="warning" options={basicOptions} placeholder="警告状态" tips="请注意" style={{ width: "300px" }} />
       <Select status="error" options={basicOptions} placeholder="错误状态" tips="输入有误" style={{ width: "300px" }} />
     </div>
@@ -238,18 +250,18 @@ export const GroupOptions: Story = {
 
     const GroupExample = () => {
       const [value, setValue] = useState("");
-  return (
-    <Select
-      value={value}
+      return (
+        <Select
+          value={value}
           onChange={(val) => setValue(val as string)}
           options={groupOptions}
           placeholder="请选择城市"
-      filterable
+          filterable
           clearable
           style={{ width: "300px" }}
-    />
-  );
-};
+        />
+      );
+    };
     return <GroupExample />;
   }
 };
@@ -260,17 +272,23 @@ export const CustomContent: Story = {
   render: () => {
     const customOptions = [
       { label: "架构云", value: "1", content: <span style={{ color: "var(--td-brand-color)" }}>架构云（推荐）</span> },
-      { label: "大数据", value: "2", content: <span>大数据 <span style={{ color: "#999", fontSize: "12px" }}>- 企业版</span></span> },
-      { label: "人工智能", value: "3", content: <span style={{ color: "var(--td-success-color)" }}>人工智能（新）</span> }
+      {
+        label: "大数据",
+        value: "2",
+        content: (
+          <span>
+            大数据 <span style={{ color: "#999", fontSize: "12px" }}>- 企业版</span>
+          </span>
+        )
+      },
+      {
+        label: "人工智能",
+        value: "3",
+        content: <span style={{ color: "var(--td-success-color)" }}>人工智能（新）</span>
+      }
     ];
 
-    return (
-      <Select
-        options={customOptions}
-        placeholder="选项支持自定义内容"
-        style={{ width: "300px" }}
-      />
-    );
+    return <Select options={customOptions} placeholder="选项支持自定义内容" style={{ width: "300px" }} />;
   }
 };
 
@@ -279,12 +297,7 @@ export const LabelSuffix: Story = {
   name: "前后置内容",
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Select
-        label="城市："
-        options={basicOptions}
-        placeholder="请选择"
-        style={{ width: "350px" }}
-      />
+      <Select label="城市：" options={basicOptions} placeholder="请选择" style={{ width: "350px" }} />
       <Select
         suffix={<span style={{ color: "#999" }}>个</span>}
         options={basicOptions}
