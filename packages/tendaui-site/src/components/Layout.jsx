@@ -78,13 +78,7 @@ export default function Layout({ children, lang = "zh", onLangChange }) {
   const localeOptions = useMemo(
     () => [
       { value: "zh_CN", label: "简体中文" },
-      { value: "zh_TW", label: "繁體中文" },
-      { value: "en_US", label: "English" },
-      { value: "ja_JP", label: "日本語" },
-      { value: "ko_KR", label: "한국어" },
-      { value: "ru_RU", label: "Русский" },
-      { value: "it_IT", label: "Italiano" },
-      { value: "ar_KW", label: "العربية" }
+      { value: "en_US", label: "English" }
     ],
     []
   );
