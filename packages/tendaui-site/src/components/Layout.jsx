@@ -4,12 +4,6 @@ import { Layout as TLayout, Button, ConfigProvider, Select } from "../../../comp
 import { IconSun, IconMoon } from "../../../tendaui-icons/src/index";
 import zhCN from "../../../components/global-config/locale/zh_CN";
 import enUS from "../../../components/global-config/locale/en_US";
-import zhTW from "../../../components/global-config/locale/zh_TW";
-import jaJP from "../../../components/global-config/locale/ja_JP";
-import koKR from "../../../components/global-config/locale/ko_KR";
-import ruRU from "../../../components/global-config/locale/ru_RU";
-import itIT from "../../../components/global-config/locale/it_IT";
-import arKW from "../../../components/global-config/locale/ar_KW";
 import siteConfig from "../../site.config.mjs";
 import { toggleThemeWithTransition } from "../utils/viewTransition";
 import "./Layout.scss";
@@ -35,13 +29,7 @@ export default function Layout({ children, lang = "zh", onLangChange }) {
   const localeConfig = useMemo(() => {
     const map = {
       zh_CN: zhCN,
-      zh_TW: zhTW,
-      en_US: enUS,
-      ja_JP: jaJP,
-      ko_KR: koKR,
-      ru_RU: ruRU,
-      it_IT: itIT,
-      ar_KW: arKW
+      en_US: enUS
     };
     return map[lang] || zhCN;
   }, [lang]);
