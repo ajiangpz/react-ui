@@ -53,8 +53,8 @@ function App() {
             })}
           </Routes>
         </Suspense>
+        <ThemeGenerator device="web" />
       </Layout>
-      <ThemeGenerator device="web" />
     </BrowserRouter>
   );
 }
