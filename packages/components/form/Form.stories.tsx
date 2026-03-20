@@ -3,7 +3,7 @@ import React from "react";
 
 import { Form, Input, Switch, Checkbox, Button, Select, Radio, InputNumber } from "../../components";
 
-import { NotificationProvider, useNotification } from "@tendaui/react/es/notification";
+import { NotificationProvider, useNotification } from "@tendaui/react/notification";
 import type { FormProps } from "./index";
 
 const { FormItem, FormList } = Form;

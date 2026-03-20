@@ -140,11 +140,11 @@
 
 .tdesign-site-nav-item {
   display: block;
-  padding: $comp-paddingTB-xxs $comp-paddingLR-l;
+  padding: $comp-paddingTB-m $comp-paddingLR-l;
   text-decoration: none;
   font-size: $font-size-base;
   line-height: $text-line-height-base;
-  color: $text-color-primary;
+  color: $text-color-secondary;
   transition: all $anim-duration-base $anim-time-fn-easing;
   border-left: 2px solid transparent;
   position: relative;

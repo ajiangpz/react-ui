@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Layout as TLayout, Button, ConfigProvider, Select } from "../../../components";
 import { IconSun, IconMoon } from "../../../tendaui-icons/src/index";
