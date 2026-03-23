@@ -2,7 +2,7 @@ import React from "react";
 import { TagInput } from "@tendaui/react";
 
 const ExcessDisplayExample = () => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+  <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "500px" }}>
     <div>
       <div style={{ marginBottom: "8px", color: "#666" }}>换行显示（默认）</div>
       <TagInput

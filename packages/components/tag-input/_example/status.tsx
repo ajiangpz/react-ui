@@ -2,7 +2,7 @@ import React from "react";
 import { TagInput } from "@tendaui/react";
 
 const StatusExample = () => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+  <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "500px", margin: "8px 0" }}>
     <TagInput
       status="default"
       defaultValue={["默认"]}

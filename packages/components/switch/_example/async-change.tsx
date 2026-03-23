@@ -15,7 +15,7 @@ const AsyncExample = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div>
       <Switch value={checked} loading={loading} onChange={(val) => handleChange(val as boolean)} />
       <div style={{ color: "#666", fontSize: "12px" }}>点击切换，模拟 1 秒异步请求</div>
     </div>

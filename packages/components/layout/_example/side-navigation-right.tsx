@@ -6,23 +6,23 @@ const { Header, Content, Footer, Aside } = Layout;
 // 定义演示用的样式
 const demoStyles = {
   header: {
-    background: "#001f5c",
-    color: "#fff",
+    background: "var(--td-brand-color-9)",
+    color: "var(--td-text-color-anti)",
     fontSize: "14px",
     lineHeight: "64px",
     textAlign: "center" as const
   },
   aside: {
-    background: "#003cab",
-    color: "#fff",
+    background: "var(--td-brand-color-8)",
+    color: "var(--td-text-color-anti)",
     fontSize: "14px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
   },
   content: {
-    background: "#699ef5",
-    color: "#fff",
+    background: "var(--td-brand-color-5)",
+    color: "var(--td-text-color-anti)",
     fontSize: "14px",
     height: "120px",
     display: "flex",
@@ -30,8 +30,8 @@ const demoStyles = {
     justifyContent: "center"
   },
   footer: {
-    background: "#001f5c",
-    color: "#fff",
+    background: "var(--td-brand-color-9)",
+    color: "var(--td-text-color-anti)",
     fontSize: "12px",
     textAlign: "center" as const,
     lineHeight: "48px"

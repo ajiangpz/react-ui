@@ -18,6 +18,7 @@
 }
 
 .t-drawer__content-wrapper .t-drawer__body {
+  // TODO 这里样式覆盖了默认的 padding，后续需要根据需求调整
   padding: 0;
   background: var(--bg-color-theme-transparent);
   backdrop-filter: blur(10px);

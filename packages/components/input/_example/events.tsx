@@ -9,7 +9,7 @@ const EventsInput = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "500px" }}>
       <Input
         placeholder="触发各种事件（查看下方日志）"
         clearable
@@ -22,7 +22,7 @@ const EventsInput = () => {
       <div
         style={{
           padding: "12px",
-          background: "#f5f5f5",
+          background: "var(--tendaui-color-primary-1)",
           borderRadius: "4px",
           fontSize: "12px",
           fontFamily: "monospace"

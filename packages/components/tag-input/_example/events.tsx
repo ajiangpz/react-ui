@@ -10,7 +10,7 @@ const EventsExample = () => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "24px" }}>
+    <div style={{ display: "flex", gap: "24px", flexDirection: "column" }}>
       <div style={{ flex: 1 }}>
         <TagInput
           value={tags}
@@ -39,7 +39,7 @@ const EventsExample = () => {
         style={{
           flex: 1,
           padding: "12px",
-          background: "#f5f5f5",
+          background: "var(--td-bg-color-2)",
           borderRadius: "4px",
           fontSize: "12px",
           maxHeight: "150px",

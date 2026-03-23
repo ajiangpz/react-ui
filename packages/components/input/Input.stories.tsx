@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import Input, { InputGroup } from "@tendaui/react/es/input";
+import { Input, InputGroup } from "@tendaui/react";
 import React, { useState } from "react";
-import { IconSearch, IconUser, IconLock, IconEye, IconEyeOff } from "@tendaui/icons";
+import { IconSearch, IconUser, IconLock, IconEyeOpened, IconEyeClosed } from "@tendaui/icons";
 
 const meta: Meta<typeof Input> = {
   title: "Components/Input",
@@ -40,7 +40,7 @@ const meta: Meta<typeof Input> = {
       control: "boolean",
       description: "是否禁用输入框"
     },
-    maxlength: {
+    maxLength: {
       control: "number",
       description: "最大输入长度"
     },
@@ -175,7 +175,7 @@ export const Password: Story = {
           prefixIcon={<IconLock />}
           suffixIcon={
             <span onClick={() => setVisible(!visible)} style={{ cursor: "pointer" }}>
-              {visible ? <IconEye /> : <IconEyeOff />}
+              {visible ? <IconEyeOpened /> : <IconEyeClosed />}
             </span>
           }
           placeholder="请输入密码"
@@ -191,7 +191,7 @@ export const MaxLength: Story = {
   name: "长度限制",
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <Input maxlength={10} placeholder="最多输入10个字符" />
+      <Input maxLength={10} placeholder="最多输入10个字符" />
       <Input maxcharacter={20} placeholder="最多输入20个字符（中文算2个）" />
     </div>
   )

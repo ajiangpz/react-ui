@@ -11,6 +11,8 @@ import { StyledProps, TNode, TElement } from "../common";
 import { isFunction } from "lodash-es";
 import useConfig from "../hooks/useConfig";
 import { useLocaleReceiver } from "../locale/LocalReceiver";
+import useLengthLimit from "./useLengthLimit";
+
 export interface InputProps extends TdInputProps, StyledProps {
   showInput?: boolean; // 控制透传readonly同时是否展示input 默认保留 因为正常Input需要撑开宽度
   keepWrapperWidth?: boolean; // 控制透传autoWidth之后是否容器宽度也自适应 多选等组件需要用到自适应但也需要保留宽度
@@ -81,6 +83,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     onCompositionstart,
     onCompositionend,
     onChange: onChangeFromProps,
+    maxlength,
+    maxcharacter,
+    allowInputOverMax = false,
+    status,
+    onValidate,
+    showLimitNumber = true,
     ...restProps
   } = props;
   const composingRef = useRef(false);
@@ -97,6 +105,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const isInnerInputReadonly = readonly || !allowInput;
   const isValueEnabled = value && !disabled;
   const isShowClearIcon = ((clearable && isValueEnabled) || showClearIconOnEmpty) && isHover;
+
+  // 使用长度限制 hook
+  const { limitNumber, getValueByLimitNumber, tStatus } = useLengthLimit({
+    value: value === undefined ? undefined : String(value),
+    status,
+    maxlength,
+    maxcharacter,
+    allowInputOverMax,
+    onValidate
+  });
   let suffixIconNew = suffixIcon;
   if (isShowClearIcon)
     suffixIconNew = (
@@ -128,6 +146,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
   const suffixIconContent = renderIcon("t", "suffix", parseTNode(suffixIconNew));
   const labelContent = isFunction(label) ? label() : label;
   const suffixContent = isFunction(suffix) ? suffix() : suffix;
+  const limitNumberNode =
+    limitNumber && showLimitNumber ? <div className={`${classPrefix}-input__limit-number`}>{limitNumber}</div> : null;
 
   const updateInputWidth = () => {
     if (!autoWidth || !inputRef.current) return;
@@ -167,6 +187,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     setRenderType(type);
   }, [type]);
 
+  // 初始判断长度，如超限自动截断并触发onchange
+  useEffect(() => {
+    if (value) {
+      const limitedValue = getValueByLimitNumber(value);
+      if (limitedValue.length !== value.length && !allowInputOverMax) {
+        onChange?.(limitedValue, { trigger: "initial" });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const innerValue = composingRef.current ? composingValue : value ?? "";
   const formatDisplayValue = format && !isFocused ? format(innerValue) : innerValue;
 
@@ -204,9 +235,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
         [`${classPrefix}-size-s`]: size === "small",
         [`${classPrefix}-size-l`]: size === "large",
         [`${classPrefix}-align-${align}`]: align,
-        [`${classPrefix}-inpu${classPrefix}--prefix`]: prefixIcon || labelContent,
-        [`${classPrefix}-inpu${classPrefix}--suffix`]: suffixIconContent || suffixContent,
-        [`${classPrefix}-inpu${classPrefix}--borderless`]: borderless,
+        [`${classPrefix}-is-${tStatus}`]: tStatus && tStatus !== "default",
+        [`${classPrefix}-input--prefix`]: prefixIcon || labelContent,
+        [`${classPrefix}-input--suffix`]: suffixIconContent || suffixContent || limitNumberNode,
+        [`${classPrefix}-input--borderless`]: borderless,
         [`${classPrefix}-input--focused`]: isFocused
       })}
       onMouseEnter={handleMouseEnter}
@@ -225,7 +257,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
           {innerValue || placeholder}
         </span>
       )}
-      {suffixContent ? <div className={`${classPrefix}-input__suffix`}>{suffixContent}</div> : null}
+      {suffixContent || limitNumberNode ? (
+        <div className={`${classPrefix}-input__suffix`}>
+          {suffixContent}
+          {limitNumberNode}
+        </div>
+      ) : null}
       {suffixIconContent}
     </div>
   );
@@ -256,17 +293,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
     trigger: InputContextTrigger = "input"
   ) {
     let { value: newStr } = e.currentTarget;
+    // 应用长度限制
+    const limitedValue = getValueByLimitNumber(newStr);
     if (composingRef.current) {
-      setComposingValue(newStr);
+      setComposingValue(limitedValue);
     } else {
       // 完成中文输入时同步一次 composingValue
-      setComposingValue(newStr);
-      onChange(newStr, { e, trigger });
+      setComposingValue(limitedValue);
+      onChange(limitedValue, { e, trigger });
     }
   }
 
-  // 添加MouseDown阻止冒泡，防止點擊Clear value會導致彈窗閃爍一下
-  // https://github.com/Tencent/tdesign-react/issues/2320
   function handleMouseDown(e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
     e.stopPropagation();
     // 兼容React16
@@ -378,7 +415,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>((originalProps, ref) => {
       {...restProps}
     >
       {renderInputNode}
-      {tips && <div className={classNames(`${classPrefix}-input__tips`)}>{tips}</div>}
+      {tips && (
+        <div
+          className={classNames(`${classPrefix}-input__tips`, `${classPrefix}-input__tips--${tStatus || "default"}`)}
+        >
+          {tips}
+        </div>
+      )}
     </div>
   );
 });

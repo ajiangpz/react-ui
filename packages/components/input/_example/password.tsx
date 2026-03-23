@@ -5,16 +5,9 @@ import { IconLock, IconEyeOpened, IconEyeClosed } from "@tendaui/icons";
 const PasswordInput = () => {
   const [visible, setVisible] = useState(false);
   return (
-    <Input
-      type={visible ? "text" : "password"}
-      prefixIcon={<IconLock />}
-      suffixIcon={
-        <span onClick={() => setVisible(!visible)} style={{ cursor: "pointer" }}>
-          {visible ? <IconEyeOpened /> : <IconEyeClosed />}
-        </span>
-      }
-      placeholder="请输入密码"
-    />
+    <div style={{ width: 500 }}>
+      <Input type={visible ? "text" : "password"} prefixIcon={<IconLock />} placeholder="请输入密码" />
+    </div>
   );
 };
 

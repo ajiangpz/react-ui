@@ -13,7 +13,7 @@ export const drawerDefaultProps: TdDrawerProps = {
   preventScrollThrough: true,
   showInAttachedElement: false,
   showOverlay: true,
-  size: undefined,
+  size: "medium",
   sizeDraggable: false,
   visible: false
 };

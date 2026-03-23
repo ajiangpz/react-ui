@@ -12,7 +12,7 @@ const BeforeChangeExample = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div>
       <Switch value={checked} beforeChange={beforeChange} onChange={(val) => setChecked(val as boolean)} />
       <div style={{ color: "#666", fontSize: "12px" }}>切换前会弹出确认框，确认后才会切换</div>
     </div>

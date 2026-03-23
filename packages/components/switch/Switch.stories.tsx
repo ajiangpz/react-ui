@@ -64,7 +64,7 @@ export const Controlled: Story = {
     const ControlledExample = () => {
       const [checked, setChecked] = useState(true);
       return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div>
           <Switch value={checked} onChange={(val) => setChecked(val as boolean)} />
           <div style={{ color: "#666" }}>当前状态：{checked ? "开启" : "关闭"}</div>
         </div>
@@ -99,7 +99,7 @@ export const Sizes: Story = {
 export const WithLabel: Story = {
   name: "带文字描述",
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <Switch label={["开", "关"]} defaultValue={true} />
         <span style={{ color: "#666" }}>数组形式</span>
@@ -166,7 +166,7 @@ export const CustomValue: Story = {
       const [value1, setValue1] = useState<string | number | boolean>(1);
       const [value2, setValue2] = useState<string | number | boolean>("open");
       return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <Switch customValue={[1, 0]} value={value1} onChange={(val) => setValue1(val)} />
             <span style={{ color: "#666" }}>数字值: {String(value1)}</span>
@@ -200,7 +200,7 @@ export const AsyncChange: Story = {
       };
 
       return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div>
           <Switch value={checked} loading={loading} onChange={(val) => handleChange(val as boolean)} />
           <div style={{ color: "#666", fontSize: "12px" }}>点击切换，模拟 1 秒异步请求</div>
         </div>
@@ -225,7 +225,7 @@ export const BeforeChange: Story = {
       };
 
       return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div>
           <Switch value={checked} beforeChange={beforeChange} onChange={(val) => setChecked(val as boolean)} />
           <div style={{ color: "#666", fontSize: "12px" }}>切换前会弹出确认框，确认后才会切换</div>
         </div>

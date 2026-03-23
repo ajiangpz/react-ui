@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "../index";
 
 const BorderlessInput = () => (
-  <div style={{ display: "flex", gap: "24px" }}>
+  <div style={{ display: "flex", gap: "24px", width: "500px" }}>
     <div>
       <div style={{ marginBottom: "8px", color: "#666" }}>有边框</div>
       <Input placeholder="有边框" />

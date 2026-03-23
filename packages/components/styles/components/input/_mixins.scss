@@ -73,18 +73,20 @@
   }
 }
 
-// 状态样式：需使用map-get 和 #{} 来拼接变量名
+// 状态样式：使用 map-get 从映射中获取颜色值
 @mixin input-status($status) {
   &.#{$prefix}-is-#{$status} {
-    border-color: #000;
-
+    border-color: map-get(map-get($input-color, border), $status);
+    &:hover {
+      border-color: map-get(map-get($input-color, border), $status);
+    }
     &:focus,
     &.#{$prefix}-input--focused {
-      box-shadow: 0 0 0 2px #000;
+      box-shadow: 0 0 0 2px map-get(map-get($input-color, box-shadow), $status);
     }
 
     & > .#{$prefix}-input__extra {
-      color: #000;
+      color: map-get(map-get($input-color, extra), $status);
     }
   }
 }

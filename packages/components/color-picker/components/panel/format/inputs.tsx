@@ -95,7 +95,7 @@ const FormatInputs = (props: TdColorFormatProps) => {
                 {...commonProps}
                 defaultValue={currentValue as string}
                 key={`${inputKey.current}-${currentValue}`}
-                maxlength={format === "HEX" ? 9 : undefined}
+                maxLength={format === "HEX" ? 9 : undefined}
               />
             ) : (
               <InputNumber
