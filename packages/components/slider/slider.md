@@ -1,6 +1,8 @@
-# Slider 滑块
-
-滑块组件用于在一定范围内选择特定值，支持单滑块和双滑块（范围选择）模式。
+---
+title: Slider 滑块
+description: 滑块组件用于在一定范围内选择特定值，支持单滑块和双滑块（范围选择）模式。
+icComponent: true
+---
 
 ## 基础用法
 
@@ -68,24 +70,3 @@
 | inputNumberProps | `boolean \| object`                                                                       | `false`        | 数字输入框组件配置           |
 | marks            | `number[] \| Record<number, string>`                                                      | `undefined`    | 刻度标记                     |
 | onChange         | `(value: number \| number[]) => void`                                                     | `undefined`    | 值变化时的回调               |
-
-## 注意事项
-
-1. 当使用 `range` 属性时，`value` 和 `defaultValue` 应该是一个包含两个数字的数组
-2. 当使用 `marks` 属性时，可以通过数组形式简单设置刻度位置，或通过对象形式设置自定义文案
-3. 当使用 `inputNumberProps` 时，可以传入配置对象来自定义输入框的行为
-4. 当使用垂直布局时，需要为父容器设置适当的高度
-
-## 样式定制
-
-Slider 组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-slider-track-bg-color`：轨道背景颜色
-- `--td-slider-track-active-bg-color`：激活轨道背景颜色
-- `--td-slider-handle-bg-color`：滑块背景颜色
-- `--td-slider-handle-border-color`：滑块边框颜色
-- `--td-slider-handle-shadow`：滑块阴影
-- `--td-slider-mark-color`：刻度颜色
-- `--td-slider-mark-text-color`：刻度文本颜色
-
-通过自定义这些变量，可以实现不同风格的滑块效果。

@@ -1,6 +1,8 @@
-# Notification 通知
-
-通知组件用于向用户显示全局提示信息，支持成功、错误、警告、信息等多种类型，以及堆叠显示、自动关闭等功能。
+---
+title: Notification 通知
+description: 通知组件用于向用户显示全局提示信息，支持成功、错误、警告、信息等多种类型，以及堆叠显示、自动关闭等功能。
+icComponent: true
+---
 
 ## 基础用法
 
@@ -54,21 +56,3 @@
 | error   | `{ title: string, message: string }` | `void` | 显示错误通知 |
 | warning | `{ title: string, message: string }` | `void` | 显示警告通知 |
 | info    | `{ title: string, message: string }` | `void` | 显示信息通知 |
-
-## 注意事项
-
-1. 必须使用 `NotificationProvider` 包裹应用根组件，否则 `useNotification` 钩子将无法正常工作
-2. 通知组件会自动管理通知的显示和关闭，无需手动处理
-3. 当通知数量超过 `maxStack` 时，新的通知会替换最早的通知
-4. 通知的显示时间可以通过 `displayDuration` 属性设置，默认 3 秒
-
-## 样式定制
-
-通知组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-notification-bg-color`：通知背景色
-- `--td-notification-text-color`：通知文本色
-- `--td-notification-border-radius`：通知圆角
-- `--td-notification-shadow`：通知阴影
-
-通过自定义这些变量，可以实现不同风格的通知效果。

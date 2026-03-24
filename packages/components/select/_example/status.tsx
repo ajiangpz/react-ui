@@ -10,7 +10,7 @@ const basicOptions = [
 ];
 
 const StatusExample = () => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+  <div style={{ display: "flex", flexDirection: "column", gap: "24px", margin: "8px 0" }}>
     <Select
       status="default"
       options={basicOptions}

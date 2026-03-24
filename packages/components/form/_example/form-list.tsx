@@ -1,7 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Select } from "@tendaui/react";
-
-const { FormItem, FormList } = Form;
+import { Form, Input, Button, Select, FormItem, FormList } from "@tendaui/react";
 
 const FormListExample = () => {
   const [form] = Form.useForm();

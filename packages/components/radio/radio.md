@@ -1,4 +1,8 @@
-# Radio 单选框
+---
+title: Radio 单选框
+description: 单选框组件用于在一组互斥的选项中进行单选。
+isComponent: true
+---
 
 单选框用于在一组互斥的选项中进行单选，用户只能选择其中一个选项。
 
@@ -94,22 +98,3 @@ Radio 组件支持三种尺寸：small、medium（默认）和 large。
 | -------- | --------- | ----------- | -------- |
 | disabled | `boolean` | `false`     | 是否禁用 |
 | value    | `any`     | `undefined` | 按钮的值 |
-
-## 注意事项
-
-1. 当使用 `Radio.Group` 时，内部的 `Radio` 组件会自动继承 `name` 属性，无需单独设置
-2. 当使用 `options` 属性时，`Radio.Group` 会自动生成对应的 `Radio` 组件
-3. 当 `allowUncheck` 为 `true` 时，再次点击已选中的选项会取消选中
-4. 按钮样式的单选框组在视觉上更像按钮组，适合用于选项较少的场景
-
-## 样式定制
-
-Radio 组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-radio-size`：单选框大小
-- `--td-radio-border-color`：边框颜色
-- `--td-radio-bg-color`：背景颜色
-- `--td-radio-checked-color`：选中颜色
-- `--td-radio-disabled-color`：禁用颜色
-
-通过自定义这些变量，可以实现不同风格的单选框效果。

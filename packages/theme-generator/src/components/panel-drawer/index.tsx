@@ -12,7 +12,7 @@ export default function PanelDrawer({ drawerVisible, refresh, device = "web" }: 
   if (!drawerVisible) return null;
 
   return (
-    <Drawer size="30%">
+    <Drawer size="30%" attach=".theme-generator">
       <ColorPanel isRefresh={refresh} device={device} />
     </Drawer>
   );

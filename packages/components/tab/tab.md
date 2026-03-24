@@ -1,6 +1,8 @@
-# Tab 选项卡
-
-选项卡组件用于内容分类后的展示切换，支持卡片风格、可添加删除等功能。
+---
+title: Tab 选项卡
+description: 选项卡组件用于内容分类后的展示切换，支持卡片风格、可添加删除等功能。
+icComponent: true
+---
 
 ## 基础用法
 
@@ -85,22 +87,3 @@
 | disabled  | `boolean`          | `false`     | 是否禁用当前选项卡 |
 | removable | `boolean`          | `false`     | 是否可删除         |
 | lazy      | `boolean`          | `false`     | 是否懒加载         |
-
-## 注意事项
-
-1. 当使用受控模式时，需要通过 `value` 和 `onChange` 来控制选项卡的切换
-2. 当使用 `addable` 属性时，需要提供 `onAdd` 回调来处理添加逻辑
-3. 当使用 `removable` 属性时，需要提供 `onRemove` 回调来处理删除逻辑
-4. 当使用 `lazy` 属性时，选项卡内容只有在被激活时才会渲染
-
-## 样式定制
-
-Tab 组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-tab-active-color`：激活状态的颜色
-- `--td-tab-border-color`：边框颜色
-- `--td-tab-bg-color`：背景颜色
-- `--td-tab-text-color`：文本颜色
-- `--td-tab-hover-bg-color`：悬浮状态的背景颜色
-
-通过自定义这些变量，可以实现不同风格的选项卡效果。

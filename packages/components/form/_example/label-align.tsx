@@ -4,7 +4,7 @@ import { Form, Input } from "@tendaui/react";
 const { FormItem } = Form;
 
 const LabelAlignForm = () => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+  <div style={{ display: "flex", flexDirection: "column", gap: "32px", width: 500 }}>
     <div>
       <h4 style={{ marginBottom: "12px", color: "#666" }}>左对齐</h4>
       <Form labelAlign="left" labelWidth={100}>

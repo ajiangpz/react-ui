@@ -179,7 +179,7 @@ export default function TdDoc() {
           className={\`tdesign-doc-tab \${tab === 'demo' ? 'active' : ''}\`}
           onClick={() => setTab('demo')}
         >
-          代码演示
+          示例
         </button>
         <button
           className={\`tdesign-doc-tab \${tab === 'api' ? 'active' : ''}\`}

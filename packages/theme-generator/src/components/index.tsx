@@ -59,6 +59,7 @@ export default function ThemeGenerator({ device = "web", showSetting = false }: 
         onConfirm={() => setVisible(false)}
         footer={false}
         closeOnOverlayClick={true}
+        attach=".theme-generator"
       >
         <div style={{ display: "flex", paddingTop: "8px" }}>
           <SwitchTabs activeTabIdx={activeTabIdx} onChangeActiveTab={setActiveTabIdx} device={device}></SwitchTabs>

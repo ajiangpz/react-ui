@@ -1,6 +1,8 @@
-# Select 选择器
-
-选择器组件用于从一组选项中选择一个或多个值，支持搜索、多选、分组等功能。
+---
+title: Select 选择器
+description: 选择器组件用于从一组选项中选择一个或多个值，支持搜索、多选、分组等功能。
+icComponent: true
+---
 
 ## 基础用法
 
@@ -102,25 +104,3 @@ Select 组件支持四种状态：default、success、warning 和 error。
 | tips            | `string`                                                                                                                                       | `undefined` | 提示信息               |
 | onChange        | `(value: any) => void`                                                                                                                         | `undefined` | 选中值变化时的回调     |
 | onCreate        | `(value: string \| number) => void`                                                                                                            | `undefined` | 创建新选项时的回调     |
-
-## 注意事项
-
-1. 当使用 `multiple` 时，可以通过 `checkAll: true` 添加全选选项
-2. 当使用 `filterable` 时，搜索会匹配选项的 `label` 属性
-3. 当使用 `creatable` 时，需要同时设置 `filterable` 以启用搜索功能
-4. 当选项较多时，建议使用 `filterable` 以提高用户体验
-5. 分组选项通过 `group` 属性和 `children` 数组实现
-
-## 样式定制
-
-Select 组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-select-bg-color`：背景颜色
-- `--td-select-border-color`：边框颜色
-- `--td-select-text-color`：文本颜色
-- `--td-select-placeholder-color`：占位符颜色
-- `--td-select-disabled-color`：禁用状态颜色
-- `--td-select-dropdown-bg-color`：下拉菜单背景颜色
-- `--td-select-dropdown-shadow`：下拉菜单阴影
-
-通过自定义这些变量，可以实现不同风格的选择器效果。

@@ -1,8 +1,6 @@
 import React from "react";
-import { Form, Input, Button } from "@tendaui/react";
+import { Form, Input, Button, FormItem } from "@tendaui/react";
 import { NotificationProvider, useNotification } from "@tendaui/react/notification";
-
-const { FormItem } = Form;
 
 const FormMethodsExample = () => {
   const [form] = Form.useForm();
@@ -36,24 +34,26 @@ const FormMethodsExample = () => {
   };
 
   return (
-    <Form form={form} labelWidth={100} colon>
-      <FormItem label="用户名" name="username" rules={[{ required: true, message: "请输入用户名" }]}>
-        <Input placeholder="请输入用户名" />
-      </FormItem>
-      <FormItem label="邮箱" name="email" rules={[{ email: true, message: "请输入正确的邮箱" }]}>
-        <Input placeholder="请输入邮箱" />
-      </FormItem>
-      <FormItem style={{ marginInlineStart: 100 }}>
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-          <Button theme="primary" onClick={handleValidate}>
-            验证表单
-          </Button>
-          <Button onClick={handleSetFields}>填充数据</Button>
-          <Button onClick={handleGetFields}>获取数据</Button>
-          <Button onClick={handleReset}>重置表单</Button>
-        </div>
-      </FormItem>
-    </Form>
+    <div style={{ width: 500 }}>
+      <Form form={form} labelWidth={100} colon>
+        <FormItem label="用户名" name="username" rules={[{ required: true, message: "请输入用户名" }]}>
+          <Input placeholder="请输入用户名" />
+        </FormItem>
+        <FormItem label="邮箱" name="email" rules={[{ email: true, message: "请输入正确的邮箱" }]}>
+          <Input placeholder="请输入邮箱" />
+        </FormItem>
+        <FormItem style={{ marginInlineStart: 100 }}>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <Button theme="primary" onClick={handleValidate}>
+              验证表单
+            </Button>
+            <Button onClick={handleSetFields}>填充数据</Button>
+            <Button onClick={handleGetFields}>获取数据</Button>
+            <Button onClick={handleReset}>重置表单</Button>
+          </div>
+        </FormItem>
+      </Form>
+    </div>
   );
 };
 

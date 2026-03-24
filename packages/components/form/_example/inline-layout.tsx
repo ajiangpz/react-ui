@@ -1,7 +1,5 @@
 import React from "react";
-import { Form, Input, Button } from "@tendaui/react";
-
-const { FormItem } = Form;
+import { Form, Input, Button, FormItem } from "@tendaui/react";
 
 const InlineLayoutForm = () => (
   <Form layout="inline" labelWidth={60}>

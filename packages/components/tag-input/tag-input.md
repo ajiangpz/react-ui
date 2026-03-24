@@ -1,6 +1,8 @@
-# TagInput 标签输入框
-
-标签输入框组件用于输入多个标签，支持回车添加、删除标签等操作。
+---
+title: TagInput 标签输入框
+description: 标签输入框组件用于输入多个标签，支持回车添加、删除标签等操作。
+isComponent: true
+---
 
 ## 基础用法
 

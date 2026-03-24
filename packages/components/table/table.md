@@ -1,6 +1,8 @@
-# Table 表格
-
-表格组件用于展示结构化数据，支持多种样式和交互方式。
+---
+title: Table 表格
+description: 表格组件用于展示结构化数据，支持多种样式和交互方式。
+isComponent: true
+---
 
 ## 基础用法
 
@@ -140,22 +142,3 @@
 | align    | `"left" \| "center" \| "right"`                                                                      | `"left"`    | 对齐方式         |
 | ellipsis | `boolean`                                                                                            | `false`     | 是否省略文本     |
 | cell     | `(context: { row: T; col: BaseTableCol<T>; rowIndex: number; colIndex: number }) => React.ReactNode` | `undefined` | 自定义单元格渲染 |
-
-## 注意事项
-
-1. 当表格数据量较大时，建议使用 `tableLayout="fixed"` 固定表格布局，以提高渲染性能
-2. 当单元格内容较长时，可以使用 `ellipsis` 属性实现文本省略
-3. 当需要自定义单元格渲染时，可以使用 `cell` 属性
-4. 当需要处理行或单元格的点击事件时，可以使用 `onRowClick` 或 `onCellClick` 属性
-
-## 样式定制
-
-Table 组件的样式可以通过 CSS 变量进行定制，主要包括：
-
-- `--td-table-border-color`：边框颜色
-- `--td-table-header-bg-color`：表头背景颜色
-- `--td-table-header-text-color`：表头文本颜色
-- `--td-table-row-hover-bg-color`：行悬浮背景颜色
-- `--td-table-stripe-bg-color`：斑马纹背景颜色
-
-通过自定义这些变量，可以实现不同风格的表格效果。
