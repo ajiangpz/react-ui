@@ -76,7 +76,7 @@
     "clsx": "^2.1.1",
     "commitlint": "20.0.0",
     "fast-glob": "^3.3.3",
-    "glob": "^11.0.3",
+    "glob": "^9.3.5",
     "hoist-non-react-statics": "^3.3.2",
     "husky": "9.1.7",
     "jsdom": "^25.0.1",
