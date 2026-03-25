@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/ajiangpz/react-ui/compare/v1.2.4...v1.3.0) (2026-03-25)
+
+
+### Bug Fixes
+
+* rename themes fold ([6a7792d](https://github.com/ajiangpz/react-ui/commit/6a7792d8440658452a0157f4a97f5e188f373e37))
+* update theme switch tab colors ([0ff83f3](https://github.com/ajiangpz/react-ui/commit/0ff83f314bcc166d6a0809664fae653fe481bfea))
+
+
+### Features
+
+* add pre-commit hook for lint check ([550e26e](https://github.com/ajiangpz/react-ui/commit/550e26e6b8393bc20b41ed9d796e40a3f87546f1))
+* add rtl support ([b902edf](https://github.com/ajiangpz/react-ui/commit/b902edf10c783b03fe65b7234b553d4c5743a013))
+* update component docs ([faf9a16](https://github.com/ajiangpz/react-ui/commit/faf9a166d201df838ad6988890c9f6bc0e186f63))
+
+
+
+
+
 ## [1.2.4](https://github.com/ajiangpz/react-ui/compare/v1.2.3...v1.2.4) (2026-01-27)
 
 **Note:** Version bump only for package @tendaui/theme-generator

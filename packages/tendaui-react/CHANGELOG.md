@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/ajiangpz/react-ui/compare/v1.2.4...v1.3.0) (2026-03-25)
+
+**Note:** Version bump only for package @tendaui/react
+
+
+
+
+
 ## [1.2.4](https://github.com/ajiangpz/react-ui/compare/v1.2.3...v1.2.4) (2026-01-27)
 
 **Note:** Version bump only for package @tendaui/react
