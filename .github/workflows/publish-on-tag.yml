@@ -39,12 +39,12 @@ jobs:
 
       - name: Verify npm auth
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm config get registry
           npm whoami
 
       - name: Publish packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm lerna publish from-package --yes
