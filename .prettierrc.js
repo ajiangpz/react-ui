@@ -15,7 +15,7 @@ module.exports = {
 
   // JSX 相关
 
-  jsxSingleQuote: false, // JSX 中使用双引号
+  jsxSingleQuote: true, // JSX 中使用双引号
 
   // 尾随逗号
 
