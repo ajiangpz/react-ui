@@ -9,13 +9,13 @@ module.exports = {
 
   semi: true, // 语句末尾添加分号
 
-  singleQuote: true, // 使用双引号
+  singleQuote: false, // 使用单引号
 
   quoteProps: "as-needed", // 仅在需要时给对象属性加引号
 
   // JSX 相关
 
-  jsxSingleQuote: true, // JSX 中使用双引号
+  jsxSingleQuote: false, // JSX 中使用单引号
 
   // 尾随逗号
 

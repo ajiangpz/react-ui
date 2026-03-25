@@ -19,6 +19,7 @@ const prettier = require("prettier");
  */
 async function build(entryDir, outDir, prefix, suffix, svgoPlugins = [], svgrOptions = {}) {
   const prettierConfig = require(resolve(__dirname, "../.prettierrc.js"));
+  console.log(prettierConfig);
   fs.rmSync(outDir, { recursive: true });
   fs.mkdirSync(outDir);
   // 读取svg文件夹下的文件，转译成React组件，并输出
@@ -62,7 +63,11 @@ async function build(entryDir, outDir, prefix, suffix, svgoPlugins = [], svgrOpt
   const indexFileContent = arr
     .map((a) => `export { default as ${a.componentName} } from './${a.componentName}';`)
     .join("\n");
-  fs.writeFileSync(resolve(outDir, indexFileName), indexFileContent, "utf-8");
+  const formattedIndexContent = await prettier.format(indexFileContent, {
+    ...prettierConfig,
+    parser: "typescript"
+  });
+  fs.writeFileSync(resolve(outDir, indexFileName), formattedIndexContent, "utf-8");
   return arr;
 }
 
