@@ -1,19 +1,50 @@
-- name: Setup Node
-  uses: actions/setup-node@v4
-  with:
-    node-version: 20
-    registry-url: https://registry.npmjs.org/
-    always-auth: true
+name: Publish on tag
 
-- name: Setup npm auth (force)
-  run: |
-    echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-  env:
-    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+on:
+  push:
+    tags:
+      - "v*"
 
-- name: Verify npm auth
-  run: |
-    npm config get registry
-    npm whoami
-  env:
-    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.20.0"
+          registry-url: "https://registry.npmjs.org/"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm lerna run build --stream
+
+      - name: Clean generated changes
+        run: |
+          git checkout -- packages/tendaui-icons/src/icons/index.ts
+
+      - name: Verify npm auth
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+        run: |
+          npm config get registry
+          npm whoami
+
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+        run: pnpm lerna publish from-package --yes

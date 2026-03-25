@@ -9,7 +9,7 @@ module.exports = {
 
   semi: true, // 语句末尾添加分号
 
-  singleQuote: false, // 使用双引号
+  singleQuote: true, // 使用双引号
 
   quoteProps: "as-needed", // 仅在需要时给对象属性加引号
 
