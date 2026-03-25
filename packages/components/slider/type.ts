@@ -2,7 +2,7 @@ import { InputNumberProps } from "../input-number";
 import { TNode } from "../common";
 import React from "react";
 
-export interface TooltipProps {
+interface TooltipProps {
   content?: string | React.ReactNode;
   [key: string]: any;
 }

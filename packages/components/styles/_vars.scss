@@ -356,3 +356,19 @@ $z-index-Tooltip: 5600;
 $z-index-Notification: 6000;
 $z-index-dragging: 6500;
 $z-index-guide: 999999;
+
+// Tooltip 相关变量
+$tooltip-padding: 8px 12px;
+$tooltip-font-size: $font-size-s;
+$tooltip-line-height: $text-line-height-s;
+$tooltip-text-color: $text-color-anti;
+$tooltip-bg-color: $gray-color-9;
+$tooltip-border-radius: $border-radius-small;
+$tooltip-shadow: $shadow-2;
+
+// Tooltip 主题变量
+$tooltip-bg-color-dark: $gray-color-9;
+$tooltip-text-color-dark: $text-color-anti;
+$tooltip-bg-color-light: $bg-color-container;
+$tooltip-text-color-light: $text-color-primary;
+$tooltip-shadow-light: $shadow-2;

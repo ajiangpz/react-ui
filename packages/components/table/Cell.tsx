@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { isFunction, get } from "lodash-es";
 import useConfig from "../hooks/useConfig";
 import { BaseTableCellParams, TableRowData } from "./type";
+import Ellipsis from "./Ellipsis";
 
 export interface CellProps<T extends TableRowData = TableRowData> {
   cellParams: BaseTableCellParams<T>;
@@ -58,13 +59,9 @@ const Cell = <T extends TableRowData = TableRowData>(props: CellProps<T>) => {
   // 处理省略文本
   const isEllipsis = Boolean(col.ellipsis);
   const cellContent = isEllipsis ? (
-    <div
-      className={`${classPrefix}-table__ellipsis`}
-      title={String(cellNode)}
-      style={{ width: "100%", overflow: "hidden" }}
-    >
+    <Ellipsis classPrefix={classPrefix}>
       {cellNode}
-    </div>
+    </Ellipsis>
   ) : (
     cellNode
   );

@@ -183,6 +183,14 @@ export const docs = [
         path: "/components/popup",
         component: () => import("@tendaui/components/popup/popup.md"),
         componentEn: () => import("@tendaui/components/popup/popup.md")
+      },
+      {
+        title: "Tooltip",
+        titleEn: "Tooltip",
+        name: "tooltip",
+        path: "/components/tooltip",
+        component: () => import("@tendaui/components/tooltip/tooltip.md"),
+        componentEn: () => import("@tendaui/components/tooltip/tooltip.md")
       }
     ]
   },
