@@ -177,6 +177,9 @@ importers:
       fast-glob:
         specifier: ^3.3.3
         version: 3.3.3
+      glob:
+        specifier: ^9.3.5
+        version: 9.3.5
       husky:
         specifier: 9.1.7
         version: 9.1.7
