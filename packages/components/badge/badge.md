@@ -1,7 +1,7 @@
 ---
 title: Badge 徽标
 description: 徽标组件用于在右上角展示数字或状态点，常用于消息提醒、状态标记等场景。
-isComponent: true
+isComponent: false
 ---
 
 ### 基础徽标
@@ -82,15 +82,15 @@ isComponent: true
 
 ### Badge Props
 
-| 属性 | 说明 | 类型 | 默认值 |
-| -------- | ------------------------------------------------------- | ------------------------------------------------------------ | ----------- |
-| children | 徽标内容，同 content | ReactNode | - |
-| color | 颜色 | string | '' |
-| content | 徽标内容 | ReactNode | - |
-| count | 徽标右上角内容。可以是数字，也可以是文字。如：'new'/3/99+ | ReactNode | 0 |
-| dot | 是否为红点 | boolean | false |
-| maxCount | 封顶的数字值 | number | 99 |
-| offset | 设置状态点的位置偏移，示例：[-10, 20] 或 ['10em', '8rem'] | Array<string  number> | - |
-| shape | 形状 | `circle` \| `round` | circle |
-| showZero | 当数值为 0 时，是否展示徽标 | boolean | false |
-| size | 尺寸 | `small` \| `medium` | medium |
+| 属性     | 说明                                                      | 类型                  | 默认值 |
+| -------- | --------------------------------------------------------- | --------------------- | ------ |
+| children | 徽标内容，同 content                                      | ReactNode             | -      |
+| color    | 颜色                                                      | string                | ''     |
+| content  | 徽标内容                                                  | ReactNode             | -      |
+| count    | 徽标右上角内容。可以是数字，也可以是文字。如：'new'/3/99+ | ReactNode             | 0      |
+| dot      | 是否为红点                                                | boolean               | false  |
+| maxCount | 封顶的数字值                                              | number                | 99     |
+| offset   | 设置状态点的位置偏移，示例：[-10, 20] 或 ['10em', '8rem'] | Array<string  number> | -      |
+| shape    | 形状                                                      | `circle` \| `round`   | circle |
+| showZero | 当数值为 0 时，是否展示徽标                               | boolean               | false  |
+| size     | 尺寸                                                      | `small` \| `medium`   | medium |

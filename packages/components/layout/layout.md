@@ -1,7 +1,7 @@
 ---
 title: Layout 布局
 description: 用于页面布局的基础组件，包含 Header、Content、Footer、Aside 子组件。
-isComponent: true
+isComponent: false
 ---
 
 ### 顶部导航布局
@@ -58,34 +58,34 @@ isComponent: true
 
 ### Layout
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
+| 属性      | 类型                         | 默认值         | 说明     |
+| --------- | ---------------------------- | -------------- | -------- |
 | direction | `'vertical' \| 'horizontal'` | `'horizontal'` | 布局方向 |
-| children | `React.ReactNode` | - | 子元素 |
+| children  | `React.ReactNode`            | -              | 子元素   |
 
 ### Header
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| height | `string \| number` | `64px` | 头部高度 |
-| children | `React.ReactNode` | - | 子元素 |
+| 属性     | 类型               | 默认值 | 说明     |
+| -------- | ------------------ | ------ | -------- |
+| height   | `string \| number` | `64px` | 头部高度 |
+| children | `React.ReactNode`  | -      | 子元素   |
 
 ### Content
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| children | `React.ReactNode` | - | 子元素 |
+| 属性     | 类型              | 默认值 | 说明   |
+| -------- | ----------------- | ------ | ------ |
+| children | `React.ReactNode` | -      | 子元素 |
 
 ### Footer
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| height | `string \| number` | `48px` | 底部高度 |
-| children | `React.ReactNode` | - | 子元素 |
+| 属性     | 类型               | 默认值 | 说明     |
+| -------- | ------------------ | ------ | -------- |
+| height   | `string \| number` | `48px` | 底部高度 |
+| children | `React.ReactNode`  | -      | 子元素   |
 
 ### Aside
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| width | `string \| number` | `200px` | 侧边栏宽度 |
-| children | `React.ReactNode` | - | 子元素 |
+| 属性     | 类型               | 默认值  | 说明       |
+| -------- | ------------------ | ------- | ---------- |
+| width    | `string \| number` | `200px` | 侧边栏宽度 |
+| children | `React.ReactNode`  | -       | 子元素     |

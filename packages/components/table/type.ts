@@ -26,6 +26,7 @@ export type TableLayout = "auto" | "fixed";
  * 单元格参数
  */
 export interface BaseTableCellParams<T extends TableRowData = TableRowData> {
+  id: number;
   row: T;
   rowIndex: number;
   col: BaseTableCol<T>;

@@ -1,7 +1,7 @@
 ---
 title: Button 按钮
 description: 按钮用于触发一个操作，如提交表单、打开对话框、取消操作等。
-isComponent: true
+isComponent: false
 ---
 
 ### 基础按钮

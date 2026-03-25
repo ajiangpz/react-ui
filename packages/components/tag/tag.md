@@ -1,7 +1,7 @@
 ---
 title: Tag 标签
 description: 标签组件用于标记和分类内容，支持多种主题和样式。
-isComponent: true
+isComponent: false
 ---
 
 ## 基础用法

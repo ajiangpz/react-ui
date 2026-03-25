@@ -19,11 +19,17 @@ const VerticalAlignExample = () => (
           {
             colKey: "description",
             title: "描述",
-            cell: () => (
+            cell: ({ row }) => (
               <div>
-                <div>第一行内容</div>
-                <div>第二行内容</div>
-                <div>第三行内容</div>
+                {row.id === 1 ? (
+                  <div>
+                    <div>第一行内容</div>
+                    <div>第二行内容</div>
+                    <div>第三行内容</div>
+                  </div>
+                ) : (
+                  <div>单行内容</div>
+                )}
               </div>
             )
           }
@@ -44,11 +50,17 @@ const VerticalAlignExample = () => (
           {
             colKey: "description",
             title: "描述",
-            cell: () => (
+            cell: ({ row }) => (
               <div>
-                <div>第一行内容</div>
-                <div>第二行内容</div>
-                <div>第三行内容</div>
+                {row.id === 1 ? (
+                  <div>
+                    <div>第一行内容</div>
+                    <div>第二行内容</div>
+                    <div>第三行内容</div>
+                  </div>
+                ) : (
+                  <div>单行内容</div>
+                )}
               </div>
             )
           }
@@ -69,11 +81,17 @@ const VerticalAlignExample = () => (
           {
             colKey: "description",
             title: "描述",
-            cell: () => (
+            cell: ({ row }) => (
               <div>
-                <div>第一行内容</div>
-                <div>第二行内容</div>
-                <div>第三行内容</div>
+                {row.id === 1 ? (
+                  <div>
+                    <div>第一行内容</div>
+                    <div>第二行内容</div>
+                    <div>第三行内容</div>
+                  </div>
+                ) : (
+                  <div>单行内容</div>
+                )}
               </div>
             )
           }

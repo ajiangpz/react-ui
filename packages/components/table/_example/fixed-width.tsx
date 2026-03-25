@@ -35,7 +35,7 @@ const FixedWidthExample = () => (
     columns={[
       { colKey: "name", title: "姓名", width: 100 },
       { colKey: "age", title: "年龄", width: 80 },
-      { colKey: "email", title: "邮箱", width: 200 },
+      { colKey: "email", title: "邮箱", width: 240 },
       { colKey: "address", title: "地址", width: 300 },
       { colKey: "status", title: "状态", width: 100 }
     ]}

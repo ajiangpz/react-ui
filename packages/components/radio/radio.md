@@ -1,7 +1,7 @@
 ---
 title: Radio 单选框
 description: 单选框组件用于在一组互斥的选项中进行单选。
-isComponent: true
+isComponent: false
 ---
 
 单选框用于在一组互斥的选项中进行单选，用户只能选择其中一个选项。

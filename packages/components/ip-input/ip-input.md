@@ -1,7 +1,7 @@
 ---
 title: IPInput 组件
 description: 一个功能完整的 React IP 地址输入组件，支持 IPv4、IPv6 和 CIDR 格式。
-isComponent: true
+isComponent: false
 ---
 
 ## 基本使用

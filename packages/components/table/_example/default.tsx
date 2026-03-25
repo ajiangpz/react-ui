@@ -17,7 +17,7 @@ interface UserData extends TableRowData {
 const baseColumns: BaseTableCol<UserData>[] = [
   { colKey: "name", title: "姓名", width: 120 },
   { colKey: "age", title: "年龄", width: 80, align: "center" },
-  { colKey: "email", title: "邮箱", width: 200 },
+  { colKey: "email", title: "邮箱", width: 240 },
   { colKey: "address", title: "地址" }
 ];
 
@@ -37,8 +37,6 @@ const baseData: UserData[] = [
   { id: 5, name: "钱七", age: 22, email: "qianqi@example.com", address: "杭州市西湖区", status: "inactive", score: 90 }
 ];
 
-const DefaultExample = () => (
-  <Table columns={baseColumns} data={baseData} />
-);
+const DefaultExample = () => <Table columns={baseColumns} data={baseData} />;
 
 export default DefaultExample;

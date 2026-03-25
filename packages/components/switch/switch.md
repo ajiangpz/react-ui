@@ -1,7 +1,7 @@
 ---
 title: Switch 开关
 description: 开关组件用于表示开/关两种状态之间的切换，是一种即时生效的选择控件。
-isComponent: true
+isComponent: false
 ---
 
 ## 基础用法

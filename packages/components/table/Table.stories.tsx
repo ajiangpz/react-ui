@@ -61,7 +61,7 @@ type Story = StoryObj<typeof Table<UserData>>;
 const baseColumns: BaseTableCol<UserData>[] = [
   { colKey: "name", title: "姓名", width: 120 },
   { colKey: "age", title: "年龄", width: 80, align: "center" },
-  { colKey: "email", title: "邮箱", width: 200 },
+  { colKey: "email", title: "邮箱", width: 240 },
   { colKey: "address", title: "地址" }
 ];
 
@@ -175,7 +175,7 @@ export const CustomCell: Story = {
         align: "center",
         cell: ({ row }) => <span style={{ color: row.score >= 90 ? "#1890ff" : "#666" }}>{row.score}</span>
       },
-      { colKey: "email", title: "邮箱", width: 200 },
+      { colKey: "email", title: "邮箱", width: 240 },
       { colKey: "address", title: "地址" }
     ],
     data: baseData,
@@ -294,7 +294,7 @@ export const FixedWidth: Story = {
     columns: [
       { colKey: "name", title: "姓名", width: 100 },
       { colKey: "age", title: "年龄", width: 80 },
-      { colKey: "email", title: "邮箱", width: 200 },
+      { colKey: "email", title: "邮箱", width: 240 },
       { colKey: "address", title: "地址", width: 300 },
       { colKey: "status", title: "状态", width: 100 }
     ],

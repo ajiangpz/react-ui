@@ -57,7 +57,7 @@ const CustomCellExample = () => (
         align: "center",
         cell: ({ row }) => <span style={{ color: row.score >= 90 ? "#1890ff" : "#666" }}>{row.score}</span>
       },
-      { colKey: "email", title: "邮箱", width: 200 },
+      { colKey: "email", title: "邮箱", width: 240 },
       { colKey: "address", title: "地址" }
     ]}
     data={baseData}

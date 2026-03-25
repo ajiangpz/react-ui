@@ -1,7 +1,7 @@
 ---
 title: Input 输入框
 description: 输入框用于接收用户输入的文本信息，支持多种类型、状态和功能配置。
-isComponent: true
+isComponent: false
 ---
 
 ### 基础输入框
@@ -94,36 +94,36 @@ isComponent: true
 
 ### Input
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | 文本内容位置 |
-| autoWidth | `boolean` | `false` | 宽度随内容自适应 |
-| autofocus | `boolean` | `false` | 自动聚焦 |
-| borderless | `boolean` | `false` | 是否开启无边框模式 |
-| clearable | `boolean` | `false` | 是否可清空 |
-| disabled | `boolean` | `false` | 是否禁用输入框 |
-| label | `React.ReactNode` | - | 前置内容 |
-| maxlength | `number` | - | 最大输入长度 |
-| maxcharacter | `number` | - | 最大字符数（中文算2个字符） |
-| placeholder | `string` | - | 占位符 |
-| prefixIcon | `React.ReactNode` | - | 前置图标 |
-| readonly | `boolean` | `false` | 只读状态 |
-| size | `'small' \| 'medium' \| 'large'` | `'medium'` | 输入框尺寸 |
-| status | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 输入框状态 |
-| suffix | `React.ReactNode` | - | 后置内容 |
-| suffixIcon | `React.ReactNode` | - | 后置图标 |
-| tips | `React.ReactNode` | - | 提示信息 |
-| type | `'text' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search' \| 'hidden'` | `'text'` | 输入框类型 |
-| value | `string` | - | 输入框值 |
-| onChange | `(value: string) => void` | - | 输入值变化时的回调 |
-| onFocus | `() => void` | - | 聚焦时的回调 |
-| onBlur | `() => void` | - | 失焦时的回调 |
-| onEnter | `(value: string) => void` | - | 按下回车键时的回调 |
-| onClear | `() => void` | - | 点击清空按钮时的回调 |
+| 属性         | 类型                                                                         | 默认值      | 说明                        |
+| ------------ | ---------------------------------------------------------------------------- | ----------- | --------------------------- |
+| align        | `'left' \| 'center' \| 'right'`                                              | `'left'`    | 文本内容位置                |
+| autoWidth    | `boolean`                                                                    | `false`     | 宽度随内容自适应            |
+| autofocus    | `boolean`                                                                    | `false`     | 自动聚焦                    |
+| borderless   | `boolean`                                                                    | `false`     | 是否开启无边框模式          |
+| clearable    | `boolean`                                                                    | `false`     | 是否可清空                  |
+| disabled     | `boolean`                                                                    | `false`     | 是否禁用输入框              |
+| label        | `React.ReactNode`                                                            | -           | 前置内容                    |
+| maxlength    | `number`                                                                     | -           | 最大输入长度                |
+| maxcharacter | `number`                                                                     | -           | 最大字符数（中文算2个字符） |
+| placeholder  | `string`                                                                     | -           | 占位符                      |
+| prefixIcon   | `React.ReactNode`                                                            | -           | 前置图标                    |
+| readonly     | `boolean`                                                                    | `false`     | 只读状态                    |
+| size         | `'small' \| 'medium' \| 'large'`                                             | `'medium'`  | 输入框尺寸                  |
+| status       | `'default' \| 'success' \| 'warning' \| 'error'`                             | `'default'` | 输入框状态                  |
+| suffix       | `React.ReactNode`                                                            | -           | 后置内容                    |
+| suffixIcon   | `React.ReactNode`                                                            | -           | 后置图标                    |
+| tips         | `React.ReactNode`                                                            | -           | 提示信息                    |
+| type         | `'text' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search' \| 'hidden'` | `'text'`    | 输入框类型                  |
+| value        | `string`                                                                     | -           | 输入框值                    |
+| onChange     | `(value: string) => void`                                                    | -           | 输入值变化时的回调          |
+| onFocus      | `() => void`                                                                 | -           | 聚焦时的回调                |
+| onBlur       | `() => void`                                                                 | -           | 失焦时的回调                |
+| onEnter      | `(value: string) => void`                                                    | -           | 按下回车键时的回调          |
+| onClear      | `() => void`                                                                 | -           | 点击清空按钮时的回调        |
 
 ### InputGroup
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| separate | `boolean` | `false` | 是否显示分隔线 |
-| children | `React.ReactNode` | - | 子元素 |
+| 属性     | 类型              | 默认值  | 说明           |
+| -------- | ----------------- | ------- | -------------- |
+| separate | `boolean`         | `false` | 是否显示分隔线 |
+| children | `React.ReactNode` | -       | 子元素         |

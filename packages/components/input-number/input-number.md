@@ -1,7 +1,7 @@
 ---
 title: InputNumber 数字输入框
 description: 数字输入框用于输入数字，支持步进、最大最小值限制、格式化等功能。
-isComponent: true
+isComponent: false
 ---
 
 ### 基础用法
@@ -82,29 +82,29 @@ isComponent: true
 
 ### InputNumber
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | 文本内容位置 |
-| allowInputOverLimit | `boolean` | `false` | 是否允许输入超过 max/min 范围外的数字 |
-| autoWidth | `boolean` | `false` | 宽度随内容自适应 |
-| decimalPlaces | `number` | - | 小数位数 |
-| disabled | `boolean` | `false` | 禁用组件 |
-| format | `(value: string \| number, context: { fixedNumber: string }) => string` | - | 格式化显示内容 |
-| inputProps | `object` | - | 输入框属性，支持 tips 等 |
-| largeNumber | `boolean` | `false` | 是否作为大数使用 |
-| max | `number` | - | 最大值 |
-| min | `number` | - | 最小值 |
-| placeholder | `string` | - | 占位符 |
-| readonly | `boolean` | `false` | 只读状态 |
-| size | `'small' \| 'medium' \| 'large'` | `'medium'` | 组件尺寸 |
-| status | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 文本框状态 |
-| step | `number` | `1` | 数值改变步数 |
-| suffix | `React.ReactNode` | - | 后缀内容 |
-| theme | `'column' \| 'row' \| 'normal'` | `'row'` | 按钮布局 |
-| value | `string \| number` | - | 输入值 |
-| defaultValue | `string \| number` | - | 默认值 |
-| onChange | `(value: string \| number, context: object) => void` | - | 值变化时的回调 |
-| onBlur | `(value: string \| number, context: object) => void` | - | 失焦时的回调 |
-| onFocus | `(value: string \| number, context: object) => void` | - | 聚焦时的回调 |
-| onEnter | `(value: string \| number, context: object) => void` | - | 按下回车键时的回调 |
-| onValidate | `(context: { error: 'exceed-maximum' \| 'below-minimum' }) => void` | - | 验证时的回调 |
+| 属性                | 类型                                                                    | 默认值      | 说明                                  |
+| ------------------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------- |
+| align               | `'left' \| 'center' \| 'right'`                                         | `'left'`    | 文本内容位置                          |
+| allowInputOverLimit | `boolean`                                                               | `false`     | 是否允许输入超过 max/min 范围外的数字 |
+| autoWidth           | `boolean`                                                               | `false`     | 宽度随内容自适应                      |
+| decimalPlaces       | `number`                                                                | -           | 小数位数                              |
+| disabled            | `boolean`                                                               | `false`     | 禁用组件                              |
+| format              | `(value: string \| number, context: { fixedNumber: string }) => string` | -           | 格式化显示内容                        |
+| inputProps          | `object`                                                                | -           | 输入框属性，支持 tips 等              |
+| largeNumber         | `boolean`                                                               | `false`     | 是否作为大数使用                      |
+| max                 | `number`                                                                | -           | 最大值                                |
+| min                 | `number`                                                                | -           | 最小值                                |
+| placeholder         | `string`                                                                | -           | 占位符                                |
+| readonly            | `boolean`                                                               | `false`     | 只读状态                              |
+| size                | `'small' \| 'medium' \| 'large'`                                        | `'medium'`  | 组件尺寸                              |
+| status              | `'default' \| 'success' \| 'warning' \| 'error'`                        | `'default'` | 文本框状态                            |
+| step                | `number`                                                                | `1`         | 数值改变步数                          |
+| suffix              | `React.ReactNode`                                                       | -           | 后缀内容                              |
+| theme               | `'column' \| 'row' \| 'normal'`                                         | `'row'`     | 按钮布局                              |
+| value               | `string \| number`                                                      | -           | 输入值                                |
+| defaultValue        | `string \| number`                                                      | -           | 默认值                                |
+| onChange            | `(value: string \| number, context: object) => void`                    | -           | 值变化时的回调                        |
+| onBlur              | `(value: string \| number, context: object) => void`                    | -           | 失焦时的回调                          |
+| onFocus             | `(value: string \| number, context: object) => void`                    | -           | 聚焦时的回调                          |
+| onEnter             | `(value: string \| number, context: object) => void`                    | -           | 按下回车键时的回调                    |
+| onValidate          | `(context: { error: 'exceed-maximum' \| 'below-minimum' }) => void`     | -           | 验证时的回调                          |

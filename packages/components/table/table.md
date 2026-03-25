@@ -1,7 +1,7 @@
 ---
 title: Table 表格
 description: 表格组件用于展示结构化数据，支持多种样式和交互方式。
-isComponent: true
+isComponent: false
 ---
 
 ## 基础用法

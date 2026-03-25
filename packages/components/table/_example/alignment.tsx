@@ -36,7 +36,7 @@ const AlignmentExample = () => (
       { colKey: "name", title: "左对齐", width: 120, align: "left" },
       { colKey: "age", title: "居中", width: 100, align: "center" },
       { colKey: "score", title: "右对齐", width: 100, align: "right" },
-      { colKey: "email", title: "默认（左对齐）", width: 200 }
+      { colKey: "email", title: "默认（左对齐）", width: 240 }
     ]}
     data={baseData}
     bordered

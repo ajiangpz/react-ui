@@ -1,7 +1,7 @@
 ---
 title: List 列表
 description: 列表组件用于展示一组数据，支持基础列表、带图片列表、虚拟滚动、加载更多等功能。
-isComponent: true
+isComponent: false
 ---
 
 ## 基础用法

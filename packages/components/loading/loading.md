@@ -1,7 +1,7 @@
 ---
 title: Loading 加载
 description: 加载组件用于在数据加载过程中显示加载状态，支持全屏加载、包裹元素加载、延迟加载等功能。
-isComponent: true
+isComponent: false
 ---
 
 ## 基础用法
