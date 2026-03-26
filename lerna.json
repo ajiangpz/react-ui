@@ -4,7 +4,6 @@
   "npmClient": "pnpm",
   "command": {
     "publish": {
-      "conventionalCommits": true,
       "message": "chore(release): publish",
       "registry": "https://registry.npmjs.org/",
       "ignoreChanges": [
@@ -19,11 +18,7 @@
       "bump": "from-package"
     },
     "version": {
-      "allowBranch": [
-        "main",
-        "master"
-      ],
-      "conventionalCommits": true
+      "allowBranch": ["main", "master"]
     },
     "run": {
       "npmClient": "pnpm"
@@ -33,9 +28,7 @@
       "hoist": false
     }
   },
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "ignoreChanges": [
     "**/*.md",
     "**/*.test.ts",
