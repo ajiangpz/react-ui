@@ -37,14 +37,20 @@ jobs:
         run: |
           git checkout -- packages/tendaui-icons/src/icons/index.ts
 
-      - name: Verify npm auth
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+      # 👇 新增：显式写入 .npmrc 到项目根目录
+      - name: Configure npm registry and auth token
         run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Verify npm auth
+        run: |
+          cat .npmrc  # 可选：调试用，确认写入成功（注意不要泄露 token！）
           npm config get registry
           npm whoami
 
       - name: Publish packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REACTUI_GITHUB_ACTIONS }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
         run: pnpm lerna publish from-package --yes
