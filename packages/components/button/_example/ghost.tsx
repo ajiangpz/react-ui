@@ -3,10 +3,7 @@ import { Button } from "@tendaui/react";
 
 export default function Ghost() {
   return (
-    <div style={{ display: "flex", gap: "12px", padding: "24px", flexWrap: "wrap", backgroundColor: "#f5f5f5" }}>
-      <Button ghost theme="default">
-        默认
-      </Button>
+    <div style={{ display: "flex", gap: "12px", padding: "24px", flexWrap: "wrap" }}>
       <Button ghost theme="primary">
         主要
       </Button>
