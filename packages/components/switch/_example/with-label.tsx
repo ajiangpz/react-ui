@@ -2,7 +2,7 @@ import React from "react";
 import { Switch } from "@tendaui/react";
 
 const WithLabelExample = () => (
-  <div>
+  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
       <Switch label={["开", "关"]} defaultValue={true} />
       <span style={{ color: "#666" }}>数组形式</span>
