@@ -38,10 +38,10 @@ export default function Dock({
   /**
    * 计算生成器按钮的宽度
    * 当抽屉打开时显示图标，宽度为 48px
-   * 当抽屉关闭时显示文字，宽度为 216px
+   * 当抽屉关闭时显示文字，宽度为 144px
    */
   const getGeneratorBtnWidth = () => {
-    return drawerVisible ? "252px" : "140px";
+    return drawerVisible ? "252px" : "144px";
   };
 
   /**

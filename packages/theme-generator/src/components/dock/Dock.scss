@@ -15,6 +15,7 @@
 .theme-generator-dock__operation {
   display: flex;
   align-items: center;
+  overflow: hidden;
   transition: all 0.3s;
 }
 
@@ -26,6 +27,15 @@
   background: linear-gradient(135deg, #e7e7e7, #e7e7e7, #dd4646, #006cfc, #05c4f4, #7ee94c);
   background-size: 400%;
   transition: all 0.3s;
+}
+
+.generator-btn {
+  flex: 0 0 144px;
+}
+
+.export-btn,
+.recover-btn {
+  flex: 0 0 48px;
 }
 
 .generator-btn:hover,
