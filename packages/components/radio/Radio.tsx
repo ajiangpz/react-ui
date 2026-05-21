@@ -1,7 +1,6 @@
 import React, { Ref, forwardRef } from "react";
 import forwardRefWithStatics from "../utils/forwardRefWithStatics";
 import Check, { CheckProps } from "../common/Check";
-import RadioGroup from "./RadioGroup";
 import { radioDefaultProps } from "./defaultProps";
 import useDefaultProps from "../hooks/useDefaultProps";
 
@@ -15,7 +14,6 @@ const Radio = forwardRefWithStatics(
     <Check ref={ref} type="radio" {...useDefaultProps<RadioProps>(props, radioDefaultProps)} />
   ),
   {
-    Group: RadioGroup,
     Button: RadioButton
   }
 );

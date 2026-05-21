@@ -1,5 +1,5 @@
 import { TNode, TElement } from "../common";
-import { TdPopupProps, PopupPlacement } from "../popup/type";
+import { TdPopupProps } from "../popup/type";
 export interface TdTooltipProps extends Omit<TdPopupProps, "content"> {
   /**
    *  tooltip 内容

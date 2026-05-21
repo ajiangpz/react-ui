@@ -17,7 +17,8 @@ export interface TRProps<T extends TableRowData = TableRowData> {
 }
 
 const TR = <T extends TableRowData = TableRowData>(props: TRProps<T>) => {
-  const { row, rowIndex, columns, rowClassName, rowAttributes, cellEmptyContent, onRowClick, onCellClick } = props;
+  const { row, rowIndex, columns, rowKey, rowClassName, rowAttributes, cellEmptyContent, onRowClick, onCellClick } =
+    props;
 
   // 处理行类名
   const customRowClassName = isFunction(rowClassName) ? rowClassName({ row, rowIndex }) : rowClassName;
@@ -31,6 +32,7 @@ const TR = <T extends TableRowData = TableRowData>(props: TRProps<T>) => {
   const handleCellClick = (e: React.MouseEvent<HTMLElement>, col: BaseTableCol<T>, colIndex: number) => {
     if (onCellClick) {
       onCellClick({
+        id: row[rowKey] as string | number | undefined,
         row,
         rowIndex,
         col,
@@ -50,6 +52,7 @@ const TR = <T extends TableRowData = TableRowData>(props: TRProps<T>) => {
   // 渲染单元格
   const cells = columns.map((col, colIndex) => {
     const cellParams: BaseTableCellParams<T> = {
+      id: row[rowKey] as string | number | undefined,
       row,
       rowIndex,
       col,

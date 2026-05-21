@@ -245,7 +245,7 @@ export interface TdSelectProps<T extends SelectOption = SelectOption> {
       selectedOptions: T[];
       trigger: SelectValueChangeTrigger;
       e?:
-        | MouseEvent<SVGElement | HTMLDivElement | HTMLLIElement>
+        | MouseEvent<SVGElement | HTMLDivElement | HTMLLIElement | HTMLSpanElement>
         | KeyboardEvent<HTMLInputElement>;
     },
   ) => void;
@@ -371,7 +371,7 @@ export type SelectValueChangeTrigger =
 export interface SelectRemoveContext<T> {
   value: SelectValue;
   data: T;
-  e: MouseEvent<HTMLDivElement | HTMLLIElement> | KeyboardEvent<HTMLDivElement>;
+  e: MouseEvent<HTMLDivElement | HTMLLIElement | HTMLSpanElement> | KeyboardEvent<HTMLDivElement>;
 }
 
 export type SelectOption = TdOptionProps | SelectOptionGroup | PlainObject;

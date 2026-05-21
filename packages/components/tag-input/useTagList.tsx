@@ -19,7 +19,7 @@ export default function useTagList(props: TagInputProps) {
     props;
   const [tagValue, setTagValue] = useControlled(props, "value", props.onChange);
 
-  const onClose = (p: { e?: MouseEvent<SVGSVGElement>; index: number }) => {
+  const onClose = (p: { e?: MouseEvent<HTMLSpanElement>; index: number }) => {
     const arr = [...tagValue];
     const [item] = arr.splice(p.index, 1);
     setTagValue(arr, { trigger: "tag-remove", ...p, item });

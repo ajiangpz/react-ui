@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../../_vars.scss" as *;
 @use "./_vars.scss" as *;
 @use "./_map.scss" as *;
@@ -76,17 +77,17 @@
 // 状态样式：使用 map-get 从映射中获取颜色值
 @mixin input-status($status) {
   &.#{$prefix}-is-#{$status} {
-    border-color: map-get(map-get($input-color, border), $status);
+    border-color: map.get(map.get($input-color, border), $status);
     &:hover {
-      border-color: map-get(map-get($input-color, border), $status);
+      border-color: map.get(map.get($input-color, border), $status);
     }
     &:focus,
     &.#{$prefix}-input--focused {
-      box-shadow: 0 0 0 2px map-get(map-get($input-color, box-shadow), $status);
+      box-shadow: 0 0 0 2px map.get(map.get($input-color, box-shadow), $status);
     }
 
     & > .#{$prefix}-input__extra {
-      color: map-get(map-get($input-color, extra), $status);
+      color: map.get(map.get($input-color, extra), $status);
     }
   }
 }

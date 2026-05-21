@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { throttle } from "lodash-es";
 import { Color, getColorFormatInputs, getColorFormatMap } from "../../../utils/color-picker";
 import type { TdColorFormatProps } from ".";
@@ -11,7 +11,7 @@ const FormatInputs = (props: TdColorFormatProps) => {
   const lastModelValue = useRef<Record<string, number | string>>({});
   const inputKey = useRef<number>(0);
 
-  const updateModelValue = () => {
+  const updateModelValue = useCallback(() => {
     const value = getColorFormatMap(color, "encode")[format];
     if (!value || typeof value === "string") return;
 
@@ -31,7 +31,7 @@ const FormatInputs = (props: TdColorFormatProps) => {
     if (Object.keys(changedFormatValue).length > 0) {
       modelValueRef.current = valueObj;
     }
-  };
+  }, [color, enableAlpha, format]);
 
   const handleInputChange = (key: string, v: number | string, max: number) => {
     inputKey.current = performance.now();
@@ -66,7 +66,7 @@ const FormatInputs = (props: TdColorFormatProps) => {
     const throttleUpdate = throttle(updateModelValue, 100);
     throttleUpdate();
     return () => throttleUpdate.cancel();
-  }, [color.saturation, color.hue, color.value, color.alpha, format]);
+  }, [color.saturation, color.hue, color.value, color.alpha, format, updateModelValue]);
 
   return (
     <div className="input-group">
@@ -95,7 +95,7 @@ const FormatInputs = (props: TdColorFormatProps) => {
                 {...commonProps}
                 defaultValue={currentValue as string}
                 key={`${inputKey.current}-${currentValue}`}
-                maxLength={format === "HEX" ? 9 : undefined}
+                maxlength={format === "HEX" ? 9 : undefined}
               />
             ) : (
               <InputNumber

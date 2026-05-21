@@ -1,7 +1,6 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import ignoreImport from "./plugins/rollup-plugin-ignore-import.js";
 import staticImport from "./plugins/rollup-plugin-static-import.js";
-import multiInput from "rollup-plugin-multi-input";
 import styles from "rollup-plugin-styles";
 import esbuild from "rollup-plugin-esbuild";
 import babel from "@rollup/plugin-babel";
@@ -32,13 +31,21 @@ const externalPeerDeps = Object.keys(pkg.peerDependencies || {});
 const styleInputList = fg.sync(["packages/components/**/style/index.js"], {
   onlyDirectories: false
 });
+const componentInputList = fg.sync(inputList, {
+  onlyFiles: true
+});
+const componentInputMap = Object.fromEntries(
+  componentInputList.map((file) => [
+    file.replace(/^packages\/components\//, "").replace(/\.[^.]+$/, ""),
+    file
+  ])
+);
 
 const baseConfig = {
-  input: inputList,
+  input: componentInputMap,
   treeshake: false,
   external: externalDeps.concat(externalPeerDeps),
   plugins: [
-    multiInput({ relative: "packages/components/" }),
     nodeResolve({
       extensions: [".mjs", ".js", ".json", ".node", ".ts", ".tsx"]
     }),

@@ -1,6 +1,6 @@
 import { TdTooltipProps } from './type';
 
-export const tooltipDefaultProps: TdTooltipProps = {
+export const tooltipDefaultProps: Partial<TdTooltipProps> = {
   theme: 'dark',
   trigger: 'hover',
   placement: 'top',

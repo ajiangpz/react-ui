@@ -3,16 +3,17 @@ import classNames from "classnames";
 
 import type { TNode } from "../common";
 import { isNodeOverflow } from "../_util/scroll";
-import { Tooltip } from "@tendaui/react";
+import { Tooltip } from "../tooltip";
+import type { TooltipProps } from "../tooltip";
 import useDebounce from "../hooks/useDebounce";
 
 export interface EllipsisProps {
   content?: string | TNode;
   children?: string | TNode;
   popupContent?: string | number | TNode;
-  placement?: string;
+  placement?: TooltipProps["placement"];
   attach?: () => HTMLElement;
-  tooltipProps?: any;
+  tooltipProps?: Partial<TooltipProps>;
   zIndex?: number;
   overlayClassName?: string;
   classPrefix?: string;
@@ -26,7 +27,7 @@ export default function Ellipsis(props: EllipsisProps) {
 
   const ellipsisClasses = classNames([`${classPrefix}-table__ellipsis`, `${classPrefix}-text-ellipsis`]);
 
-  const innerEllipsisClassName: any = [`${classPrefix}-table__ellipsis-content`, props.overlayClassName];
+  const innerEllipsisClassName = [`${classPrefix}-table__ellipsis-content`, props.overlayClassName];
 
   // 当表格数据量大时，不希望默认渲染全量的 Popup，期望在用户 mouseenter 的时候再显示
   const onTriggerMouseenter = () => {
