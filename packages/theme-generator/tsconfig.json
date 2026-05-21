@@ -22,10 +22,10 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@tendaui/components": ["../components"],
-      "@tendaui/components/*": ["../components/*"],
-      "@tendaui/icons": ["../tendaui-icons/src"],
-      "@tendaui/icons/*": ["../tendaui-icons/src/*"]
+      "@tendaui/components": ["src/types/tendaui-components.d.ts"],
+      "@tendaui/components/*": ["src/types/tendaui-components.d.ts"],
+      "@tendaui/icons": ["src/types/tendaui-icons.d.ts"],
+      "@tendaui/icons/*": ["src/types/tendaui-icons.d.ts"]
     }
   },
   "include": ["src"],

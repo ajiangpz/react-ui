@@ -4,7 +4,7 @@ interface HorizontalPaddingSvgProps {
   size?: number;
 }
 
-const HorizontalPaddingSvg: React.FC<HorizontalPaddingSvgProps> = ({ size = 2 }) => {
+const HorizontalPaddingSvg: React.FC<HorizontalPaddingSvgProps> = ({ size: _size = 2 }) => {
   return (
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_26565_99804)">

@@ -19,7 +19,11 @@ const inputList = [
   "packages/components/**/index.ts",
   "packages/components/**/*.jsx",
   "packages/components/**/*.tsx",
-  "!packages/components/**/*.stories.tsx"
+  "!packages/components/**/*.stories.tsx",
+  "!packages/components/**/_example/**",
+  "!packages/components/**/_usage/**",
+  "!packages/components/**/__tests__/**",
+  "!packages/components/**/*.{test,spec}.{ts,tsx,js,jsx}"
 ];
 const pkg = JSON.parse(readFileSync(resolve(__dirname, "packages/tendaui-react/package.json"), "utf-8"));
 const externalDeps = Object.keys(pkg.dependencies || {});

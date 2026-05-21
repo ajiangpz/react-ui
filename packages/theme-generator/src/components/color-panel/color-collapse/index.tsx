@@ -4,8 +4,6 @@ import { IconEdit as Edit1Icon, IconCopy as FileCopyIcon } from "@tendaui/icons"
 import { flatten } from "lodash-es";
 import ArrowIcon from "@tendaui/components/common/FakeArrow";
 import { CSSTransition } from "react-transition-group";
-
-console.log(ArrowIcon);
 import "./color-collapse.scss";
 
 interface ColorPaletteItem {

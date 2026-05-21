@@ -4,7 +4,7 @@ interface MarginSvgProps {
   size?: number;
 }
 
-const MarginSvg: React.FC<MarginSvgProps> = ({ size = 2 }) => {
+const MarginSvg: React.FC<MarginSvgProps> = ({ size: _size = 2 }) => {
   return (
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="48" height="48" rx="6" fill="#D54941" fillOpacity="0.1" />

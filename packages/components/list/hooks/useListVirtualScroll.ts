@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import useVirtualScroll from "../../hooks/useVirtualScroll";
 import { TdListProps } from "../type";
 import { Styles, type ScrollToElementParams } from "../../common";
-const log = console.log;
 export const useListVirtualScroll = (
   scroll: TdListProps["scroll"],
   listRef: React.MutableRefObject<HTMLElement>,

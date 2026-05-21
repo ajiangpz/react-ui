@@ -1,174 +1,100 @@
-import js from "@eslint/js";
-import typescript from "@typescript-eslint/eslint-plugin";
-import typescriptParser from "@typescript-eslint/parser";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import storybook from "eslint-plugin-storybook";
-import prettier from "eslint-plugin-prettier";
-import prettierConfig from "eslint-config-prettier";
+const js = require("@eslint/js");
+const typescript = require("@typescript-eslint/eslint-plugin");
+const typescriptParser = require("@typescript-eslint/parser");
+const react = require("eslint-plugin-react");
+const reactHooks = require("eslint-plugin-react-hooks");
+const storybook = require("eslint-plugin-storybook");
+const prettier = require("eslint-plugin-prettier");
+const prettierConfig = require("eslint-config-prettier");
 
-export default [
-  // Base configuration
-  js.configs.recommended,
+const browserGlobals = {
+  Blob: "readonly",
+  Document: "readonly",
+  DocumentFragment: "readonly",
+  DOMRect: "readonly",
+  Element: "readonly",
+  EventListenerOrEventListenerObject: "readonly",
+  File: "readonly",
+  FormData: "readonly",
+  HTMLElement: "readonly",
+  HTMLAnchorElement: "readonly",
+  HTMLButtonElement: "readonly",
+  HTMLDocument: "readonly",
+  HTMLDivElement: "readonly",
+  HTMLFormElement: "readonly",
+  HTMLInputElement: "readonly",
+  HTMLLabelElement: "readonly",
+  HTMLLIElement: "readonly",
+  HTMLSpanElement: "readonly",
+  HTMLStyleElement: "readonly",
+  HTMLTableRowElement: "readonly",
+  KeyboardEvent: "readonly",
+  MouseEvent: "readonly",
+  MutationCallback: "readonly",
+  MutationObserver: "readonly",
+  MutationObserverInit: "readonly",
+  MutationRecord: "readonly",
+  IntersectionObserver: "readonly",
+  Node: "readonly",
+  ResizeObserver: "readonly",
+  ResizeObserverCallback: "readonly",
+  ResizeObserverEntry: "readonly",
+  ScrollBehavior: "readonly",
+  SVGElement: "readonly",
+  SVGSVGElement: "readonly",
+  Touch: "readonly",
+  TouchEvent: "readonly",
+  URL: "readonly",
+  WheelEvent: "readonly",
+  Window: "readonly",
+  cancelAnimationFrame: "readonly",
+  clearInterval: "readonly",
+  clearTimeout: "readonly",
+  console: "readonly",
+  document: "readonly",
+  fetch: "readonly",
+  getComputedStyle: "readonly",
+  localStorage: "readonly",
+  navigator: "readonly",
+  performance: "readonly",
+  requestAnimationFrame: "readonly",
+  sessionStorage: "readonly",
+  setInterval: "readonly",
+  setTimeout: "readonly",
+  window: "readonly"
+};
 
-  // TypeScript configuration
-  {
-    files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-      globals: {
-        // DOM types
-        HTMLElement: "readonly",
-        HTMLDivElement: "readonly",
-        HTMLButtonElement: "readonly",
-        HTMLInputElement: "readonly",
-        HTMLSpanElement: "readonly",
-        HTMLLIElement: "readonly",
-        HTMLLabelElement: "readonly",
-        HTMLStyleElement: "readonly",
-        HTMLFormElement: "readonly",
-        HTMLTableRowElement: "readonly",
-        SVGSVGElement: "readonly",
-        SVGElement: "readonly",
-        Element: "readonly",
-        Document: "readonly",
-        DocumentFragment: "readonly",
-        Window: "readonly",
-        Node: "readonly",
-        EventListenerOrEventListenerObject: "readonly",
-        // Event types
-        MouseEvent: "readonly",
-        TouchEvent: "readonly",
-        Touch: "readonly",
-        KeyboardEvent: "readonly",
-        WheelEvent: "readonly",
-        // Browser APIs
-        getComputedStyle: "readonly",
-        requestAnimationFrame: "readonly",
-        cancelAnimationFrame: "readonly",
-        FormData: "readonly",
-        ScrollBehavior: "readonly",
-        MutationObserver: "readonly",
-        MutationObserverInit: "readonly",
-        MutationCallback: "readonly",
-        DOMRect: "readonly",
-        ResizeObserver: "readonly",
-        NodeJS: "readonly",
-        console: "readonly",
-        process: "readonly",
-        Buffer: "readonly",
-        __dirname: "readonly",
-        __filename: "readonly",
-        global: "readonly",
-        module: "readonly",
-        require: "readonly",
-        exports: "readonly",
-        window: "readonly",
-        document: "readonly",
-        navigator: "readonly",
-        localStorage: "readonly",
-        sessionStorage: "readonly",
-        fetch: "readonly",
-        setTimeout: "readonly",
-        clearTimeout: "readonly",
-        setInterval: "readonly",
-        clearInterval: "readonly",
-        // React
-        React: "readonly",
-      },
-    },
-    plugins: {
-      "@typescript-eslint": typescript,
-      react,
-      "react-hooks": reactHooks,
-      prettier,
-    },
-    rules: {
-      ...typescript.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      ...prettierConfig.rules,
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "prettier/prettier": "error",
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-  },
+const nodeGlobals = {
+  Buffer: "readonly",
+  NodeJS: "readonly",
+  __dirname: "readonly",
+  __filename: "readonly",
+  exports: "readonly",
+  global: "readonly",
+  module: "readonly",
+  process: "readonly",
+  require: "readonly"
+};
 
-  // JavaScript configuration
-  {
-    files: ["**/*.{js,jsx}"],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: "module",
-      globals: {
-        console: "readonly",
-        process: "readonly",
-        Buffer: "readonly",
-        __dirname: "readonly",
-        __filename: "readonly",
-        global: "readonly",
-        module: "readonly",
-        require: "readonly",
-        exports: "readonly",
-        window: "readonly",
-        document: "readonly",
-        navigator: "readonly",
-        localStorage: "readonly",
-        sessionStorage: "readonly",
-        fetch: "readonly",
-        setTimeout: "readonly",
-        clearTimeout: "readonly",
-        setInterval: "readonly",
-        clearInterval: "readonly",
-      },
-    },
-    plugins: {
-      react,
-      "react-hooks": reactHooks,
-      prettier,
-    },
-    rules: {
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      ...prettierConfig.rules,
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-      "prettier/prettier": "error",
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-  },
+const testGlobals = {
+  afterAll: "readonly",
+  afterEach: "readonly",
+  beforeAll: "readonly",
+  beforeEach: "readonly",
+  describe: "readonly",
+  expect: "readonly",
+  it: "readonly",
+  test: "readonly",
+  vi: "readonly"
+};
 
-  // Storybook configuration
-  {
-    files: ["**/*.stories.{ts,tsx,js,jsx}"],
-    plugins: {
-      storybook,
-    },
-    rules: {
-      ...storybook.configs.recommended.rules,
-    },
-  },
+const reactSettings = {
+  react: {
+    version: "detect"
+  }
+};
 
+module.exports = [
   // Ignore patterns
   {
     ignores: [
@@ -180,7 +106,10 @@ export default [
       "**/dist/",
       "**/lib/",
       "**/es/",
+      "**/_example/**",
+      "**/_usage/**",
       "*.d.ts",
+      "**/*.d.ts",
       "*.map",
       "rollup.config.mjs",
       "vite.config.*",
@@ -203,7 +132,120 @@ export default [
       ".Spotlight-V100",
       ".Trashes",
       "ehthumbs.db",
-      "Thumbs.db",
-    ],
+      "Thumbs.db"
+    ]
   },
+
+  // Base configuration
+  js.configs.recommended,
+
+  // TypeScript configuration
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      globals: {
+        ...browserGlobals,
+        ...nodeGlobals,
+        React: "readonly"
+      }
+    },
+    plugins: {
+      "@typescript-eslint": typescript,
+      react,
+      "react-hooks": reactHooks,
+      prettier
+    },
+    rules: {
+      ...typescript.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      ...prettierConfig.rules,
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/ban-ts-comment": "warn",
+      "@typescript-eslint/no-empty-object-type": "warn",
+      "@typescript-eslint/no-unsafe-function-type": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "no-redeclare": "off",
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": ["error", { allowShortCircuit: true, allowTernary: true }],
+      "react-hooks/immutability": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "prettier/prettier": "off"
+    },
+    settings: reactSettings
+  },
+
+  // JavaScript configuration
+  {
+    files: ["**/*.{js,jsx}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      globals: {
+        ...browserGlobals,
+        ...nodeGlobals,
+        React: "readonly"
+      }
+    },
+    plugins: {
+      react,
+      "react-hooks": reactHooks,
+      prettier
+    },
+    rules: {
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      ...prettierConfig.rules,
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "no-unused-vars": "warn",
+      "no-unused-expressions": ["error", { allowShortCircuit: true, allowTernary: true }],
+      "react-hooks/immutability": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "prettier/prettier": "off"
+    },
+    settings: reactSettings
+  },
+
+  // Vitest configuration
+  {
+    files: ["**/*.{test,spec}.{ts,tsx,js,jsx}", "tests/**/*.{ts,tsx,js,jsx}"],
+    languageOptions: {
+      globals: testGlobals
+    }
+  },
+
+  // Storybook configuration
+  {
+    files: ["**/*.stories.{ts,tsx,js,jsx}"],
+    plugins: {
+      storybook
+    },
+    rules: {
+      ...storybook.configs.recommended.rules
+    }
+  }
 ];

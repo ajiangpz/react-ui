@@ -45,7 +45,6 @@ const SegmentSelection: React.FC<SegmentSelectionProps> = ({
   }, [value]);
 
   useEffect(() => {
-    console.log("disabled", disabled);
     if (disabled) {
       const disabledOption = selectOptions.find((v) => v.disabled);
       if (disabledOption) {

@@ -66,7 +66,6 @@ const INITIAL_RADIUS_TYPE_LIST: RadiusTokenItem[] = [
 
 const RadiusPanel: React.FC<RadiusPanelProps> = ({ top = 0, isRefresh }) => {
   const isEn = useMemo(() => (typeof window !== "undefined" ? window.location.pathname.endsWith("en") : false), []);
-  console.log("init");
   const [viewportHeight, setViewportHeight] = useState(() => (typeof window !== "undefined" ? window.innerHeight : 0));
   const [step, setStep] = useState(3);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
