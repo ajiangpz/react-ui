@@ -5,10 +5,10 @@ export const useLockStyle = (props) => {
   const drawerLockStyleRef = useRef<HTMLStyleElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearStyleFunc = useCallback(() => {
-    console.log("clearStyleFunc");
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      drawerLockStyleRef.current.parentNode?.removeChild?.(drawerLockStyleRef.current);
+      const styleElement = drawerLockStyleRef.current;
+      styleElement?.parentNode?.removeChild?.(styleElement);
     }, 150);
   }, []);
 

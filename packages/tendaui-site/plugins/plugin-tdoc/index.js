@@ -1,12 +1,8 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
 import { createRequire } from "module";
-import { fileURLToPath } from "url";
 import transforms from "./transforms.js";
-import mdToReact from "./md-to-react.js";
 import demoPlugin from "./demo.js";
+import { highlightCode } from "../../src/utils/codeHighlight.js";
 
-const __filename = fileURLToPath(import.meta.url);
 const require = createRequire(import.meta.url);
 
 const pageData = {
@@ -22,7 +18,10 @@ function getMarkdownIt() {
     mdInstance = new MarkdownIt({
       html: true,
       linkify: true,
-      typographer: true
+      typographer: true,
+      highlight(str, lang) {
+        return highlightCode(str, lang || "text");
+      }
     });
 
     // 注册 demo 语法（如果需要）

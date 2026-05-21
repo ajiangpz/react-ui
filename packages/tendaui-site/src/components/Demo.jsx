@@ -1,9 +1,11 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { useMemo, useState, Suspense } from "react";
+import { highlightCode } from "../utils/codeHighlight";
 import "./Demo.scss";
 
 export default function DemoWrapper({ componentName, demoName, code: initialCode, children }) {
   const [showCode, setShowCode] = useState(false);
   const [code] = useState(initialCode || "");
+  const highlightedCode = useMemo(() => highlightCode(code, "tsx"), [code]);
 
   const toggleCode = () => {
     setShowCode(!showCode);
@@ -21,8 +23,8 @@ export default function DemoWrapper({ componentName, demoName, code: initialCode
       </div>
       {showCode && code && (
         <div className="tdesign-demo-item__code">
-          <pre>
-            <code>{code}</code>
+          <pre className="language-tsx">
+            <code className="language-tsx" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
           </pre>
         </div>
       )}

@@ -20,6 +20,9 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
-    include: ["packages/components/**/__tests__/**/*.{test,spec}.{ts,tsx}"]
+    include: [
+      "packages/components/**/__tests__/**/*.{test,spec}.{ts,tsx}",
+      "packages/tendaui-site/src/**/__tests__/**/*.{test,spec}.{js,jsx,ts,tsx}"
+    ]
   }
 });
