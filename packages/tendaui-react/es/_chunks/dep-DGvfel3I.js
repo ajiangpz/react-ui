@@ -1,0 +1,16 @@
+import { useMemo } from 'react';
+
+function useDefaultProps(originalProps, defaultProps) {
+  return useMemo(function () {
+    var props = Object.assign({}, originalProps);
+    Object.keys(defaultProps).forEach(function (key) {
+      if (props[key] === void 0) {
+        props[key] = defaultProps[key];
+      }
+    });
+    return props;
+  }, [originalProps, defaultProps]);
+}
+
+export { useDefaultProps as u };
+//# sourceMappingURL=dep-DGvfel3I.js.map

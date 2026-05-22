@@ -1,0 +1,166 @@
+import { _ as _defineProperty } from '../_chunks/dep-Cwish4GD.js';
+import { _ as _slicedToArray } from '../_chunks/dep-CzLhKWCf.js';
+import { _ as _objectWithoutProperties } from '../_chunks/dep-DN7d1SzH.js';
+import React, { useRef } from 'react';
+import classNames from 'classnames';
+import { Popup } from '../popup/index.js';
+import { u as useClassNames } from '../_chunks/dep-9noBLlv1.js';
+import { u as useControlled } from '../_chunks/dep-CCaTIa7l.js';
+import ColorTrigger from './components/trigger.js';
+import { c as colorPickerDefaultProps, C as ColorPanel } from '../_chunks/dep-yV6pf0zR.js';
+import { u as useDefaultProps } from '../_chunks/dep-DGvfel3I.js';
+import '../_chunks/dep-D-UKOauR.js';
+import '../popup/Popup.js';
+import 'lodash-es';
+import '../portal/Portal.js';
+import 'react-dom';
+import '../_chunks/dep-DRwijJcv.js';
+import '../_chunks/dep-BRbJGDI9.js';
+import '../_chunks/dep-B2D1svZy.js';
+import 'react-is';
+import '../_chunks/dep-C1XcmShP.js';
+import '../_chunks/dep-Ccktr_jk.js';
+import '../_chunks/dep-CgyDw_YI.js';
+import '@popperjs/core';
+import 'react-fast-compare';
+import 'react-transition-group';
+import '../_chunks/dep-DbVHGoUC.js';
+import '../_chunks/dep-u7AyxuYF.js';
+import '../_chunks/dep-zVwpnryi.js';
+import 'dayjs';
+import '../popup/style/css.js';
+import '../_chunks/dep-D1aIcw94.js';
+import '../_chunks/dep-Chz4ZJCb.js';
+import '../_chunks/dep-zOZQ0R9g.js';
+import '../_chunks/dep-CMQtlHHc.js';
+import '../input/index.js';
+import '../input/Input.js';
+import '@tendaui/icons';
+import '../_chunks/dep-D6YxJv-F.js';
+import '../_chunks/dep-BGP3l2nd.js';
+import '../config-provider/index.js';
+import '../config-provider/ConfigProvider.js';
+import '../input/InputGroup.js';
+import '../input/style/css.js';
+import '../_chunks/dep-U1T8CQY9.js';
+import './utils/color-picker/index.js';
+import '../_chunks/dep-C4qhHlmM.js';
+import './components/panel/alpha.js';
+import './components/panel/slider.js';
+import '../_chunks/dep-BbeHB7S3.js';
+import './components/panel/hue.js';
+import './components/panel/saturation.js';
+import './components/panel/swatches.js';
+import '../_chunks/dep-sSDUpJwy.js';
+import './components/panel/format/index.js';
+import '../select/index.js';
+import '../select/Select.js';
+import '../_chunks/dep-DHWwZ2Nj.js';
+import '../_chunks/dep-Do9UdkhS.js';
+import 'hoist-non-react-statics';
+import '../_chunks/dep-GP5EdKxc.js';
+import '../_chunks/dep-DhCjmfsm.js';
+import '../select/Option.js';
+import '../_chunks/dep-PPA-yoAy.js';
+import '../_chunks/dep-Dlppf0JU.js';
+import '../common/FakeArrow.js';
+import '../loading/index.js';
+import '../loading/Loading.js';
+import '../common/Portal.js';
+import '../loading/Gradient.js';
+import '../loading/style/css.js';
+import '../select-input/index.js';
+import '../select-input/SelectInput.js';
+import '../select-input/hook/useSingle.js';
+import '../select-input/hook/useMultiple.js';
+import '../tag-input/index.js';
+import '../tag-input/TagInput.js';
+import '../tag-input/hooks/useTagList.js';
+import '../tag/index.js';
+import '../tag/Tag.js';
+import '../tag/style/css.js';
+import '../hooks/useDragSorter.js';
+import '../tag-input/style/css.js';
+import '../select-input/style/css.js';
+import '../_chunks/dep-aX8qrQpB.js';
+import '../select/style/css.js';
+import './components/panel/format/inputs.js';
+import '../input-number/index.js';
+import '../input-number/InputNumber.js';
+import '../button/index.js';
+import '../button/Button.js';
+import '../button/style/css.js';
+import '../input-number/useInputNumber.js';
+import '../utils/log/index.js';
+import '../input-number/style/css.js';
+
+var _excluded = ["popupProps", "clearable", "disabled", "borderless", "inputProps", "format", "enableAlpha", "onChange", "onClear"],
+  _excluded2 = ["overlayClassName", "overlayInnerStyle"];
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var ColorPicker = function ColorPicker(props) {
+  var baseClassName = useClassNames();
+  var _useDefaultProps = useDefaultProps(props, colorPickerDefaultProps),
+    popupProps = _useDefaultProps.popupProps,
+    clearable = _useDefaultProps.clearable,
+    disabled = _useDefaultProps.disabled,
+    borderless = _useDefaultProps.borderless,
+    inputProps = _useDefaultProps.inputProps,
+    format = _useDefaultProps.format,
+    enableAlpha = _useDefaultProps.enableAlpha,
+    onChange = _useDefaultProps.onChange,
+    onClear = _useDefaultProps.onClear,
+    panelProps = _objectWithoutProperties(_useDefaultProps, _excluded);
+  var _ref = popupProps || {},
+    overlayClassName = _ref.overlayClassName,
+    _ref$overlayInnerStyl = _ref.overlayInnerStyle,
+    overlayInnerStyle = _ref$overlayInnerStyl === void 0 ? {} : _ref$overlayInnerStyl,
+    restPopupProps = _objectWithoutProperties(_ref, _excluded2);
+  var _useControlled = useControlled(props, "value", onChange),
+    _useControlled2 = _slicedToArray(_useControlled, 2),
+    innerValue = _useControlled2[0],
+    setInnerValue = _useControlled2[1];
+  var triggerRef = useRef(null);
+  var colorPanelRef = useRef(null);
+  var popProps = _objectSpread(_objectSpread({
+    placement: "bottom-left",
+    expandAnimation: true,
+    trigger: "click"
+  }, restPopupProps), {}, {
+    overlayClassName: classNames(baseClassName, overlayClassName),
+    overlayInnerStyle: _objectSpread({
+      padding: 0
+    }, overlayInnerStyle)
+  });
+  return /* @__PURE__ */React.createElement(Popup, _objectSpread(_objectSpread({}, popProps), {}, {
+    content: !disabled && /* @__PURE__ */React.createElement(ColorPanel, _objectSpread(_objectSpread({}, panelProps), {}, {
+      clearable: clearable,
+      disabled: disabled,
+      format: format,
+      enableAlpha: enableAlpha,
+      value: innerValue,
+      onChange: function onChange(value, context) {
+        return setInnerValue(value, context);
+      },
+      ref: colorPanelRef
+    }))
+  }), /* @__PURE__ */React.createElement("div", {
+    className: "".concat(baseClassName, "__trigger"),
+    ref: triggerRef
+  }, /* @__PURE__ */React.createElement(ColorTrigger, {
+    clearable: clearable,
+    disabled: disabled,
+    borderless: borderless,
+    inputProps: inputProps,
+    format: format,
+    enableAlpha: enableAlpha,
+    value: innerValue,
+    onChange: setInnerValue,
+    onClear: onClear
+  })));
+};
+ColorPicker.displayName = "ColorPicker";
+var _ColorPicker = /*#__PURE__*/React.memo(ColorPicker);
+
+export { _ColorPicker as default };
+//# sourceMappingURL=ColorPicker.js.map
