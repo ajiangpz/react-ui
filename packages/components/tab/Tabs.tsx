@@ -1,4 +1,4 @@
-import { TabValue, TdTabsProps } from "./type";
+import { TabValue, TdTabPanelProps, TdTabsProps } from "./type";
 import forwardRefWithStatics from "../utils/forwardRefWithStatics";
 import TabNav from "./TabNav";
 import TabPanel from "./TabPanel";
@@ -16,10 +16,9 @@ export interface TabsProps extends TdTabsProps, StyledProps {
 const Tabs = forwardRefWithStatics(
   (originalProps: TabsProps, ref: React.Ref<HTMLDivElement>) => {
     const props = useDefaultProps<TabsProps>(originalProps, tabsDefaultProps);
-    const { children, list, placement, dragSort, className, style, onRemove } = props;
+    const { children, list, placement, className, style, onRemove } = props;
     const [value, onChange] = useControlled(props, "value", props.onChange);
     const { tdTabsClassPrefix, tdTabsClassGenerator, tdClassGenerator } = useTabClass();
-    const targetClassNameRegExpStr = `^${tdTabsClassPrefix}(__nav-item|__nav-item-wrapper|__nav-item-text-wrapper)`;
     const memoChildren = React.useMemo<React.ReactNode | React.ReactNode[]>(() => {
       if (!list || list.length === 0) {
         return children;
@@ -27,7 +26,7 @@ const Tabs = forwardRefWithStatics(
       return list.map<React.ReactNode>((panelProps) => <TabPanel key={panelProps.value} {...panelProps} />);
     }, [children, list]);
 
-    const itemList = React.Children.map(memoChildren, (child: React.ReactElement<any>) => {
+    const itemList = React.Children.map(memoChildren, (child: React.ReactElement<TdTabPanelProps>) => {
       if (child && child.type === TabPanel) {
         return child.props;
       }
@@ -54,7 +53,7 @@ const Tabs = forwardRefWithStatics(
       <div ref={ref} className={classNames(tdTabsClassPrefix, className)} style={style}>
         {headerNode}
         <div className={classNames(tdTabsClassGenerator("content"), tdClassGenerator(`is-${placement}`))}>
-          {React.Children.map(memoChildren, (child: any) => {
+          {React.Children.map(memoChildren, (child: React.ReactElement<TdTabPanelProps>) => {
             if (child && child.type === TabPanel) {
               return <TabPanel {...child.props} isActive={child.props.value === value} />;
             }

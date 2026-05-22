@@ -14,7 +14,7 @@ import {
 import useConfig from "../hooks/useConfig";
 import useControlled from "../hooks/useControlled";
 import useCommonClassName from "../hooks/useCommonClassName";
-import { InputNumberValue, TdInputNumberProps } from "./type";
+import { ChangeContext, InputNumberValue, TdInputNumberProps } from "./type";
 import { InputProps } from "../input";
 
 export const specialCode = ["-", ".", "e", "E"];
@@ -90,7 +90,7 @@ export default function useInputNumber<T extends InputNumberValue = InputNumberV
   }, [tValue]);
 
   useEffect(() => {
-    // @ts-ignore
+    // @ts-expect-error tValue can be a generic large-number value at runtime.
     if ([undefined, "", null].includes(tValue)) return;
     const error = getMaxOrMinValidateResult({
       value: tValue as InputNumberValue,
@@ -124,14 +124,14 @@ export default function useInputNumber<T extends InputNumberValue = InputNumberV
     };
   };
 
-  const handleReduce = (e: any) => {
+  const handleReduce = (e: ChangeContext["e"]) => {
     if (disabledReduce || props.readonly) return;
     const r = handleStepValue("reduce");
     if (r.overLimit && !allowInputOverLimit) return;
     onChange(r.newValue, { type: "reduce", e });
   };
 
-  const handleAdd = (e: any) => {
+  const handleAdd = (e: ChangeContext["e"]) => {
     if (disabledAdd || props.readonly) return;
     const r = handleStepValue("add");
     if (r.overLimit && !allowInputOverLimit) return;
@@ -147,13 +147,13 @@ export default function useInputNumber<T extends InputNumberValue = InputNumberV
     setUserInput(val);
 
     if (largeNumber) {
-      onChange(val as T, { type: "input", e: e as any });
+      onChange(val as T, { type: "input", e });
       return;
     }
 
     if (canSetValue(String(val), Number(tValue))) {
       const newVal = val === "" ? undefined : Number(val);
-      onChange(newVal as T, { type: "input", e: e as any });
+      onChange(newVal as T, { type: "input", e });
     }
   };
 

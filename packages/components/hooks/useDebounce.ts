@@ -6,7 +6,7 @@ import { useCallback, useRef } from 'react';
  * @param delay 延迟时间（毫秒）
  * @returns 防抖后的函数
  */
-export default function useDebounce<T extends (...args: any[]) => any>(
+export default function useDebounce<T extends (...args: unknown[]) => unknown>(
   fn: T,
   delay: number
 ): (...args: Parameters<T>) => void {

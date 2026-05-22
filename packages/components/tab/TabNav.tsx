@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, WheelEvent } from "react";
+import React, { useCallback, useRef } from "react";
 import classNames from "classnames";
 import noop from "../utils/noop";
 import { useTabClass } from "./useTabClass";
@@ -18,17 +18,12 @@ const TabNav: React.FC<TabNavProps> = (props) => {
     itemList = [],
     theme,
     addable,
-    onAdd,
-    scrollPosition = "auto",
-    size = "medium",
     disabled = false,
     onRemove = noop,
     onChange = noop,
-    activeValue,
-    children,
-    action
+    activeValue
   } = props;
-  const { tdTabsClassGenerator, tdClassGenerator, tdSizeClassGenerator } = useTabClass();
+  const { tdTabsClassGenerator, tdClassGenerator } = useTabClass();
   const navsContainerRef = useRef<HTMLDivElement>(null);
   const navsWrapRef = useRef<HTMLDivElement>(null);
   const getIndex = useCallback(
@@ -40,7 +35,6 @@ const TabNav: React.FC<TabNavProps> = (props) => {
   );
 
   const activeIndex = getIndex(activeValue);
-  const [activeTab, setActiveTab] = useState<HTMLElement>(null);
   const TabBarCom = (
     <TabBar tabPosition={placement} activeId={activeIndex} containerRef={navsWrapRef} navsWrapRef={navsWrapRef} />
   );
@@ -56,9 +50,6 @@ const TabNav: React.FC<TabNavProps> = (props) => {
       onChange(removeIndex === 0 ? itemList[removeIndex + 1]?.value : itemList[removeIndex - 1].value);
     }
     onRemove(removeItem);
-  };
-  const handleTabAdd = (e) => {
-    onAdd({ e });
   };
   return (
     <div ref={navsContainerRef} className={classNames(tdTabsClassGenerator("nav"))} style={{ minHeight: 48 }}>
@@ -86,11 +77,7 @@ const TabNav: React.FC<TabNavProps> = (props) => {
               disabled={disabled || v.disabled}
               onClick={() => handleTabItemClick(v)}
               onTabRemove={handleTabItemRemove}
-              innerRef={(ref) => {
-                if (activeValue === v.value) {
-                  setActiveTab(ref);
-                }
-              }}
+              innerRef={noop}
             />
           ))}
         </div>

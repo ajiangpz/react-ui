@@ -11,6 +11,10 @@ function getPluralIndex(count: number): number {
   return 2; // multiple items
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
 /**
  * @see https://github.com/Tencent/tdesign-vue-next/blob/develop/packages/components/config-provider/hooks/useConfig.ts#L48
  * 自定义 t function 可能依赖特定库函数，例如 tdesign-vue-next 中使用了 vue 的 h 函数
@@ -35,9 +39,9 @@ function getPluralIndex(count: number): number {
 
 // 类型重载定义
 export function t(pattern: string): string;
-export function t(pattern: string, data: Record<string, any>): string;
+export function t(pattern: string, data: Record<string, unknown>): string;
 export function t(pattern: string, count: number): string;
-export function t(pattern: string, count: number, data: Record<string, any>): string;
+export function t(pattern: string, count: number, data: Record<string, unknown>): string;
 export function t<T>(pattern: T): string;
 
 /**
@@ -45,11 +49,11 @@ export function t<T>(pattern: T): string;
  * @param args 参数列表，支持 (count: number) 或 (count: number, data: object) 或 (data: object)
  * @returns 处理后的文本
  */
-export function t<T>(pattern: T, ...args: any[]): string {
+export function t<T>(pattern: T, ...args: unknown[]): string {
   if (isString(pattern)) {
     let text = pattern as string;
     let count: number | undefined;
-    let data: Record<string, any> = {};
+    let data: Record<string, unknown> = {};
 
     // 解析参数
     if (args.length > 0) {
@@ -58,13 +62,13 @@ export function t<T>(pattern: T, ...args: any[]): string {
       if (typeof firstArg === "number") {
         // 第一个参数是数字，表示 count
         count = firstArg;
-        if (secondArg && typeof secondArg === "object") {
+        if (isRecord(secondArg)) {
           // 第二个参数是对象，表示额外的数据
           data = secondArg;
         } else {
           data.count = count; // 若没有提供第二个参数，则将 count 添加到数据中
         }
-      } else if (typeof firstArg === "object" && firstArg !== null) {
+      } else if (isRecord(firstArg)) {
         // 第一个参数是对象，表示数据
         data = firstArg;
       }
@@ -103,7 +107,7 @@ export function t<T>(pattern: T, ...args: any[]): string {
       });
     }
 
-    return text as any;
+    return text;
   }
 
   // 如果不是字符串或函数，返回空字符串

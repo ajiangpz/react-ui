@@ -14,7 +14,7 @@ import { radioGroupDefaultProps } from "./defaultProps";
 import useKeyboard from "./useKeyboard";
 
 import type { StyledProps } from "../common";
-import type { TdRadioGroupProps } from "./type";
+import type { RadioValue, TdRadioGroupProps } from "./type";
 
 /**
  * RadioGroup 组件所接收的属性
@@ -36,8 +36,8 @@ const RadioGroup: React.FC<RadioGroupProps> = (originalProps) => {
 
   const radioGroupRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver>(null);
-  const handleKeyboardChange = (value: any, context: { e: KeyboardEvent }) => {
-    setInternalValue(value, { e: context.e as any, name: props.name });
+  const handleKeyboardChange = (value: RadioValue | undefined, context: { e: KeyboardEvent }) => {
+    setInternalValue(value, { e: context.e as unknown as React.ChangeEvent<HTMLDivElement>, name: props.name });
   };
   useKeyboard(radioGroupRef, handleKeyboardChange);
 

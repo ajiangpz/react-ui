@@ -2,7 +2,7 @@ import React, { useMemo, useState, Suspense } from "react";
 import { highlightCode } from "../utils/codeHighlight";
 import "./Demo.scss";
 
-export default function DemoWrapper({ componentName, demoName, code: initialCode, children }) {
+export default function DemoWrapper({ code: initialCode, children }) {
   const [showCode, setShowCode] = useState(false);
   const [code] = useState(initialCode || "");
   const highlightedCode = useMemo(() => highlightCode(code, "tsx"), [code]);

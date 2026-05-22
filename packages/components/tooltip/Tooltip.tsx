@@ -2,6 +2,7 @@ import React, { forwardRef, useState, useEffect, useRef, useImperativeHandle } f
 import classNames from "classnames";
 import Popup, { PopupRef } from "../popup";
 import useConfig from "../hooks/useConfig";
+import type { PopupVisibleChangeContext } from "../popup/type";
 import type { TdTooltipProps } from "./type";
 import { tooltipDefaultProps } from "./defaultProps";
 import useDefaultProps from "../hooks/useDefaultProps";
@@ -34,7 +35,7 @@ const Tooltip = forwardRef<Partial<PopupRef>, TdTooltipProps>((originalProps, re
     overlayClassName
   );
 
-  function handleVisibleChange(visible: boolean, context: any) {
+  function handleVisibleChange(visible: boolean, context: PopupVisibleChangeContext) {
     setTimeUp(false);
     onVisibleChange?.(visible, context);
   }

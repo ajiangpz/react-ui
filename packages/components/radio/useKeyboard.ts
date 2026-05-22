@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { off, on } from "../utils/listener";
 import { CHECKED_CODE_REG } from "../common";
+import type { RadioValue } from "./type";
 /** 键盘操作 */
 export default function useKeyboard(
   radioGroupRef: React.MutableRefObject<HTMLDivElement>,
-  setInnerValue: (value: any, context: { e: KeyboardEvent }) => void
+  setInnerValue: (value: RadioValue | undefined, context: { e: KeyboardEvent }) => void
 ) {
   const checkRadioInGroup = (e: KeyboardEvent) => {
     if (CHECKED_CODE_REG.test(e.key) || CHECKED_CODE_REG.test(e.code)) {

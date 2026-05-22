@@ -5,5 +5,8 @@ export default function forwardRefWithStatics<P, T = HTMLElement, S = Record<str
   component: React.ForwardRefRenderFunction<T, P>,
   statics?: S
 ): React.FunctionComponent<P & RefAttributes<T>> & S {
-  return hoistNonReactStatics(forwardRef(component as any), statics as any) as any;
+  const forwarded = forwardRef(
+    component as unknown as React.ForwardRefRenderFunction<T, React.PropsWithoutRef<P>>
+  );
+  return hoistNonReactStatics(forwarded, statics ?? {}) as React.FunctionComponent<P & RefAttributes<T>> & S;
 }

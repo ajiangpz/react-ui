@@ -269,7 +269,7 @@ export const InForm: Story = {
   name: "表单使用示例",
   render: () => {
     const Component = () => {
-      const [form] = (Form as any).useForm();
+      const [form] = Form.useForm();
       const { success, error: showError } = useNotification();
 
       const handleSubmit = (e: SubmitContext) => {
@@ -393,7 +393,7 @@ export const FormValidation: Story = {
   name: "表单验证示例",
   render: () => {
     const Component = () => {
-      const [form] = (Form as any).useForm();
+      const [form] = Form.useForm();
       const { success, error: showError } = useNotification();
 
       const handleSubmit = (e: SubmitContext) => {

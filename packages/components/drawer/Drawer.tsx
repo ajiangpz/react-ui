@@ -169,7 +169,7 @@ const Drawer = forwardRef<DrawerInstance, DrawerProps>((originalProps, ref) => {
     } else if (isValidElement(btn)) {
       result = btn;
     } else if (isObject(btn)) {
-      result = <Button {...defaultProps} {...(btn as {})} />;
+      result = <Button {...defaultProps} {...(btn as ButtonProps)} />;
     } else if (isFunction(btn)) {
       result = btn();
     }

@@ -29,7 +29,7 @@ const useStyles = (params: TdColorSliderStyleParams, panelRectRef: MutableRefObj
       left: `${left}%`,
       color: thumbColor
     });
-  }, [color.hue, color.rgba, maxValue, type, value]);
+  }, [color.hue, color.rgba, maxValue, panelRectRef, type, value]);
 
   return {
     styles

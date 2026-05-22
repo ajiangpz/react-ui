@@ -191,7 +191,7 @@ export const Multiple: Story = {
       const [popupVisible, setPopupVisible] = useState(false);
       const allOptions = ["React", "Vue", "Angular", "Svelte", "Solid"];
 
-      const handleTagChange = (val: any) => {
+      const handleTagChange = (val: string[]) => {
         setValue(val);
       };
 
@@ -363,7 +363,7 @@ export const Collapsed: Story = {
             multiple
             minCollapsedNum={2}
             style={{ width: "400px" }}
-            onTagChange={(val: any) => setValue(val)}
+            onTagChange={(val) => setValue(val)}
             panel={<div style={{ padding: "8px" }}>下拉选项</div>}
           />
           <div style={{ color: "#666", fontSize: "12px" }}>超过 2 个标签后折叠显示</div>

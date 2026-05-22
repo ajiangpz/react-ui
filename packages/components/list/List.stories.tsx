@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { List } from "./index";
 import type { ListInstanceFunctions, TdListProps } from "./type";
 
@@ -271,31 +271,38 @@ export const ScrollLoading: Story = {
       const [listData, setListData] = useState<ListItemData[]>([]);
       const [isLoading, setIsLoading] = useState(false);
       const [pageNum, setPageNum] = useState(1);
+      const isLoadingRef = useRef(false);
 
-      const dataSource: ListItemData[] = [];
       const total = 100;
       const pageSize = 20;
 
-      for (let i = 0; i < total; i++) {
-        dataSource.push({
-          id: i,
-          content: "列表内容列表内容列表内容",
-          icon: "https://tdesign.gtimg.com/list-icon.png",
-          title: `列表标题 ${i + 1}`
-        });
-      }
+      const dataSource = useMemo<ListItemData[]>(() => {
+        const items: ListItemData[] = [];
 
-      const fetchData = async (pageInfo: { pageNum: number; pageSize: number }) => {
-        if (isLoading) return;
+        for (let i = 0; i < total; i++) {
+          items.push({
+            id: i,
+            content: "列表内容列表内容列表内容",
+            icon: "https://tdesign.gtimg.com/list-icon.png",
+            title: `列表标题 ${i + 1}`
+          });
+        }
+        return items;
+      }, [total]);
+
+      const fetchData = useCallback((pageInfo: { pageNum: number; pageSize: number }) => {
+        if (isLoadingRef.current) return;
+        isLoadingRef.current = true;
         setIsLoading(true);
         setTimeout(() => {
           const { pageNum, pageSize } = pageInfo;
           const newDataSource = dataSource.slice((pageNum - 1) * pageSize, pageNum * pageSize);
           setListData((prev) => prev.concat(newDataSource));
           setPageNum(pageNum);
+          isLoadingRef.current = false;
           setIsLoading(false);
         }, 500);
-      };
+      }, [dataSource]);
 
       const handleScroll: TdListProps["onScroll"] = ({ scrollBottom }) => {
         if (!scrollBottom && listData.length < total) {
@@ -305,7 +312,7 @@ export const ScrollLoading: Story = {
 
       useEffect(() => {
         fetchData({ pageNum, pageSize });
-      }, []);
+      }, [fetchData, pageNum, pageSize]);
 
       return (
         <List

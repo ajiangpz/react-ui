@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import classNames from "classnames";
 import useMouseEvent, { type MouseCallback } from "../hooks/useMouseEvent";
 
@@ -7,29 +7,20 @@ interface SliderHandleButtonProps {
   classPrefix: string;
   style: React.CSSProperties;
   hideTips: boolean;
-  toolTipProps?: any;
+  toolTipProps?: unknown;
 }
 
 const SliderHandleButton: React.FC<SliderHandleButtonProps> = ({ onChange, style, classPrefix }) => {
   const sliderNodeRef = useRef<HTMLDivElement>(null);
-  const [popupVisible, setPopupVisible] = useState(false);
 
   const { isMoving } = useMouseEvent(sliderNodeRef, {
-    onEnter() {
-      setPopupVisible(true);
-    },
-    onDown: () => {
-      setPopupVisible(true);
-    },
+    onEnter() {},
+    onDown: () => {},
     onMove: (e) => {
-      setPopupVisible(true);
       onChange(e);
     },
-    onLeave: () => {
-      setPopupVisible(false);
-    },
+    onLeave: () => {},
     onUp: (e) => {
-      setPopupVisible(false);
       onChange(e);
     }
   });

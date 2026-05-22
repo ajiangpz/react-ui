@@ -4,7 +4,7 @@ import React from "react";
 
 interface TooltipProps {
   content?: string | React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TdSliderProps<T = SliderValue> {

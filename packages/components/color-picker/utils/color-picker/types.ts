@@ -29,5 +29,5 @@ export interface ColorInputProp {
   max?: number;
   type: "input" | "inputNumber";
   flex?: number;
-  format?: Function;
+  format?: (value: number) => string;
 }

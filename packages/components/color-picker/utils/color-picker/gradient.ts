@@ -101,7 +101,7 @@ const generateRegExp = (): RegExpLib => {
  */
 const parseGradient = (regExpLib: RegExpLib, input: string) => {
   let result: ParseGradientResult;
-  let matchColorStop: any;
+  let matchColorStop: RegExpExecArray | null;
   let stopResult: ColorStop;
 
   // reset search position, because we reuse regex.

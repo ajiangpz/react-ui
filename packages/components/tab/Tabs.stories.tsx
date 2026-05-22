@@ -123,7 +123,10 @@ export const Placement: Story = {
         <div>
           <div style={{ marginBottom: "16px" }}>
             <span style={{ marginRight: "8px" }}>选项卡位置：</span>
-            <select value={placement} onChange={(e) => setPlacement(e.target.value as any)}>
+            <select
+              value={placement}
+              onChange={(e) => setPlacement(e.target.value as "top" | "bottom" | "left" | "right")}
+            >
               <option value="top">顶部</option>
               <option value="bottom">底部</option>
               <option value="left">左侧</option>

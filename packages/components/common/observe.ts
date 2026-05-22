@@ -1,7 +1,7 @@
 export default function observe(
   element: HTMLElement,
   root: HTMLElement,
-  callback: Function,
+  callback: () => void,
   marginBottom: number
 ): IntersectionObserver {
   if (typeof window === "undefined") return null;

@@ -5,6 +5,7 @@ import {
   IconChevronUp as TdChevronUpIcon,
   IconPlus as TdAddIcon
 } from "@tendaui/icons";
+import type { IconSize } from "@tendaui/icons";
 import classNames from "classnames";
 import Input from "../input";
 import Button from "../button";
@@ -54,11 +55,11 @@ function TdInputNumber<T extends InputNumberValue = InputNumberValue>(
   const wrapRef = useRef(null);
 
   const status = isError ? "error" : props.status;
-  const iconSize = props.size === "medium" ? "default" : props.size;
+  const iconSize: IconSize = props.size === "medium" ? "default" : props.size;
   const addIcon =
-    props.theme === "column" ? <ChevronUpIcon size={iconSize as any} /> : <AddIcon size={iconSize as any} />;
+    props.theme === "column" ? <ChevronUpIcon size={iconSize} /> : <AddIcon size={iconSize} />;
   const reduceIcon =
-    props.theme === "column" ? <ChevronDownIcon size={iconSize as any} /> : <RemoveIcon size={iconSize as any} />;
+    props.theme === "column" ? <ChevronDownIcon size={iconSize} /> : <RemoveIcon size={iconSize} />;
 
   useImperativeHandle(ref, () => ({
     currentElement: wrapRef.current,

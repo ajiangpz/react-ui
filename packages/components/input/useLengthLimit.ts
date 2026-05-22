@@ -61,9 +61,10 @@ export interface UseLengthLimitParams {
 }
 
 export default function useLengthLimit(params: UseLengthLimitParams) {
+  const { allowInputOverMax, maxlength, maxcharacter, onValidate, status, value } = params;
+
   // 文本超出数量限制时，是否允许继续输入
   const getValueByLimitNumber = (inputValue: string) => {
-    const { allowInputOverMax, maxlength, maxcharacter } = params;
     if (!(maxlength || maxcharacter) || allowInputOverMax || !inputValue) return inputValue;
     if (maxlength) {
       // input value could be unicode 😊
@@ -79,7 +80,6 @@ export default function useLengthLimit(params: UseLengthLimitParams) {
   };
 
   const limitNumber = useMemo(() => {
-    const { maxlength, maxcharacter, value } = params;
     if (typeof value === 'number') return String(value);
     if (maxlength && maxcharacter) {
       console.warn('Input', 'Pick one of maxlength and maxcharacter please.');
@@ -92,7 +92,7 @@ export default function useLengthLimit(params: UseLengthLimitParams) {
       return `${getCharacterLength(value || '')}/${maxcharacter}`;
     }
     return '';
-  }, [params.maxcharacter, params.maxlength, params.value]);
+  }, [maxcharacter, maxlength, value]);
 
   const innerStatus = useMemo(() => {
     if (limitNumber) {
@@ -102,17 +102,13 @@ export default function useLengthLimit(params: UseLengthLimitParams) {
     return '';
   }, [limitNumber]);
 
-  const tStatus = useMemo(() => params.status || innerStatus, [params.status, innerStatus]);
-
-  const onValidateChange = () => {
-    params.onValidate?.({
-      error: innerStatus ? 'exceed-maximum' : undefined,
-    });
-  };
+  const tStatus = useMemo(() => status || innerStatus, [status, innerStatus]);
 
   useEffect(() => {
-    onValidateChange();
-  }, [innerStatus]);
+    onValidate?.({
+      error: innerStatus ? 'exceed-maximum' : undefined,
+    });
+  }, [innerStatus, onValidate]);
 
   return {
     tStatus,

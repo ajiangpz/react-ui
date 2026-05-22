@@ -23,9 +23,9 @@ interface DraggableHandles {
 
 // 配置项
 const defaultsOptions: DraggableProps = {
-  start: (coordinate: Coordinate, event: DraggableEvent) => {},
-  drag: (coordinate: Coordinate, event: DraggableEvent) => {},
-  end: (coordinate: Coordinate, event: DraggableEvent) => {}
+  start: (_coordinate: Coordinate, _event: DraggableEvent) => {},
+  drag: (_coordinate: Coordinate, _event: DraggableEvent) => {},
+  end: (_coordinate: Coordinate, _event: DraggableEvent) => {}
 };
 
 export class Draggable {

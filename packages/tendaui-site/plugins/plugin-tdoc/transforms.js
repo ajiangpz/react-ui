@@ -18,7 +18,7 @@ export default {
       try {
         const baseDoc = readFileSync(apiDocPath, "utf-8");
         source = source.replace(":: BASE_DOC ::", baseDoc);
-      } catch (e) {
+      } catch {
         console.warn(`API doc not found: ${apiDocPath}`);
       }
     }

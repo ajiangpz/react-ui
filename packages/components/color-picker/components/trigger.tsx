@@ -27,16 +27,18 @@ const ColorPickerTrigger = (props: ColorTriggerProps) => {
     clearable,
     onClear,
     format = "RGB",
-    enableAlpha = false
+    enableAlpha = false,
+    value,
+    onChange
   } = props;
 
   // 内部输入状态，用于处理用户输入
-  const [inputValue, setInputValue] = useState<string>(props.value || "");
+  const [inputValue, setInputValue] = useState<string>(value || "");
 
   // 同步外部 value 变化
   useEffect(() => {
-    setInputValue(props.value || "");
-  }, [props.value]);
+    setInputValue(value || "");
+  }, [value]);
 
   // 处理输入变化（实时更新内部状态）
   const handleInputChange = useCallback((input: string) => {
@@ -56,8 +58,8 @@ const ColorPickerTrigger = (props: ColorTriggerProps) => {
       const formattedValue = colorInstance.getFormattedColor(finalFormat, enableAlpha);
 
       // 如果格式化后的值与当前值不同，触发 onChange
-      if (formattedValue !== props.value) {
-        props.onChange?.(formattedValue, {
+      if (formattedValue !== value) {
+        onChange?.(formattedValue, {
           color: getColorObject(colorInstance),
           trigger: "input"
         });
@@ -66,9 +68,9 @@ const ColorPickerTrigger = (props: ColorTriggerProps) => {
       setInputValue(formattedValue);
     } else {
       // 如果颜色无效，恢复为之前的有效值
-      setInputValue(props.value || "");
+      setInputValue(value || "");
     }
-  }, [inputValue, props.value, props.onChange, format, enableAlpha]);
+  }, [inputValue, value, onChange, format, enableAlpha]);
 
   // 处理回车确认
   const handleEnter = useCallback(() => {
@@ -85,7 +87,7 @@ const ColorPickerTrigger = (props: ColorTriggerProps) => {
         disabled={disabled}
         label={
           <div className={classNames(`${baseClassName}__trigger--default__color`, `${baseClassName}--bg-alpha`)}>
-            <span className={"color-inner"} style={{ background: props.value }}></span>
+            <span className={"color-inner"} style={{ background: value }}></span>
           </div>
         }
         onChange={handleInputChange}

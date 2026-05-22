@@ -10,6 +10,7 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj;
+type StoryIcon = React.ElementType<{ size?: Icons.IconSize }>;
 
 // 获取所有图标组件
 const iconList = Object.entries(Icons)
@@ -20,7 +21,7 @@ const iconList = Object.entries(Icons)
     // 确保是 React 组件
     return typeof value === "function" || (value && typeof value === "object" && "render" in value);
   })
-  .map(([name, Icon]) => [name, Icon as React.ComponentType<any>]) as [string, React.ComponentType<any>][];
+  .map(([name, Icon]) => [name, Icon as StoryIcon]) as [string, StoryIcon][];
 
 // 按名称排序
 iconList.sort(([a], [b]) => a.localeCompare(b));

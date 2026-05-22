@@ -8,7 +8,7 @@ import useDefaultProps from "../hooks/useDefaultProps";
 import useMutationObserver from "../hooks/useMutationObserver";
 import useWindowSize from "../hooks/useWindowSize";
 import useTrigger from "./hooks/useTrigger";
-import type { TdPopupProps, PopupVisibleChangeContext } from "./type";
+import type { TdPopupProps, PopupTriggerSource, PopupVisibleChangeContext } from "./type";
 import usePopper from "../hooks/usePopper";
 import { popupDefaultProps } from "./defaultProps";
 import classNames from "classnames";
@@ -75,12 +75,12 @@ const Popup = forwardRef<PopupRef, PopupProps>((originalProps, ref) => {
         | React.TouchEvent<HTMLElement>
         | React.FocusEvent<HTMLElement>
         | React.KeyboardEvent<HTMLElement>;
-      trigger: string;
+      trigger: PopupTriggerSource;
     }
   ) => {
     const popupContext: PopupVisibleChangeContext = {
-      e: context.e as any,
-      trigger: context.trigger as any
+      e: context.e,
+      trigger: context.trigger
     };
     onVisibleChangeInternal(visible, popupContext);
   };

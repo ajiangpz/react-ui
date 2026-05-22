@@ -35,6 +35,14 @@ interface GradientStates {
   css?: string;
 }
 
+type CmykColorObject = {
+  c: number;
+  m: number;
+  y: number;
+  k: number;
+};
+type ColorObjectInput = tinyColor.ColorInput | Record<string, string | number>;
+
 const mathRound = Math.round;
 const hsv2rgba = (states: ColorStates): tinyColor.ColorFormats.RGBA => tinyColor(states).toRgb();
 const hsv2hsva = (states: ColorStates): tinyColor.ColorFormats.HSVA => tinyColor(states).toHsv();
@@ -375,25 +383,26 @@ export class Color {
   /**
    * 对象转颜色字符串
    */
-  static object2color(object: any, format: ColorFormat) {
+  static object2color(object: ColorObjectInput, format: ColorFormat) {
     if (format === "CMYK") {
-      const { c, m, y, k } = object;
+      const { c, m, y, k } = object as CmykColorObject;
       return `cmyk(${c}, ${m}, ${y}, ${k})`;
     }
 
+    const colorInput = object as tinyColor.ColorInput;
     if (format === "RGB" || format === "RGBA") {
-      return tinyColor(object).toRgbString();
+      return tinyColor(colorInput).toRgbString();
     }
 
     if (format === "HSL" || format === "HSLA") {
-      return tinyColor(object).toHslString();
+      return tinyColor(colorInput).toHslString();
     }
 
     if (format === "HSV" || format === "HSVA") {
-      return tinyColor(object).toHsvString();
+      return tinyColor(colorInput).toHsvString();
     }
 
-    return tinyColor(object).toHexString();
+    return tinyColor(colorInput).toHexString();
   }
 
   /**
@@ -428,22 +437,6 @@ export class Color {
   };
 }
 
-const COLOR_OBJECT_OUTPUT_KEYS = [
-  "alpha",
-  "css",
-  "hex",
-  "hex8",
-  "hsl",
-  "hsla",
-  "hsv",
-  "hsva",
-  "rgb",
-  "rgba",
-  "saturation",
-  "value",
-  "isGradient"
-];
-
 /**
  * 获取对外输出的color对象
  * @param color
@@ -453,11 +446,21 @@ export const getColorObject = (color: Color): ColorObject | null => {
   if (!color) {
     return null;
   }
-  console.log(color);
-  const colorObject = Object.create(null);
-  COLOR_OBJECT_OUTPUT_KEYS.forEach((key) => {
-    colorObject[key] = (color as { [key: string]: any })[key];
-  });
+  const colorObject: ColorObject = {
+    alpha: color.alpha,
+    css: color.css,
+    hex: color.hex,
+    hex8: color.hex8,
+    hsl: color.hsl,
+    hsla: color.hsla,
+    hsv: color.hsv,
+    hsva: color.hsva,
+    rgb: color.rgb,
+    rgba: color.rgba,
+    saturation: color.saturation,
+    value: color.value,
+    isGradient: color.isGradient
+  };
   if (color.isGradient) {
     colorObject.linearGradient = color.linearGradient;
   }

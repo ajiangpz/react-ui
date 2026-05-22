@@ -1,5 +1,5 @@
 import { TNode, ClassName, Styles, AttachNode } from "../common";
-import { MouseEvent, KeyboardEvent, FocusEvent, WheelEvent } from "react";
+import { MouseEvent, KeyboardEvent, FocusEvent, TouchEvent, WheelEvent } from "react";
 
 export interface TdPopupProps {
   /**
@@ -117,7 +117,11 @@ export interface PopupVisibleChangeContext {
   trigger?: PopupTriggerSource;
 }
 
-export type PopupTriggerEvent = MouseEvent<HTMLDivElement> | FocusEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>;
+export type PopupTriggerEvent =
+  | MouseEvent<HTMLElement>
+  | TouchEvent<HTMLElement>
+  | FocusEvent<HTMLElement>
+  | KeyboardEvent<HTMLElement>;
 
 export type PopupTriggerSource =
   | "document"

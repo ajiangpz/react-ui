@@ -138,10 +138,11 @@ export interface ChangeContext {
   type: ChangeSource;
   e:
     | FormEvent<HTMLInputElement>
-    | MouseEvent<HTMLDivElement | SVGElement>
+    | MouseEvent<Element>
     | FocusEvent<HTMLDivElement>
     | KeyboardEvent<HTMLDivElement>
-    | CompositionEvent<HTMLDivElement>;
+    | CompositionEvent<HTMLDivElement>
+    | undefined;
 }
 
 export type ChangeSource = "add" | "reduce" | "input" | "blur" | "enter" | "clear" | "props";

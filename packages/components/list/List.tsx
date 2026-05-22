@@ -14,7 +14,7 @@ import { listDefaultProps } from "./defaultProps";
 import { useListVirtualScroll } from "./hooks/useListVirtualScroll";
 
 import type { StyledProps } from "../common";
-import type { ListInstanceFunctions, TdListProps } from "./type";
+import type { ListInstanceFunctions, TdListItemProps, TdListProps } from "./type";
 
 export interface ListProps extends TdListProps, StyledProps {
   /**
@@ -48,8 +48,15 @@ const List = forwardRefWithStatics(
     const { classPrefix } = useConfig();
     const [local, t] = useLocaleReceiver("list");
 
-    const listItems = useMemo(
-      () => compact(React.Children.map(children, (child: React.ReactElement) => child?.props)) ?? [],
+    const listItems = useMemo<Array<TdListItemProps & Record<string, unknown>>>(
+      () =>
+        compact(
+          React.Children.map(children, (child) =>
+            React.isValidElement<TdListItemProps>(child)
+              ? (child.props as TdListItemProps & Record<string, unknown>)
+              : undefined
+          )
+        ) ?? [],
       [children]
     );
 
@@ -103,7 +110,7 @@ const List = forwardRefWithStatics(
             <div style={cursorStyle}></div>
             <ul className={`${COMPONENT_NAME}__inner`} style={listStyle}>
               {virtualConfig.visibleData.map((item, index) => (
-                <ListItem key={index} {...(item as any)} />
+                <ListItem key={index} {...(item as TdListItemProps & Record<string, unknown>)} />
               ))}
             </ul>
           </>

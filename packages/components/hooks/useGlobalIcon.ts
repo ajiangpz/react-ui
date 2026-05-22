@@ -1,5 +1,5 @@
 import useConfig from "./useConfig";
-import Icon, { IconProps } from "@tendaui/icons";
+import type { IconProps } from "@tendaui/icons";
 import React from "react";
 
 // 通过 convertIcon 创建的图标组件类型，不需要 svg 和 type 属性

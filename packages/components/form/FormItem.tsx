@@ -47,6 +47,12 @@ export interface FormItemInstance {
   isFormList?: boolean;
 }
 
+type ManagedChildProps = Record<string, unknown> & {
+  disabled?: boolean;
+  onChange?: (value: ValueType, ...args: unknown[]) => void;
+  onBlur?: (value: ValueType, ...args: unknown[]) => void;
+};
+
 const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref) => {
   // const [locale, t] = useLocaleReceiver('form');
   const { classPrefix, form: globalFormConfig } = useConfig();
@@ -512,8 +518,8 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
             let ctrlKey = "value";
             if (React.isValidElement(child)) {
               if (child.type === FormItem) {
-                return React.cloneElement(child as React.ReactElement<any>, {
-                  ref: (el: any) => {
+                return React.cloneElement(child as React.ReactElement<ManagedChildProps>, {
+                  ref: (el: FormItemInstance | null) => {
                     if (!el) return;
                     innerFormItemsRef.current[index] = el;
                   }
@@ -522,12 +528,12 @@ const FormItem = forwardRef<FormItemInstance, FormItemProps>((originalProps, ref
               if (typeof child.type === "object") {
                 ctrlKey = ctrlKeyMap.get(child.type) || "value";
               }
-              const childProps = child.props as TdFormItemProps & React.HTMLAttributes<HTMLDivElement>;
-              return React.cloneElement(child as React.ReactElement<any>, {
+              const childProps = child.props as ManagedChildProps & React.HTMLAttributes<HTMLDivElement>;
+              return React.cloneElement(child as React.ReactElement<ManagedChildProps>, {
                 disabled: disabledFromContext,
                 ...childProps,
                 [ctrlKey]: formValue,
-                onChange: (value: ValueType, ...args: any[]) => {
+                onChange: (value: ValueType, ...args: unknown[]) => {
                   const newValue = valueFormat ? valueFormat(value) : value;
                   updateFormValue(newValue, true, true);
                   childProps?.onChange?.call?.(null, value, ...args);

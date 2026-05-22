@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Slider, SliderProps, SliderValue } from "./index";
+import { Slider, SliderValue } from "./index";
 import React, { useState } from "react";
 
 const meta: Meta<typeof Slider> = {
