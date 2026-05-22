@@ -1,1 +1,0 @@
-{"version":3,"file":"dep-U1T8CQY9.js","sources":["../../../components/utils/noop.ts"],"sourcesContent":["const noop = () => {};\n\nexport default noop;\n"],"names":["noop"],"mappings":"AAAA,IAAMA,OAAO,SAAPA,OAAa,CAAC;;;;"}

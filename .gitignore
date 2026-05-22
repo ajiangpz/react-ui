@@ -6,3 +6,4 @@ package-lock.json
 storybook-static
 packages/tendaui-icons/lib
 .nx/
+packages/tendaui-react/es/
