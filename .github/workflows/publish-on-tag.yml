@@ -35,21 +35,26 @@ jobs:
 
       - name: Clean generated changes
         run: |
-          git checkout -- packages/tendaui-icons/src/icons/index.ts
+          git restore -- packages/tendaui-icons/src/icons/index.ts
 
-      # 👇 新增：显式写入 .npmrc 到项目根目录
       - name: Configure npm registry and auth token
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::Set NPM_TOKEN or NPM_GITHUB_TOKEN in repository secrets."
+            exit 1
+          fi
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
 
       - name: Verify npm auth
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
         run: |
           npm config get registry
           npm whoami
 
       - name: Publish packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
         run: pnpm lerna publish from-package --yes
