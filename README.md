@@ -1,248 +1,161 @@
-# TendaUI React 组件库
+# TendaUI React
 
-<div align="center">
-  <h1>TendaUI React</h1>
-  <p>企业级 React UI 组件库</p>
-  
-  [![npm version](https://img.shields.io/npm/v/tendaui-react.svg)](https://www.npmjs.com/package/tendaui-react)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-</div>
+TendaUI React 是一个用于系统实践 **React 组件设计与组件库工程化** 的项目，重点覆盖 TypeScript、Monorepo、多包构建、组件文档、测试和发布流程。
 
----
+> 项目中的部分组件实现和测试用例参考或改编自 [TDesign React](https://github.com/Tencent/tdesign-react)。本仓库主要用于组件库源码学习、工程化改造与实践。第三方许可说明见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
 
-## ✨ 特性
+- GitHub: https://github.com/ajiangpz/react-ui
+- Demo / Docs: https://ajiangpz.github.io/react-ui/
+- npm package: `@tendaui/react`
 
-- 🎨 **精美设计**：现代化的 UI 设计，支持主题定制
-- 📦 **开箱即用**：高质量的 React 组件，满足企业级应用需求
-- 🔧 **TypeScript**：完整的类型定义，提供良好的开发体验
-- 🎭 **主题定制**：灵活的主题系统，支持深色模式
-- 📱 **响应式**：支持移动端，适配各种屏幕尺寸
-- ♿ **无障碍**：遵循 WAI-ARIA 标准，支持键盘导航
-- 🌲 **Tree Shaking**：支持按需加载，优化打包体积
-- 🔨 **Hooks**：提供丰富的自定义 Hooks
+## 项目重点
 
-## 📦 安装
+- **React + TypeScript**：组件 Props、公共类型、Hooks 与复杂组件状态管理
+- **Monorepo**：使用 pnpm Workspace 管理 components、react、icons、utils、docs、site 等子包
+- **组件工程化**：Rollup 多入口 ESM 构建、依赖 external、Source Map、组件级样式构建
+- **组件设计**：包含 Form、Select、Dialog、Popup、TagInput、ConfigProvider 等通用组件
+- **文档与调试**：使用 Storybook 维护组件示例与独立开发环境
+- **测试**：使用 Vitest、React Testing Library，并配置 Playwright E2E 基础设施
+- **版本与发布**：使用 Lerna / Changesets 管理多包版本，通过 GitHub Actions 执行发布和文档部署
+
+## 安装
 
 ```bash
-# 使用 npm
-npm install tendaui-react
-
-# 使用 pnpm
-pnpm add tendaui-react
-
-# 使用 yarn
-yarn add tendaui-react
+pnpm add @tendaui/react
 ```
 
-## 🔨 快速开始
+## 快速开始
 
 ```tsx
 import React from "react";
-import { Button, Input, Space } from "tendaui-react";
-import "tendaui-react/es/style/index.css";
+import { Button, Input } from "@tendaui/react";
 
-function App() {
+export default function Example() {
   return (
-    <Space direction="vertical">
-      <Button type="primary">主要按钮</Button>
+    <div>
       <Input placeholder="请输入内容" />
-    </Space>
+      <Button theme="primary">提交</Button>
+    </div>
   );
 }
-
-export default App;
 ```
 
-## 📚 文档
-
-完整的文档请访问：
-
-- **[📖 在线文档](https://your-docs-site.com)** - 完整的组件文档和示例
-- **[🚀 快速开始](./DOCUMENTATION.md)** - 快速上手指南
-- **[🎨 设计规范](./packages/tendaui-docs/design-tokens.mdx)** - 设计系统说明
-- **[💡 最佳实践](./packages/tendaui-docs/best-practices.mdx)** - 开发最佳实践
-- **[🤝 贡献指南](./packages/tendaui-docs/contributing.mdx)** - 如何参与贡献
-
-### 本地查看文档
-
-```bash
-# 克隆仓库
-git clone https://github.com/your-repo/tendaui.git
-cd tendaui
-
-# 安装依赖
-pnpm install
-
-# 启动文档服务器
-pnpm dev:storybook
-```
-
-然后访问 `http://localhost:6006` 查看完整文档。
-
-## 📦 组件总览
-
-### 基础组件
-
-- **Button** - 按钮
-- **Icon** - 图标
-
-### 数据录入
-
-- **Input** - 输入框
-- **Checkbox** - 复选框
-- **Switch** - 开关
-- **Select** - 选择器
-- **Form** - 表单
-- **TagInput** - 标签输入
-
-### 数据展示
-
-- **Badge** - 徽标
-- **Tag** - 标签
-- **Loading** - 加载
-
-### 反馈
-
-- **Alert** - 警告提示
-- **Dialog** - 对话框
-- **Notification** - 通知
-
-### 其他
-
-- **Popup** - 弹出层
-- **Portal** - 传送门
-- **ConfigProvider** - 全局配置
-
-## 🎨 主题定制
-
-### 使用 CSS 变量
-
-```css
-:root {
-  --td-brand-color: #1890ff;
-  --td-success-color: #52c41a;
-  --td-warning-color: #faad14;
-  --td-error-color: #ff4d4f;
-}
-```
-
-### 使用 ConfigProvider
+组件样式支持按组件路径引入，例如：
 
 ```tsx
-import { ConfigProvider, Button } from "tendaui-react";
-
-function App() {
-  return (
-    <ConfigProvider
-      theme={{
-        primaryColor: "#1890ff"
-      }}
-    >
-      <Button type="primary">自定义主题按钮</Button>
-    </ConfigProvider>
-  );
-}
+import "@tendaui/react/button/style";
+import "@tendaui/react/input/style";
 ```
 
-## 🔧 开发
+## 组件
 
-### 环境要求
+当前仓库包含的代表性组件包括：
 
-- Node.js >= 18.0.0
-- pnpm >= 8.0.0
+- 基础：Button、Badge、Tag、Loading
+- 数据录入：Input、InputNumber、Checkbox、Radio、Switch、Select、TagInput、Form
+- 反馈：Alert、Dialog、Notification、Drawer
+- 基础设施：Popup、ConfigProvider、Hooks、Utils
+- 扩展：ColorPicker、Slider、IPInput 等
 
-### 安装依赖
+组件入口以 [`packages/components`](./packages/components) 中的实际导出为准。
+
+## Monorepo 结构
+
+```text
+packages/
+├── components/       # React 组件源码
+├── tendaui-react/    # npm 发布包
+├── tendaui-icons/    # 图标包
+├── utils/            # 公共工具
+├── tendaui-docs/     # Storybook / 组件文档
+├── tendaui-site/     # 展示站点
+└── theme-generator/  # 主题相关工具
+```
+
+更多设计说明见 [ARCHITECTURE.md](./ARCHITECTURE.md)。
+
+## 本地开发
+
+环境要求：
+
+- Node.js >= 18
+- pnpm >= 8
 
 ```bash
 pnpm install
-```
 
-### 开发脚本
-
-```bash
-# 启动 Storybook 开发服务器
+# Storybook
 pnpm dev:storybook
 
-# 启动组件开发
-pnpm dev
+# 站点
+pnpm dev:site
 
-# 构建组件库
+# 构建所有包含 build script 的 workspace package
 pnpm build
 
-# 运行 ESLint
-pnpm lint
-
-# 修复 ESLint 问题
-pnpm lint:fix
-
-# 运行类型检查
-pnpm type-check
-
-# 运行测试
+# 单元测试
 pnpm test
+
+# 测试 watch
+pnpm test:watch
+
+# ESLint
+pnpm lint
 ```
 
-## 📁 项目结构
+E2E 测试基础设施：
 
-```
-tendaui/
-├── packages/
-│   ├── components/           # 组件源码
-│   │   ├── button/
-│   │   ├── input/
-│   │   └── ...
-│   ├── tendaui-react/       # 主包
-│   ├── tendaui-icons/       # 图标包
-│   └── tendaui-docs/        # 文档
-├── .storybook/              # Storybook 配置
-├── scripts/                 # 构建脚本
-├── package.json
-└── README.md
+```bash
+pnpm test:e2e:install
+pnpm test:e2e
 ```
 
-## 🤝 贡献
+## 构建策略
 
-我们欢迎所有的贡献。你可以通过以下方式参与：
+发布包使用 Rollup 构建：
 
-1. 🐛 [报告 Bug](https://github.com/your-repo/tendaui/issues)
-2. 💡 [提出新功能](https://github.com/your-repo/tendaui/issues)
-3. 📝 [改进文档](./packages/tendaui-docs)
-4. 💻 [提交代码](https://github.com/your-repo/tendaui/pulls)
+- 扫描组件目录生成多入口
+- 输出 ESM 文件
+- React 和运行时依赖作为 external 处理
+- 样式单独构建并保留组件目录结构
+- 输出 Source Map 便于调试
 
-请阅读 [贡献指南](./packages/tendaui-docs/contributing.mdx) 了解更多信息。
+当前项目以 **ESM + 组件级入口** 实现按需使用。Rollup 内部 Tree Shaking 仍有进一步优化空间，因此 README 不将“完整 Tree Shaking”作为已经完成的能力声明。
 
-### 开发流程
+## 测试策略
 
-1. Fork 项目
-2. 创建功能分支：`git checkout -b feature/your-feature`
-3. 提交更改：`git commit -m "feat: add some feature"`
-4. 推送分支：`git push origin feature/your-feature`
-5. 提交 Pull Request
+测试不追求单纯提高数量，优先覆盖组件库中风险较高的行为：
 
-## 📄 许可证
+1. controlled / uncontrolled 状态切换与回调
+2. Form 字段状态与校验
+3. Select / Popup 等复杂交互
+4. Dialog / Drawer 等 Portal、键盘和副作用行为
+5. 基础组件关键 Props 与事件
 
-本项目采用 [MIT](./LICENSE) 许可证。
+测试配置位于 [`vitest.config.ts`](./vitest.config.ts)。
 
-## 💬 社区
+## 版本与发布
 
-- [GitHub Issues](https://github.com/your-repo/tendaui/issues) - Bug 报告和功能请求
-- [GitHub Discussions](https://github.com/your-repo/tendaui/discussions) - 讨论和问答
-- [Twitter](https://twitter.com/tendaui) - 最新动态
+仓库使用 Lerna / Changesets 管理版本，并已配置 GitHub Actions 工作流用于站点部署和 npm 发布。
 
-## 🙏 致谢
+相关文档：
 
-感谢所有为 TendaUI 做出贡献的开发者！
-
-## 🔗 相关链接
-
-- [官方网站](https://your-site.com)
+- [Monorepo 说明](./MONOREPO.md)
+- [发布说明](./PUBLISH.md)
 - [更新日志](./CHANGELOG.md)
-- [问题追踪](https://github.com/your-repo/tendaui/issues)
-- [发布说明](https://github.com/your-repo/tendaui/releases)
 
----
+## 与 TDesign 的关系
 
-<div align="center">
-  Made with ❤️ by TendaUI Team
-</div>
+TendaUI 不是为了重新发明一套基础 UI 规范。项目选择 TDesign React 作为重要参考实现，用于学习和验证成熟组件库中的：
+
+- React 组件 API 与状态设计
+- Hooks / Context 的使用边界
+- Form、Select、Popup 等复杂组件实现
+- TypeScript 类型组织
+- 组件库构建、测试和发布体系
+
+在此基础上，仓库会逐步补充自己的工程化改造、测试、文档和技术决策记录。涉及 TDesign 的代码应保留对应许可和版权信息。
+
+## License
+
+本项目使用 MIT License。第三方来源与许可信息见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
