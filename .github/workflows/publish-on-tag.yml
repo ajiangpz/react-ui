@@ -5,11 +5,18 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    environment: npm
 
     steps:
       - name: Checkout
@@ -30,12 +37,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests
+        run: pnpm test:unit
+
+      - name: Type check
+        run: pnpm --filter @tendaui/theme-generator type-check
+
       - name: Build
         run: pnpm lerna run build --stream
 
       - name: Clean generated changes
         run: |
           git restore -- packages/tendaui-icons/src/icons/index.ts
+
+      - name: Inspect package contents
+        run: |
+          pnpm --filter @tendaui/icons exec npm pack --dry-run
+          pnpm --filter @tendaui/react exec npm pack --dry-run
+          pnpm --filter @tendaui/theme-generator exec npm pack --dry-run
 
       - name: Configure npm registry and auth token
         env:
@@ -57,4 +79,5 @@ jobs:
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
         run: pnpm lerna publish from-package --yes

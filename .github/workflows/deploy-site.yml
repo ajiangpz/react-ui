@@ -8,6 +8,16 @@ on:
     paths:
       - "packages/tendaui-site/**"
       - "packages/theme-generator/**"
+      - "packages/components/**"
+      - "packages/tendaui-icons/**"
+      - "packages/tendaui-react/**"
+      - "packages/utils/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "vite.config.mts"
+      - "rollup.config.mjs"
+      - "config/**"
       - ".github/workflows/deploy-site.yml"
   workflow_dispatch:
 
@@ -18,7 +28,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:

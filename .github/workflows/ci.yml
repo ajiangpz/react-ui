@@ -5,13 +5,27 @@ on:
   push:
     branches:
       - main
+      - master
 
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22.20.0"
+  PNPM_VERSION: "8.15.0"
+
 jobs:
-  test-and-build:
+  quality:
+    name: ${{ matrix.check }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [lint, unit-test, type-check, build]
 
     steps:
       - name: Checkout
@@ -20,20 +34,30 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8.15.0
+          version: ${{ env.PNPM_VERSION }}
           run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.20.0
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        if: matrix.check == 'lint'
+        run: pnpm lint
+
       - name: Unit tests
-        run: pnpm test
+        if: matrix.check == 'unit-test'
+        run: pnpm test:unit
+
+      - name: Type check
+        if: matrix.check == 'type-check'
+        run: pnpm --filter @tendaui/theme-generator type-check
 
       - name: Build packages
+        if: matrix.check == 'build'
         run: pnpm build

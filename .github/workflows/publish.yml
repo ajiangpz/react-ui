@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 concurrency:
   group: publish
@@ -24,6 +25,7 @@ jobs:
   publish-new-version:
     name: Publish a new version
     runs-on: ubuntu-latest
+    environment: npm
 
     steps:
       - name: Checkout
@@ -45,6 +47,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests
+        run: pnpm test:unit
+
+      - name: Type check
+        run: pnpm --filter @tendaui/theme-generator type-check
 
       - name: Configure git user
         run: |
@@ -75,6 +86,15 @@ jobs:
         run: |
           git restore -- packages/tendaui-icons/src/icons/index.ts
 
+      - name: Inspect package contents
+        run: |
+          pnpm --filter @tendaui/icons exec npm pack --dry-run
+          pnpm --filter @tendaui/react exec npm pack --dry-run
+          pnpm --filter @tendaui/theme-generator exec npm pack --dry-run
+
+      - name: Push release commit and tags
+        run: git push --follow-tags --no-verify --atomic
+
       - name: Configure npm registry and auth token
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
@@ -95,7 +115,5 @@ jobs:
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
         run: pnpm lerna publish from-package --dist-tag "${{ steps.release.outputs.dist_tag }}" --yes
-
-      - name: Push release commit and tags
-        run: git push --follow-tags --no-verify --atomic
