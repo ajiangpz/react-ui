@@ -23,18 +23,18 @@
   - 验收：发布工作流拥有 `id-token: write` 权限，并通过 npm 配置生成 provenance 声明。
 - [ ] 迁移到 npm Trusted Publishing
   - 验收：npm 包配置可信发布者后，不再依赖长期 npm token。
-- [ ] 固定第三方 Action 到完整 commit SHA
+- [x] 固定第三方 Action 到完整 commit SHA
   - 验收：关键发布/部署工作流不再直接信任可移动的主版本标签，并由 Dependabot 更新。
 
 ## P2：效率与维护性
 
-- [ ] 明确 Lerna 与 Changesets 的唯一版本管理方案
+- [x] 明确 Lerna 与 Changesets 的唯一版本管理方案
   - 验收：发布文档、脚本和自动化只描述并使用一种版本流程。
-- [ ] 引入受影响包构建与远程缓存
+- [x] 引入受影响包构建与远程缓存
   - 验收：普通 PR 不再无条件构建所有 workspace package，并记录缓存命中情况。
 - [x] 增加依赖与 GitHub Actions 自动更新
   - 验收：Dependabot 或 Renovate 定期提交依赖更新 PR。
-- [ ] 增加定期安全扫描
+- [x] 增加定期安全扫描
   - 验收：依赖审查、CodeQL 或等效扫描有明确的定期执行与告警入口。
 
 ## 实施记录
@@ -43,3 +43,6 @@
 - 2026-08-24：统一 pnpm 8.15.0，增加 CI 门禁、发布检查和 npm environment，完善 Pages 触发条件。
 - 2026-08-24：pnpm 11 锁文件迁移因本机获取工具超时，暂不升级，避免提交未验证的锁文件。
 - 2026-08-24：启用 npm provenance，并增加 npm 与 GitHub Actions 的每周 Dependabot 更新。
+- 2026-08-24：Action 升级并固定到完整 SHA；CI 接入 Nx 缓存及受影响包构建；增加每周依赖审计。
+- 2026-08-24：确定 Lerna 为唯一版本管理工具，移除未使用的 Changesets 配置和文档。
+- 2026-08-24：Trusted Publishing 需要 npm 网站登录并为每个包绑定工作流，当前等待账号持有人登录。

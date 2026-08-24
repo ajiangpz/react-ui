@@ -16,7 +16,7 @@ TendaUI React 是一个用于系统实践 **React 组件设计与组件库工程
 - **组件设计**：包含 Form、Select、Dialog、Popup、TagInput、ConfigProvider 等通用组件
 - **文档与调试**：使用 Storybook 维护组件示例与独立开发环境
 - **测试**：使用 Vitest、React Testing Library，并配置 Playwright E2E 基础设施
-- **版本与发布**：使用 Lerna / Changesets 管理多包版本，通过 GitHub Actions 执行发布和文档部署
+- **版本与发布**：使用 Lerna 管理多包版本，通过 GitHub Actions 执行发布和文档部署
 
 ## 安装
 
@@ -136,7 +136,7 @@ pnpm test:e2e
 
 ## 版本与发布
 
-仓库使用 Lerna / Changesets 管理版本，并已配置 GitHub Actions 工作流用于站点部署和 npm 发布。
+仓库使用 Lerna 管理版本，并已配置 GitHub Actions 工作流用于站点部署和 npm 发布。
 
 相关文档：
 
