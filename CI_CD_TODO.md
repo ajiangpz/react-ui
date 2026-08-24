@@ -21,7 +21,7 @@
   - 验收：发布 job 使用 `npm` environment，可在仓库设置中配置审批与分支限制。
 - [x] 为 npm 发布启用 provenance
   - 验收：发布工作流拥有 `id-token: write` 权限，并通过 npm 配置生成 provenance 声明。
-- [ ] 迁移到 npm Trusted Publishing
+- [x] 迁移到 npm Trusted Publishing
   - 验收：npm 包配置可信发布者后，不再依赖长期 npm token。
 - [x] 固定第三方 Action 到完整 commit SHA
   - 验收：关键发布/部署工作流不再直接信任可移动的主版本标签，并由 Dependabot 更新。
@@ -45,4 +45,4 @@
 - 2026-08-24：启用 npm provenance，并增加 npm 与 GitHub Actions 的每周 Dependabot 更新。
 - 2026-08-24：Action 升级并固定到完整 SHA；CI 接入 Nx 缓存及受影响包构建；增加每周依赖审计。
 - 2026-08-24：确定 Lerna 为唯一版本管理工具，移除未使用的 Changesets 配置和文档。
-- 2026-08-24：Trusted Publishing 需要 npm 网站登录并为每个包绑定工作流，当前等待账号持有人登录。
+- 2026-08-24：为三个公开包绑定 `ajiangpz/react-ui` 的 `publish.yml` 与 `npm` environment，完成 Trusted Publishing 迁移。
