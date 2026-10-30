@@ -15,6 +15,10 @@
 
 `beta` 版本发布到 npm 的 `beta` dist-tag，正式版本发布到 `latest`。
 
+发布工具链固定使用 Node.js `22.20.0` 和 npm `11.6.2`。该 npm 版本兼容当前
+Node.js，并满足 Trusted Publishing 的版本要求。发布模式会在构建和推送 tag 前
+安装并打印工具版本；不要使用 `npm@latest`，以免 npm 的引擎要求变化导致发布失败。
+
 ## 本地验证
 
 ```bash
@@ -49,6 +53,8 @@ GitHub 的 `npm` Environment 负责发布审批；工作流使用 OIDC，不需�
 
 - release PR 已存在：修复失败检查后继续使用原 PR，不要重复提升版本。
 - tag 推送成功但 npm 发布失败：重新运行 `Publish` 并选择 `publish`。
+- 如果修复了工作流配置，需在最新 `main` 上重新触发 `Publish` 并选择 `publish`；
+  旧 run 的 Re-run 仍使用旧工作流定义。保留已有版本和 tag，无需再次提升版本。
 - npm 已存在当前版本：先确认包是否已成功发布，不要覆盖相同版本。
 - OIDC 失败：核对 npm Trusted Publisher 的仓库、工作流文件名和 Environment 是否完全一致。
 
