@@ -29,6 +29,9 @@
   },
   "typesVersions": {
     "*": {
+      "es/*": [
+        "es/*"
+      ],
       "*": [
         "es/*",
         "es/*/index"

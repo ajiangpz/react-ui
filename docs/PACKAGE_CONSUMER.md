@@ -17,7 +17,7 @@ pnpm test:package
 1. 按依赖顺序构建 icons、react、theme-generator，通过 pnpm pack 生成 tarball。
 2. 检查 tarball 内的 main、module、types、style 目标和样式加载器；拒绝未转换的 workspace 协议和私有包依赖。
 3. 在系统临时目录复制 tests/package-consumer，并安装三个 tarball。消费端覆盖传递依赖中的同名包，确保使用本次构建的 icons 和 react。
-4. 使用 TypeScript 严格检查，保留 skipLibCheck: false；通过预期类型错误验证公共 Props 没有退化成 any。
+4. 分别使用 Bundler 和传统 Node 模块解析执行 TypeScript 严格检查，保留 skipLibCheck: false；通过预期类型错误验证公共 Props 没有退化成 any。
 5. 使用 Vite 构建生产产物，再启动本地静态服务器，通过 Playwright 验证点击计数、受控输入、按钮主题颜色、CSS 下载和主题面板。
 
 验证脚本：scripts/test-package-consumer.mjs。临时目录在命令开始时打印，保留 tarball、独立消费项目、consumer.png、exported-theme.css 和通过后的 result.json。
@@ -33,6 +33,7 @@ pnpm test:package
 | 样式 external 相对路径错位 | 相同的相对 external ID 混淆不同组件目录；保留解析后的绝对 ID，让 Rollup 正确计算每个产物的相对导入 |
 | 公开样式入口为空 | 样式提取后 JS 入口没有导入行为；为样式入口输出显式 CSS 导入，并在发布包声明样式副作用 |
 | Select 公共声明不满足泛型约束 | SelectProps 的泛型约束与 TdSelectProps 保持一致，消费端严格检查可直接验证 |
+| 传统 Node 解析无法找到根类型声明 | typesVersions 增加 es/* 路径保留规则，避免把 types 入口重复改写为 es/es/index.d.ts；增加 Node 模式消费测试 |
 | 颜色工具声明引用缺少依赖 | 显式声明 tinycolor2 及其类型依赖，避免消费端被仓库依赖提升掩盖 |
 | Slider 引用内部 utils 包 | 使用已有的同内容本地工具实现，消除私有路径依赖，函数文件哈希一致 |
 | 样式路径大小写不一致 | Dock.scss 导入修正为实际 dock.scss，避免大小写敏感系统构建失败 |
@@ -60,3 +61,4 @@ pnpm test:package
 - `pnpm install --lockfile-only --frozen-lockfile --offline --ignore-scripts`：通过。
 - 完整运行产物保存在 `C:/Users/Administrator/AppData/Local/Temp/tendaui-consumer-w2FoGF`；加强后的抽屉可见性断言另在 `tendaui-consumer-sIGM1f` 的同版生产产物上通过。
 - 构建仍有既有 Sass API 弃用提示，以及包含主题工具的消费示例大 Chunk 提示；不以本次结果宣称完成体积优化。
+- 发布准备阶段已使用三个 1.3.6 tarball 另行验证 Bundler / Node 双模式类型检查、生产构建与浏览器流程，通过记录保存在 `C:/Users/Administrator/AppData/Local/Temp/tendaui-consumer-FibQcc`。

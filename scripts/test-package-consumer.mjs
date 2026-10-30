@@ -94,6 +94,8 @@ console.log("Installing tarballs in independent consumer");
 run(["install", "--ignore-scripts", "--no-frozen-lockfile"], consumer);
 console.log("Checking consumer types");
 run(["exec", "tsc", "--project", "tsconfig.json"], consumer);
+console.log("Checking consumer types with Node module resolution");
+run(["exec", "tsc", "--project", "tsconfig.node.json"], consumer);
 console.log("Building consumer production bundle");
 run(["exec", "vite", "build"], consumer);
 
@@ -145,7 +147,7 @@ try {
   await page.screenshot({ path: join(output, "consumer.png"), fullPage: true });
   assert.deepEqual(errors, [], `Browser runtime errors: ${errors.join("; ")}`);
   writeFileSync(join(output, "result.json"), JSON.stringify({
-    status: "passed", checks: ["tarball-metadata", "isolated-install", "consumer-types", "production-build", "browser-interactions", "component-css", "theme-export"]
+    status: "passed", checks: ["tarball-metadata", "isolated-install", "consumer-types", "consumer-node-types", "production-build", "browser-interactions", "component-css", "theme-export"]
   }, null, 2));
   console.log("Package consumer verification passed.");
 } finally {
