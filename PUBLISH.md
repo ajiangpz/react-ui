@@ -58,6 +58,22 @@ GitHub 的 `npm` Environment 负责发布审批；工作流使用 OIDC，不需�
 - npm 已存在当前版本：先确认包是否已成功发布，不要覆盖相同版本。
 - OIDC 失败：核对 npm Trusted Publisher 的仓库、工作流文件名和 Environment 是否完全一致。
 
+### Rekor 签名记录冲突
+
+`TLOG_CREATE_ENTRY_ERROR ... (409) an equivalent entry already exists` 表示签名记录已
+写入 Rekor，但不代表 npm 包已发布。当前 Lerna 使用的 `sigstore@3.1.0` 默认不读取
+冲突记录；项目通过 pnpm 的 `patchedDependencies` 启用其已有的 `fetchOnConflict`
+能力，读取原记录继续生成 provenance。补丁不会关闭签名，读取失败仍会中止发布。
+
+补丁位于 `patches/sigstore@3.1.0.patch`，由 lockfile 固定；升级 Lerna / sigstore 时
+应检查上游是否已包含修复，并运行 `node --test scripts/__tests__/provenance.test.mjs`。
+该测试从 Lerna 的实际依赖解析签名库，通过本地 HTTP 服务验证 409 恢复和失败路径。
+发布时串行上传包，减少并发请求。若发布部分成功，保留原版本，再次选择 `publish`，
+Lerna 的 `from-package` 会检查 registry，只补发尚未存在的版本。
+
+上游问题：[npm/cli#10078](https://github.com/npm/cli/issues/10078)、
+[sigstore-js#1708](https://github.com/sigstore/sigstore-js/issues/1708)。
+
 ## 相关文档
 
 - [Lerna Publish](https://lerna.js.org/docs/features/publish)
