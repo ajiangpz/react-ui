@@ -27,7 +27,7 @@ concurrency:
 jobs:
   publish-new-version:
     name: Publish a new version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: "--max-old-space-size=4096"
     environment: npm
