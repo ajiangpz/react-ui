@@ -55,6 +55,12 @@ for (const dir of packageDirs) {
   const manifestResult = spawnSync("tar", ["-xOf", archive, "package/package.json"], { encoding: "utf8" });
   assert.equal(manifestResult.status, 0, manifestResult.stderr);
   const manifest = JSON.parse(manifestResult.stdout);
+  assert.equal(
+    manifest.repository?.url?.replace(/^git\+/, "").replace(/\.git$/, ""),
+    "https://github.com/ajiangpz/react-ui",
+    `${manifest.name}: repository.url must match the publishing repository for provenance`
+  );
+  assert.equal(manifest.repository.directory, `packages/${dir}`, `${manifest.name}: incorrect repository.directory`);
   for (const key of ["main", "module", "types", "typings", "style"]) {
     if (manifest[key]) assert(files.has(`package/${manifest[key]}`), `${manifest.name}: ${key} points to missing ${manifest[key]}`);
   }
