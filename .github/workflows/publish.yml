@@ -89,6 +89,14 @@ jobs:
             echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Setup npm for trusted publishing
+        if: steps.release.outputs.mode == 'publish'
+        run: |
+          npm install --global npm@11.6.2
+          npm config get registry
+          node --version
+          npm --version
+
       - name: Version packages
         if: steps.release.outputs.mode == 'prepare'
         run: |
@@ -127,13 +135,6 @@ jobs:
             git tag -a "${TAG}" -m "chore(release): publish ${TAG}"
             git push origin "refs/tags/${TAG}"
           fi
-
-      - name: Upgrade npm for trusted publishing
-        if: steps.release.outputs.mode == 'publish'
-        run: |
-          npm install --global npm@latest
-          npm config get registry
-          npm --version
 
       - name: Publish packages
         if: steps.release.outputs.mode == 'publish'
