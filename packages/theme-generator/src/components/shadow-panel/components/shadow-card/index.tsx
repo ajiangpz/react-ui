@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Popup } from "@tendaui/components";
+import { Popup } from "@tendaui/react";
 import { handleAttach } from "../../../../common/utils";
 import ShadowLayer from "../shadow-layer";
 import "./index.scss";

@@ -23,11 +23,11 @@ env:
 jobs:
   quality:
     name: ${{ matrix.check }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        check: [lint, unit-test, type-check, build]
+        check: [lint, unit-test, type-check, build, package-consumer]
 
     steps:
       - name: Checkout
@@ -70,6 +70,14 @@ jobs:
       - name: Type check
         if: matrix.check == 'type-check'
         run: pnpm --filter @tendaui/theme-generator type-check
+
+      - name: Install browser for package consumer
+        if: matrix.check == 'package-consumer'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Verify published package consumer
+        if: matrix.check == 'package-consumer'
+        run: pnpm test:package
 
       - name: Build packages
         if: matrix.check == 'build'

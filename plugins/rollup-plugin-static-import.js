@@ -25,8 +25,8 @@ const staticImport = (options) => {
   );
 
   const projectRoot = pluginOptions.projectRoot;
-  const absoluteIncludes = pluginOptions.include.map((p) => makePathAbsolute(p, projectRoot));
-  const absoluteExcludes = pluginOptions.exclude.map((p) => makePathAbsolute(p, projectRoot));
+  const absoluteIncludes = pluginOptions.include.map((p) => makePathAbsolute(p, projectRoot).replaceAll("\\", "/"));
+  const absoluteExcludes = pluginOptions.exclude.map((p) => makePathAbsolute(p, projectRoot).replaceAll("\\", "/"));
 
   const filter = createFilter(absoluteIncludes, absoluteExcludes, { resolve: false });
   const baseDir = makePathAbsolute(pluginOptions.baseDir, projectRoot);
@@ -34,12 +34,12 @@ const staticImport = (options) => {
   const self = {
     name: "static-import",
     resolveId: (source, importer) => {
-      const id = makePathAbsolute(path.join(path.dirname(importer || "./"), source), projectRoot);
+      const id = makePathAbsolute(path.join(path.dirname(importer || "./"), source), projectRoot).replaceAll("\\", "/");
       if (!filter(id)) {
         return;
       }
       // mark import external if it matches filters
-      return { id: source, external: true };
+      return { id, external: true };
     },
     buildStart() {
       // emit matching files and add them to watch list at the start of build
@@ -49,7 +49,7 @@ const staticImport = (options) => {
           this.emitFile({
             type: "asset",
             source: fs.readFileSync(id),
-            fileName: path.relative(baseDir, id)
+            fileName: path.relative(baseDir, id).replaceAll("\\", "/")
           });
           this.addWatchFile(id);
         });
@@ -62,7 +62,7 @@ const staticImport = (options) => {
       this.emitFile({
         type: "asset",
         source: fs.readFileSync(id),
-        fileName: path.relative(baseDir, id)
+        fileName: path.relative(baseDir, id).replaceAll("\\", "/")
       });
     }
   };

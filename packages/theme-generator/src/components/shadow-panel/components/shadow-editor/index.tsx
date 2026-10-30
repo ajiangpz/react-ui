@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { InputNumber, Popup, ColorPickerPanel } from "@tendaui/components";
-import type { InputNumberValue } from "@tendaui/components/input-number/type";
+import { InputNumber, Popup, ColorPickerPanel } from "@tendaui/react";
+import type { InputNumberValue } from "@tendaui/react/input-number/type";
 import { handleAttach } from "../../../../common/utils";
 import "./index.scss";
 

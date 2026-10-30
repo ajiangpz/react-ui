@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { InputNumber, Slider } from "@tendaui/components";
+import { InputNumber, Slider } from "@tendaui/react";
 import { handleAttach } from "../utils";
-import type { InputNumberValue } from "@tendaui/components/input-number/type";
+import type { InputNumberValue } from "@tendaui/react/input-number/type";
 import "./index.scss";
 
 interface SizeSliderProps {

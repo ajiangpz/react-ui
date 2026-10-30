@@ -1,5 +1,5 @@
 import ColorPanel from "../color-panel";
-import { Drawer } from "@tendaui/components";
+import { Drawer } from "@tendaui/react";
 import "./index.scss";
 
 interface PanelDrawerProps {

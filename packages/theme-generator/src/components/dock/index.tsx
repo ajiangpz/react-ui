@@ -1,9 +1,9 @@
-import { Button, DialogPlugin } from "@tendaui/components";
+import { Button, DialogPlugin } from "@tendaui/react";
 import { IconSetting, IconDownload, IconRefresh } from "@tendaui/icons";
 import { useRef } from "react";
 import { clearLocalTheme, DEFAULT_THEME, exportCustomTheme, generateNewTheme } from "../../common/themes";
 import { handleAttach } from "../../common/utils";
-import "./Dock.scss";
+import "./dock.scss";
 
 interface DockProps {
   onTriggerVisible: () => void;

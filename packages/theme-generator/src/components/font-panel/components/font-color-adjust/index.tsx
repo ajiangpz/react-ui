@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Popup, ColorPickerPanel } from "@tendaui/components";
+import { Popup, ColorPickerPanel } from "@tendaui/react";
 import { handleAttach } from "../../../../common/utils";
 import { IconEdit as Edit1Icon } from "@tendaui/icons";
 import { modifyToken } from "../../../../common/themes";

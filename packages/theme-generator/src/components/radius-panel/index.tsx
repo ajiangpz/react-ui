@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
-import { Popup } from "@tendaui/components";
+import { Popup } from "@tendaui/react";
 import { handleAttach } from "../../common/utils";
 import SegmentSelection from "../../common/segment-selection";
 import SizeSlider from "../../common/size-slider";

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.6 (2026-10-30)
+
+### Bug Fixes
+
+- Generate and publish React and theme-generator TypeScript declarations; fix the public Select generic constraint and color type dependencies.
+- Correct theme-generator ESM/CJS entry points and replace its private components dependency with the public React package.
+- Preserve component CSS loaders and style entry imports across Windows and Linux builds.
+- Add package exports and style side-effect metadata for documented component and theme style imports.
+
+### Verification
+
+- Add an isolated tarball consumer that checks installation, strict TypeScript types, production bundling, browser interactions and theme CSS export.
+- Run consumer verification in pull-request CI and before package publication.
+
 # [1.3.0](https://github.com/ajiangpz/react-ui/compare/v1.2.4...v1.3.0) (2026-03-25)
 
 

@@ -139,6 +139,11 @@ module.exports = [
   // Base configuration
   js.configs.recommended,
 
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: { globals: { ...nodeGlobals, console: "readonly", URL: "readonly" } }
+  },
+
   // TypeScript configuration
   {
     files: ["**/*.{ts,tsx}"],

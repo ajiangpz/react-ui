@@ -93,7 +93,16 @@ const cssConfig = {
       sass: {
         silenceDeprecations: ["legacy-js-api", "import", "slash-div"]
       }
-    })
+    }),
+    {
+      name: "component-style-entry",
+      renderChunk(_code, chunk) {
+        if (chunk.isEntry) {
+          const hasStyles = readFileSync(chunk.facadeModuleId, "utf8").trim().length > 0;
+          return { code: hasStyles ? 'import "./index.css";\n' : "", map: null };
+        }
+      }
+    }
   ],
   output: {
     dir: "packages/tendaui-react/es",
