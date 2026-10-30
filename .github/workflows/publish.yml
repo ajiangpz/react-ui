@@ -59,6 +59,9 @@ jobs:
       - name: Unit tests
         run: pnpm test:unit
 
+      - name: Verify provenance conflict recovery
+        run: node --test scripts/__tests__/provenance.test.mjs
+
       - name: Type check
         run: pnpm --filter @tendaui/theme-generator type-check
 
@@ -140,4 +143,4 @@ jobs:
         if: steps.release.outputs.mode == 'publish'
         env:
           NPM_CONFIG_PROVENANCE: "true"
-        run: pnpm lerna publish from-package --dist-tag "${{ steps.release.outputs.dist_tag }}" --yes
+        run: pnpm lerna publish from-package --dist-tag "${{ steps.release.outputs.dist_tag }}" --concurrency 1 --yes

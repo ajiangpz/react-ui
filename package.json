@@ -134,6 +134,9 @@
   "pnpm": {
     "overrides": {
       "browserslist": "4.28.2"
+    },
+    "patchedDependencies": {
+      "sigstore@3.1.0": "patches/sigstore@3.1.0.patch"
     }
   },
   "volta": {

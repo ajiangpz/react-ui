@@ -67,6 +67,10 @@ jobs:
         if: matrix.check == 'unit-test'
         run: pnpm test:unit
 
+      - name: Verify provenance conflict recovery
+        if: matrix.check == 'unit-test'
+        run: node --test scripts/__tests__/provenance.test.mjs
+
       - name: Type check
         if: matrix.check == 'type-check'
         run: pnpm --filter @tendaui/theme-generator type-check

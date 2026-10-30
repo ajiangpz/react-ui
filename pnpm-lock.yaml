@@ -7,6 +7,11 @@ settings:
 overrides:
   browserslist: 4.28.2
 
+patchedDependencies:
+  sigstore@3.1.0:
+    hash: lcrgq2g5u2ufqk3lpowmzkweha
+    path: patches/sigstore@3.1.0.patch
+
 importers:
 
   .:
@@ -9863,7 +9868,7 @@ packages:
       npm-registry-fetch: 18.0.2
       proc-log: 5.0.0
       semver: 7.7.3
-      sigstore: 3.1.0
+      sigstore: 3.1.0(patch_hash=lcrgq2g5u2ufqk3lpowmzkweha)
       ssri: 12.0.0
     transitivePeerDependencies:
       - supports-color
@@ -13522,9 +13527,10 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /sigstore@3.1.0:
+  /sigstore@3.1.0(patch_hash=lcrgq2g5u2ufqk3lpowmzkweha):
     resolution: {integrity: sha512-ZpzWAFHIFqyFE56dXqgX/DkDRZdz+rRcjoIk/RQU4IX0wiCv1l8S7ZrXDHcCc+uaf+6o7w3h2l3g6GYG5TKN9Q==}
     engines: {node: ^18.17.0 || >=20.5.0}
+    patched: true
     dependencies:
       '@sigstore/bundle': 3.1.0
       '@sigstore/core': 2.0.0
