@@ -49,6 +49,16 @@ pnpm --filter @tendaui/theme-generator exec npm pack --dry-run
 
 GitHub 的 `npm` Environment 负责发布审批；工作流使用 OIDC，不需要长期 npm 发布 token。
 
+GitHub 环境审批与 npm Trusted Publisher 是两套独立配置；仅通过 GitHub 审批并不授予
+npm 上传权限。需要在以下三个包的 Settings → Trusted publishing 分别添加上述配置：
+
+- [@tendaui/icons](https://www.npmjs.com/package/@tendaui/icons/access)
+- [@tendaui/react](https://www.npmjs.com/package/@tendaui/react/access)
+- [@tendaui/theme-generator](https://www.npmjs.com/package/@tendaui/theme-generator/access)
+
+字段区分大小写；Workflow filename 只填 `publish.yml`，不要填写完整路径。
+配置完成后重新运行发布模式。npm 的配置保存时不会验证匹配关系，需通过实际发布验证。
+
 ## 故障恢复
 
 - release PR 已存在：修复失败检查后继续使用原 PR，不要重复提升版本。
@@ -57,6 +67,11 @@ GitHub 的 `npm` Environment 负责发布审批；工作流使用 OIDC，不需�
   旧 run 的 Re-run 仍使用旧工作流定义。保留已有版本和 tag，无需再次提升版本。
 - npm 已存在当前版本：先确认包是否已成功发布，不要覆盖相同版本。
 - OIDC 失败：核对 npm Trusted Publisher 的仓库、工作流文件名和 Environment 是否完全一致。
+- `E404 Not found` 出现在发布阶段：公开包存在也可能因为 Trusted Publisher 未配置或
+  身份不匹配而返回 404。日志中 GitHub id-token 请求的 HTTP 200 只代表拿到了 GitHub
+  身份令牌；检查后续 `oidc` 日志，确认 npm token exchange 是否成功，再核对上述 npm 侧设置。
+- 每个公开包的 `repository.url` 必须指向当前 GitHub 仓库；消费验证会检查真实 tarball
+  的该字段，避免上传时因 provenance 仓库声明不匹配而被拒绝。
 
 ### Rekor 签名记录冲突
 

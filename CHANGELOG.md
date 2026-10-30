@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.7 (2026-10-30)
+
+### Bug Fixes
+
+- Declare the theme-generator repository for npm provenance and verify repository metadata in every public tarball.
+- Include OIDC exchange diagnostics in release logs and document per-package Trusted Publisher setup.
+- Retain the package consumer fixes from 1.3.6; the 1.3.6 tag exists but that release was not published to npm.
+
 ## 1.3.6 (2026-10-30)
 
 ### Bug Fixes

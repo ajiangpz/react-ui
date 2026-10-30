@@ -143,4 +143,4 @@ jobs:
         if: steps.release.outputs.mode == 'publish'
         env:
           NPM_CONFIG_PROVENANCE: "true"
-        run: pnpm lerna publish from-package --dist-tag "${{ steps.release.outputs.dist_tag }}" --concurrency 1 --yes
+        run: pnpm lerna publish from-package --dist-tag "${{ steps.release.outputs.dist_tag }}" --concurrency 1 --loglevel verbose --yes
