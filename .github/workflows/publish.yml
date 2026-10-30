@@ -101,11 +101,11 @@ jobs:
         run: |
           git restore -- packages/tendaui-icons/src/icons/index.ts
 
-      - name: Inspect package contents
-        run: |
-          pnpm --filter @tendaui/icons exec npm pack --dry-run
-          pnpm --filter @tendaui/react exec npm pack --dry-run
-          pnpm --filter @tendaui/theme-generator exec npm pack --dry-run
+      - name: Install browser for package consumer
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Verify published package consumer
+        run: pnpm test:package --skip-build
 
       - name: Create release pull request
         if: steps.release.outputs.mode == 'prepare'

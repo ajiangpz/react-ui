@@ -38,7 +38,7 @@ import composeRefs from "../utils/composeRefs";
 import { parseContentTNode } from "../utils/parentTNode";
 import useDefaultProps from "../hooks/useDefaultProps";
 
-export interface SelectProps<T = SelectOption> extends TdSelectProps<T>, StyledProps {
+export interface SelectProps<T extends SelectOption = SelectOption> extends TdSelectProps<T>, StyledProps {
   // 子节点
   children?: React.ReactNode;
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;

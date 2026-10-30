@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Popup, List, RadioGroup, Radio } from "@tendaui/components";
+import { Popup, List, RadioGroup, Radio } from "@tendaui/react";
 import { handleAttach } from "../../../../common/utils";
 import SegmentSelection from "../../../../common/segment-selection";
 import SizeSlider from "../../../../common/size-slider";

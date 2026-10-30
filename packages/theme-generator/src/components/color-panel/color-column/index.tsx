@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "./color-column.scss";
 import { IconEdit as Edit1Icon, IconClose as ErrorCircleIcon, IconLink as LinkUnlinkIcon } from "@tendaui/icons";
-import { Popup as TPopup, ColorPickerPanel } from "@tendaui/components";
+import { Popup as TPopup, ColorPickerPanel } from "@tendaui/react";
 import { getTokenValue, handleAttach } from "../../../common/utils";
 import { flatten } from "lodash-es";
 import "../color-column.scss";

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "packages/tendaui-react/es",
+    "checkJs": false,
+    "paths": {
+      "@tendaui/icons": ["packages/tendaui-icons/lib/es/index.d.ts"],
+      "@tendaui/icons/*": ["packages/tendaui-icons/lib/es/*"]
+    },
+    "types": ["node", "react", "react-dom"]
+  }
+}

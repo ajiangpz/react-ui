@@ -6,7 +6,7 @@ import {
   DEFAULT_THEME,
   generateTokenList
 } from "../../common/themes";
-import { Popup, ColorPickerPanel } from "@tendaui/components";
+import { Popup, ColorPickerPanel } from "@tendaui/react";
 import ColorColumn from "./color-column";
 import ColorCollapse from "./color-collapse";
 import {

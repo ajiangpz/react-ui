@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Popup } from "@tendaui/components";
+import { Popup } from "@tendaui/react";
 import SizeSlider from "../../../common/size-slider";
 import { CUSTOM_THEME_ID, modifyToken } from "../../../common/themes";
 import { handleAttach } from "../../../common/utils";

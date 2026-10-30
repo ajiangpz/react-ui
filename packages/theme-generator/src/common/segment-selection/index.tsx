@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Select, Slider } from "@tendaui/components";
+import { Select, Slider } from "@tendaui/react";
 import { handleAttach } from "../utils";
-import type { SelectValue, SelectOption as TSelectOption } from "@tendaui/components/select/type";
+import type { SelectValue, SelectOption as TSelectOption } from "@tendaui/react/select/type";
 import "./index.scss";
 
 interface SelectOption {

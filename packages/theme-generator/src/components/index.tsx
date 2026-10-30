@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Dock from "./dock";
-import { Drawer } from "@tendaui/components";
+import { Drawer } from "@tendaui/react";
 import { applyThemeFromLocal, generateNewTheme, getOptionFromLocal, DEFAULT_THEME } from "../common/themes";
 import "./index.scss";
 import SwitchTabs from "../common/switch-tabs";

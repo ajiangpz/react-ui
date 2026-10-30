@@ -21,6 +21,7 @@
     "lint": "eslint .",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
+    "test:package": "node scripts/test-package-consumer.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",

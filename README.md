@@ -110,6 +110,28 @@ pnpm test:e2e:install
 pnpm test:e2e
 ```
 
+发布前可验证真实安装包：
+
+```bash
+pnpm exec playwright install chromium
+pnpm test:package
+# 已完成构建时：pnpm test:package --skip-build
+```
+
+该检查构建并打包 icons、react 和 theme-generator，在系统临时目录创建独立的
+React + TypeScript 消费项目，安装 tarball 后进行严格类型检查、生产构建和浏览器验证。
+消费项目不使用源码 alias；检查组件点击、输入、CSS 生效、主题面板及主题 CSS 导出。
+临时目录保留 tarball、截图、导出 CSS 和通过后的 result.json，路径会在命令开始时打印。
+CI 和发布流程均执行此检查。浏览器默认使用 Playwright Chromium；可通过
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` 指定浏览器，Windows 也支持本机 Chrome 回退。
+
+主题生成器样式在消费端显式导入：
+
+```tsx
+import { ThemeGenerator } from "@tendaui/theme-generator";
+import "@tendaui/theme-generator/style.css";
+```
+
 ## 构建策略
 
 发布包使用 Rollup 构建：

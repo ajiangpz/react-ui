@@ -1,8 +1,8 @@
 import { useState, useMemo, useRef, ReactNode } from "react";
-import { Popup, ColorPickerPanel } from "@tendaui/components";
+import { Popup, ColorPickerPanel } from "@tendaui/react";
 import { IconEdit as Edit1Icon, IconCopy as FileCopyIcon } from "@tendaui/icons";
 import { flatten } from "lodash-es";
-import ArrowIcon from "@tendaui/components/common/FakeArrow";
+import ArrowIcon from "@tendaui/react/common/FakeArrow";
 import { CSSTransition } from "react-transition-group";
 import "./color-collapse.scss";
 
