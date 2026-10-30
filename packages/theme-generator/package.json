@@ -1,6 +1,6 @@
 {
   "name": "@tendaui/theme-generator",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "TendaUI 主题配置生成器",
   "type": "module",
   "main": "dist/index.cjs",
@@ -17,9 +17,12 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
-    "dist"
+    "dist",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
     "dev": "vite",
@@ -33,8 +36,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@tendaui/react": "workspace:^",
     "@tendaui/icons": "workspace:*",
+    "@tendaui/react": "workspace:^",
     "cssbeautify": "^0.3.1",
     "lodash-es": "^4.17.21",
     "react-transition-group": "~4.4.1",
@@ -44,9 +47,9 @@
     "@types/cssbeautify": "^0.3.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^5.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^5.0.3",
     "typescript": "^5.0.0",
     "vite": "^7.1.7"
   },
